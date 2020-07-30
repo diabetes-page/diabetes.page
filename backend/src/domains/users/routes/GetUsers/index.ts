@@ -1,10 +1,15 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { Parameters } from './Parameters';
+import { UsersService } from '../../services/UsersService';
+import { User } from '../../models/User.entity';
 
 @Controller()
 export class GetUsers {
+  constructor(private usersService: UsersService) {}
+
   @Get('/users')
-  serve(@Query() params: Parameters): string[] {
-    return Array(params.amount).fill(params.name);
+  async serve(@Query() params: Parameters): Promise<User[]> {
+    const options = params.amount ? { take: params.amount } : {};
+    return await this.usersService.find(options);
   }
 }

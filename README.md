@@ -38,7 +38,10 @@ The backend is written in JavaScript with [nest.js](https://nestjs.com/). It use
 - Database migrations: https://medium.com/better-programming/typeorm-migrations-explained-fdb4f27cb1b3
   - Download omniDB
   - https://github.com/typeorm/typeorm/blob/master/docs/migrations.md
-  - 
+  - testing: https://docs.nestjs.com/techniques/database#testing-1
+  - seeding
+      - https://stackoverflow.com/questions/51198817/typeorm-how-to-seed-database
+      - https://github.com/w3tecch/typeorm-seeding
 
 ## Rationale
 
