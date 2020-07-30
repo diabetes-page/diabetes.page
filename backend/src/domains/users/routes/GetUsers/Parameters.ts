@@ -1,8 +1,10 @@
 import { IsInt, Min, IsOptional } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class Parameters {
+  @Transform(v => parseInt(v))
   @IsInt()
-  @Min(1)
   @IsOptional()
-  amount: number;
+  @Min(1)
+  amount: number | undefined;
 }
