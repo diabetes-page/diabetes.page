@@ -10,10 +10,7 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true
-  },
-  "include": [
-    ".eslintrc.js",
-    "src/"
-  ]
+    "incremental": true,
+    "strictNullChecks": true
+  }
 }
