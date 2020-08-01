@@ -9,5 +9,6 @@ import { CreateUser } from './routes/CreateUser';
   imports: [TypeOrmModule.forFeature([User])],
   controllers: [GetUsers, CreateUser],
   providers: [UsersService],
+  exports: [UsersService],
 })
 export class UsersModule {}

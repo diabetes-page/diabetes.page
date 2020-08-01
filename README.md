@@ -46,6 +46,7 @@ The backend is written in JavaScript with [nest.js](https://nestjs.com/). It use
 - pre validation auth / post validation auth
 - Lerna monorepo? https://blog.scottlogic.com/2018/02/23/javascript-monorepos.html
 - Naming: everything camelCase, even database
+- A folder that is not a leaf may contain at most one file
 
 ## Rationale
 

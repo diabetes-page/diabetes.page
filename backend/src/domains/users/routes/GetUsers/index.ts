@@ -10,6 +10,6 @@ export class GetUsers {
   @Get('/users')
   async serve(@Query() params: Parameters): Promise<User[]> {
     const options = params.amount ? { take: params.amount } : {};
-    return await this.usersService.find(options);
+    return await this.usersService.all(options);
   }
 }
