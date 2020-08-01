@@ -15,11 +15,10 @@ export class UsersService {
     return this.usersRepository.find(options);
   }
 
-  async create(firstName: string, lastName: string): Promise<User> {
+  async create(email: string): Promise<User> {
     return await this.usersRepository.save(
       this.usersRepository.create({
-        firstName,
-        lastName,
+        email,
       }),
     );
   }

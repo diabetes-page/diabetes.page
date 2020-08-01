@@ -10,6 +10,6 @@ export class CreateUser {
   @HttpCode(201)
   @Post('/users')
   async serve(@Body() params: Parameters): Promise<User> {
-    return this.usersService.create(params.firstName, params.lastName);
+    return this.usersService.create(params.email);
   }
 }

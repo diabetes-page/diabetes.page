@@ -42,6 +42,10 @@ The backend is written in JavaScript with [nest.js](https://nestjs.com/). It use
   - seeding
       - https://stackoverflow.com/questions/51198817/typeorm-how-to-seed-database
       - https://github.com/w3tecch/typeorm-seeding
+  - only accept json!
+- pre validation auth / post validation auth
+- Lerna monorepo? https://blog.scottlogic.com/2018/02/23/javascript-monorepos.html
+- Naming: everything camelCase, even database
 
 ## Rationale
 
