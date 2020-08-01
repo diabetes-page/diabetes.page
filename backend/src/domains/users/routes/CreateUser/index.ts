@@ -1,7 +1,7 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { Parameters } from './Parameters';
 import { UsersService } from '../../services/UsersService';
-import { User } from '../../models/User.entity';
+import { User } from '../../entities/User.entity';
 
 @Controller()
 export class CreateUser {
