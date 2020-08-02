@@ -52,6 +52,7 @@ The backend is written in JavaScript with [nest.js](https://nestjs.com/). It use
 - secret key env
 - bcrypt
 - everything should be async?
+- Frontend: "new version is available" instead of cache breaking? like awork?
 
 ## Rationale
 
