@@ -49,6 +49,9 @@ The backend is written in JavaScript with [nest.js](https://nestjs.com/). It use
 - A folder that is not a leaf may contain at most one file
 - Don't return password when returning userresource
 - database unique validation?
+- secret key env
+- bcrypt
+- everything should be async?
 
 ## Rationale
 
