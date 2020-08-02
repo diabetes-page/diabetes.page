@@ -4,7 +4,7 @@ import { UsersService } from '../../services/UsersService';
 import { User } from '../../entities/User.entity';
 
 @Controller()
-export class GetUsers {
+export class IndexUsers {
   constructor(private usersService: UsersService) {}
 
   @Get('/users')
