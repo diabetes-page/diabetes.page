@@ -23,6 +23,7 @@ export class UsersService {
     return await this.usersRepository.save(
       this.usersRepository.create({
         email,
+        password: 'xxx',
       }),
     );
   }
