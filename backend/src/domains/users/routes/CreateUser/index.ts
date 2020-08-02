@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import {Body, Controller, HttpCode, HttpStatus, Post} from '@nestjs/common';
 import { Parameters } from './Parameters';
 import { UsersService } from '../../services/UsersService';
 import { User } from '../../entities/User.entity';
@@ -7,7 +7,7 @@ import { User } from '../../entities/User.entity';
 export class CreateUser {
   constructor(private usersService: UsersService) {}
 
-  @HttpCode(201)
+  @HttpCode(HttpStatus.CREATED)
   @Post('/users')
   async serve(@Body() params: Parameters): Promise<User> {
     return this.usersService.create(params.email);
