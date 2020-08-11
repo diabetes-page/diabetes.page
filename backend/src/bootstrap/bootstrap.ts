@@ -1,12 +1,13 @@
-import { NestFactory, Reflector } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/AppModule';
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { setupPipes } from './setup/setupPipes';
+import { setupInterceptors } from './setup/setupInterceptors';
 
 export async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
 
-  app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  setupPipes(app);
+  setupInterceptors(app);
 
   await app.listen(3000);
 }
