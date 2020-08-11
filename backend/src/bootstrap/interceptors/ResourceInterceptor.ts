@@ -2,7 +2,6 @@ import {
   CallHandler,
   ExecutionContext,
   Injectable,
-  InternalServerErrorException,
   NestInterceptor,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
@@ -34,7 +33,7 @@ export class ResourceInterceptor implements NestInterceptor {
     const controllerClass = context.getClass();
 
     if (!HandlerType.isPrototypeOf(controllerClass)) {
-      throw new InternalServerErrorException(
+      throw new Error(
         'Every handler must extend HandlerType and declare Resource',
       );
     }

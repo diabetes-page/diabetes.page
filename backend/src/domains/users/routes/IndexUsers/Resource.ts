@@ -2,6 +2,11 @@ import { Expose, Type } from 'class-transformer';
 import { User } from '../../entities/User.entity';
 import { ResourceType } from '../../../../bootstrap/interceptors/ResourceInterceptor';
 
+class UserWithEmail extends User {
+  @Expose()
+  email: string;
+}
+
 export class Resource extends ResourceType {
   @Expose()
   @Type(() => UserWithEmail)
@@ -10,9 +15,4 @@ export class Resource extends ResourceType {
   static make = (users: User[]): Resource => {
     return { users };
   };
-}
-
-class UserWithEmail extends User {
-  @Expose()
-  email: string;
 }
