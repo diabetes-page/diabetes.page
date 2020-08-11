@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/AppModule';
-import { setupPipes } from './setup/setupPipes';
-import { setupInterceptors } from './setup/setupInterceptors';
+import { setupPipes } from './pipes/setupPipes';
+import { setupInterceptors } from './interceptors/setupInterceptors';
 
 export async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
