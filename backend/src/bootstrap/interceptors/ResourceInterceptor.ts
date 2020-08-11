@@ -25,11 +25,14 @@ import { ResourceController } from '../blueprints/ResourceController';
 @Injectable()
 export class ResourceInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const controllerClass = context.getClass();
+    const controllerClass: any = context.getClass();
 
-    if (!ResourceController.isPrototypeOf(controllerClass)) {
+    if (
+      !ResourceController.isPrototypeOf(controllerClass) ||
+      !controllerClass.Resource
+    ) {
       throw new Error(
-        'Every handler must extend ResourceController and declare Resource',
+        'Every controller must extend ResourceController and declare Resource',
       );
     }
 
