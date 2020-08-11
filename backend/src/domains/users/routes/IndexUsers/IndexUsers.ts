@@ -1,12 +1,11 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { Parameters } from './Parameters';
 import { UsersService } from '../../services/UsersService';
 import { Resource } from './Resource';
-import { ResourceController } from '../../../../bootstrap/blueprints/ResourceController';
-import { JWTAuthGuard } from '../../../auth/guards/JWTAuthGuard';
+import { SecureResourceController } from '../../../../bootstrap/blueprints/SecureResourceController';
 
 @Controller()
-export class IndexUsers extends ResourceController {
+export class IndexUsers extends SecureResourceController {
   public static Resource = Resource;
 
   constructor(private usersService: UsersService) {
@@ -14,7 +13,6 @@ export class IndexUsers extends ResourceController {
   }
 
   @Get('/users')
-  @UseGuards(JWTAuthGuard)
   async serve(@Query() params: Parameters): Promise<Resource> {
     const options = params.amount ? { take: params.amount } : {};
     const users = await this.usersService.all(options);
