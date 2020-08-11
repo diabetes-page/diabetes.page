@@ -7,11 +7,10 @@ import {
 import { Observable } from 'rxjs';
 import { classToPlain, plainToClass } from 'class-transformer';
 import { map } from 'rxjs/operators';
-
-export class ResourceType {}
+import { ClassType } from 'class-transformer/ClassTransformer';
 
 export class HandlerType {
-  public static Resource = ResourceType;
+  public static Resource: ClassType<any>;
 }
 
 /**

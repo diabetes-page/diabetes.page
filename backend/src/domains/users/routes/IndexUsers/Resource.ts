@@ -1,13 +1,12 @@
 import { Expose, Type } from 'class-transformer';
 import { User } from '../../entities/User.entity';
-import { ResourceType } from '../../../../bootstrap/interceptors/ResourceInterceptor';
 
 class UserWithEmail extends User {
   @Expose()
   email: string;
 }
 
-export class Resource extends ResourceType {
+export class Resource {
   @Expose()
   @Type(() => UserWithEmail)
   users: UserWithEmail[];
