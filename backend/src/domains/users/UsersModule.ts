@@ -3,11 +3,10 @@ import { IndexUsers } from './routes/IndexUsers/IndexUsers';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/User.entity';
 import { UsersService } from './services/UsersService';
-import { CreateUser } from './routes/CreateUser/CreateUser';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
-  controllers: [IndexUsers, CreateUser],
+  controllers: [IndexUsers],
   providers: [UsersService],
   exports: [UsersService],
 })

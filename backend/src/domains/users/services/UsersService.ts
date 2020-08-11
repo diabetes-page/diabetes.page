@@ -24,11 +24,11 @@ export class UsersService {
     return this.usersRepository.find(options);
   }
 
-  async create(email: string): Promise<User> {
+  async create(email: string, password: string): Promise<User> {
     return await this.usersRepository.save(
       this.usersRepository.create({
         email,
-        password: await hash('xxx', 10), // todo: salt rounds in env, user set password
+        password: await hash(password, 10), // todo: salt rounds in env
       }),
     );
   }

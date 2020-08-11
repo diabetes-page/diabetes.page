@@ -4,6 +4,7 @@ import { AuthService } from './services/AuthService';
 import { Login } from './routes/Login/Login';
 import { JwtModule } from '@nestjs/jwt';
 import { JWTStrategy } from './strategies/JWTStrategy';
+import { Register } from './routes/Register/Register';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { JWTStrategy } from './strategies/JWTStrategy';
       signOptions: { expiresIn: '60s' }, // todo
     }),
   ],
-  controllers: [Login],
+  controllers: [Login, Register],
   providers: [AuthService, JWTStrategy],
 })
 export class AuthModule {}
