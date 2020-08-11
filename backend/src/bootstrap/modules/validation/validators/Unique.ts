@@ -17,9 +17,7 @@ interface UniqueValidationArguments<E> extends ValidationArguments {
 }
 
 abstract class UniqueValidator implements ValidatorConstraintInterface {
-  protected constructor(protected readonly connection: Connection) {
-    this.connection = connection;
-  }
+  protected constructor(protected connection: Connection) {}
 
   public async validate<E>(
     value: string,
@@ -39,9 +37,12 @@ abstract class UniqueValidator implements ValidatorConstraintInterface {
 
   public defaultMessage(args: ValidationArguments): string {
     const [EntityClass] = args.constraints;
-
-    // todo: localization
     const entity = EntityClass.name || 'Entity';
+
+    // todo: unclear how to do i18n support
+    // see https://github.com/typestack/class-validator/issues/169
+    // and https://github.com/ToonvanStrijp/nestjs-i18n/issues/97
+    // and the solution in https://github.com/typestack/class-validator/pull/238
     return `${entity} with the same '${args.property}' already exist`;
   }
 }
@@ -49,7 +50,7 @@ abstract class UniqueValidator implements ValidatorConstraintInterface {
 @ValidatorConstraint({ name: 'unique', async: true })
 @Injectable()
 export class Unique extends UniqueValidator {
-  constructor(@InjectConnection() protected readonly connection: Connection) {
+  constructor(@InjectConnection() protected connection: Connection) {
     super(connection);
   }
 }

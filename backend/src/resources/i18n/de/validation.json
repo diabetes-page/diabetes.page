@@ -1,0 +1,3 @@
+{
+  "UNIQUE_ERROR_MESSAGE": "{entity} mit diesem Wert für \"{property}\" existiert bereits"
+}
