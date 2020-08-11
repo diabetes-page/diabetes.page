@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities/User.entity';
 import { FindManyOptions, FindOneOptions } from 'typeorm/index';
+import { hash } from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -27,7 +28,7 @@ export class UsersService {
     return await this.usersRepository.save(
       this.usersRepository.create({
         email,
-        password: 'xxx',
+        password: await hash('xxx', 10), // todo: salt rounds in env, user set password
       }),
     );
   }
