@@ -48,11 +48,15 @@ The backend is written in JavaScript with [nest.js](https://nestjs.com/). It use
 - Naming: everything camelCase, even database
 - A folder that is not a leaf may contain at most one file
 - Don't return password when returning userresource
-- database unique validation?
+  - How are resources handled?
+  - https://docs.nestjs.com/techniques/serialization#serialization
+- request validation: database unique
 - secret key env
 - bcrypt
 - everything should be async?
 - Frontend: "new version is available" instead of cache breaking? like awork?
+- `curl -X POST http://localhost:3000/users -d '{"email": "a@b.de"}' -H "Content-Type: application/json"`
+- interface lookup service
 
 ## Rationale
 
