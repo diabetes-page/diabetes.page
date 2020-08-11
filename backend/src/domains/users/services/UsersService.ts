@@ -11,6 +11,10 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
+  async get(id: number): Promise<User | undefined> {
+    return this.one({ where: { id } });
+  }
+
   async one(options?: FindOneOptions): Promise<User | undefined> {
     return this.usersRepository.findOne(options);
   }

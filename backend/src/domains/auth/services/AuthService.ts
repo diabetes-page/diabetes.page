@@ -16,6 +16,7 @@ export class AuthService {
   ): Promise<User | undefined> {
     const user = await this.usersService.one({ where: { email: email } });
 
+    // todo: bcrypt
     if (user?.password === password) {
       return user;
     }

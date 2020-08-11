@@ -3,16 +3,18 @@ import { UsersModule } from '../users/UsersModule';
 import { AuthService } from './services/AuthService';
 import { Login } from './routes/Login/Login';
 import { JwtModule } from '@nestjs/jwt';
+import { JWTStrategy } from './strategies/JWTStrategy';
 
 @Module({
   imports: [
     UsersModule,
+    // todo: use db session for passport
     JwtModule.register({
-      secret: 'secretKey',
-      signOptions: { expiresIn: '60s' },
+      secret: 'secretKey', // todo
+      signOptions: { expiresIn: '60s' }, // todo
     }),
   ],
   controllers: [Login],
-  providers: [AuthService],
+  providers: [AuthService, JWTStrategy],
 })
 export class AuthModule {}
