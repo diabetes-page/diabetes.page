@@ -2,10 +2,10 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { Parameters } from './Parameters';
 import { UsersService } from '../../services/UsersService';
 import { Resource } from './Resource';
-import { HandlerType } from '../../../../bootstrap/interceptors/ResourceInterceptor';
+import {ResourceController} from "../../../../bootstrap/blueprints/ResourceController";
 
 @Controller()
-export class IndexUsers extends HandlerType {
+export class IndexUsers extends ResourceController {
   public static Resource = Resource;
 
   constructor(private usersService: UsersService) {

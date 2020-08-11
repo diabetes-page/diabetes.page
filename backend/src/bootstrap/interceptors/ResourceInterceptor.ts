@@ -7,11 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { classToPlain, plainToClass } from 'class-transformer';
 import { map } from 'rxjs/operators';
-import { ClassType } from 'class-transformer/ClassTransformer';
-
-export class HandlerType {
-  public static Resource: ClassType<any>;
-}
+import { ResourceController } from '../blueprints/ResourceController';
 
 /**
  * This interceptor is used in order to extract only the fields that are to be exposed by a given resource.
@@ -31,9 +27,9 @@ export class ResourceInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const controllerClass = context.getClass();
 
-    if (!HandlerType.isPrototypeOf(controllerClass)) {
+    if (!ResourceController.isPrototypeOf(controllerClass)) {
       throw new Error(
-        'Every handler must extend HandlerType and declare Resource',
+        'Every handler must extend ResourceController and declare Resource',
       );
     }
 
