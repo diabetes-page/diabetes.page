@@ -57,6 +57,14 @@ The backend is written in JavaScript with [nest.js](https://nestjs.com/). It use
 - Frontend: "new version is available" instead of cache breaking? like awork?
 - `curl -X POST http://localhost:3000/users -d '{"email": "a@b.de"}' -H "Content-Type: application/json"`
 - interface lookup service
+- csrf: https://dev.to/gkoniaris/how-to-securely-store-jwt-tokens-51cf
+  - Manche sagen man soll den JWT nicht im local storage speichern, weil man diesen mit XSS auslesen kann
+  - Im Falle XSS kann man sich aber ohnehin nicht mehr vor XSRF schützen (ist dann streng genommen nicht XSRF weil es ja auf der eigenen Seite sattfindet aber hat den gleichen Effekt oder noch schlimmer)
+  - Wenn wir uns vor XSS schützen können, dann können wir JWT auch im local storage speichern und sind dann vor XSRF geschützt
+  - Der einzige echte Schutz vor XSS neben input sanitation ist
+    - content security policy (csp)
+    - https://stackoverflow.com/questions/40144915/what-does-csp-protect-us-if-allowing-unsafe-inline
+  - implement https://docs.nestjs.com/techniques/security
 
 ## Rationale
 
