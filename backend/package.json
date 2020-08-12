@@ -14,11 +14,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint --fix .",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test": "cucumber-js src/**/*.feature --require src/**/steps.ts --require-module ts-node/register",
     "db:fresh": "typeorm schema:drop && typeorm migration:run",
     "db:migrate": "typeorm migration:run",
     "db:gen": "typeorm migration:generate"
@@ -32,10 +28,15 @@
     "@nestjs/platform-express": "^7.0.0",
     "@nestjs/typeorm": "^7.1.0",
     "@types/bcrypt": "^3.0.0",
+    "@types/chai": "^4.2.12",
+    "@types/cucumber": "^6.0.1",
     "@types/passport-local": "^1.0.33",
     "bcrypt": "^5.0.0",
+    "chai": "^4.2.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
+    "cucumber": "^6.0.5",
+    "cucumber-tsflow": "^3.4.1",
     "mysql": "^2.18.1",
     "nestjs-i18n": "^8.0.8",
     "passport": "^0.4.1",
@@ -55,7 +56,7 @@
     "@types/jest": "25.2.3",
     "@types/node": "^13.9.1",
     "@types/passport-jwt": "^3.0.3",
-    "@types/supertest": "^2.0.8",
+    "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "3.0.2",
     "@typescript-eslint/parser": "3.0.2",
     "eslint": "7.1.0",
@@ -69,19 +70,5 @@
     "ts-node": "^8.6.2",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^3.7.4"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".spec.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
   }
 }
