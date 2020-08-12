@@ -1,6 +1,7 @@
-import { IsEmail, IsString, MinLength, Validate } from 'class-validator';
+import { IsEmail, IsString, Validate } from 'class-validator';
 import { Unique } from '../../../../bootstrap/modules/validation/validators/Unique';
 import { User } from '../../../users/entities/User.entity';
+import { Password } from '../../../../bootstrap/modules/validation/validators/Password';
 
 export class Parameters {
   @IsEmail()
@@ -8,6 +9,6 @@ export class Parameters {
   email: string;
 
   @IsString()
-  @MinLength(8) // todo: env, unique constraint
+  @Validate(Password)
   password: string;
 }

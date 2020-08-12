@@ -4,12 +4,14 @@ import { Repository } from 'typeorm';
 import { User } from '../entities/User.entity';
 import { FindManyOptions, FindOneOptions } from 'typeorm/index';
 import { hash } from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    private configService: ConfigService,
   ) {}
 
   async get(id: number): Promise<User | undefined> {
@@ -28,7 +30,10 @@ export class UsersService {
     return await this.usersRepository.save(
       this.usersRepository.create({
         email,
-        password: await hash(password, 10), // todo: salt rounds in env
+        password: await hash(
+          password,
+          this.configService.get<number>('security.bcryptSaltRounds', 10),
+        ),
       }),
     );
   }
