@@ -1,5 +1,6 @@
-import {securityConfig} from './security';
+import { securityConfig } from './security';
 
 export const config = (): Record<string, any> => ({
-    security: securityConfig(),
+  environment: process.env.NODE_ENV,
+  security: securityConfig(),
 });

@@ -3,8 +3,9 @@ import { AppModule } from './modules/app/AppModule';
 import { setupPipes } from './pipes/setupPipes';
 import { setupInterceptors } from './interceptors/setupInterceptors';
 import { useContainer } from 'class-validator';
+import { INestApplication } from '@nestjs/common';
 
-export async function bootstrap(): Promise<void> {
+export async function bootstrap(): Promise<INestApplication> {
   const app = await NestFactory.create(AppModule);
 
   setupPipes(app);
@@ -13,5 +14,7 @@ export async function bootstrap(): Promise<void> {
   // Reason: https://github.com/nestjs/nest/issues/528
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
-  await app.listen(3000);
+  // await app.listen(3000);
+
+  return app;
 }
