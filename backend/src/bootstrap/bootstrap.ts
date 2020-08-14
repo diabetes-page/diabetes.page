@@ -11,10 +11,13 @@ export async function bootstrap(): Promise<INestApplication> {
   setupPipes(app);
   setupInterceptors(app);
 
-  // Reason: https://github.com/nestjs/nest/issues/528
+  // This is needed in order to do dependency injection for custom validators, see
+  // https://github.com/nestjs/nest/issues/528
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
-  // await app.listen(3000);
+  if (process.env.NODE_ENV !== 'testing') {
+    await app.listen(3000);
+  }
 
   return app;
 }
