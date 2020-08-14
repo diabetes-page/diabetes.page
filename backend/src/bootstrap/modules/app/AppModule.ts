@@ -5,6 +5,7 @@ import { UsersModule } from '../../../domains/users/UsersModule';
 import { AuthModule } from '../../../domains/auth/AuthModule';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { config } from '../../../config';
+import { User } from '../../../domains/users/entities/User.entity';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { config } from '../../../config';
           username: configService.get<string>('database.user'),
           password: configService.get<string>('database.user'),
           database: configService.get<string>('database.database'),
-          entities: [configService.get<string>('database.entityPattern')],
+          entities: [User],
           synchronize: false,
         };
       },

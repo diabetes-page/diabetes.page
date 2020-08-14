@@ -12,7 +12,7 @@ export class Steps {
 
   @before()
   public async beforeEachScenario(): Promise<void> {
-    this.app = await bootstrap();
+    this.app = await bootstrap({ logger: ['error', 'warn'] }, true);
     await this.app.init();
     this.server = this.app.getHttpServer();
   }
@@ -24,7 +24,6 @@ export class Steps {
 
   @when(/I register a new account with E-Mail "([^"]*)" and password "([^"]*)"/)
   public registerNewAccount(email: string, password: string): supertest.Test {
-    console.log(process.env.NODE_ENV);
     return request(this.server)
       .post('/register')
       .expect(200);

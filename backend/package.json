@@ -14,7 +14,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint --fix .",
-    "test": "NODE_ENV=test cucumber-js src/**/*.feature --require src/**/steps.ts --require-module ts-node/register",
+    "test": "cucumber-js src/**/*.feature --require src/**/steps.ts --require-module ts-node/register",
     "db:fresh": "typeorm schema:drop && typeorm migration:run",
     "db:migrate": "typeorm migration:run",
     "db:gen": "typeorm migration:generate"
