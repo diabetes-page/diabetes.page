@@ -43,6 +43,8 @@ The backend is written in JavaScript with [nest.js](https://nestjs.com/). It use
       - https://stackoverflow.com/questions/51198817/typeorm-how-to-seed-database
       - https://github.com/w3tecch/typeorm-seeding
   - only accept json!
+  - pgadmin4 delete master password https://www.pgadmin.org/faq/#10
+      - `/usr/pgadmin4/web`
 - pre validation auth / post validation auth
 - Lerna monorepo? https://blog.scottlogic.com/2018/02/23/javascript-monorepos.html
 - Naming: everything camelCase, even database

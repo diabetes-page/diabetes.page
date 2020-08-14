@@ -25,6 +25,7 @@ import { User } from '../../../domains/users/entities/User.entity';
           database: configService.get<string>('database.database'),
           entities: [User],
           synchronize: false,
+          migrations: ['dist/database/migrations/*.js'],
         };
       },
       inject: [ConfigService],
