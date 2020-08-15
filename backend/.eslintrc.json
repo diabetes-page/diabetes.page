@@ -24,10 +24,10 @@
   },
   "rules": {
     "@typescript-eslint/interface-name-prefix": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-function-return-type": "error",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/ban-ts-comment": ["error", {
-      "ts-ignore": false // todo: change to 'allow-with-description' as soon as possible
+      "ts-ignore": false // todo: change to 'allow-with-description' as soon as possible, once new version of @typescript-eslint is published
     }]
   }
 }

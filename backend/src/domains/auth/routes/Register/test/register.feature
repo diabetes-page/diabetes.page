@@ -5,5 +5,5 @@ Feature: Registration
 
   Scenario: Password must be at least 8 characters
     When I register a new account with E-Mail "test@example.com" and password "example"
-    #Then the request is rejected
+    Then the request is rejected
     #And the reason for the rejection is that the password is too short
