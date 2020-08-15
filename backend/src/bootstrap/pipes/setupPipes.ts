@@ -6,7 +6,7 @@ export const setupPipes = (app: INestApplication): void => {
   setupValidationPipe(app);
 };
 
-const setupValidationPipe = (app: INestApplication) => {
+const setupValidationPipe = (app: INestApplication): void => {
   app.useGlobalPipes(new ValidationPipe());
 
   // This is needed in order to do dependency injection for custom validators
