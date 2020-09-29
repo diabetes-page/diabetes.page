@@ -17,12 +17,12 @@ const getFullPath = (path: string): string => {
 export const testRequest = async (
   method: string,
   path: string,
+  data?: string | Record<string, unknown>,
 ): Promise<superagent.Response> => {
   return new Promise(resolve => {
-    superagent(
-      method,
-      getFullPath(path),
-    ).end((err: any, response: superagent.Response) => resolve(response));
+    superagent(method, getFullPath(path))
+      .send(data)
+      .end((err: any, response: superagent.Response) => resolve(response));
   });
 };
 
