@@ -67,6 +67,9 @@ The backend is written in JavaScript with [nest.js](https://nestjs.com/). It use
     - content security policy (csp)
     - https://stackoverflow.com/questions/40144915/what-does-csp-protect-us-if-allowing-unsafe-inline
   - implement https://docs.nestjs.com/techniques/security
+- We need an update policy for npm and the like. How often do we check, how often do we upgrade etc.
+- In behat darf jede Zeile nur ein Objekt erstellen. Sowas wie "es gibt ein Training namens X mit Mentor Y" darf nicht den Mentor erstellen, nur referenzieren. Der Mentor muss vorher erstellt werden. Das muss man modular halten.
+- Es wäre cool wenn man einen Ansatz entwickeln kann, der BDD verbindet mit Property based testing
 
 ## Rationale
 

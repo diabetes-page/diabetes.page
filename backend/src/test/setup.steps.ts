@@ -12,6 +12,19 @@ export const request = (): supertest.SuperTest<supertest.Test> => {
   return supertestRequest(server);
 };
 
+const setEnv = (): void => {
+  process.env.DB_DATABASE_NAME = findEnvOrFail('TEST_DB_DATABASE_NAME');
+  process.env.DB_USER = findEnvOrFail('TEST_DB_USER');
+  process.env.DB_PASSWORD = findEnvOrFail('TEST_DB_PASSWORD');
+};
+
+const createApp = async (): Promise<INestApplication> => {
+  const app = await bootstrap({ logger: ['error', 'warn'] }, true);
+  await app.init();
+
+  return app;
+};
+
 BeforeAll(async function() {
   setEnv();
 
@@ -24,16 +37,3 @@ Before(async function migrateFresh(): Promise<void> {
   await connection.dropDatabase();
   await connection.runMigrations();
 });
-
-function setEnv(): void {
-  process.env.DB_DATABASE_NAME = findEnvOrFail('TEST_DB_DATABASE_NAME');
-  process.env.DB_USER = findEnvOrFail('TEST_DB_USER');
-  process.env.DB_PASSWORD = findEnvOrFail('TEST_DB_PASSWORD');
-}
-
-async function createApp(): Promise<INestApplication> {
-  const app = await bootstrap({ logger: ['error', 'warn'] }, true);
-  await app.init();
-
-  return app;
-}
