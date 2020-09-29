@@ -14,9 +14,7 @@ export async function bootstrap(
   setupPipes(app);
   setupInterceptors(app);
 
-  if (!test) {
-    await app.listen(3000);
-  }
+  await app.listen(test ? 0 : 3000);
 
   return app;
 }

@@ -1,15 +1,29 @@
-import { INestApplication } from '@nestjs/common';
 import { Connection } from 'typeorm';
 import { findEnvOrFail } from '../config/utilities/findEnvOrFail';
 import { bootstrap } from '../bootstrap/bootstrap';
 import { Before, BeforeAll } from 'cucumber';
-import * as supertestRequest from 'supertest';
-import supertest = require('supertest');
+import superagent = require('superagent');
+import * as https from 'https';
 
-export let app: INestApplication, server: any, connection: Connection;
+let server: any, connection: Connection;
 
-export const request = (): supertest.SuperTest<supertest.Test> => {
-  return supertestRequest(server);
+const getFullPath = (path: string): string => {
+  const port = server.address().port;
+  const protocol = server instanceof https.Server ? 'https' : 'http';
+
+  return protocol + '://127.0.0.1:' + port + path;
+};
+
+export const testRequest = async (
+  method: string,
+  path: string,
+): Promise<superagent.Response> => {
+  return new Promise(resolve => {
+    superagent(
+      method,
+      getFullPath(path),
+    ).end((err: any, response: superagent.Response) => resolve(response));
+  });
 };
 
 const setEnv = (): void => {
@@ -18,17 +32,10 @@ const setEnv = (): void => {
   process.env.DB_PASSWORD = findEnvOrFail('TEST_DB_PASSWORD');
 };
 
-const createApp = async (): Promise<INestApplication> => {
-  const app = await bootstrap({ logger: ['error', 'warn'] }, true);
-  await app.init();
-
-  return app;
-};
-
 BeforeAll(async function() {
   setEnv();
 
-  app = await createApp();
+  const app = await bootstrap({ logger: ['error', 'warn'] }, true);
   server = app.getHttpServer();
   connection = app.get(Connection);
 });

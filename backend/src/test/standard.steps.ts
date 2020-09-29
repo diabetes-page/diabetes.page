@@ -1,7 +1,7 @@
-import { Response } from 'supertest';
-import { HttpStatus } from '@nestjs/common';
 import { Then } from 'cucumber';
+import { expect } from 'chai';
+import { HttpStatus } from '@nestjs/common';
 
-Then(/^the request is rejected$/, function(): Promise<Response> {
-  return this.response.expect(HttpStatus.BAD_REQUEST);
+Then(/^the request is rejected$/, function(): void {
+  expect(this.response.status).to.equal(HttpStatus.BAD_REQUEST);
 });
