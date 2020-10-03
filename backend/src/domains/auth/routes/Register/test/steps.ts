@@ -29,3 +29,12 @@ Then(
     ]);
   },
 );
+
+Then(
+  /^the reason for the rejection is that the E-Mail is already in use$/,
+  function () {
+    expect(this.response.body.message).to.have.members([
+      'email must be an email',
+    ]);
+  },
+);

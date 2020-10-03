@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities/User.entity';
-import { FindManyOptions, FindOneOptions } from 'typeorm/index';
+import { FindManyOptions, FindOneOptions } from 'typeorm';
 import { hash } from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 
@@ -26,7 +26,7 @@ export class UsersService {
     return this.usersRepository.find(options);
   }
 
-  async create(email: string, password: string): Promise<User> {
+  async make(email: string, password: string): Promise<User> {
     return await this.usersRepository.save(
       this.usersRepository.create({
         email,
