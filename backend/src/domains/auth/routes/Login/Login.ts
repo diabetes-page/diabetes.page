@@ -3,11 +3,11 @@ import { Parameters } from './Parameters';
 import { AuthService } from '../../services/AuthService';
 import { AuthenticationPipe } from './AuthenticationPipe';
 import { User } from '../../../users/entities/User.entity';
-import { ResourceController } from '../../../../bootstrap/blueprints/ResourceController';
+import { InsecureResourceController } from '../../../../bootstrap/blueprints/InsecureResourceController';
 import { Resource } from './Resource';
 
 @Controller()
-export class Login extends ResourceController {
+export class Login extends InsecureResourceController {
   public static Resource = Resource;
 
   constructor(private authService: AuthService) {

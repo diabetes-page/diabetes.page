@@ -1,11 +1,11 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { Parameters } from './Parameters';
-import { ResourceController } from '../../../../bootstrap/blueprints/ResourceController';
+import { InsecureResourceController } from '../../../../bootstrap/blueprints/InsecureResourceController';
 import { Resource } from './Resource';
 import { UsersService } from '../../../users/services/UsersService';
 
 @Controller()
-export class Register extends ResourceController {
+export class Register extends InsecureResourceController {
   public static Resource = Resource;
 
   constructor(private usersService: UsersService) {
