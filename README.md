@@ -23,6 +23,25 @@ It will provide standards for the following aspects of development:
 - Documentation
 - Culture
 
+# Frontend: Expo
+
+- https://stackoverflow.com/questions/39170622/what-is-the-difference-between-expo-and-react-native
+
+- Can't do in-app purchases easily! (but it's possible by ejecting and it's being worked on)
+
+  ```
+  npm install expo-cli --global
+  expo init frontend --npm
+  cd frontend
+  npm install
+  ```
+
+- I want to use next.js with Expo but it seems strange, doesn't really work.
+
+  - https://github.com/vercel/next.js/tree/canary/examples/with-expo
+
+- Maybe we should use yarn for everything
+
 # Backend: nest.js
 The backend is written in JavaScript with [nest.js](https://nestjs.com/). It uses a [PostgreSQL](https://www.postgresql.org/) database.
 
