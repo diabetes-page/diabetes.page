@@ -89,6 +89,7 @@ The backend is written in JavaScript with [nest.js](https://nestjs.com/). It use
 - We need an update policy for npm and the like. How often do we check, how often do we upgrade etc.
 - In behat darf jede Zeile nur ein Objekt erstellen. Sowas wie "es gibt ein Training namens X mit Mentor Y" darf nicht den Mentor erstellen, nur referenzieren. Der Mentor muss vorher erstellt werden. Das muss man modular halten.
 - Es wäre cool wenn man einen Ansatz entwickeln kann, der BDD verbindet mit Property based testing
+- Typeorm seeding / factories: https://github.com/w3tecch/typeorm-seeding
 
 ## Rationale
 

@@ -19,7 +19,7 @@ export const testRequest = async (
   path: string,
   data?: string | Record<string, unknown>,
 ): Promise<superagent.Response> => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     superagent(method, getFullPath(path))
       .send(data)
       .end((err: any, response: superagent.Response) => resolve(response));
@@ -27,12 +27,12 @@ export const testRequest = async (
 };
 
 const setEnv = (): void => {
-  process.env.DB_DATABASE_NAME = findEnvOrFail('TEST_DB_DATABASE_NAME');
-  process.env.DB_USER = findEnvOrFail('TEST_DB_USER');
-  process.env.DB_PASSWORD = findEnvOrFail('TEST_DB_PASSWORD');
+  process.env.TYPEORM_USERNAME = findEnvOrFail('TEST_TYPEORM_USERNAME');
+  process.env.TYPEORM_PASSWORD = findEnvOrFail('TEST_TYPEORM_PASSWORD');
+  process.env.TYPEORM_DATABASE = findEnvOrFail('TEST_TYPEORM_DATABASE');
 };
 
-BeforeAll(async function() {
+BeforeAll(async function () {
   setEnv();
 
   const app = await bootstrap({ logger: ['error', 'warn'] }, true);
