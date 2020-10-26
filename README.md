@@ -1,6 +1,6 @@
 ---
-Created: "2020-07-24"
-Author: "Vincent Rolfs"
+Created: '2020-07-24'
+Author: 'Vincent Rolfs'
 ---
 
 # A general development setup for The Software Brothers
@@ -44,6 +44,7 @@ It will provide standards for the following aspects of development:
 - Maybe we should use yarn for everything
 
 # Backend: nest.js
+
 The backend is written in JavaScript with [nest.js](https://nestjs.com/). It uses a [PostgreSQL](https://www.postgresql.org/) database.
 
 - nestjs passport https://docs.nestjs.com/techniques/authentication
@@ -53,18 +54,18 @@ The backend is written in JavaScript with [nest.js](https://nestjs.com/). It use
 - optional chaining typescript: https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html#optional-chaining
 - db access control
 - webstorm for dev (eslint + prettier, ctrl+shift+alt+l enable all, commit enable all, prettier enable on save + ctrl+alt+l, eslint automatic config)
-	- mark dist as excluded 
+  - mark dist as excluded
 - typora for markdown
 - Database migrations: https://medium.com/better-programming/typeorm-migrations-explained-fdb4f27cb1b3
   - Download omniDB
   - https://github.com/typeorm/typeorm/blob/master/docs/migrations.md
   - testing: https://docs.nestjs.com/techniques/database#testing-1
   - seeding
-      - https://stackoverflow.com/questions/51198817/typeorm-how-to-seed-database
-      - https://github.com/w3tecch/typeorm-seeding
+    - https://stackoverflow.com/questions/51198817/typeorm-how-to-seed-database
+    - https://github.com/w3tecch/typeorm-seeding
   - only accept json!
   - pgadmin4 delete master password https://www.pgadmin.org/faq/#10
-      - `/usr/pgadmin4/web`
+    - `/usr/pgadmin4/web`
 - pre validation auth / post validation auth
 - Lerna monorepo? https://blog.scottlogic.com/2018/02/23/javascript-monorepos.html
 - Naming: everything camelCase, even database
@@ -97,6 +98,7 @@ The backend is written in JavaScript with [nest.js](https://nestjs.com/). It use
 ## Database
 
 ### Choice of database
+
 The choice was between MySQL and Postgres. I decided to use Postgres, as it generally seems to be more sane with more/better features and conforming to standards. See https://developer.okta.com/blog/2019/07/19/mysql-vs-postgres for a comparison.
 
 Down the line we might have to deal with some problems detailed in https://medium.com/@rbranson/10-things-i-hate-about-postgresql-20dbab8c2791, but this is very advanced use.
@@ -111,4 +113,3 @@ Start/stop service:
 `sudo service postgresql start`
 
 Default port is `5432`.
-
