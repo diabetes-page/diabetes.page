@@ -30,10 +30,10 @@ It will provide standards for the following aspects of development:
 - Can't do in-app purchases easily! (but it's possible by ejecting and it's being worked on)
 
   ```
-  npm install expo-cli --global
-  expo init frontend
+  sudo npm install expo-cli --global
+  expo init frontend --npm
   cd frontend
-  yarn install
+  npm install
   expo start
   ```
 

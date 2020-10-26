@@ -4,10 +4,11 @@ node_modules
 .idea
 
 .env
+*.png
 
 backend/dist
 backend/**/*.feature
 
+frontend/.expo*
+
 jitsi
-frontend
-frontend-alt
