@@ -31,9 +31,10 @@ It will provide standards for the following aspects of development:
 
   ```
   npm install expo-cli --global
-  expo init frontend --npm
+  expo init frontend
   cd frontend
-  npm install
+  yarn install
+  expo start
   ```
 
 - I want to use next.js with Expo but it seems strange, doesn't really work.
