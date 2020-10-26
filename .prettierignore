@@ -4,6 +4,7 @@ node_modules
 .idea
 
 .env
+*.example
 *.png
 
 backend/dist
