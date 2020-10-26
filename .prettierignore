@@ -1,0 +1,13 @@
+.prettierignore
+.gitignore
+node_modules
+.idea
+
+.env
+
+backend/dist
+backend/**/*.feature
+
+jitsi
+frontend
+frontend-alt
