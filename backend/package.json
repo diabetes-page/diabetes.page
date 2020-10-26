@@ -56,8 +56,6 @@
     "cucumber": "^6.0.5",
     "prettier": "^2.1.2",
     "superagent": "^6.1.0",
-    "ts-loader": "^8.0.4",
-    "ts-node": "^9.0.0",
-    "tsconfig-paths": "^3.9.0"
+    "ts-node": "^9.0.0"
   }
 }

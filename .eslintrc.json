@@ -4,7 +4,7 @@
     "node": true,
     "jest": true
   },
-  "ignorePatterns": ["dist", "node_modules"],
+  "ignorePatterns": ["backend/dist", "node_modules", "jitsi"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "tsconfig.json",
