@@ -1,13 +1,10 @@
 import React from 'react';
-import { Button, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { Button, Text, useWindowDimensions, View } from 'react-native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-type Props = {
-  navigation: StackNavigationProp<Record<any, any>>;
-};
-
-function HomeScreen({ navigation }: Props): JSX.Element {
+function HomeScreen(): JSX.Element {
+  const navigation = useNavigation();
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
@@ -19,7 +16,8 @@ function HomeScreen({ navigation }: Props): JSX.Element {
   );
 }
 
-function DetailsScreen({ navigation }: Props): JSX.Element {
+function DetailsScreen(): JSX.Element {
+  const navigation = useNavigation();
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Details Screen</Text>
@@ -31,10 +29,23 @@ function DetailsScreen({ navigation }: Props): JSX.Element {
 const Drawer = createDrawerNavigator();
 
 function App(): JSX.Element {
+  const dimensions = useWindowDimensions();
+
   return (
-    <NavigationContainer linking={{ enabled: true }}>
-      <Drawer.Navigator initialRouteName="Home" drawerType="permanent">
-        <Drawer.Screen name="Home" component={HomeScreen} />
+    <NavigationContainer linking={{ prefixes: [], enabled: true }}>
+      <Drawer.Navigator
+        initialRouteName="Home"
+        drawerType={dimensions.width >= 768 ? 'permanent' : 'front'}
+        drawerContentOptions={{
+          activeBackgroundColor: 'pink',
+          activeTintColor: 'blue',
+        }}
+      >
+        <Drawer.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ drawerLabel: 'xxx' }}
+        />
         <Drawer.Screen name="Details" component={DetailsScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
