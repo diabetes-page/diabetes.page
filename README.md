@@ -45,4 +45,5 @@ We recommend using [WebStorm](https://www.jetbrains.com/webstorm/) for developme
   - Perform code analysis
   - Check TODO
   - Cleanup
+- Mark the directories `backend/dist`, `frontend/.expo` and `frontend/.expo-shared` as excluded by right clicking them and selecting `Mark Directory as > Excluded`
 - Under `Settings > Appearance & Behaviour > Appearance` select the cool `Darcula` theme

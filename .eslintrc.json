@@ -26,7 +26,7 @@
         "allowTypedFunctionExpressions": true,
         "allowHigherOrderFunctions": false,
         "allowDirectConstAssertionInArrowFunctions": false,
-        "allowConciseArrowFunctionExpressionsStartingWithVoid": false
+        "allowConciseArrowFunctionExpressionsStartingWithVoid": true
       }
     ],
     "@typescript-eslint/no-explicit-any": "off",
