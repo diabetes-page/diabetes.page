@@ -6,10 +6,10 @@ ADD https://dl.eff.org/certbot-auto /usr/local/bin/
 COPY rootfs/ /
 
 RUN \
-    apt-dpkg-wrap apt-get update && \
-	apt-dpkg-wrap apt-get install -y cron nginx-extras && \
-	apt-dpkg-wrap apt install -y /jitsi-meet-web_*.deb && \
-    dpkg -x /jitsi-meet-web-config_*.deb /tmp/pkg && \
+	apt-dpkg-wrap apt-get update && \
+	apt-dpkg-wrap apt-get install -y cron nginx-extras jitsi-meet-web && \
+	apt-dpkg-wrap apt-get -d install -y jitsi-meet-web-config && \
+    dpkg -x /var/cache/apt/archives/jitsi-meet-web-config*.deb /tmp/pkg && \
     mv /tmp/pkg/usr/share/jitsi-meet-web-config/config.js /defaults && \
 	mv /usr/share/jitsi-meet/interface_config.js /defaults && \
 	apt-cleanup && \
