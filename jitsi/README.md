@@ -12,6 +12,8 @@ cp env.example .env
 ./gen-passwords.sh
 ```
 
+Then, configure the .env correctly! For example, set `ENABLE_AUTH` and so on.
+
 ### Step 2: Setting up the `web` part
 
 You will need to have `node` installed already.
