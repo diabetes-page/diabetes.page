@@ -28,7 +28,8 @@ cd ../../..
 
 ### Step 3: Building the videostreaming service
 ```bash
-sudo make
+sudo make all
+sudo make tag-all
 ```
 
 ## Running the videostreaming service
@@ -47,7 +48,10 @@ npm install
 make
 dpkg-buildpackage -d -A -rfakeroot -us -uc -tc
 cd ../../..
-sudo make JITSI_SERVICES=web
+sudo make build JITSI_SERVICE=web
+sudo make tag JITSI_SERVICE=web
 ```
 
-Sometimes you may need `sudo make JITSI_SERVICES=web FORCE_REBUILD=1`.
+It is not a typo that we have `JITSI_SERVICES` with an `s` and `JITSI_SERVICE` without an `s`.
+
+For using `make`, you may also use `FORCE_REBUILD=1` like `sudo make build JITSI_SERVICE=web FORCE_REBUILD=1`.
