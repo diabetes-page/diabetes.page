@@ -4,13 +4,20 @@
     "node": true,
     "jest": true
   },
-  "ignorePatterns": ["backend/dist", "node_modules", "jitsi"],
+  "ignorePatterns": [
+    "backend/dist",
+    "node_modules",
+    "jitsi"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint/eslint-plugin"],
+  "plugins": [
+    "@typescript-eslint/eslint-plugin",
+    "eslint-plugin-react"
+  ],
   "extends": [
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
@@ -33,7 +40,15 @@
     "@typescript-eslint/ban-ts-comment": [
       "error",
       {
-        "ts-ignore": false // todo: change to 'allow-with-description' as soon as possible, once new version of @typescript-eslint is published
+        "ts-ignore": false
+        // todo: change to 'allow-with-description' as soon as possible, once new version of @typescript-eslint is published
+      }
+    ],
+    "react/jsx-curly-brace-presence": [
+      "error",
+      {
+        "props": "never",
+        "children": "never"
       }
     ]
   }
