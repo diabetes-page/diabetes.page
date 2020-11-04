@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Text, useWindowDimensions, View } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -8,6 +8,7 @@ function HomeScreen(): JSX.Element {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
+      <div id="meet" />
       <Button
         title="Go to Details"
         onPress={() => void navigation.navigate('Details')}
@@ -30,6 +31,33 @@ const Drawer = createDrawerNavigator();
 
 function App(): JSX.Element {
   const dimensions = useWindowDimensions();
+
+  useEffect(() => {
+    const script = document.createElement('script');
+
+    script.src = 'https://localhost:8443/external_api.js';
+    script.async = true;
+    script.onload = (): void => {
+      const domain = 'localhost:8443';
+      const options = {
+        roomName: 'xxxx',
+        width: 700,
+        height: 700,
+        parentNode: document.querySelector('#meet'),
+        interfaceConfigOverwrite: {
+          TOOLBAR_BUTTONS: ['microphone', 'camera', 'chat'],
+          TOOLBAR_ALWAYS_VISIBLE: true,
+          DISABLE_VIDEO_BACKGROUND: true,
+        },
+      };
+      // @ts-ignore
+      const api = new window.JitsiMeetExternalAPI(domain, options);
+      console.log(api);
+    };
+
+    document.body.appendChild(script);
+    return () => void document.body.removeChild(script);
+  }, []);
 
   return (
     <NavigationContainer linking={{ prefixes: [], enabled: true }}>
