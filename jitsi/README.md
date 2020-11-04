@@ -12,7 +12,7 @@ cp env.example .env
 ./gen-passwords.sh
 ```
 
-Then, configure the .env correctly! For example, set `ENABLE_AUTH` and so on.
+Then, configure the .env correctly! For example, set `ENABLE_AUTH` and so on. Also set ``PUBLIC_URL` to the url of the frontend, for example `PUBLIC_URL=https://localhost:19006/`.
 
 ### Step 2: Setting up the `web` part
 

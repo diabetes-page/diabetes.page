@@ -29,10 +29,8 @@ function DetailsScreen(): JSX.Element {
 
 const Drawer = createDrawerNavigator();
 
-function App(): JSX.Element {
-  const dimensions = useWindowDimensions();
-
-  useEffect(() => {
+const useJitsi = () =>
+  void useEffect(() => {
     const script = document.createElement('script');
 
     script.src = 'https://localhost:8443/external_api.js';
@@ -51,13 +49,38 @@ function App(): JSX.Element {
         },
       };
       // @ts-ignore
-      const api = new window.JitsiMeetExternalAPI(domain, options);
-      console.log(api);
+      new window.JitsiMeetExternalAPI(domain, options);
     };
 
     document.body.appendChild(script);
+
     return () => void document.body.removeChild(script);
   }, []);
+
+const useConverse = () =>
+  void useEffect(() => {
+    const script = document.createElement('script');
+
+    script.src = 'https://cdn.conversejs.org/6.0.1/dist/converse.min.js';
+    script.async = true;
+    script.onload = (): void => {
+      // @ts-ignore
+      window.converse.initialize({
+        bosh_service_url: 'https://localhost:8443/http-bind',
+        authentication: 'anonymous',
+        jid: 'test@tsb.com',
+      });
+    };
+
+    document.body.appendChild(script);
+
+    return () => void document.body.removeChild(script);
+  }, []);
+
+function App(): JSX.Element {
+  const dimensions = useWindowDimensions();
+  useJitsi();
+  useConverse();
 
   return (
     <NavigationContainer linking={{ prefixes: [], enabled: true }}>
