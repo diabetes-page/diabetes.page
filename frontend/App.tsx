@@ -3,16 +3,14 @@ import { Button, Text, useWindowDimensions, View } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
+const ROOM_NAME = 'af44';
+
 function HomeScreen(): JSX.Element {
   const navigation = useNavigation();
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <div id="meet" />
-      <Button
-        title="Go to Details"
-        onPress={() => void navigation.navigate('Details')}
-      />
+    <View style={{ display: 'flex', flexDirection: 'row' }}>
+      <div id="meet" style={{ flex: '50%' }} />
+      <div style={{ flex: '50%' }} id="conversejs" />
     </View>
   );
 }
@@ -29,64 +27,92 @@ function DetailsScreen(): JSX.Element {
 
 const Drawer = createDrawerNavigator();
 
-const useJitsi = () =>
-  void useEffect(() => {
-    const script = document.createElement('script');
+const useJitsi = (): Promise<string> =>
+  new Promise((resolve) =>
+    useEffect(() => {
+      const script = document.createElement('script');
 
-    script.src = 'https://localhost:8443/external_api.js';
-    script.async = true;
-    script.onload = (): void => {
-      const domain = 'localhost:8443';
-      const options = {
-        roomName: 'xxxx',
-        width: 700,
-        height: 700,
-        parentNode: document.querySelector('#meet'),
-        interfaceConfigOverwrite: {
-          TOOLBAR_BUTTONS: ['microphone', 'camera', 'chat'],
-          TOOLBAR_ALWAYS_VISIBLE: true,
-          DISABLE_VIDEO_BACKGROUND: true,
-        },
+      script.src = 'https://localhost:8443/external_api.js';
+      script.async = true;
+      script.onload = (): void => {
+        const domain = 'localhost:8443';
+        const options = {
+          roomName: ROOM_NAME,
+          width: 700,
+          height: 700,
+          parentNode: document.querySelector('#meet'),
+          interfaceConfigOverwrite: {
+            TOOLBAR_BUTTONS: ['microphone', 'camera', 'chat', 'stats'],
+            TOOLBAR_ALWAYS_VISIBLE: true,
+            DISABLE_VIDEO_BACKGROUND: true,
+          },
+        };
+
+        // NOTE: It's a good practice to remove the conference before the page is unloaded.
+        // @ts-ignore
+        const jitsi = new window.JitsiMeetExternalAPI(domain, options);
+
+        jitsi.on('videoConferenceJoined', (data: Record<string, string>) => {
+          console.warn(data);
+          resolve(data.id);
+        });
       };
-      // @ts-ignore
-      new window.JitsiMeetExternalAPI(domain, options);
-    };
 
-    document.body.appendChild(script);
+      document.body.appendChild(script);
 
-    return () => void document.body.removeChild(script);
-  }, []);
+      return () => void document.body.removeChild(script);
+    }, []),
+  );
 
-const useConverse = () =>
-  void useEffect(() => {
-    const script = document.createElement('script');
+const useConverse = (): Promise<void> =>
+  new Promise((resolve) =>
+    useEffect(() => {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.conversejs.org/6.0.1/dist/converse.min.js';
+      script.async = true;
+      script.onload = () => void resolve();
+      document.body.appendChild(script);
 
-    script.src = 'https://cdn.conversejs.org/6.0.1/dist/converse.min.js';
-    script.async = true;
-    script.onload = (): void => {
-      // @ts-ignore
-      window.converse.initialize({
-        bosh_service_url: 'https://localhost:8443/http-bind',
-        authentication: 'anonymous',
-        jid: 'test@tsb.com',
-      });
-    };
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = 'https://cdn.conversejs.org/6.0.1/dist/converse.min.css';
+      document.head.appendChild(link);
 
-    document.body.appendChild(script);
-
-    return () => void document.body.removeChild(script);
-  }, []);
+      return () => void document.body.removeChild(script);
+    }, []),
+  );
 
 function App(): JSX.Element {
   const dimensions = useWindowDimensions();
-  useJitsi();
-  useConverse();
+  const jitsiPromise = useJitsi();
+  const conversePromise = useConverse();
+
+  jitsiPromise.then((userId) =>
+    conversePromise.then(() => {
+      // @ts-ignore
+      window.converse.initialize({
+        view_mode: 'embedded',
+        bosh_service_url: 'https://localhost:8443/http-bind',
+        authentication: 'login',
+        auto_login: 'true',
+        jid: 'user@meet.jitsi',
+        password: 'pass',
+        auto_join_rooms: [
+          //ROOM_NAME + '@muc.meet.jitsi',
+          { jid: ROOM_NAME + '@muc.meet.jitsi', nick: userId },
+        ],
+      });
+    }),
+  );
 
   return (
     <NavigationContainer linking={{ prefixes: [], enabled: true }}>
       <Drawer.Navigator
         initialRouteName="Home"
-        drawerType={dimensions.width >= 768 ? 'permanent' : 'front'}
+        drawerType={
+          'front' // dimensions.width >= 768 ? 'permanent' : 'front'
+        }
         drawerContentOptions={{
           activeBackgroundColor: 'pink',
           activeTintColor: 'blue',
