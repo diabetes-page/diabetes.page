@@ -9,6 +9,11 @@ export async function bootstrap(
   options?: NestApplicationOptions,
   test = false,
 ): Promise<INestApplication> {
+  // todo: don't allow passing options, just test mode or not.
+  options = options ?? {};
+  options.cors = {
+    origin: 'http://localhost:19006', // todo: put in .env
+  };
   const app = await NestFactory.create(AppModule, options);
 
   setupPipes(app);
