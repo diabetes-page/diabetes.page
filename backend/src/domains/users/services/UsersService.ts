@@ -30,7 +30,7 @@ export class UsersService {
     return this.usersRepository.findOne({ where: fields });
   }
 
-  async make(email: string, password: string): Promise<User> {
+  async add(email: string, password: string): Promise<User> {
     return await this.usersRepository.save(
       this.usersRepository.create({
         email,
