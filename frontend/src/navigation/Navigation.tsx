@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Login } from '../screens/login/Login';
-import { TrainingsDetail } from '../screens/trainingsDetail/TrainingsDetail';
+import { AppointmentDetail } from '../screens/appointmentDetail/AppointmentDetail';
 
 const Drawer = createDrawerNavigator();
 
@@ -27,7 +27,7 @@ export function Navigation(): JSX.Element {
         />
         <Drawer.Screen
           name="training"
-          component={TrainingsDetail}
+          component={AppointmentDetail}
           options={{ drawerLabel: 'Training' }}
         />
       </Drawer.Navigator>

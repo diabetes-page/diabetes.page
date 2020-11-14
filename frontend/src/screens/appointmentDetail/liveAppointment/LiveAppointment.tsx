@@ -3,7 +3,7 @@ import React from 'react';
 import { Converse } from './Converse';
 import { Jitsi } from './Jitsi';
 
-export function LiveTraining(): JSX.Element {
+export function LiveAppointment(): JSX.Element {
   return (
     <>
       <Text>Live Training</Text>
