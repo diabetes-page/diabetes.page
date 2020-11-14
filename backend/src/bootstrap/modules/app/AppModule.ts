@@ -4,14 +4,16 @@ import { UsersModule } from '../../../domains/users/UsersModule';
 import { AuthModule } from '../../../domains/auth/AuthModule';
 import { TypeOrmModule } from './TypeOrmModule';
 import { ConfigModule } from './ConfigModule';
+import { AppointmentsModule } from '../../../domains/appointments/AppointmentsModule';
 
 @Module({
   imports: [
     ConfigModule,
     TypeOrmModule,
+    ValidationModule,
     UsersModule,
     AuthModule,
-    ValidationModule,
+    AppointmentsModule,
   ],
 })
 export class AppModule {}

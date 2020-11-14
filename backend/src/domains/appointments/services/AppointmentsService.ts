@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { Appointment } from '../entities/Appointment.entity';
-import { User } from '../../users/entities/User.entity';
 
 @Injectable()
 export class AppointmentsService {
@@ -15,5 +14,14 @@ export class AppointmentsService {
 
   async get(id: number): Promise<Appointment | undefined> {
     return this.appointmentsRepository.findOne({ where: { id } });
+  }
+
+  async add(startsAt: Date, endsAt: Date): Promise<Appointment> {
+    return await this.appointmentsRepository.save(
+      this.appointmentsRepository.create({
+        startsAt,
+        endsAt,
+      }),
+    );
   }
 }

@@ -13,6 +13,6 @@ export class ShowConferenceToken extends SecureResourceController {
   async serve(
     @Param(AppointmentById) appointment: Appointment,
   ): Promise<Resource> {
-    return { conferenceToken: appointment.conferenceRoom };
+    return Resource.make(appointment.conferenceRoom);
   }
 }

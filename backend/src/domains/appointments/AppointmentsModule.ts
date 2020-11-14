@@ -3,10 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Appointment } from './entities/Appointment.entity';
 import { ShowConferenceToken } from './routes/showConferenceToken/ShowConferenceToken';
 import { AppointmentsService } from './services/AppointmentsService';
+import { CreateAppointment } from './routes/createAppointment/CreateAppointment';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Appointment])],
-  controllers: [ShowConferenceToken],
+  controllers: [CreateAppointment, ShowConferenceToken],
   providers: [AppointmentsService],
   exports: [],
 })
