@@ -1,6 +1,8 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { SecureResourceController } from '../../../../bootstrap/blueprints/SecureResourceController';
 import { Resource } from './Resource';
+import { Appointment } from '../../entities/Appointment.entity';
+import { AppointmentById } from '../../pipes/AppointmentById';
 
 @Controller()
 export class ShowConferenceToken extends SecureResourceController {
@@ -8,7 +10,9 @@ export class ShowConferenceToken extends SecureResourceController {
 
   // todo: role-based protection
   @Get('/appointments/:id/conference-token')
-  async serve(): Promise<Resource> {
-    return { conferenceToken: '' };
+  async serve(
+    @Param(AppointmentById) appointment: Appointment,
+  ): Promise<Resource> {
+    return { conferenceToken: appointment.conferenceRoom };
   }
 }
