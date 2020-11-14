@@ -12,6 +12,7 @@ export class IndexUsers extends SecureResourceController {
     super();
   }
 
+  // todo: role-based protection
   @Get('/users')
   async serve(@Query() params: Parameters): Promise<Resource> {
     const options = params.amount ? { take: params.amount } : {};
