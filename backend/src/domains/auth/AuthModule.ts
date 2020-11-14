@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { UsersModule } from '../users/UsersModule';
 import { AuthService } from './services/AuthService';
-import { Login } from './routes/Login/Login';
+import { Login } from './routes/login/Login';
 import { JwtModule } from '@nestjs/jwt';
 import { JWTStrategy } from './strategies/JWTStrategy';
-import { Register } from './routes/Register/Register';
+import { Register } from './routes/register/Register';
 import { ConfigService } from '@nestjs/config';
 
 @Module({
