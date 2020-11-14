@@ -15,7 +15,7 @@ export class AuthService {
     email: string,
     password: string,
   ): Promise<User | undefined> {
-    const user = await this.usersService.one({ where: { email: email } });
+    const user = await this.usersService.oneWhere({ email });
     const match = user && (await compare(password, user.password));
 
     if (match) {

@@ -15,15 +15,19 @@ export class UsersService {
   ) {}
 
   async get(id: number): Promise<User | undefined> {
-    return this.one({ where: { id } });
+    return this.usersRepository.findOne({ where: { id } });
   }
 
-  async one(options?: FindOneOptions): Promise<User | undefined> {
-    return this.usersRepository.findOne(options);
+  async all(): Promise<User[]> {
+    return this.usersRepository.find();
   }
 
-  async all(options?: FindManyOptions): Promise<User[]> {
-    return this.usersRepository.find(options);
+  async where(fields: Partial<User>): Promise<User[]> {
+    return this.usersRepository.find({ where: fields });
+  }
+
+  async oneWhere(fields: Partial<User>): Promise<User | undefined> {
+    return this.usersRepository.findOne({ where: fields });
   }
 
   async make(email: string, password: string): Promise<User> {
