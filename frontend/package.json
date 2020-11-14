@@ -1,5 +1,11 @@
 {
   "main": "src/app/App.tsx",
+  "name": "frontend",
+  "version": "0.0.1",
+  "description": "The frontend of diabetes.page. It works using expo.",
+  "author": "RMR Digital Ventures",
+  "private": true,
+  "license": "UNLICENSED",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -24,6 +30,5 @@
     "@types/react": "~16.9.35",
     "@types/react-dom": "~16.9.8",
     "@types/react-native": "~0.63.2"
-  },
-  "private": true
+  }
 }
