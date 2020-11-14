@@ -1,17 +1,19 @@
 import { Button, Text, View } from 'react-native';
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
-import { Post } from '../../utilities/axios/axios';
+import { Post, withAuth } from '../../utilities/axios/axios';
 
 export function Login(): JSX.Element {
   const [status, setStatus] = useState('');
   const register = useRegister(setStatus);
   const login = useLogin(setStatus);
+  const createAppointment = useCreateAppointment(setStatus);
 
   return (
     <View>
       <Text>Login</Text>
-      <Button title="Register" onPress={register} />
-      <Button title="Login" onPress={login} />
+      <Button title="Registrieren" onPress={register} />
+      <Button title="Anmelden" onPress={login} />
+      <Button title="Erstelle Termin" onPress={createAppointment} />
       <Text>{status}</Text>
     </View>
   );
@@ -43,5 +45,19 @@ const useLogin = (
         setStatus('Login success');
       })
       .catch((e) => setStatus('Login error: ' + e.response.data.message));
+  }, [setStatus]);
+};
+
+const useCreateAppointment = (
+  setStatus: Dispatch<SetStateAction<string>>,
+): (() => void) => {
+  return useCallback(() => {
+    Post('/appointments', {}, withAuth())
+      .then((response) =>
+        setStatus('Appointment created with id: ' + response.data.id),
+      )
+      .catch((e) =>
+        setStatus('Appointment creation error: ' + e.response.data.message),
+      );
   }, [setStatus]);
 };

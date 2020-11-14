@@ -25,10 +25,11 @@ export function Navigation(): JSX.Element {
           component={Login}
           options={{ drawerLabel: 'Login' }}
         />
+        {/* todo: i18n */}
         <Drawer.Screen
-          name="training"
+          name="appointment"
           component={AppointmentDetail}
-          options={{ drawerLabel: 'Training' }}
+          options={{ drawerLabel: 'Termin' }}
         />
       </Drawer.Navigator>
     </NavigationContainer>
