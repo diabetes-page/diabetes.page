@@ -9,6 +9,7 @@ export const Post = instance.post;
 export const Put = instance.put;
 export const Patch = instance.patch;
 
+// todo: generate all requests directly from backend code anyways
 export const withAuth = (
   config: AxiosRequestConfig = {},
 ): AxiosRequestConfig => {
