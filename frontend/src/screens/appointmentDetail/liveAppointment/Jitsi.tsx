@@ -24,7 +24,7 @@ const useJitsi = (): Promise<string> =>
           roomName: conferenceData?.room,
           jwt: conferenceData?.conferenceToken,
           parentNode: document.getElementById(WRAPPER_ID),
-          width: 700,
+          width: 700, // todo: figure out width/height
           height: 700,
           interfaceConfigOverwrite: {
             TOOLBAR_BUTTONS: ['microphone', 'camera', 'chat', 'stats'],
