@@ -38,7 +38,6 @@ const useConference = (): [ConferenceData | undefined, () => void] => {
   const startConference = useCallback(() => {
     Get('/appointments/1/conference', withAuth()).then((response) => {
       setConferenceData(response.data);
-      console.log(response.data);
     });
   }, [conferenceData, setConferenceData]);
 
