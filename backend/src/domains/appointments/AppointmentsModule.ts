@@ -11,27 +11,15 @@ import { ConferenceService } from './services/ConferenceService';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Appointment]),
-    // JwtModule.registerAsync({
-    //   useFactory: (configService: ConfigService) => ({
-    //     secret: configService.get<string>('jitsi.secretKey'),
-    //   }),
-    //   inject: [ConfigService],
-    // }),
+    JwtModule.registerAsync({
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get<string>('jitsi.secretKey'),
+      }),
+      inject: [ConfigService],
+    }),
   ],
   controllers: [CreateAppointment, ShowConferenceToken],
-  providers: [
-    {
-      provide: 'TEST',
-      useFactory: (configService: ConfigService): JwtModule => {
-        return JwtModule.register({
-          secret: configService.get<string>('jitsi.secretKey'),
-        });
-      },
-      inject: [ConfigService],
-    },
-    AppointmentsService,
-    ConferenceService,
-  ],
+  providers: [AppointmentsService, ConferenceService],
   exports: [],
 })
 export class AppointmentsModule {}
