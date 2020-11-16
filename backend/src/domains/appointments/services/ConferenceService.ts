@@ -18,6 +18,12 @@ export class ConferenceService {
       aud: this.configService.get<string>('jitsi.jitsiAppId'),
       exp: getUnixTime(appointment.endsAt), // exp is specified as Unix timestamp (seconds since epoch). See https://stackoverflow.com/questions/39926104/what-format-is-the-exp-expiration-time-claim-in-a-jwt
       room: appointment.conferenceRoom,
+      context: {
+        user: {
+          name: 'John Doe', // todo: set correct user
+          email: 'jdoe@example.com',
+        },
+      },
     });
   }
 }
