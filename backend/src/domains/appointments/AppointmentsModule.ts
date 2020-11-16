@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Appointment } from './entities/Appointment.entity';
-import { ShowConferenceToken } from './routes/showConferenceToken/ShowConferenceToken';
+import { ShowConferenceData } from './routes/getConferenceData/ShowConferenceData';
 import { AppointmentsService } from './services/AppointmentsService';
 import { CreateAppointment } from './routes/createAppointment/CreateAppointment';
 import { JwtModule } from '@nestjs/jwt';
@@ -18,7 +18,7 @@ import { ConferenceService } from './services/ConferenceService';
       inject: [ConfigService],
     }),
   ],
-  controllers: [CreateAppointment, ShowConferenceToken],
+  controllers: [CreateAppointment, ShowConferenceData],
   providers: [AppointmentsService, ConferenceService],
   exports: [],
 })

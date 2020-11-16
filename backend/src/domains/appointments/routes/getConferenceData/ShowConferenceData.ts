@@ -6,7 +6,7 @@ import { AppointmentById } from '../../pipes/AppointmentById';
 import { ConferenceService } from '../../services/ConferenceService';
 
 @Controller()
-export class ShowConferenceToken extends SecureResourceController {
+export class ShowConferenceData extends SecureResourceController {
   public static Resource = Resource;
 
   constructor(private conferenceService: ConferenceService) {
@@ -14,10 +14,12 @@ export class ShowConferenceToken extends SecureResourceController {
   }
 
   // todo: role-based protection, check users and appointment.startsAt
-  @Get('/appointments/:id/conference-token')
+  @Get('/appointments/:id/conference')
   async serve(
     @Param(AppointmentById) appointment: Appointment,
   ): Promise<Resource> {
-    return Resource.make(await this.conferenceService.createToken(appointment));
+    const token = await this.conferenceService.createToken(appointment);
+
+    return Resource.make(token, appointment.conferenceRoom);
   }
 }
