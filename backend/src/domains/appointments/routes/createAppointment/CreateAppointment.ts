@@ -16,7 +16,7 @@ export class CreateAppointment extends SecureResourceController {
   @Post('/appointments')
   async serve(): Promise<Resource> {
     const start = parseISO('2020-11-10T09:00');
-    const end = parseISO('2020-11-20T09:00');
+    const end = parseISO('2021-11-20T09:00');
 
     const appointment = await this.appointmentsService.add(start, end);
 

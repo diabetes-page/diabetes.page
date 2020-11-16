@@ -12,7 +12,7 @@ cp env.example .env
 ./gen-passwords.sh
 ```
 
-Then, configure the .env correctly! For example, set `ENABLE_AUTH` and so on. Also set ``PUBLIC_URL` to the url of the frontend, for example `PUBLIC_URL=http://localhost:19006/`.
+Then, configure the .env correctly! For example, set `ENABLE_AUTH` and so on. Also set ``PUBLIC_URL` to the url of the frontend, for example `PUBLIC_URL=http://localhost:19006/`. This is to ensure that CORS headers are set correctly. The relevant code for CORS can be found in `/web/rootfs/default/meet.conf`.
 
 ### Step 2: Setting up the `web` part
 
