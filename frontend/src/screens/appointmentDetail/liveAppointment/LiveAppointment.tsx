@@ -1,9 +1,8 @@
 import { Button, Text } from 'react-native';
 import React, { useCallback, useState } from 'react';
-import { Converse } from './Converse';
-import { Jitsi } from './Jitsi';
 import { Get, withAuth } from '../../../utilities/axios/axios';
 import { renderIf } from '../../../utilities/rendering/rendering';
+import { Conference } from './Conference';
 
 type ConferenceData = {
   conferenceToken: string;
@@ -23,10 +22,7 @@ export function LiveAppointment(): JSX.Element {
       {renderIf(!conferenceData)(
         <Button title="Teilnehmen" onPress={startConference} />,
         <ConferenceContext.Provider value={conferenceData}>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <Jitsi />
-            <Converse />
-          </div>
+          <Conference />
         </ConferenceContext.Provider>,
       )}
     </>
