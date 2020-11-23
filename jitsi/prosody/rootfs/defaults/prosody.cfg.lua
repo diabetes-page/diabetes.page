@@ -166,6 +166,4 @@ component_interface = { "*" }
 
 data_path = "/config/data"
 
-cross_domain_bosh = true;
-
 Include "conf.d/*.cfg.lua"

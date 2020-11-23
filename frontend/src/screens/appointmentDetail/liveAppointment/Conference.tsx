@@ -50,6 +50,7 @@ const useJitsi = (jitsiRef: RefObject<HTMLDivElement>): string | undefined => {
       const jitsi = new window.JitsiMeetExternalAPI(domain, options);
 
       jitsi.on('videoConferenceJoined', (data: Record<string, string>) => {
+        console.warn(data.id);
         setUserId(data.id);
       });
     };

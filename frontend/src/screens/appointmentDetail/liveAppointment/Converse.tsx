@@ -46,11 +46,10 @@ const initConverse = (
   // @ts-ignore
   window.converse.initialize({
     view_mode: 'embedded',
-    bosh_service_url:
-      'https://localhost:8443/http-bind?test=test&token=' + conferenceToken,
+    bosh_service_url: `https://localhost:8443/http-bind?chat=true&token=x${conferenceToken}`,
     authentication: 'anonymous',
-    auto_login: 'true',
-    jid: roomName + '@muc.meet.jitsi',
-    auto_join_rooms: [{ jid: roomName + '@muc.meet.jitsi', nick: jitsiUserId }],
+    jid: 'meet.jitsi',
+    // auto_login: 'true',
+    // auto_join_rooms: [{ jid: roomName + '@muc.meet.jitsi', nick: jitsiUserId }],
   });
 };
