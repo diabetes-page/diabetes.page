@@ -24,6 +24,7 @@ const useRegister = (
 ): (() => void) => {
   return useCallback(() => {
     Post('/register', {
+      name: 'Vincent Rolfs',
       email: 'v.rolfs@the-software-brothers.com',
       password: '88888888',
     })
