@@ -17,6 +17,11 @@ const useConverse = (jitsiUserId: string): void => {
   const conferenceData = useContext(ConferenceContext)!;
 
   useEffect(() => {
+    document.head.insertAdjacentHTML(
+      'beforeend',
+      `<style>#${WRAPPER_ID} #controlbox { display: none; }</style>`,
+    );
+
     const script = document.createElement('script');
     script.src = 'https://cdn.conversejs.org/6.0.1/dist/converse.min.js';
     script.async = true;
@@ -46,10 +51,12 @@ const initConverse = (
   // @ts-ignore
   window.converse.initialize({
     view_mode: 'embedded',
-    bosh_service_url: `https://localhost:8443/http-bind?chat=true&token=x${conferenceToken}`,
+    bosh_service_url: `https://localhost:8443/http-bind?chat=true&token=${conferenceToken}`,
     authentication: 'anonymous',
     jid: 'meet.jitsi',
-    // auto_login: 'true',
-    // auto_join_rooms: [{ jid: roomName + '@muc.meet.jitsi', nick: jitsiUserId }],
+    auto_login: 'true',
+    auto_join_rooms: [
+      { jid: roomName + '@muc.meet.jitsi', nick: jitsiUserId + '-chat' },
+    ],
   });
 };
