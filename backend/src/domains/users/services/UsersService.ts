@@ -30,14 +30,21 @@ export class UsersService {
     return this.usersRepository.findOne({ where: fields });
   }
 
-  async add(email: string, password: string): Promise<User> {
+  async add(
+    name: string,
+    email: string,
+    cleartextPassword: string,
+  ): Promise<User> {
+    const passwordHash = await hash(
+      cleartextPassword,
+      this.configService.get<number>('security.bcryptSaltRounds', 10),
+    );
+
     return await this.usersRepository.save(
       this.usersRepository.create({
+        name,
         email,
-        password: await hash(
-          password,
-          this.configService.get<number>('security.bcryptSaltRounds', 10),
-        ),
+        password: passwordHash,
       }),
     );
   }
