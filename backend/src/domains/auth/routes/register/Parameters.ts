@@ -1,7 +1,7 @@
 import { IsEmail, IsString, Validate } from 'class-validator';
-import { Unique } from '../../../../bootstrap/modules/validation/validators/Unique';
+import { Unique } from '../../../../blueprints/validators/Unique';
 import { User } from '../../../users/entities/User.entity';
-import { Password } from '../../../../bootstrap/modules/validation/validators/Password';
+import { Password } from '../../../../blueprints/validators/Password';
 
 export class Parameters {
   @IsEmail()

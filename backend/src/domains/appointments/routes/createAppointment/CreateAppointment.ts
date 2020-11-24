@@ -1,5 +1,5 @@
 import { Controller, Post } from '@nestjs/common';
-import { ResourceController } from '../../../../bootstrap/blueprints/ResourceController';
+import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
 import { Resource } from './Resource';
 import { AppointmentsService } from '../../services/AppointmentsService';
 import { parse, parseISO } from 'date-fns';

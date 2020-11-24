@@ -4,8 +4,8 @@ import { AuthService } from '../../services/AuthService';
 import { AuthenticationPipe } from './AuthenticationPipe';
 import { User } from '../../../users/entities/User.entity';
 import { Resource } from './Resource';
-import { ResourceController } from '../../../../bootstrap/blueprints/ResourceController';
-import { InsecureRoute } from '../../../../bootstrap/blueprints/decorators/InsecureRoute';
+import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
+import { InsecureRoute } from '../../../../blueprints/decorators/InsecureRoute';
 
 @Controller()
 export class Login extends ResourceController {

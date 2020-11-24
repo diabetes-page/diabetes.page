@@ -1,5 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { ResourceController } from '../../../../bootstrap/blueprints/ResourceController';
+import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
 import { Resource } from './Resource';
 import { Appointment } from '../../entities/Appointment.entity';
 import { AppointmentById } from '../../pipes/AppointmentById';

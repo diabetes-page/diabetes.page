@@ -2,8 +2,8 @@ import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { Parameters } from './Parameters';
 import { Resource } from './Resource';
 import { UsersService } from '../../../users/services/UsersService';
-import { ResourceController } from '../../../../bootstrap/blueprints/ResourceController';
-import { InsecureRoute } from '../../../../bootstrap/blueprints/decorators/InsecureRoute';
+import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
+import { InsecureRoute } from '../../../../blueprints/decorators/InsecureRoute';
 
 @Controller()
 export class Register extends ResourceController {

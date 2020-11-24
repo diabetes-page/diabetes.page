@@ -7,7 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { classToPlain, plainToClass } from 'class-transformer';
 import { map } from 'rxjs/operators';
-import { ResourceController } from '../blueprints/ResourceController';
+import { ResourceController } from '../../blueprints/controllers/ResourceController';
 
 /**
  * This interceptor is used in order to extract only the fields that are to be exposed by a given resource.

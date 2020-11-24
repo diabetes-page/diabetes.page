@@ -2,7 +2,7 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { Parameters } from './Parameters';
 import { UsersService } from '../../services/UsersService';
 import { Resource } from './Resource';
-import { ResourceController } from '../../../../bootstrap/blueprints/ResourceController';
+import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
 
 @Controller()
 export class IndexUsers extends ResourceController {
