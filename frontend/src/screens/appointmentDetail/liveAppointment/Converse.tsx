@@ -51,7 +51,7 @@ const initConverse = (
   // @ts-ignore
   window.converse.initialize({
     view_mode: 'embedded',
-    bosh_service_url: `https://localhost:8443/http-bind?chat=true&token=${conferenceToken}`,
+    bosh_service_url: `https://localhost:8443/http-bind?token=${conferenceToken}`,
     authentication: 'anonymous',
     jid: 'meet.jitsi',
     auto_login: 'true',
