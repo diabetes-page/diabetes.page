@@ -1,12 +1,12 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { SecureResourceController } from '../../../../bootstrap/blueprints/SecureResourceController';
+import { ResourceController } from '../../../../bootstrap/blueprints/ResourceController';
 import { Resource } from './Resource';
 import { Appointment } from '../../entities/Appointment.entity';
 import { AppointmentById } from '../../pipes/AppointmentById';
 import { ConferenceService } from '../../services/ConferenceService';
 
 @Controller()
-export class ShowConferenceData extends SecureResourceController {
+export class ShowConferenceData extends ResourceController {
   public static Resource = Resource;
 
   constructor(private conferenceService: ConferenceService) {

@@ -1,11 +1,11 @@
 import { Controller, Post } from '@nestjs/common';
-import { SecureResourceController } from '../../../../bootstrap/blueprints/SecureResourceController';
+import { ResourceController } from '../../../../bootstrap/blueprints/ResourceController';
 import { Resource } from './Resource';
 import { AppointmentsService } from '../../services/AppointmentsService';
 import { parse, parseISO } from 'date-fns';
 
 @Controller()
-export class CreateAppointment extends SecureResourceController {
+export class CreateAppointment extends ResourceController {
   public static Resource = Resource;
 
   constructor(private appointmentsService: AppointmentsService) {

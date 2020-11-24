@@ -3,17 +3,19 @@ import { Parameters } from './Parameters';
 import { AuthService } from '../../services/AuthService';
 import { AuthenticationPipe } from './AuthenticationPipe';
 import { User } from '../../../users/entities/User.entity';
-import { InsecureResourceController } from '../../../../bootstrap/blueprints/InsecureResourceController';
 import { Resource } from './Resource';
+import { ResourceController } from '../../../../bootstrap/blueprints/ResourceController';
+import { InsecureRoute } from '../../../../bootstrap/blueprints/decorators/InsecureRoute';
 
 @Controller()
-export class Login extends InsecureResourceController {
+export class Login extends ResourceController {
   public static Resource = Resource;
 
   constructor(private authService: AuthService) {
     super();
   }
 
+  @InsecureRoute()
   @Post('/login')
   async login(
     @Body() params: Parameters,

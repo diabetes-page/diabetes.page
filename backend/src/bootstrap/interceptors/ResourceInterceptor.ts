@@ -7,7 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { classToPlain, plainToClass } from 'class-transformer';
 import { map } from 'rxjs/operators';
-import { InsecureResourceController } from '../blueprints/InsecureResourceController';
+import { ResourceController } from '../blueprints/ResourceController';
 
 /**
  * This interceptor is used in order to extract only the fields that are to be exposed by a given resource.
@@ -28,7 +28,7 @@ export class ResourceInterceptor implements NestInterceptor {
     const controllerClass: any = context.getClass();
 
     if (
-      !InsecureResourceController.isPrototypeOf(controllerClass) ||
+      !ResourceController.isPrototypeOf(controllerClass) ||
       !controllerClass.Resource
     ) {
       throw new Error(

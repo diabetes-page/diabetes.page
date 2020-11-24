@@ -1,17 +1,19 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { Parameters } from './Parameters';
-import { InsecureResourceController } from '../../../../bootstrap/blueprints/InsecureResourceController';
 import { Resource } from './Resource';
 import { UsersService } from '../../../users/services/UsersService';
+import { ResourceController } from '../../../../bootstrap/blueprints/ResourceController';
+import { InsecureRoute } from '../../../../bootstrap/blueprints/decorators/InsecureRoute';
 
 @Controller()
-export class Register extends InsecureResourceController {
+export class Register extends ResourceController {
   public static Resource = Resource;
 
   constructor(private usersService: UsersService) {
     super();
   }
 
+  @InsecureRoute()
   @HttpCode(HttpStatus.NO_CONTENT)
   @Post('/register')
   async login(@Body() params: Parameters): Promise<Resource> {
