@@ -41,8 +41,7 @@
     "@typescript-eslint/ban-ts-comment": [
       "error",
       {
-        "ts-ignore": false
-        // todo: change to 'allow-with-description' as soon as possible, once new version of @typescript-eslint is published
+        "ts-ignore": "allow-with-description"
       }
     ],
     "react/jsx-curly-brace-presence": [

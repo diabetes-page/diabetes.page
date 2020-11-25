@@ -46,7 +46,7 @@ const useJitsi = (jitsiRef: RefObject<HTMLDivElement>): string | undefined => {
       };
 
       // NOTE: It's a good practice to remove the conference before the page is unloaded.
-      // @ts-ignore
+      // @ts-ignore : JitsiMeetExternalAPI is loaded into window by script
       const jitsi = new window.JitsiMeetExternalAPI(domain, options);
 
       jitsi.on('videoConferenceJoined', (data: Record<string, string>) => {

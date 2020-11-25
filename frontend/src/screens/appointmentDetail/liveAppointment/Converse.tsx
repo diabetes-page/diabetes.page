@@ -48,7 +48,7 @@ const initConverse = (
   jitsiUserId: string,
   roomName: string,
 ): void => {
-  // @ts-ignore
+  // @ts-ignore : converse is loaded into window by script
   window.converse.initialize({
     view_mode: 'embedded',
     bosh_service_url: `https://localhost:8443/http-bind?token=${conferenceToken}`,
