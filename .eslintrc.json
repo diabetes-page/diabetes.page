@@ -4,9 +4,9 @@
     "node": true
   },
   "ignorePatterns": [
-    "backend/dist",
     "node_modules",
-    "jitsi"
+    "/backend/dist/*",
+    "/jitsi/*"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

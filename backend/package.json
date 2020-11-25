@@ -4,6 +4,7 @@
   "description": "The backend of diabetes.page. It exposes an API and works using nest.js.",
   "author": "RMR Digital Ventures",
   "private": true,
+  "type": "module",
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -15,7 +16,8 @@
     "test": "cucumber-js src/**/*.feature --require 'src/**/*.steps.ts' --require 'src/**/steps.ts' --require-module ts-node/register",
     "db:fresh": "typeorm schema:drop && typeorm migration:run",
     "db:migrate": "typeorm migration:run",
-    "db:gen": "typeorm migration:generate"
+    "db:gen": "typeorm migration:generate",
+    "docs": "node docs/generate_docs.js"
   },
   "dependencies": {
     "@nestjs/common": "^7.4.4",
@@ -53,6 +55,7 @@
     "@types/superagent": "^4.1.10",
     "chai": "^4.2.0",
     "cucumber": "^6.0.5",
+    "file-walker": "0.0.2",
     "superagent": "^6.1.0",
     "ts-node": "^9.0.0"
   }
