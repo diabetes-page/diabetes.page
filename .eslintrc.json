@@ -8,47 +8,67 @@
     "/backend/dist/*",
     "/jitsi/*"
   ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": "tsconfig.json",
-    "sourceType": "module"
-  },
-  "plugins": [
-    "@typescript-eslint/eslint-plugin",
-    "eslint-plugin-react"
-  ],
-  "extends": [
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "prettier/@typescript-eslint"
-  ],
-  "rules": {
-    "@typescript-eslint/interface-name-prefix": "off",
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/explicit-function-return-type": [
-      "error",
-      {
-        "allowExpressions": false,
-        "allowTypedFunctionExpressions": true,
-        "allowHigherOrderFunctions": true,
-        "allowDirectConstAssertionInArrowFunctions": false,
-        "allowConciseArrowFunctionExpressionsStartingWithVoid": true
+  "overrides": [
+    {
+      "files": [
+        "**/*.ts",
+        "**/*.tsx"
+      ],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "project": "tsconfig.json",
+        "sourceType": "module"
+      },
+      "plugins": [
+        "@typescript-eslint/eslint-plugin",
+        "eslint-plugin-react"
+      ],
+      "extends": [
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier",
+        "prettier/@typescript-eslint"
+      ],
+      "rules": {
+        "@typescript-eslint/interface-name-prefix": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/explicit-function-return-type": [
+          "error",
+          {
+            "allowExpressions": false,
+            "allowTypedFunctionExpressions": true,
+            "allowHigherOrderFunctions": true,
+            "allowDirectConstAssertionInArrowFunctions": false,
+            "allowConciseArrowFunctionExpressionsStartingWithVoid": true
+          }
+        ],
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/ban-ts-comment": [
+          "error",
+          {
+            "ts-ignore": "allow-with-description"
+          }
+        ],
+        "react/jsx-curly-brace-presence": [
+          "error",
+          {
+            "props": "never",
+            "children": "never"
+          }
+        ]
       }
-    ],
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/ban-ts-comment": [
-      "error",
-      {
-        "ts-ignore": "allow-with-description"
-      }
-    ],
-    "react/jsx-curly-brace-presence": [
-      "error",
-      {
-        "props": "never",
-        "children": "never"
-      }
-    ]
-  }
+    },
+    {
+      "files": [
+        "**/*.js"
+      ],
+      "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": 2015
+      },
+      "extends": [
+        "prettier"
+      ]
+    }
+  ]
 }
