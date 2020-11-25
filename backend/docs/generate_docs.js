@@ -22,3 +22,5 @@ class DocsMaker {
     });
   }
 }
+
+new DocsMaker().run();
