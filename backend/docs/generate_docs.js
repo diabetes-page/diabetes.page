@@ -1,4 +1,4 @@
-import walk from 'file-walker';
+import fs from 'fs';
 
 const SEARCH_DIR = './src/domains';
 
@@ -14,13 +14,16 @@ class DocsMaker {
   }
 
   run() {
-    walk(SEARCH_DIR, function (dir, files, level) {
-      console.log(dir, files, level);
-      // 1st iteration, level = 0, dir = './test', files = ['a.js', 'b']
-      // 2nd iteration, level = 1, dir = './test/b', files = ['c.js', 'd.js']
-      // your logic
-    });
+    fs.readdir(SEARCH_DIR, (_, domains) => domains.map(this.parseDomain));
   }
+
+  parseDomain(domain) {
+    fs.readdir(`${SEARCH_DIR}/${domain}`, (_, routes) =>
+      routes.map((route) => this.parseRoute(domain, route)),
+    );
+  }
+
+  parseRoute(domain, route) {}
 }
 
 new DocsMaker().run();

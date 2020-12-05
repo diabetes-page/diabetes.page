@@ -55,7 +55,6 @@
     "@types/superagent": "^4.1.10",
     "chai": "^4.2.0",
     "cucumber": "^6.0.5",
-    "file-walker": "0.0.2",
     "superagent": "^6.1.0",
     "ts-node": "^9.0.0"
   }
