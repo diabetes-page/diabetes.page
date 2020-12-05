@@ -4,7 +4,6 @@
   "description": "The backend of diabetes.page. It exposes an API and works using nest.js.",
   "author": "RMR Digital Ventures",
   "private": true,
-  "type": "module",
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
