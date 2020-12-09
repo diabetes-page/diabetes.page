@@ -19,7 +19,7 @@ const useConverse = (jitsiUserId: string): void => {
   useEffect(() => {
     document.head.insertAdjacentHTML(
       'beforeend',
-      `<style>#${WRAPPER_ID} #controlbox { display: none; }</style>`,
+      `<style>#${WRAPPER_ID} #controlbox, #${WRAPPER_ID} .occupants, #${WRAPPER_ID} .chat-head, #${WRAPPER_ID} .chat-toolbar--container { display: none !important;  visibility: hidden !important; }</style>`,
     );
 
     const script = document.createElement('script');
