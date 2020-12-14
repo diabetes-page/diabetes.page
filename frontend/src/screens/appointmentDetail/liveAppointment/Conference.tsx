@@ -11,17 +11,17 @@ import { Converse } from './Converse';
 
 export function Conference(): JSX.Element {
   const jitsiRef = useRef<HTMLDivElement>(null);
-  const jitsiUserId = useJitsi(jitsiRef);
+  const hasJitsiLoaded = useJitsi(jitsiRef);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
       <Jitsi ref={jitsiRef} />
-      {jitsiUserId && <Converse jitsiUserId={jitsiUserId} />}
+      {hasJitsiLoaded && <Converse />}
     </div>
   );
 }
 
-const useJitsi = (jitsiRef: RefObject<HTMLDivElement>): string | undefined => {
+const useJitsi = (jitsiRef: RefObject<HTMLDivElement>): boolean => {
   const conferenceData = useContext(ConferenceContext);
   const [userId, setUserId] = useState<string | undefined>(undefined);
 
@@ -60,5 +60,5 @@ const useJitsi = (jitsiRef: RefObject<HTMLDivElement>): string | undefined => {
     return () => void document.body.removeChild(script);
   }, []);
 
-  return userId;
+  return userId !== undefined;
 };

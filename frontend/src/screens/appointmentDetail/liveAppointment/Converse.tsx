@@ -3,17 +3,13 @@ import { ConferenceContext } from './LiveAppointment';
 
 const WRAPPER_ID = 'conversejs';
 
-type Props = {
-  jitsiUserId: string;
-};
-
-export function Converse({ jitsiUserId }: Props): JSX.Element {
-  useConverse(jitsiUserId);
+export function Converse(): JSX.Element {
+  useConverse();
 
   return <div id={WRAPPER_ID} style={{ flex: '50%' }} />;
 }
 
-const useConverse = (jitsiUserId: string): void => {
+const useConverse = (): void => {
   const conferenceData = useContext(ConferenceContext)!;
 
   useEffect(() => {
@@ -26,11 +22,7 @@ const useConverse = (jitsiUserId: string): void => {
     script.src = 'https://cdn.conversejs.org/6.0.1/dist/converse.min.js';
     script.async = true;
     script.onload = () =>
-      void initConverse(
-        conferenceData.conferenceToken,
-        jitsiUserId,
-        conferenceData.room,
-      );
+      void initConverse(conferenceData.conferenceToken, conferenceData.room);
     document.body.appendChild(script);
 
     const link = document.createElement('link');
@@ -43,20 +35,29 @@ const useConverse = (jitsiUserId: string): void => {
   }, []);
 };
 
-const initConverse = (
-  conferenceToken: string,
-  jitsiUserId: string,
-  roomName: string,
-): void => {
+const initConverse = (conferenceToken: string, roomName: string): void => {
+  // @ts-ignore : converse is loaded into window by script
+  window.converse.plugins.add('diabetes-page', {
+    initialize: function () {
+      this._converse.api.listen.on('message', function (messageXML: any) {
+        console.warn('message', messageXML);
+      });
+    },
+  });
+
   // @ts-ignore : converse is loaded into window by script
   window.converse.initialize({
+    whitelisted_plugins: ['diabetes-page'],
     view_mode: 'embedded',
     bosh_service_url: `https://localhost:8443/http-bind?token=${conferenceToken}`,
     authentication: 'anonymous',
     jid: 'meet.jitsi',
     auto_login: 'true',
     auto_join_rooms: [
-      { jid: roomName + '@muc.meet.jitsi', nick: jitsiUserId + '-chat' },
+      {
+        jid: roomName + '@muc.meet.jitsi',
+        nick: Math.round(Math.random() * 10000).toString(),
+      },
     ],
   });
 };
