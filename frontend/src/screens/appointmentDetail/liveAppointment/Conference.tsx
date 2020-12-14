@@ -50,8 +50,12 @@ const useJitsi = (jitsiRef: RefObject<HTMLDivElement>): boolean => {
       const jitsi = new window.JitsiMeetExternalAPI(domain, options);
 
       jitsi.on('videoConferenceJoined', (data: Record<string, string>) => {
-        console.warn(data.id);
+        console.warn('Data got', data);
         setUserId(data.id);
+      });
+
+      jitsi.on('incomingMessage', (data: Record<string, string>) => {
+        console.warn('incomingMessage got', data);
       });
     };
 
