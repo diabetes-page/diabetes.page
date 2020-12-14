@@ -30,6 +30,12 @@ export class Appointment {
   @Column()
   endsAt: Date;
 
+  @Column()
+  officialMessagesPublicKey: string;
+
+  @Column()
+  officialMessagesPrivateKey: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
