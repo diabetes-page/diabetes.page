@@ -5,9 +5,9 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { ConferenceContext } from './LiveAppointment';
 import { Jitsi } from './Jitsi';
 import { Converse } from './Converse';
+import { ConferenceContext } from './ConferenceContext/ConferenceContext';
 
 export function Conference(): JSX.Element {
   const jitsiRef = useRef<HTMLDivElement>(null);
@@ -33,8 +33,8 @@ const useJitsi = (jitsiRef: RefObject<HTMLDivElement>): boolean => {
     script.onload = (): void => {
       const domain = 'localhost:8443';
       const options = {
-        roomName: conferenceData?.room,
-        jwt: conferenceData?.conferenceToken,
+        roomName: conferenceData!.state.room!,
+        jwt: conferenceData!.state.conferenceToken!,
         parentNode: jitsiRef.current,
         width: 700, // todo: figure out width/height
         height: 700,

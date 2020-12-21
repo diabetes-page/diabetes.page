@@ -1,13 +1,52 @@
-import React, { useContext, useEffect } from 'react';
-import { ConferenceContext } from './LiveAppointment';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import { Button } from 'react-native';
+import { Put, withAuth } from '../../../utilities/axios/axios';
+import { ConferenceContext } from './ConferenceContext/ConferenceContext';
 
 const WRAPPER_ID = 'conversejs';
 
 export function Converse(): JSX.Element {
   useConverse();
+  const [slideIndex, setSlideIndex, changeSlide] = useSlides();
 
-  return <div id={WRAPPER_ID} style={{ flex: '50%' }} />;
+  return (
+    <>
+      Slide index: {slideIndex} <br />
+      <Button title="Change slide" onPress={changeSlide} />
+      <br />
+      <div id={WRAPPER_ID} style={{ flex: '50%' }} />
+    </>
+  );
 }
+
+const useSlides = (): [
+  number,
+  Dispatch<SetStateAction<number>>,
+  () => void,
+] => {
+  const [slideIndex, setSlideIndex] = useState(0);
+
+  const changeSlide = useCallback(() => {
+    const newSlideIndex = 1 + Math.round(Math.random() * 10000);
+
+    Put(
+      '/appointments/1/conference/slide',
+      {
+        slideIndex: newSlideIndex,
+      },
+      withAuth(),
+    ).then(() => setSlideIndex(newSlideIndex));
+  }, [setSlideIndex]);
+
+  return [slideIndex, setSlideIndex, changeSlide];
+};
 
 const useConverse = (): void => {
   const conferenceData = useContext(ConferenceContext)!;
@@ -22,7 +61,10 @@ const useConverse = (): void => {
     script.src = 'https://cdn.conversejs.org/6.0.1/dist/converse.min.js';
     script.async = true;
     script.onload = () =>
-      void initConverse(conferenceData.conferenceToken, conferenceData.room);
+      void initConverse(
+        conferenceData!.state.conferenceToken!,
+        conferenceData!.state.room!,
+      );
     document.body.appendChild(script);
 
     const link = document.createElement('link');

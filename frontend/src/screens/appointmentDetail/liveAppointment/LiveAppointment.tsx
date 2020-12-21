@@ -1,41 +1,36 @@
 import { Button, Text } from 'react-native';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useReducer } from 'react';
 import { Get, withAuth } from '../../../utilities/axios/axios';
 import { renderIf } from '../../../utilities/rendering/rendering';
 import { Conference } from './Conference';
-
-type ConferenceData = {
-  conferenceToken: string;
-  room: string;
-};
-export const ConferenceContext = React.createContext<
-  ConferenceData | undefined
->(undefined);
+import {
+  ConferenceContext,
+  ConferenceDispatch,
+} from './ConferenceContext/ConferenceContext';
+import { initialState, reducer } from './ConferenceContext/state';
+import { setRoomData } from './ConferenceContext/actions';
 
 export function LiveAppointment(): JSX.Element {
-  const [conferenceData, startConference] = useConference();
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const startConference = useConference(dispatch);
 
   return (
-    <>
+    <ConferenceContext.Provider value={{ state, dispatch }}>
       <Text>Live Termin</Text>
 
-      {renderIf(!conferenceData)(
+      {renderIf(!state!.room)(
         <Button title="Teilnehmen" onPress={startConference} />,
-        <ConferenceContext.Provider value={conferenceData}>
-          <Conference />
-        </ConferenceContext.Provider>,
+
+        <Conference />,
       )}
-    </>
+    </ConferenceContext.Provider>
   );
 }
 
-const useConference = (): [ConferenceData | undefined, () => void] => {
-  const [conferenceData, setConferenceData] = useState();
-  const startConference = useCallback(() => {
+const useConference = (dispatch: ConferenceDispatch): (() => void) => {
+  return useCallback(() => {
     Get('/appointments/1/conference', withAuth()).then((response) => {
-      setConferenceData(response.data);
+      dispatch(setRoomData(response.data.room, response.data.conferenceToken));
     });
-  }, [conferenceData, setConferenceData]);
-
-  return [conferenceData, startConference];
+  }, [dispatch]);
 };
