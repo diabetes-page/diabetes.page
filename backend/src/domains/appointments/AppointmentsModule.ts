@@ -7,6 +7,7 @@ import { CreateAppointment } from './routes/createAppointment/CreateAppointment'
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { ConferenceService } from './services/ConferenceService';
+import { SwitchConferenceSlide } from './routes/switchConferenceSlide/SwitchConferenceSlide';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { ConferenceService } from './services/ConferenceService';
       inject: [ConfigService],
     }),
   ],
-  controllers: [CreateAppointment, ShowConferenceData],
+  controllers: [CreateAppointment, ShowConferenceData, SwitchConferenceSlide],
   providers: [AppointmentsService, ConferenceService],
   exports: [],
 })

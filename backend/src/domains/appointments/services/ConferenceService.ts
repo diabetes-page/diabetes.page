@@ -4,6 +4,8 @@ import { Appointment } from '../entities/Appointment.entity';
 import { JwtService } from '@nestjs/jwt';
 import { getUnixTime } from 'date-fns';
 import { User } from '../../users/entities/User.entity';
+import * as nacl from 'tweetnacl';
+import * as naclUtil from 'tweetnacl-util';
 
 @Injectable()
 export class ConferenceService {
@@ -11,6 +13,20 @@ export class ConferenceService {
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {}
+
+  private static createSignedJSON(
+    appointment: Appointment,
+    record: Record<string, any>,
+  ): string {
+    const message = JSON.stringify(record);
+    const messageArray = naclUtil.decodeUTF8(message);
+    const privateKey = naclUtil.decodeBase64(
+      appointment.officialMessagesPrivateKey,
+    );
+    const signedMessageArray = nacl.sign(messageArray, privateKey);
+
+    return naclUtil.encodeBase64(signedMessageArray);
+  }
 
   async createToken(appointment: Appointment, user: User): Promise<string> {
     return this.jwtService.sign({
@@ -26,5 +42,12 @@ export class ConferenceService {
         },
       },
     });
+  }
+
+  createSwitchSlideMessage(
+    appointment: Appointment,
+    slideIndex: number,
+  ): string {
+    return ConferenceService.createSignedJSON(appointment, { slideIndex });
   }
 }
