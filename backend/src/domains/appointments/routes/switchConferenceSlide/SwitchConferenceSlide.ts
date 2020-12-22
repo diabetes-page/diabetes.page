@@ -4,7 +4,7 @@ import { Appointment } from '../../entities/Appointment.entity';
 import { AppointmentById } from '../../pipes/AppointmentById';
 import { ConferenceService } from '../../services/ConferenceService';
 import { Parameters } from './Parameters';
-import { OfficialMessageResource } from '../../resources/Resource';
+import { OfficialMessageResource } from '../../resources/OfficialMessageResource';
 import { AppointmentsService } from '../../services/AppointmentsService';
 
 @Controller()
