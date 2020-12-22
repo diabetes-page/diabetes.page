@@ -18,10 +18,14 @@ export function LiveAppointment(): JSX.Element {
     <ConferenceContext.Provider value={{ state, dispatch }}>
       <Text>Live Termin</Text>
 
-      {renderIf(!state!.room)(
-        <Button title="Teilnehmen" onPress={startConference} />,
+      {renderIf(state!.room === undefined)(
+        () => (
+          <Button title="Teilnehmen" onPress={startConference} />
+        ),
 
-        <Conference />,
+        () => (
+          <Conference />
+        ),
       )}
     </ConferenceContext.Provider>
   );
