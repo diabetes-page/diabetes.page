@@ -14,7 +14,7 @@ export class ConferenceService {
     private configService: ConfigService,
   ) {}
 
-  private static createSignedJSON(
+  private createSignedJSONMessage(
     appointment: Appointment,
     record: Record<string, any>,
   ): string {
@@ -24,8 +24,11 @@ export class ConferenceService {
       appointment.officialMessagesPrivateKey,
     );
     const signedMessageArray = nacl.sign(messageArray, privateKey);
+    const prepend = this.configService.get<string>(
+      'conference.officialMessagePrepend',
+    );
 
-    return naclUtil.encodeBase64(signedMessageArray);
+    return prepend + naclUtil.encodeBase64(signedMessageArray);
   }
 
   async createToken(appointment: Appointment, user: User): Promise<string> {
@@ -48,6 +51,8 @@ export class ConferenceService {
     appointment: Appointment,
     slideIndex: number,
   ): string {
-    return ConferenceService.createSignedJSON(appointment, { slideIndex });
+    return this.createSignedJSONMessage(appointment, {
+      slideIndex,
+    });
   }
 }
