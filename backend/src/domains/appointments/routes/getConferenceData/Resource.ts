@@ -1,13 +1,20 @@
 import { Expose } from 'class-transformer';
+import { Appointment } from '../../entities/Appointment.entity';
 
-export class Resource {
+export class Resource extends Appointment {
   @Expose()
   conferenceToken: string;
 
   @Expose()
-  room: string;
+  conferenceRoom: string;
 
-  static make = (conferenceToken: string, room: string): Resource => {
-    return { conferenceToken, room };
+  @Expose()
+  presentationIndex: number;
+
+  static make = (
+    conferenceToken: string,
+    appointment: Appointment,
+  ): Resource => {
+    return { conferenceToken, ...appointment };
   };
 }

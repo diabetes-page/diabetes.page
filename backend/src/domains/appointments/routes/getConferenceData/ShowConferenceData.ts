@@ -23,6 +23,6 @@ export class ShowConferenceData extends ResourceController {
   ): Promise<Resource> {
     const token = await this.conferenceService.createToken(appointment, user);
 
-    return Resource.make(token, appointment.conferenceRoom);
+    return Resource.make(token, appointment);
   }
 }

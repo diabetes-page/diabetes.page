@@ -10,8 +10,8 @@ import { Unique } from '../../../../blueprints/validators/Unique';
 import { User } from '../../../users/entities/User.entity';
 
 export class Parameters {
-  // Todo: Max slide index
+  // Todo: Check max index
   @IsInt()
   @Min(0)
-  slideIndex: number;
+  presentationIndex: number;
 }

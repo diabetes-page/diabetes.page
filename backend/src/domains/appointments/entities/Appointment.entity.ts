@@ -30,6 +30,9 @@ export class Appointment {
   @Column()
   endsAt: Date;
 
+  @Column('int')
+  presentationIndex: number;
+
   @Column()
   officialMessagesPublicKey: string;
 
