@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { ConferenceContext } from '../ConferenceContext/ConferenceContext';
+import { ConferenceContext } from '../conferenceContext/ConferenceContext';
 import { useSendMessage } from './useSendMessage';
 
 export const useProcessMessages = (): void => {

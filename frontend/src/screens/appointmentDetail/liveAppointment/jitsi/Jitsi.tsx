@@ -1,5 +1,5 @@
 import React, { RefObject, useContext, useEffect, useRef } from 'react';
-import { ConferenceContext } from '../ConferenceContext/ConferenceContext';
+import { ConferenceContext } from '../conferenceContext/ConferenceContext';
 import JitsiApi from './JitsiApi';
 
 type Props = {

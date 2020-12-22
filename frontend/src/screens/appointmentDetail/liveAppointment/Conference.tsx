@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { Jitsi } from './Jitsi/Jitsi';
-import { Converse } from './Converse/Converse';
+import { Jitsi } from './jitsi/Jitsi';
+import { Converse } from './converse/Converse';
 import { renderIf } from '../../../utilities/rendering/rendering';
 import { useProcessMessages } from './hooks/useProcessMessages';
 

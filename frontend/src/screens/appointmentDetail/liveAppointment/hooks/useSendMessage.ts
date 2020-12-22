@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ConferenceContext } from '../ConferenceContext/ConferenceContext';
+import { ConferenceContext } from '../conferenceContext/ConferenceContext';
 
 export const useSendMessage = (): ((message: string) => void) => {
   const conference = useContext(ConferenceContext);
