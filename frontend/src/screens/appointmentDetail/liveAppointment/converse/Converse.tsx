@@ -10,7 +10,7 @@ const WRAPPER_ID = 'conversejs';
 export function Converse(): JSX.Element {
   useConverse();
 
-  return <div id={WRAPPER_ID} style={{ flex: '50%' }} />;
+  return <div id={WRAPPER_ID} style={{ height: '400px' }} />;
 }
 
 const useConverse = (): void => {
@@ -71,7 +71,7 @@ const initConverse = (conference: ConferenceControls): void => {
     auto_login: 'true',
     auto_join_rooms: [
       {
-        jid: conference!.state.room + '@muc.meet.jitsi',
+        jid: conference!.state.conferenceRoom + '@muc.meet.jitsi',
         nick: Math.round(Math.random() * 10000).toString(),
       },
     ],

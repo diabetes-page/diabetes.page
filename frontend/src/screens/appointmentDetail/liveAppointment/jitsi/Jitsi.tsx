@@ -10,17 +10,17 @@ export const Jitsi = ({ onLoad }: Props): JSX.Element => {
   const ref = useRef<HTMLDivElement>(null);
   useJitsi(onLoad, ref);
 
-  return <div style={{ flex: '50%' }} ref={ref} />;
+  return <div ref={ref} />;
 };
 
 const useJitsi = (onLoad: () => void, ref: RefObject<HTMLDivElement>): void => {
-  const conferenceData = useContext(ConferenceContext);
+  const conference = useContext(ConferenceContext);
 
   useEffect(() => {
     const domain = 'localhost:8443';
     const options = {
-      roomName: conferenceData!.state.room!,
-      jwt: conferenceData!.state.conferenceToken!,
+      roomName: conference!.state.conferenceRoom!,
+      jwt: conference!.state.conferenceToken!,
       parentNode: ref.current,
       width: 700, // todo: figure out width/height
       height: 700,

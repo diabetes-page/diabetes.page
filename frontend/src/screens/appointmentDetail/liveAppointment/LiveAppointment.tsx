@@ -8,7 +8,7 @@ import {
   ConferenceDispatch,
 } from './utilities/conferenceContext/ConferenceContext';
 import { initialState, reducer } from './utilities/conferenceContext/state';
-import { setRoomData } from './utilities/conferenceContext/actions';
+import { initConference } from './utilities/conferenceContext/actions';
 
 export function LiveAppointment(): JSX.Element {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -18,7 +18,7 @@ export function LiveAppointment(): JSX.Element {
     <ConferenceContext.Provider value={{ state, dispatch }}>
       <Text>Live Termin</Text>
 
-      {renderIf(state!.room === undefined)(
+      {renderIf(state!.conferenceRoom === undefined)(
         () => (
           <Button title="Teilnehmen" onPress={startConference} />
         ),
@@ -34,7 +34,14 @@ export function LiveAppointment(): JSX.Element {
 const useConference = (dispatch: ConferenceDispatch): (() => void) => {
   return useCallback(() => {
     Get('/appointments/1/conference', withAuth()).then((response) => {
-      dispatch(setRoomData(response.data.room, response.data.conferenceToken));
+      const {
+        conferenceRoom,
+        conferenceToken,
+        presentationIndex,
+      } = response.data;
+      dispatch(
+        initConference(conferenceRoom, conferenceToken, presentationIndex),
+      );
     });
   }, [dispatch]);
 };

@@ -1,5 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ConferenceContext } from '../utilities/conferenceContext/ConferenceContext';
+import { Text } from 'react-native';
 
 export const Presentation = (): JSX.Element => {
-  return <div>Presentation</div>;
+  const conference = useContext(ConferenceContext);
+
+  return (
+    <div>
+      <Text>Presentation slide: {conference!.state.presentationIndex}</Text>
+    </div>
+  );
 };

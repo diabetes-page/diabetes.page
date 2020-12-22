@@ -1,18 +1,20 @@
 import {
   ConferenceAction,
   REGISTER_CONVERSE_API,
-  SET_ROOM_DATA,
+  INIT_CONFERENCE,
 } from './actions';
 
 export type ConferenceState = {
-  room: string | undefined;
+  conferenceRoom: string | undefined;
   conferenceToken: string | undefined;
+  presentationIndex: number | undefined;
   converseAPI: Record<any, any> | undefined;
 };
 
 export const initialState: ConferenceState = {
-  room: undefined,
+  conferenceRoom: undefined,
   conferenceToken: undefined,
+  presentationIndex: undefined,
   converseAPI: undefined,
 };
 
@@ -21,11 +23,12 @@ export const reducer = (
   action: ConferenceAction,
 ): ConferenceState => {
   switch (action.type) {
-    case SET_ROOM_DATA:
+    case INIT_CONFERENCE:
       return {
         ...state,
         conferenceToken: action.conferenceToken,
-        room: action.room,
+        conferenceRoom: action.conferenceRoom,
+        presentationIndex: action.presentationIndex,
       };
     case REGISTER_CONVERSE_API:
       return {

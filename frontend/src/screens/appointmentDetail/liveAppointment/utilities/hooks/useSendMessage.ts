@@ -8,7 +8,7 @@ export const useSendMessage = (): ((message: string) => void) => {
     if (
       !conference ||
       !conference.state.converseAPI ||
-      !conference.state.room
+      !conference.state.conferenceRoom
     ) {
       return;
     }
@@ -23,7 +23,7 @@ export const useSendMessage = (): ((message: string) => void) => {
     const messageObject = converse.env
       .$msg({
         from: conference.state.converseAPI.user.jid(),
-        to: conference.state.room + '@muc.meet.jitsi',
+        to: conference.state.conferenceRoom + '@muc.meet.jitsi',
         type: 'groupchat',
       })
       .c('body')

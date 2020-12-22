@@ -1,8 +1,9 @@
-export const SET_ROOM_DATA = 'SET_ROOM_DATA';
-interface setRoomDataAction {
-  type: typeof SET_ROOM_DATA;
-  room: string;
+export const INIT_CONFERENCE = 'INIT_CONFERENCE';
+interface initConferenceAction {
+  type: typeof INIT_CONFERENCE;
+  conferenceRoom: string;
   conferenceToken: string;
+  presentationIndex: number;
 }
 
 export const REGISTER_CONVERSE_API = 'REGISTER_CONVERSE_API';
@@ -11,15 +12,17 @@ interface registerConverseAPIAction {
   converseAPI: Record<any, any>;
 }
 
-export type ConferenceAction = setRoomDataAction | registerConverseAPIAction;
+export type ConferenceAction = initConferenceAction | registerConverseAPIAction;
 
-export const setRoomData = (
-  room: string,
+export const initConference = (
+  conferenceRoom: string,
   conferenceToken: string,
+  presentationIndex: number,
 ): ConferenceAction => ({
-  type: SET_ROOM_DATA,
-  room,
+  type: INIT_CONFERENCE,
+  conferenceRoom,
   conferenceToken,
+  presentationIndex,
 });
 
 export const registerConverseAPI = (
@@ -28,5 +31,3 @@ export const registerConverseAPI = (
   type: REGISTER_CONVERSE_API,
   converseAPI,
 });
-
-export const actions = { setRoomData, registerConverseAPI };
