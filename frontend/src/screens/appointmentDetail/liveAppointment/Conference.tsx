@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { Jitsi } from './jitsi/Jitsi';
 import { Converse } from './converse/Converse';
 import { renderIf } from '../../../utilities/rendering/rendering';
-import { useProcessMessages } from './hooks/useProcessMessages';
+import { useProcessMessages } from './utilities/hooks/useProcessMessages';
 
 export function Conference(): JSX.Element {
   const [jitsiLoaded, setJitsiLoaded] = useState(false);

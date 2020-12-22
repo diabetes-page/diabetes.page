@@ -6,9 +6,9 @@ import { Conference } from './Conference';
 import {
   ConferenceContext,
   ConferenceDispatch,
-} from './conferenceContext/ConferenceContext';
-import { initialState, reducer } from './conferenceContext/state';
-import { setRoomData } from './conferenceContext/actions';
+} from './utilities/conferenceContext/ConferenceContext';
+import { initialState, reducer } from './utilities/conferenceContext/state';
+import { setRoomData } from './utilities/conferenceContext/actions';
 
 export function LiveAppointment(): JSX.Element {
   const [state, dispatch] = useReducer(reducer, initialState);

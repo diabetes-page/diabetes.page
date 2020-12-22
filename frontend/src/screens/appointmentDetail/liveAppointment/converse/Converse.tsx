@@ -2,8 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import {
   ConferenceContext,
   ConferenceControls,
-} from '../conferenceContext/ConferenceContext';
-import { registerConverseAPI } from '../conferenceContext/actions';
+} from '../utilities/conferenceContext/ConferenceContext';
+import { registerConverseAPI } from '../utilities/conferenceContext/actions';
 
 const WRAPPER_ID = 'conversejs';
 
