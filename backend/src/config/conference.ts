@@ -1,3 +1,3 @@
 export const conferenceConfig = (): Record<string, any> => ({
-  officialMessagePrepend: '\u0002', // ASCII ENQ symbol (Enquiry)
+  officialMessagePrepend: 'gTRg3Y9Jy8V6zxs-',
 });

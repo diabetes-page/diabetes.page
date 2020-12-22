@@ -28,10 +28,10 @@ function processMessage(
 ): void {
   const text = message.stanza.childNodes[0]?.textContent;
 
-  console.warn('vincent', 'got text:', text);
+  console.warn('vr', 'got text:', text);
 
-  if (text !== '138923') {
-    console.warn('vincent', 'sending reply');
-    sendMessage('138923');
-  }
+  // if (text !== '138923') {
+  //   console.warn('vr', 'sending reply');
+  //   sendMessage('138923');
+  // }
 }

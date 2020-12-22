@@ -55,6 +55,7 @@ const initConverse = (conference: ConferenceControls): void => {
   // @ts-ignore : converse is loaded into window by script
   window.converse.plugins.add('diabetes-page', {
     initialize: function () {
+      console.warn('vr register', this._converse.api);
       conference!.dispatch(registerConverseAPI(this._converse.api));
     },
   });

@@ -22,6 +22,7 @@ export const reducer = (
   state: ConferenceState,
   action: ConferenceAction,
 ): ConferenceState => {
+  console.warn('vr reducer', action.type, action);
   switch (action.type) {
     case INIT_CONFERENCE:
       return {
@@ -31,6 +32,7 @@ export const reducer = (
         presentationIndex: action.presentationIndex,
       };
     case REGISTER_CONVERSE_API:
+      console.warn('vr register 2', action.converseAPI);
       return {
         ...state,
         converseAPI: action.converseAPI,
