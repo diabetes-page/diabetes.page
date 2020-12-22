@@ -34,13 +34,6 @@ const useJitsi = (onLoad: () => void, ref: RefObject<HTMLDivElement>): void => {
     // Todo: It's a good practice to remove the conference before the page is unloaded.
     const jitsi = new JitsiApi(domain, options);
 
-    jitsi.on('videoConferenceJoined', (data: Record<string, string>) => {
-      console.warn('Data got', data);
-      onLoad();
-    });
-
-    jitsi.on('incomingMessage', (data: Record<string, string>) => {
-      console.warn('incomingMessage got', data);
-    });
+    jitsi.on('videoConferenceJoined', onLoad);
   }, []);
 };

@@ -2,10 +2,12 @@ import React, { useCallback, useState } from 'react';
 import { Jitsi } from './Jitsi/Jitsi';
 import { Converse } from './Converse/Converse';
 import { renderIf } from '../../../utilities/rendering/rendering';
+import { useProcessMessages } from './hooks/useProcessMessages';
 
 export function Conference(): JSX.Element {
   const [jitsiLoaded, setJitsiLoaded] = useState(false);
   const onJitsiLoad = useCallback(() => setJitsiLoaded(true), [setJitsiLoaded]);
+  useProcessMessages();
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
