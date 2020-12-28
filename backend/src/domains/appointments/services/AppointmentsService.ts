@@ -28,8 +28,8 @@ export class AppointmentsService {
         presentationIndex: 0,
         startsAt,
         endsAt,
-        officialMessagesPublicKey: naclUtil.encodeBase64(publicKey),
-        officialMessagesPrivateKey: naclUtil.encodeBase64(secretKey),
+        officialMessagePublicKey: naclUtil.encodeBase64(publicKey),
+        officialMessagePrivateKey: naclUtil.encodeBase64(secretKey),
       }),
     );
   }

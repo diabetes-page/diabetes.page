@@ -34,10 +34,10 @@ export class Appointment {
   presentationIndex: number;
 
   @Column()
-  officialMessagesPublicKey: string;
+  officialMessagePublicKey: string;
 
   @Column()
-  officialMessagesPrivateKey: string;
+  officialMessagePrivateKey: string;
 
   @CreateDateColumn()
   createdAt: Date;

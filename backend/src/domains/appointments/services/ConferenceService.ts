@@ -15,12 +15,12 @@ export class ConferenceService {
   ) {}
 
   private createSignedJSONMessage(
-    officialMessagesPrivateKey: string,
+    officialMessagePrivateKey: string,
     record: Record<string, any>,
   ): string {
     const message = JSON.stringify(record);
     const messageArray = naclUtil.decodeUTF8(message);
-    const privateKey = naclUtil.decodeBase64(officialMessagesPrivateKey);
+    const privateKey = naclUtil.decodeBase64(officialMessagePrivateKey);
     const signedMessageArray = nacl.sign(messageArray, privateKey);
     const prepend = this.configService.get<string>(
       'conference.officialMessagePrepend',
@@ -46,11 +46,8 @@ export class ConferenceService {
   }
 
   createSwitchSlideMessage(appointment: Appointment): string {
-    return this.createSignedJSONMessage(
-      appointment.officialMessagesPrivateKey,
-      {
-        presentationIndex: appointment.presentationIndex,
-      },
-    );
+    return this.createSignedJSONMessage(appointment.officialMessagePrivateKey, {
+      presentationIndex: appointment.presentationIndex,
+    });
   }
 }
