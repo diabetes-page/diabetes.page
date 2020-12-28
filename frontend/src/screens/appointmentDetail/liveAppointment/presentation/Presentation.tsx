@@ -1,8 +1,7 @@
 import React, { useCallback, useContext } from 'react';
 import { ConferenceContext } from '../utilities/conferenceContext/ConferenceContext';
 import { Button, Text } from 'react-native';
-import { Get, Put, withAuth } from '../../../../utilities/axios/axios';
-import { initConference } from '../utilities/conferenceContext/actions';
+import { Put, withAuth } from '../../../../utilities/axios/axios';
 import { useSendMessage } from '../utilities/hooks/useSendMessage';
 
 export const Presentation = (): JSX.Element => {

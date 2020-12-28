@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import {
   ConferenceContext,
   ConferenceControls,
@@ -11,19 +11,26 @@ import { setPresentationIndex } from '../conferenceContext/actions';
 
 export const useProcessMessages = (): void => {
   const conference = useContext(ConferenceContext);
-  const converseAPILoaded = !!conference!.state.converseAPI;
+  const subscriber = useRef<(message: Message) => void>();
 
+  // Every time conference changes, we need to redefine the callback listening to new converse messages
+  // Otherwise the callback will refer to an outdated version of the conference
+  // This is a memory leak as described in https://itnext.io/why-you-need-to-understand-javascript-closures-53efa66ae11a
+  // In order to turn off the old callback, we need to save it in a ref to refer to it later
   useEffect(() => {
-    if (converseAPILoaded) {
-      conference!.state.converseAPI!.listen.on('message', function (
-        message: Message,
-      ) {
-        // todo: conference will get stale!
+    if (conference && conference.state.converseAPI) {
+      if (subscriber.current) {
+        conference.state.converseAPI.listen.not('message', subscriber.current);
+      }
+
+      subscriber.current = function (message: Message): void {
         // todo: use message counter
         processMessage(message, conference);
-      });
+      };
+
+      conference.state.converseAPI.listen.on('message', subscriber.current);
     }
-  }, [converseAPILoaded]);
+  }, [conference]);
 };
 
 type Message = {
