@@ -17,8 +17,6 @@ export function LiveAppointment(): JSX.Element {
 
   return (
     <ConferenceContext.Provider value={contextValue}>
-      <Text>Live Termin</Text>
-
       {renderIf(state!.conferenceRoom === undefined)(
         () => (
           <Button title="Teilnehmen" onPress={startConference} />
