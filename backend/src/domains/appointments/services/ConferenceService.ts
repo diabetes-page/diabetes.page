@@ -5,7 +5,8 @@ import { JwtService } from '@nestjs/jwt';
 import { getUnixTime } from 'date-fns';
 import { User } from '../../users/entities/User.entity';
 import * as nacl from 'tweetnacl';
-import * as naclUtil from 'tweetnacl-util';
+import * as base64 from '@stablelib/base64';
+import * as utf8 from '@stablelib/utf8';
 
 @Injectable()
 export class ConferenceService {
@@ -19,14 +20,14 @@ export class ConferenceService {
     record: Record<string, any>,
   ): string {
     const message = JSON.stringify(record);
-    const messageArray = naclUtil.decodeUTF8(message);
-    const privateKey = naclUtil.decodeBase64(officialMessagePrivateKey);
+    const messageArray = utf8.encode(message);
+    const privateKey = base64.decode(officialMessagePrivateKey);
     const signedMessageArray = nacl.sign(messageArray, privateKey);
     const prepend = this.configService.get<string>(
       'conference.officialMessagePrepend',
     );
 
-    return prepend + naclUtil.encodeBase64(signedMessageArray);
+    return prepend + base64.encode(signedMessageArray);
   }
 
   async createToken(appointment: Appointment, user: User): Promise<string> {

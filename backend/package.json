@@ -26,6 +26,8 @@
     "@nestjs/passport": "^7.1.0",
     "@nestjs/platform-express": "^7.4.4",
     "@nestjs/typeorm": "^7.1.4",
+    "@stablelib/base64": "^1.0.0",
+    "@stablelib/utf8": "^1.0.0",
     "@types/bcrypt": "^3.0.0",
     "@types/passport-jwt": "^3.0.3",
     "@types/passport-local": "^1.0.33",
@@ -42,7 +44,6 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
     "tweetnacl": "^1.0.3",
-    "tweetnacl-util": "^0.15.1",
     "typeorm": "^0.2.26"
   },
   "devDependencies": {

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Appointment } from '../entities/Appointment.entity';
 import * as nacl from 'tweetnacl';
-import * as naclUtil from 'tweetnacl-util';
+import * as base64 from '@stablelib/base64';
 
 @Injectable()
 export class AppointmentsService {
@@ -28,8 +28,8 @@ export class AppointmentsService {
         presentationIndex: 0,
         startsAt,
         endsAt,
-        officialMessagePublicKey: naclUtil.encodeBase64(publicKey),
-        officialMessagePrivateKey: naclUtil.encodeBase64(secretKey),
+        officialMessagePublicKey: base64.encode(publicKey),
+        officialMessagePrivateKey: base64.encode(secretKey),
       }),
     );
   }

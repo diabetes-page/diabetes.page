@@ -19,7 +19,6 @@ export const useProcessMessages = (): void => {
         message: Message,
       ) {
         // todo: conference will get stale!
-        // todo: don't use tweetnacl-util on server side
         // todo: use message counter
         processMessage(message, conference);
       });
