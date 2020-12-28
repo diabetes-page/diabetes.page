@@ -11,6 +11,9 @@ export class Resource extends Appointment {
   @Expose()
   presentationIndex: number;
 
+  @Expose()
+  officialMessagePublicKey: string;
+
   static make = (
     conferenceToken: string,
     appointment: Appointment,

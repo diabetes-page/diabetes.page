@@ -39,9 +39,15 @@ const useConference = (dispatch: ConferenceDispatch): (() => void) => {
         conferenceRoom,
         conferenceToken,
         presentationIndex,
+        officialMessagePublicKey,
       } = response.data;
       dispatch(
-        initConference(conferenceRoom, conferenceToken, presentationIndex),
+        initConference(
+          conferenceRoom,
+          conferenceToken,
+          presentationIndex,
+          officialMessagePublicKey,
+        ),
       );
     });
   }, [dispatch]);

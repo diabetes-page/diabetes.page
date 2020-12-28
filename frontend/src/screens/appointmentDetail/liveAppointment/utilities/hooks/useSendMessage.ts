@@ -34,7 +34,7 @@ export const useSendMessage = (): ((message: string) => void) => {
           type: 'groupchat',
         })
         .c('body')
-        .t(message.substring(1));
+        .t(message);
 
       conference.state.converseAPI.send(messageObject);
     },
