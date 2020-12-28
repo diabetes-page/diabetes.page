@@ -33,6 +33,9 @@ export class Appointment {
   @Column('int')
   presentationIndex: number;
 
+  @Column('int')
+  conferenceUpdateCounter: number;
+
   @Column()
   officialMessagePublicKey: string;
 

@@ -12,6 +12,9 @@ export class Resource extends Appointment {
   presentationIndex: number;
 
   @Expose()
+  conferenceUpdateCounter: number;
+
+  @Expose()
   officialMessagePublicKey: string;
 
   static make = (

@@ -26,6 +26,7 @@ export class AppointmentsService {
     return await this.appointmentsRepository.save(
       this.appointmentsRepository.create({
         presentationIndex: 0,
+        conferenceUpdateCounter: 0,
         startsAt,
         endsAt,
         officialMessagePublicKey: base64.encode(publicKey),

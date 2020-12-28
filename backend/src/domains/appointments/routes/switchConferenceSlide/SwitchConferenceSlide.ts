@@ -5,16 +5,12 @@ import { AppointmentById } from '../../pipes/AppointmentById';
 import { ConferenceService } from '../../services/ConferenceService';
 import { Parameters } from './Parameters';
 import { OfficialMessageResource } from '../../resources/OfficialMessageResource';
-import { AppointmentsService } from '../../services/AppointmentsService';
 
 @Controller()
 export class SwitchConferenceSlide extends ResourceController {
   public static Resource = OfficialMessageResource;
 
-  constructor(
-    private appointmentsService: AppointmentsService,
-    private conferenceService: ConferenceService,
-  ) {
+  constructor(private conferenceService: ConferenceService) {
     super();
   }
 
@@ -24,11 +20,9 @@ export class SwitchConferenceSlide extends ResourceController {
     @Param(AppointmentById) appointment: Appointment,
     @Body() params: Parameters,
   ): Promise<OfficialMessageResource> {
-    appointment.presentationIndex = params.presentationIndex;
-    await this.appointmentsService.save(appointment);
-
-    const message = this.conferenceService.createSwitchSlideMessage(
+    const message = await this.conferenceService.createSwitchSlideMessage(
       appointment,
+      params.presentationIndex,
     );
 
     return OfficialMessageResource.make(message);

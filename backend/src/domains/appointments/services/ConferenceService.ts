@@ -7,12 +7,14 @@ import { User } from '../../users/entities/User.entity';
 import * as nacl from 'tweetnacl';
 import * as base64 from '@stablelib/base64';
 import * as utf8 from '@stablelib/utf8';
+import { AppointmentsService } from './AppointmentsService';
 
 @Injectable()
 export class ConferenceService {
   constructor(
     private jwtService: JwtService,
     private configService: ConfigService,
+    private appointmentsService: AppointmentsService,
   ) {}
 
   private createSignedJSONMessage(
@@ -46,9 +48,17 @@ export class ConferenceService {
     });
   }
 
-  createSwitchSlideMessage(appointment: Appointment): string {
+  async createSwitchSlideMessage(
+    appointment: Appointment,
+    presentationIndex: number,
+  ): Promise<string> {
+    appointment.presentationIndex = presentationIndex;
+    appointment.conferenceUpdateCounter += 1;
+    await this.appointmentsService.save(appointment);
+
     return this.createSignedJSONMessage(appointment.officialMessagePrivateKey, {
       presentationIndex: appointment.presentationIndex,
+      conferenceUpdateCounter: appointment.conferenceUpdateCounter,
     });
   }
 }
