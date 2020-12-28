@@ -4,6 +4,8 @@ import { Button, Text } from 'react-native';
 import { Put, withAuth } from '../../../../utilities/axios/axios';
 import { useSendMessage } from '../utilities/hooks/useSendMessage';
 import { Document, Page, pdfjs } from 'react-pdf';
+
+// todo: pdf worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 export const Presentation = (): JSX.Element => {
