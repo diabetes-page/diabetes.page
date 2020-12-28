@@ -40,6 +40,7 @@ const useConference = (dispatch: ConferenceDispatch): (() => void) => {
         conferenceToken,
         presentationIndex,
         officialMessagePublicKey,
+        conferenceUpdateCounter,
       } = response.data;
       dispatch(
         initConference(
@@ -47,6 +48,7 @@ const useConference = (dispatch: ConferenceDispatch): (() => void) => {
           conferenceToken,
           presentationIndex,
           officialMessagePublicKey,
+          conferenceUpdateCounter,
         ),
       );
     });

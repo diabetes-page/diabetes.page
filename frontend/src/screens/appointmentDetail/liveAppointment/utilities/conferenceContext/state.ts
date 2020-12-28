@@ -10,6 +10,8 @@ export type ConferenceState = {
   conferenceToken: string | undefined;
   presentationIndex: number | undefined;
   officialMessagePublicKey: string | undefined;
+  conferenceUpdateCounter: number | undefined;
+
   converseAPI: Record<any, any> | undefined;
 };
 
@@ -18,6 +20,8 @@ export const initialState: ConferenceState = {
   conferenceToken: undefined,
   presentationIndex: undefined,
   officialMessagePublicKey: undefined,
+  conferenceUpdateCounter: undefined,
+
   converseAPI: undefined,
 };
 
@@ -26,6 +30,16 @@ export const reducer = (
   action: ConferenceAction,
 ): ConferenceState => {
   console.warn('vr reducer', action.type, action);
+
+  if (
+    'conferenceUpdateCounter' in action &&
+    state.conferenceUpdateCounter !== undefined &&
+    action.conferenceUpdateCounter <= state.conferenceUpdateCounter
+  ) {
+    console.warn('vr outdated update, skipping');
+    return state;
+  }
+
   switch (action.type) {
     case INIT_CONFERENCE:
       return {
@@ -44,6 +58,7 @@ export const reducer = (
       return {
         ...state,
         presentationIndex: action.presentationIndex,
+        conferenceUpdateCounter: action.conferenceUpdateCounter,
       };
   }
 

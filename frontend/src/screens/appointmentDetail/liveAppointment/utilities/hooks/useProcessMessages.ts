@@ -111,6 +111,11 @@ function processMessageJSON(
 
   if (typeof messageJSON.presentationIndex === 'number') {
     console.warn('vr', 'setting presentation index');
-    conference.dispatch(setPresentationIndex(messageJSON.presentationIndex));
+    conference.dispatch(
+      setPresentationIndex(
+        messageJSON.presentationIndex,
+        messageJSON.conferenceUpdateCounter,
+      ),
+    );
   }
 }

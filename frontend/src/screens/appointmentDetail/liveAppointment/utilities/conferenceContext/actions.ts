@@ -3,8 +3,9 @@ interface initConferenceAction {
   type: typeof INIT_CONFERENCE;
   conferenceRoom: string;
   conferenceToken: string;
-  officialMessagePublicKey: string;
   presentationIndex: number;
+  officialMessagePublicKey: string;
+  conferenceUpdateCounter: number;
 }
 
 export const REGISTER_CONVERSE_API = 'REGISTER_CONVERSE_API';
@@ -17,6 +18,7 @@ export const SET_PRESENTATION_INDEX = 'SET_PRESENTATION_INDEX';
 interface setPresentationIndexAction {
   type: typeof SET_PRESENTATION_INDEX;
   presentationIndex: number;
+  conferenceUpdateCounter: number;
 }
 
 export type ConferenceAction =
@@ -29,12 +31,14 @@ export const initConference = (
   conferenceToken: string,
   presentationIndex: number,
   officialMessagePublicKey: string,
+  conferenceUpdateCounter: number,
 ): ConferenceAction => ({
   type: INIT_CONFERENCE,
   conferenceRoom,
   conferenceToken,
   presentationIndex,
   officialMessagePublicKey,
+  conferenceUpdateCounter,
 });
 
 export const registerConverseAPI = (
@@ -46,7 +50,9 @@ export const registerConverseAPI = (
 
 export const setPresentationIndex = (
   presentationIndex: number,
+  conferenceUpdateCounter: number,
 ): ConferenceAction => ({
   type: SET_PRESENTATION_INDEX,
   presentationIndex,
+  conferenceUpdateCounter,
 });
