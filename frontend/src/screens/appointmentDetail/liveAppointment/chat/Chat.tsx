@@ -1,11 +1,19 @@
 import React, { useCallback, useState } from 'react';
 import 'strophejs-plugin-muc';
 import { useProcessMessages } from './useProcessMessages';
-import { Button, Text, TextInput, View } from 'react-native';
+import {
+  Button,
+  NativeSyntheticEvent,
+  NativeTouchEvent,
+  Text,
+  TextInput,
+  TextInputKeyPressEventData,
+  View,
+} from 'react-native';
 import { useSendMessage } from '../utilities/hooks/useSendMessage';
 
 export function Chat(): JSX.Element {
-  const [onInputChange, onSendMessage] = useOnSendMessage();
+  const [input, onInputChange, onButtonPress, onKeyPress] = useOnSendMessage();
   const [messages, setMessages] = useState<string[]>([]);
   const displayMessage = useCallback(
     (msg: string) => setMessages([...messages, msg]),
@@ -23,21 +31,37 @@ export function Chat(): JSX.Element {
         <TextInput
           style={{ backgroundColor: 'white' }}
           onChangeText={onInputChange}
+          onKeyPress={onKeyPress}
+          value={input}
         />
-        <Button title="Absenden" onPress={onSendMessage} />
+        <Button title="Absenden" onPress={onButtonPress} />
       </View>
     </View>
   );
 }
 
-const useOnSendMessage = (): [(text: string) => void, () => void] => {
+const useOnSendMessage = (): [
+  string,
+  (text: string) => void,
+  () => void,
+  (event: NativeSyntheticEvent<TextInputKeyPressEventData>) => void,
+] => {
   const [input, setInput] = useState('');
   const sendMessage = useSendMessage();
   const onInputChange = useCallback((text) => setInput(text), [setInput]);
-  const onSendMessage = useCallback(() => sendMessage(input), [
-    sendMessage,
-    input,
-  ]);
+  const onButtonPress = useCallback(() => {
+    // Todo: Keep focus on text field
+    sendMessage(input);
+    setInput('');
+  }, [sendMessage, input, setInput]);
+  const onKeyPress = useCallback(
+    (event: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+      if (event.nativeEvent.key === 'Enter') {
+        onButtonPress();
+      }
+    },
+    [onButtonPress],
+  );
 
-  return [onInputChange, onSendMessage];
+  return [input, onInputChange, onButtonPress, onKeyPress];
 };
