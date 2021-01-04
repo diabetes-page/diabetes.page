@@ -13,7 +13,7 @@ export type ConferenceState = {
   officialMessagePublicKey: string | undefined;
   conferenceUpdateCounter: number | undefined;
 
-  stropheRoom: Strophe.MUC.XmppRoom | undefined;
+  chatRoom: Strophe.MUC.XmppRoom | undefined;
 };
 
 export const initialState: ConferenceState = {
@@ -23,7 +23,7 @@ export const initialState: ConferenceState = {
   officialMessagePublicKey: undefined,
   conferenceUpdateCounter: undefined,
 
-  stropheRoom: undefined,
+  chatRoom: undefined,
 };
 
 export const reducer = (
@@ -53,7 +53,7 @@ export const reducer = (
     case REGISTER_STROPHE_ROOM:
       return {
         ...state,
-        stropheRoom: action.stropheRoom,
+        chatRoom: action.stropheRoom,
       };
     case SET_PRESENTATION_INDEX:
       return {

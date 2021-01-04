@@ -3,7 +3,7 @@ import { ConferenceContext } from '../conferenceContext/ConferenceContext';
 
 export const useSendMessage = (): ((message: string) => void) => {
   const conference = useContext(ConferenceContext);
-  const stropheRoom = conference?.state.stropheRoom;
+  const stropheRoom = conference?.state.chatRoom;
 
   return useCallback(
     (message: string): void => {

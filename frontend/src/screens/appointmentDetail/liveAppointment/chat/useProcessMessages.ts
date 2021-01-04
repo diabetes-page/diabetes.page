@@ -33,7 +33,7 @@ export const useProcessMessages = (
     conference?.state.conferenceToken,
     conference?.state.conferenceRoom,
     conference?.state.officialMessagePublicKey,
-    conference?.state.stropheRoom,
+    conference?.state.chatRoom,
     conference?.dispatch,
   ];
   const connection = useRef<Strophe.Connection>();
