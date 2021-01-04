@@ -3,41 +3,22 @@ import { ConferenceContext } from '../conferenceContext/ConferenceContext';
 
 export const useSendMessage = (): ((message: string) => void) => {
   const conference = useContext(ConferenceContext);
+  const stropheRoom = conference?.state.stropheRoom;
 
   return useCallback(
     (message: string): void => {
-      console.warn('vr CHECK', conference?.state);
+      // const messageObject = converse.env
+      //   .$msg({
+      //     from: conference.state.converseAPI.user.jid(),
+      //     to: conference.state.conferenceRoom + '@muc.meet.jitsi',
+      //     type: 'groupchat',
+      //   })
+      //   .c('body')
+      //   .t(message);
 
-      if (
-        !conference ||
-        !conference.state.converseAPI ||
-        !conference.state.conferenceRoom
-      ) {
-        return;
-      }
-
-      console.warn('vr CHECK CONVERSE');
-
-      // @ts-ignore : converse is loaded into window by script
-      const converse = window.converse;
-
-      if (!converse) {
-        return;
-      }
-
-      console.warn('vr SENDING MESSAGE');
-
-      const messageObject = converse.env
-        .$msg({
-          from: conference.state.converseAPI.user.jid(),
-          to: conference.state.conferenceRoom + '@muc.meet.jitsi',
-          type: 'groupchat',
-        })
-        .c('body')
-        .t(message);
-
-      conference.state.converseAPI.send(messageObject);
+      console.warn('vr message send', message, stropheRoom);
+      stropheRoom?.groupchat(message);
     },
-    [conference],
+    [stropheRoom],
   );
 };

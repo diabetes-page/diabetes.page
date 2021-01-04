@@ -1,3 +1,5 @@
+import { Strophe } from 'strophe.js';
+
 export const INIT_CONFERENCE = 'INIT_CONFERENCE';
 interface initConferenceAction {
   type: typeof INIT_CONFERENCE;
@@ -8,10 +10,10 @@ interface initConferenceAction {
   conferenceUpdateCounter: number;
 }
 
-export const REGISTER_CONVERSE_API = 'REGISTER_CONVERSE_API';
-interface registerConverseAPIAction {
-  type: typeof REGISTER_CONVERSE_API;
-  converseAPI: Record<any, any>;
+export const REGISTER_STROPHE_ROOM = 'REGISTER_STROPHE_ROOM';
+interface registerStropheRoomAction {
+  type: typeof REGISTER_STROPHE_ROOM;
+  stropheRoom: Strophe.MUC.XmppRoom;
 }
 
 export const SET_PRESENTATION_INDEX = 'SET_PRESENTATION_INDEX';
@@ -23,7 +25,7 @@ interface setPresentationIndexAction {
 
 export type ConferenceAction =
   | initConferenceAction
-  | registerConverseAPIAction
+  | registerStropheRoomAction
   | setPresentationIndexAction;
 
 export const initConference = (
@@ -41,11 +43,11 @@ export const initConference = (
   conferenceUpdateCounter,
 });
 
-export const registerConverseAPI = (
-  converseAPI: Record<any, any>,
+export const registerStropheRoom = (
+  stropheRoom: Strophe.MUC.XmppRoom,
 ): ConferenceAction => ({
-  type: REGISTER_CONVERSE_API,
-  converseAPI,
+  type: REGISTER_STROPHE_ROOM,
+  stropheRoom,
 });
 
 export const setPresentationIndex = (

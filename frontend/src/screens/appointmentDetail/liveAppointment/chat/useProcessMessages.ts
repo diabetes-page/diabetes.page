@@ -13,7 +13,10 @@ import {
   JITSI_JID,
   JITSI_ROOM_ADDRESS,
 } from '../../../../config/constants/constants';
-import { setPresentationIndex } from '../utilities/conferenceContext/actions';
+import {
+  registerStropheRoom,
+  setPresentationIndex,
+} from '../utilities/conferenceContext/actions';
 import { Strophe } from 'strophe.js';
 
 export const useProcessMessages = (
@@ -24,16 +27,17 @@ export const useProcessMessages = (
     conferenceToken,
     conferenceRoom,
     officialMessagePublicKey,
+    stropheRoom,
     dispatch,
   ] = [
     conference?.state.conferenceToken,
     conference?.state.conferenceRoom,
     conference?.state.officialMessagePublicKey,
+    conference?.state.stropheRoom,
     conference?.dispatch,
   ];
   const connection = useRef<Strophe.Connection>();
   const messageHandler = useRef<number>();
-  const [stropheRoom, setStropheRoom] = useState<Strophe.MUC.XmppRoom>();
 
   useEffect(() => {
     connection.current?.reset();
@@ -56,25 +60,25 @@ export const useProcessMessages = (
         Math.round(Math.random() * 10000).toString(), // todo: set nick
         () => false,
         (stanza: Element, room: Strophe.MUC.XmppRoom) => {
-          setStropheRoom(room);
-          console.warn('vr setting room');
+          dispatch?.(registerStropheRoom(room));
           return false;
         },
         () => false,
       );
     });
-  }, [conferenceToken, conferenceRoom, setStropheRoom]);
+  }, [conferenceToken, conferenceRoom, dispatch]);
 
   // Every time the conference properties changes, we need to redefine the callback listening to new incoming messages
   // Otherwise the callback will refer to an outdated version of the conference properties
   // This is a memory leak as described in https://itnext.io/why-you-need-to-understand-javascript-closures-53efa66ae11a
   // In order to turn off the old callback, we need to save it in a ref to refer to it later
+  // This is especially true for the displayMessage variable, as it changes after every message
   useEffect(() => {
     if (!stropheRoom) {
       return;
     }
 
-    console.warn('vr new messageHandler');
+    console.warn('vr creating messageHandler');
 
     if (messageHandler.current) {
       stropheRoom.removeHandler(messageHandler.current);
@@ -82,13 +86,14 @@ export const useProcessMessages = (
 
     messageHandler.current = stropheRoom.addHandler(
       'message',
-      (message: Element): void => {
+      (message: Element): boolean => {
         processMessage(
           message,
           officialMessagePublicKey,
           dispatch,
           displayMessage,
         );
+        return true;
       },
     );
   }, [officialMessagePublicKey, dispatch, displayMessage, stropheRoom]);
@@ -103,7 +108,7 @@ function processMessage(
   const text = message.getElementsByTagName('body')[0]?.textContent;
   const prepend = CONFERENCE_OFFICIAL_MESSAGE_PREPEND;
 
-  console.warn('vr', 'got text:', text, 'prepend', prepend);
+  console.warn('vr', 'got message:', text);
 
   if (!text) {
     return;
@@ -178,7 +183,6 @@ function processMessageJSON(
   }
 
   if (typeof messageJSON.presentationIndex === 'number') {
-    console.warn('vr', 'setting presentation index');
     dispatch(
       setPresentationIndex(
         messageJSON.presentationIndex,

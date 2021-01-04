@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import 'strophejs-plugin-muc';
 import { useProcessMessages } from './useProcessMessages';
+import { Text } from 'react-native';
 
 export function Chat(): JSX.Element {
   const [messages, setMessages] = useState<string[]>([]);
@@ -11,12 +12,10 @@ export function Chat(): JSX.Element {
   useProcessMessages(displayMessage);
 
   return (
-    <div>
-      <ul>
-        {messages.map((message) => (
-          <li>{message}</li>
-        ))}
-      </ul>
-    </div>
+    <>
+      {messages.map((message, index) => (
+        <Text key={index}>{message}</Text>
+      ))}
+    </>
   );
 }

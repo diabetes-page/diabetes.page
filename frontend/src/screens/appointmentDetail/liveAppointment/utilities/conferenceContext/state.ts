@@ -1,9 +1,10 @@
 import {
   ConferenceAction,
   INIT_CONFERENCE,
-  REGISTER_CONVERSE_API,
+  REGISTER_STROPHE_ROOM,
   SET_PRESENTATION_INDEX,
 } from './actions';
+import { Strophe } from 'strophe.js';
 
 export type ConferenceState = {
   conferenceRoom: string | undefined;
@@ -12,7 +13,7 @@ export type ConferenceState = {
   officialMessagePublicKey: string | undefined;
   conferenceUpdateCounter: number | undefined;
 
-  converseAPI: Record<any, any> | undefined;
+  stropheRoom: Strophe.MUC.XmppRoom | undefined;
 };
 
 export const initialState: ConferenceState = {
@@ -22,14 +23,14 @@ export const initialState: ConferenceState = {
   officialMessagePublicKey: undefined,
   conferenceUpdateCounter: undefined,
 
-  converseAPI: undefined,
+  stropheRoom: undefined,
 };
 
 export const reducer = (
   state: ConferenceState,
   action: ConferenceAction,
 ): ConferenceState => {
-  console.warn('vr reducer', action.type, action);
+  console.warn('vr got action', action.type, action);
 
   if (
     'conferenceUpdateCounter' in action &&
@@ -49,10 +50,10 @@ export const reducer = (
         presentationIndex: action.presentationIndex,
         officialMessagePublicKey: action.officialMessagePublicKey,
       };
-    case REGISTER_CONVERSE_API:
+    case REGISTER_STROPHE_ROOM:
       return {
         ...state,
-        converseAPI: action.converseAPI,
+        stropheRoom: action.stropheRoom,
       };
     case SET_PRESENTATION_INDEX:
       return {
