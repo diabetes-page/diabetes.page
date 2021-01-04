@@ -68,6 +68,16 @@ export const useProcessMessages = (
     });
   }, [conferenceToken, conferenceRoom, dispatch]);
 
+  useEffect(() => {
+    window.addEventListener('beforeunload', () => {
+      if (connection.current) {
+        connection.current.options.sync = true;
+        connection.current.flush();
+        connection.current.disconnect();
+      }
+    });
+  }, []);
+
   // Every time the conference properties changes, we need to redefine the callback listening to new incoming messages
   // Otherwise the callback will refer to an outdated version of the conference properties
   // This is a memory leak as described in https://itnext.io/why-you-need-to-understand-javascript-closures-53efa66ae11a

@@ -36,9 +36,11 @@ const useJitsi = (onLoad: () => void, ref: RefObject<View>): void => {
       },
     };
 
-    // Todo: It's a good practice to remove the conference before the page is unloaded.
     const jitsi = new JitsiApi(domain, options);
 
     jitsi.on('videoConferenceJoined', onLoad);
+
+    // todo: more sophisticated unload check? (also on tab change)
+    window.addEventListener('beforeunload', () => void jitsi.dispose());
   }, [conferenceRoom, conferenceToken, onLoad, ref]);
 };

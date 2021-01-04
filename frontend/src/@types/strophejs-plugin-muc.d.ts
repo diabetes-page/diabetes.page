@@ -1,10 +1,13 @@
 import { Strophe } from 'strophe.js';
 
 // This is actually included in @types/strophe.js package, but it is not loaded correctly, so I copied it here
+// I also modified it to include some more things
 declare module 'strophe.js' {
   namespace Strophe {
     interface Connection {
       muc: MUC.Plugin;
+      options: Record<string, any>;
+      disconnect(): void;
     }
 
     namespace MUC {

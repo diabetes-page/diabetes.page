@@ -8,4 +8,5 @@ export = JitsiApi;
 declare class JitsiApi {
   constructor(domain: string, options: Record<string, any>);
   on(event: string, callback: (data: Record<string, string>) => void): void;
+  dispose(): void;
 }
