@@ -8,10 +8,9 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "start:dev": "nest start",
-    "start:dev:watch": "nest start --watch",
-    "start:dev:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "watch": "nest start --watch",
+    "debug": "nest start --debug --watch",
+    "prod": "node dist/main",
     "test": "cucumber-js src/**/*.feature --require 'src/**/*.steps.ts' --require 'src/**/steps.ts' --require-module ts-node/register",
     "db:fresh": "typeorm schema:drop && typeorm migration:run",
     "db:migrate": "typeorm migration:run",
