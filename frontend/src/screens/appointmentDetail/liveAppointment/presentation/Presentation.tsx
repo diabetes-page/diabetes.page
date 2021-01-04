@@ -1,9 +1,10 @@
 import React, { useCallback, useContext } from 'react';
 import { ConferenceContext } from '../utilities/conferenceContext/ConferenceContext';
-import { Button, Text } from 'react-native';
+import { Button, Text, View } from 'react-native';
 import { Put, withAuth } from '../../../../utilities/axios/axios';
 import { useSendMessage } from '../utilities/hooks/useSendMessage';
 import { Document, Page, pdfjs } from 'react-pdf';
+import { renderIf } from '../../../../utilities/rendering/rendering';
 
 // todo: pdf worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -14,7 +15,7 @@ export const Presentation = (): JSX.Element => {
   const [previousSlide, nextSlide] = useChangeSlide();
 
   return (
-    <div>
+    <View>
       <Document file={require('../../../../../assets/pdf.pdf')}>
         <Page
           pageNumber={presentationIndex + 1}
@@ -22,17 +23,21 @@ export const Presentation = (): JSX.Element => {
           height={600}
         />
       </Document>
-      <Button
-        title="Vorherige Slide"
-        onPress={previousSlide}
-        disabled={presentationIndex <= 0}
-      />
-      <Button
-        title="Nächste Slide"
-        onPress={nextSlide}
-        disabled={presentationIndex >= 49}
-      />
-    </div>
+      {renderIf(!!conference?.state.chatRoom)(() => (
+        <>
+          <Button
+            title="Vorherige Slide"
+            onPress={previousSlide}
+            disabled={presentationIndex <= 0}
+          />
+          <Button
+            title="Nächste Slide"
+            onPress={nextSlide}
+            disabled={presentationIndex >= 49}
+          />
+        </>
+      ))}
+    </View>
   );
 };
 
