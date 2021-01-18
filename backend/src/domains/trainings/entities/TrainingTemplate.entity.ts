@@ -3,35 +3,33 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinTable,
   ManyToMany,
-  OneToMany,
+  ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Expose } from 'class-transformer';
-import { User } from '../../users/entities/User.entity';
-import { TrainingTemplate } from '../../trainings/entities/TrainingTemplate.entity';
+import { Client } from '../../clients/entities/Client.entity';
 
 @Entity()
-export class Client {
+export class TrainingTemplate {
   @PrimaryGeneratedColumn()
   @Expose()
   id: number;
 
-  @Column()
-  name: string;
-
-  @OneToMany(() => User, (user) => user.client)
-  users: User[];
-
   // todo: unique constraint in relation table
-  @ManyToMany(() => TrainingTemplate, (template) => template.clients, {
+  @ManyToMany(() => Client, (client) => client.trainingTemplates, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  @JoinTable()
-  trainingTemplates: TrainingTemplate[];
+  clients: Client[];
+
+  @Column({ unique: true })
+  name: string;
+
+  @Column({ unique: true })
+  documentPath: string;
 
   @CreateDateColumn()
   createdAt: Date;
