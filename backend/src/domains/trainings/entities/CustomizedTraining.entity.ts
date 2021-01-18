@@ -4,29 +4,39 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToMany,
-  OneToMany,
+  ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Expose } from 'class-transformer';
 import { Client } from '../../clients/entities/Client.entity';
-import { CustomizedTraining } from './CustomizedTraining.entity';
+import { Consultant } from '../../users/entities/Consultant.entity';
+import { TrainingTemplate } from './TrainingTemplate.entity';
 
 @Entity()
-export class TrainingTemplate {
+export class CustomizedTraining {
   @PrimaryGeneratedColumn()
   @Expose()
   id: number;
 
-  // todo: unique constraint in relation table
-  @ManyToMany(() => Client, (client) => client.trainingTemplates, {
+  @ManyToOne(() => Consultant, (consultant) => consultant.customizedTrainings, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
+    nullable: false,
   })
-  clients: Client[];
+  consultant: Consultant;
 
-  @OneToMany(() => CustomizedTraining, (training) => training.trainingTemplate)
-  customizedTrainings: CustomizedTraining[];
+  @ManyToOne(
+    () => TrainingTemplate,
+    (template) => template.customizedTrainings,
+    {
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+      nullable: false,
+    },
+  )
+  trainingTemplate: TrainingTemplate;
 
   @Column({ unique: true })
   name: string;

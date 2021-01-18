@@ -4,6 +4,7 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -11,6 +12,7 @@ import {
 import { Expose } from 'class-transformer';
 import { User } from './User.entity';
 import { Manager } from './Manager.entity';
+import { CustomizedTraining } from '../../trainings/entities/CustomizedTraining.entity';
 
 @Entity()
 export class Consultant {
@@ -25,6 +27,9 @@ export class Consultant {
   })
   @JoinColumn({ name: 'userId' })
   user: User;
+
+  @OneToMany(() => CustomizedTraining, (training) => training.consultant)
+  customizedTrainings: CustomizedTraining[];
 
   @OneToOne(() => Manager)
   asManager: Manager | null;
