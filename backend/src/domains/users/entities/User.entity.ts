@@ -35,11 +35,12 @@ export class User {
   @ManyToOne(() => Client, (client) => client.users, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
+    nullable: false,
   })
   client: Client;
 
   @OneToOne(() => Consultant)
-  asConsultant: Consultant;
+  asConsultant: Consultant | null;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -1,4 +1,5 @@
 import {
+  Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
@@ -20,12 +21,13 @@ export class Consultant {
   @OneToOne(() => User, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
+    nullable: false,
   })
-  @JoinColumn()
+  @JoinColumn({ name: 'userId' })
   user: User;
 
   @OneToOne(() => Manager)
-  asManager: Manager;
+  asManager: Manager | null;
 
   @CreateDateColumn()
   createdAt: Date;

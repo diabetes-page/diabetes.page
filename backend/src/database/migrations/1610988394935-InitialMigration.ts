@@ -1,15 +1,16 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class InitialMigration1610986372065 implements MigrationInterface {
-    name = 'InitialMigration1610986372065'
+export class InitialMigration1610988394935 implements MigrationInterface {
+    name = 'InitialMigration1610988394935'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "training_template" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "documentPath" character varying NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "UQ_abb56b1486ea4305e5ff6d95998" UNIQUE ("name"), CONSTRAINT "UQ_96b0566ec0031a04b485c299ce0" UNIQUE ("documentPath"), CONSTRAINT "PK_df9bb87daaff77005dc0a0cf589" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "client" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_96da49381769303a6515a8785c7" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "manager" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "consultantId" integer, CONSTRAINT "REL_f8e286f771af52d79baf5a8ad9" UNIQUE ("consultantId"), CONSTRAINT "PK_b3ac840005ee4ed76a7f1c51d01" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "consultant" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "userId" integer, CONSTRAINT "REL_b96a6e5b600ceaad3d0baa2902" UNIQUE ("userId"), CONSTRAINT "PK_fc6968da0e8b2cb9315222e4bc9" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "user" ("id" SERIAL NOT NULL, "email" character varying NOT NULL, "name" character varying NOT NULL, "password" character varying NOT NULL, "verificationToken" character varying, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "clientId" integer, CONSTRAINT "UQ_e12875dfb3b1d92d7d7c5377e22" UNIQUE ("email"), CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "manager" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "consultantId" integer NOT NULL, CONSTRAINT "REL_f8e286f771af52d79baf5a8ad9" UNIQUE ("consultantId"), CONSTRAINT "PK_b3ac840005ee4ed76a7f1c51d01" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "consultant" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "userId" integer NOT NULL, CONSTRAINT "REL_b96a6e5b600ceaad3d0baa2902" UNIQUE ("userId"), CONSTRAINT "PK_fc6968da0e8b2cb9315222e4bc9" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "user" ("id" SERIAL NOT NULL, "email" character varying NOT NULL, "name" character varying NOT NULL, "password" character varying NOT NULL, "verificationToken" character varying, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "clientId" integer NOT NULL, CONSTRAINT "UQ_e12875dfb3b1d92d7d7c5377e22" UNIQUE ("email"), CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "appointment" ("id" SERIAL NOT NULL, "conferenceRoom" uuid NOT NULL DEFAULT uuid_generate_v4(), "startsAt" TIMESTAMP NOT NULL, "endsAt" TIMESTAMP NOT NULL, "presentationIndex" integer NOT NULL, "conferenceUpdateCounter" integer NOT NULL, "officialMessagePublicKey" character varying NOT NULL, "officialMessagePrivateKey" character varying NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_cc025b375d31dae603cd4caf53e" PRIMARY KEY ("id", "conferenceRoom"))`);
+        await queryRunner.query(`CREATE TABLE "customized_training" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "documentPath" character varying NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "UQ_905f9781d9d73bfbb8a04bd9dd8" UNIQUE ("name"), CONSTRAINT "UQ_8ffc50c320b73cd44dce67de092" UNIQUE ("documentPath"), CONSTRAINT "PK_6af78ac8fa2d7eff38077e50fcb" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "client_training_templates_training_template" ("clientId" integer NOT NULL, "trainingTemplateId" integer NOT NULL, CONSTRAINT "PK_183fade24372e04c67cfe8bc46a" PRIMARY KEY ("clientId", "trainingTemplateId"))`);
         await queryRunner.query(`CREATE INDEX "IDX_e96a596f673a113ed2527850d3" ON "client_training_templates_training_template" ("clientId") `);
         await queryRunner.query(`CREATE INDEX "IDX_ce78ad67ec4b642846b84e0812" ON "client_training_templates_training_template" ("trainingTemplateId") `);
@@ -39,6 +40,7 @@ export class InitialMigration1610986372065 implements MigrationInterface {
         await queryRunner.query(`DROP INDEX "IDX_ce78ad67ec4b642846b84e0812"`);
         await queryRunner.query(`DROP INDEX "IDX_e96a596f673a113ed2527850d3"`);
         await queryRunner.query(`DROP TABLE "client_training_templates_training_template"`);
+        await queryRunner.query(`DROP TABLE "customized_training"`);
         await queryRunner.query(`DROP TABLE "appointment"`);
         await queryRunner.query(`DROP TABLE "user"`);
         await queryRunner.query(`DROP TABLE "consultant"`);

@@ -19,6 +19,7 @@ export class Manager {
   @OneToOne(() => Consultant, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
+    nullable: false,
   })
   @JoinColumn()
   consultant: Consultant;
