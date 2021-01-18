@@ -1,4 +1,3 @@
-import { User } from '../../../domains/users/entities/User.entity';
 import { TypeOrmModule as TypeOrmModuleBase } from '@nestjs/typeorm';
 
 export const TypeOrmModule = TypeOrmModuleBase.forRootAsync({
@@ -14,7 +13,7 @@ export const TypeOrmModule = TypeOrmModuleBase.forRootAsync({
       database: process.env.TYPEORM_DATABASE,
       synchronize: process.env.TYPEORM_SYNCHRONIZE,
       migrations: [process.env.TYPEORM_MIGRATIONS],
-      entities: [process.env.TYPEORM_ENTITIES, User],
+      entities: [process.env.TYPEORM_ENTITIES],
     };
   },
 });
