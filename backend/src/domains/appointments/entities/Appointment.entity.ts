@@ -3,13 +3,18 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  Generated,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Expose } from 'class-transformer';
 import { User } from '../../users/entities/User.entity';
+import { Client } from '../../clients/entities/Client.entity';
+import { Consultant } from '../../users/entities/Consultant.entity';
+import { CustomizedTraining } from '../../trainings/entities/CustomizedTraining.entity';
 
 @Entity()
 export class Appointment {
@@ -17,12 +22,16 @@ export class Appointment {
   @Expose()
   id: number;
 
-  @PrimaryGeneratedColumn('uuid')
-  conferenceRoom: string;
-
-  @ManyToMany(() => User)
-  @JoinTable()
-  users: User[]; // todo: teachers should not be assigned this way, only students
+  @ManyToOne(
+    () => CustomizedTraining,
+    (customizedTraining) => customizedTraining.appointments,
+    {
+      onDelete: 'RESTRICT',
+      onUpdate: 'RESTRICT',
+      nullable: false,
+    },
+  )
+  customizedTraining: CustomizedTraining;
 
   @Column()
   startsAt: Date;
@@ -30,16 +39,20 @@ export class Appointment {
   @Column()
   endsAt: Date;
 
+  @Column({ unique: true })
+  @Generated('uuid')
+  conferenceRoom: string;
+
   @Column('int')
   presentationIndex: number;
 
   @Column('int')
   conferenceUpdateCounter: number;
 
-  @Column()
+  @Column({ unique: true })
   officialMessagePublicKey: string;
 
-  @Column()
+  @Column({ unique: true })
   officialMessagePrivateKey: string;
 
   @CreateDateColumn()

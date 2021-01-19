@@ -3,6 +3,7 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
@@ -10,6 +11,7 @@ import {
 import { Expose } from 'class-transformer';
 import { Consultant } from '../../users/entities/Consultant.entity';
 import { TrainingTemplate } from './TrainingTemplate.entity';
+import { Appointment } from '../../appointments/entities/Appointment.entity';
 
 @Entity()
 @Unique(['consultant', 'trainingTemplate'])
@@ -35,6 +37,9 @@ export class CustomizedTraining {
     },
   )
   trainingTemplate: TrainingTemplate;
+
+  @OneToMany(() => Appointment, (appointment) => appointment.customizedTraining)
+  appointments: Appointment[];
 
   @CreateDateColumn()
   createdAt: Date;
