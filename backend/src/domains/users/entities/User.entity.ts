@@ -29,7 +29,7 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'character varying', nullable: true })
   verificationToken: string | null;
 
   @ManyToOne(() => Client, (client) => client.users, {
