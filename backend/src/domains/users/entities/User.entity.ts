@@ -3,16 +3,16 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Expose } from 'class-transformer';
 import { Client } from '../../clients/entities/Client.entity';
-import { Manager } from './Manager.entity';
 import { Consultant } from './Consultant.entity';
+import { UserAppointmentAssignment } from '../../appointments/entities/UserAppointmentAssignment.entity';
 
 @Entity()
 export class User {
@@ -38,6 +38,9 @@ export class User {
     nullable: false,
   })
   client: Client;
+
+  @OneToMany(() => UserAppointmentAssignment, (assignment) => assignment.user)
+  appointmentAssignments: UserAppointmentAssignment[];
 
   @OneToOne(() => Consultant)
   asConsultant: Consultant | null;
