@@ -25,7 +25,7 @@ export class Consultant {
     onUpdate: 'CASCADE',
     nullable: false,
   })
-  @JoinColumn({ name: 'userId' })
+  @JoinColumn()
   user: User;
 
   @OneToMany(() => CustomizedTraining, (training) => training.consultant)
