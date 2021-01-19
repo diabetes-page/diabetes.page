@@ -1,20 +1,18 @@
 import {
-  Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  ManyToMany,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { Expose } from 'class-transformer';
-import { Client } from '../../clients/entities/Client.entity';
 import { Consultant } from '../../users/entities/Consultant.entity';
 import { TrainingTemplate } from './TrainingTemplate.entity';
 
 @Entity()
+@Unique(['consultant', 'trainingTemplate'])
 export class CustomizedTraining {
   @PrimaryGeneratedColumn()
   @Expose()
@@ -37,12 +35,6 @@ export class CustomizedTraining {
     },
   )
   trainingTemplate: TrainingTemplate;
-
-  @Column({ unique: true })
-  name: string;
-
-  @Column({ unique: true })
-  documentPath: string;
 
   @CreateDateColumn()
   createdAt: Date;
