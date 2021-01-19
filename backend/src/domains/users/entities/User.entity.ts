@@ -30,7 +30,7 @@ export class User {
   password: string;
 
   @Column({ nullable: true })
-  verificationToken: string;
+  verificationToken: string | null;
 
   @ManyToOne(() => Client, (client) => client.users, {
     onDelete: 'CASCADE',
