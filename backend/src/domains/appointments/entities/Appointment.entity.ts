@@ -29,7 +29,7 @@ export class Appointment {
     (customizedTraining) => customizedTraining.appointments,
     {
       onDelete: 'RESTRICT',
-      onUpdate: 'RESTRICT',
+      onUpdate: 'CASCADE',
       nullable: false,
     },
   )

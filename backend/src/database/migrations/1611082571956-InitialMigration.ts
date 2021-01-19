@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class InitialMigration1611082272938 implements MigrationInterface {
-    name = 'InitialMigration1611082272938'
+export class InitialMigration1611082571956 implements MigrationInterface {
+    name = 'InitialMigration1611082571956'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "training_template" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "documentPath" character varying NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "UQ_abb56b1486ea4305e5ff6d95998" UNIQUE ("name"), CONSTRAINT "UQ_96b0566ec0031a04b485c299ce0" UNIQUE ("documentPath"), CONSTRAINT "PK_df9bb87daaff77005dc0a0cf589" PRIMARY KEY ("id"))`);
@@ -24,7 +24,7 @@ export class InitialMigration1611082272938 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "customized_training_slide" ADD CONSTRAINT "FK_b4267ad2a2d1c1219a9984330ed" FOREIGN KEY ("customizedTrainingId") REFERENCES "customized_training"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
         await queryRunner.query(`ALTER TABLE "customized_training" ADD CONSTRAINT "FK_75e6bf88c061e87b24e4c716400" FOREIGN KEY ("consultantId") REFERENCES "consultant"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
         await queryRunner.query(`ALTER TABLE "customized_training" ADD CONSTRAINT "FK_987739950aa0dc930fc9b6dc3d3" FOREIGN KEY ("trainingTemplateId") REFERENCES "training_template"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
-        await queryRunner.query(`ALTER TABLE "appointment" ADD CONSTRAINT "FK_08db08ee3f7fdafcaf27379fde4" FOREIGN KEY ("customizedTrainingId") REFERENCES "customized_training"("id") ON DELETE RESTRICT ON UPDATE RESTRICT`);
+        await queryRunner.query(`ALTER TABLE "appointment" ADD CONSTRAINT "FK_08db08ee3f7fdafcaf27379fde4" FOREIGN KEY ("customizedTrainingId") REFERENCES "customized_training"("id") ON DELETE RESTRICT ON UPDATE CASCADE`);
         await queryRunner.query(`ALTER TABLE "client_training_templates_training_template" ADD CONSTRAINT "FK_e96a596f673a113ed2527850d39" FOREIGN KEY ("clientId") REFERENCES "client"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "client_training_templates_training_template" ADD CONSTRAINT "FK_ce78ad67ec4b642846b84e08124" FOREIGN KEY ("trainingTemplateId") REFERENCES "training_template"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
     }
