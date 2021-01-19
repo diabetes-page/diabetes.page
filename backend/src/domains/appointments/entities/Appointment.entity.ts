@@ -51,10 +51,10 @@ export class Appointment {
   @Generated('uuid')
   conferenceRoom: string;
 
-  @Column('int')
+  @Column()
   presentationIndex: number;
 
-  @Column('int')
+  @Column()
   conferenceUpdateCounter: number;
 
   @Column({ unique: true })

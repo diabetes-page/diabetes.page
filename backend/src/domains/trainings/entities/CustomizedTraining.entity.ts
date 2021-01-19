@@ -12,6 +12,7 @@ import { Expose } from 'class-transformer';
 import { Consultant } from '../../users/entities/Consultant.entity';
 import { TrainingTemplate } from './TrainingTemplate.entity';
 import { Appointment } from '../../appointments/entities/Appointment.entity';
+import { CustomizedTrainingSlide } from './CustomizedTrainingSlide.entity';
 
 @Entity()
 @Unique(['consultant', 'trainingTemplate'])
@@ -37,6 +38,12 @@ export class CustomizedTraining {
     },
   )
   trainingTemplate: TrainingTemplate;
+
+  @OneToMany(
+    () => CustomizedTrainingSlide,
+    (customizedTrainingSlide) => customizedTrainingSlide.customizedTraining,
+  )
+  slides: CustomizedTrainingSlide[];
 
   @OneToMany(() => Appointment, (appointment) => appointment.customizedTraining)
   appointments: Appointment[];
