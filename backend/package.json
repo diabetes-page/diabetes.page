@@ -15,6 +15,7 @@
     "db:fresh": "typeorm schema:drop && typeorm migration:run",
     "db:migrate": "typeorm migration:run",
     "db:gen": "typeorm migration:generate",
+    "db:seed": "ts-node src/database/seeds/run_seeder.ts",
     "docs": "node docs/generate_docs.js"
   },
   "dependencies": {
