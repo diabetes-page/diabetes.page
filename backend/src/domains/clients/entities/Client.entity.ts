@@ -26,6 +26,7 @@ export class Client {
   users: User[];
 
   // todo: unique constraint in relation table
+  // todo: set ON UPDATE CASCADE in SQL, see https://github.com/typeorm/typeorm/issues/4980
   @ManyToMany(() => TrainingTemplate, (template) => template.clients, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
