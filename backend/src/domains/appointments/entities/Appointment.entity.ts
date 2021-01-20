@@ -1,25 +1,21 @@
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
   Generated,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Expose } from 'class-transformer';
-import { User } from '../../users/entities/User.entity';
-import { Client } from '../../clients/entities/Client.entity';
-import { Consultant } from '../../users/entities/Consultant.entity';
 import { CustomizedTraining } from '../../trainings/entities/CustomizedTraining.entity';
 import { UserAppointmentAssignment } from './UserAppointmentAssignment.entity';
 
 @Entity()
-export class Appointment {
+export class Appointment extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Expose()
   id: number;

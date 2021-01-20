@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -14,7 +15,7 @@ import { User } from '../../users/entities/User.entity';
 import { TrainingTemplate } from '../../trainings/entities/TrainingTemplate.entity';
 
 @Entity()
-export class Client {
+export class Client extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Expose()
   id: number;

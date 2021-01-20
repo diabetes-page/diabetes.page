@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -15,7 +16,7 @@ import { Consultant } from './Consultant.entity';
 import { UserAppointmentAssignment } from '../../appointments/entities/UserAppointmentAssignment.entity';
 
 @Entity()
-export class User {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Expose()
   id: number;

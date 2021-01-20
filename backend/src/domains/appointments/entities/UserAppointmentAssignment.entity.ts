@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -14,7 +15,7 @@ import { User } from '../../users/entities/User.entity';
 
 @Entity()
 @Unique(['appointment', 'user'])
-export class UserAppointmentAssignment {
+export class UserAppointmentAssignment extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Expose()
   id: number;

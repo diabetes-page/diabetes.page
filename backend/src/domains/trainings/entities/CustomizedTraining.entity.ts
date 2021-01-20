@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
@@ -16,7 +17,7 @@ import { CustomizedTrainingSlide } from './CustomizedTrainingSlide.entity';
 
 @Entity()
 @Unique(['consultant', 'trainingTemplate'])
-export class CustomizedTraining {
+export class CustomizedTraining extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Expose()
   id: number;

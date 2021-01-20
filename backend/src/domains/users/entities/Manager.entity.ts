@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
@@ -11,7 +12,7 @@ import { Expose } from 'class-transformer';
 import { Consultant } from './Consultant.entity';
 
 @Entity()
-export class Manager {
+export class Manager extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Expose()
   id: number;
