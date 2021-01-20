@@ -13,9 +13,10 @@
     "prod": "node dist/main",
     "test": "cucumber-js src/**/*.feature --require 'src/**/*.steps.ts' --require 'src/**/steps.ts' --require-module ts-node/register",
     "db:fresh": "typeorm schema:drop && typeorm migration:run",
-    "db:migrate": "typeorm migration:run",
+    "db:seed": "nest start --config src/database/seeding/bootstrap/nest-cli.json",
+    "db:fresheed": "npm run db:fresh && npm run db:seed",
     "db:gen": "typeorm migration:generate",
-    "db:seed": "ts-node src/database/seeds/run_seeder.ts",
+    "db:migrate": "typeorm migration:run",
     "docs": "node docs/generate_docs.js"
   },
   "dependencies": {

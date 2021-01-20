@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
-import { Seeder } from './Seeder';
+import { Seeder } from '../Seeder';
 import { SeederModule } from './SeederModule';
 
-function bootstrap(): void {
+async function bootstrap(): Promise<void> {
   NestFactory.createApplicationContext(SeederModule).then((appContext) => {
     const seeder = appContext.get(Seeder);
     seeder

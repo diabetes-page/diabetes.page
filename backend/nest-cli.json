@@ -1,4 +1,4 @@
 {
-  "collection": "@nestjs/schematics",
+  "__schema_see": "https://json.schemastore.org/nest-cli",
   "sourceRoot": "src"
 }
