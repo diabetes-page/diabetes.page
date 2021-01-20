@@ -1,15 +1,11 @@
 import { Expose, Type } from 'class-transformer';
 import { User } from '../../entities/User.entity';
-
-class UserWithEmail extends User {
-  @Expose()
-  email: string;
-}
+import { UserResource } from '../../resources/UserResource';
 
 export class Resource {
   @Expose()
-  @Type(() => UserWithEmail)
-  users: UserWithEmail[];
+  @Type(() => UserResource)
+  users: UserResource[];
 
   static make = (users: User[]): Resource => {
     return { users };

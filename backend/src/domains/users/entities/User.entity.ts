@@ -18,7 +18,6 @@ import { UserAppointmentAssignment } from '../../appointments/entities/UserAppoi
 @Entity()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Expose()
   id: number;
 
   @Column({ unique: true })

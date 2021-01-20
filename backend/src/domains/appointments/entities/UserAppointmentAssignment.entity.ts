@@ -9,7 +9,6 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
-import { Expose } from 'class-transformer';
 import { Appointment } from './Appointment.entity';
 import { User } from '../../users/entities/User.entity';
 
@@ -17,7 +16,6 @@ import { User } from '../../users/entities/User.entity';
 @Unique(['appointment', 'user'])
 export class UserAppointmentAssignment extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Expose()
   id: number;
 
   @ManyToOne(() => Appointment, (appointment) => appointment.userAssignments, {

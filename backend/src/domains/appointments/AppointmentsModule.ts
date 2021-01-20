@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Appointment } from './entities/Appointment.entity';
-import { ShowConferenceData } from './routes/getConferenceData/ShowConferenceData';
+import { ShowConferenceData } from './routes/showConferenceData/ShowConferenceData';
 import { AppointmentsService } from './services/AppointmentsService';
 import { CreateAppointment } from './routes/createAppointment/CreateAppointment';
 import { JwtModule } from '@nestjs/jwt';

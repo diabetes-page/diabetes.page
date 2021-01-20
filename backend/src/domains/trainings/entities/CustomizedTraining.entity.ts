@@ -19,7 +19,6 @@ import { CustomizedTrainingSlide } from './CustomizedTrainingSlide.entity';
 @Unique(['consultant', 'trainingTemplate'])
 export class CustomizedTraining extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Expose()
   id: number;
 
   @ManyToOne(() => Consultant, (consultant) => consultant.customizedTrainings, {

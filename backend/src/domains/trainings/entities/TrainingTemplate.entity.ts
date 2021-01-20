@@ -16,7 +16,6 @@ import { CustomizedTraining } from './CustomizedTraining.entity';
 @Entity()
 export class TrainingTemplate extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Expose()
   id: number;
 
   // todo: unique constraint in relation table

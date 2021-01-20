@@ -17,7 +17,6 @@ import { CustomizedTraining } from '../../trainings/entities/CustomizedTraining.
 @Entity()
 export class Consultant extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Expose()
   id: number;
 
   @OneToOne(() => User, {

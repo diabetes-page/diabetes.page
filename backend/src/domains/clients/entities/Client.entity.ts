@@ -17,7 +17,6 @@ import { TrainingTemplate } from '../../trainings/entities/TrainingTemplate.enti
 @Entity()
 export class Client extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Expose()
   id: number;
 
   @Column()

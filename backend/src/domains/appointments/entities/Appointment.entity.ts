@@ -10,14 +10,12 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Expose } from 'class-transformer';
 import { CustomizedTraining } from '../../trainings/entities/CustomizedTraining.entity';
 import { UserAppointmentAssignment } from './UserAppointmentAssignment.entity';
 
 @Entity()
 export class Appointment extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Expose()
   id: number;
 
   @ManyToOne(

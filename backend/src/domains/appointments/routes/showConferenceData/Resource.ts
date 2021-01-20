@@ -1,7 +1,8 @@
 import { Expose } from 'class-transformer';
 import { Appointment } from '../../entities/Appointment.entity';
+import { AppointmentResource } from '../../resources/AppointmentResource';
 
-export class Resource extends Appointment {
+export class Resource extends AppointmentResource {
   @Expose()
   conferenceToken: string;
 

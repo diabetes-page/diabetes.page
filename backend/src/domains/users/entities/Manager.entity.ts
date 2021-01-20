@@ -8,13 +8,11 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Expose } from 'class-transformer';
 import { Consultant } from './Consultant.entity';
 
 @Entity()
 export class Manager extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Expose()
   id: number;
 
   @OneToOne(() => Consultant, {
