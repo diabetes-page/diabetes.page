@@ -1,9 +1,9 @@
-import { useWindowDimensions } from 'react-native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { Login } from '../screens/login/Login';
+import { useWindowDimensions } from 'react-native';
 import { AppointmentDetail } from '../screens/appointmentDetail/AppointmentDetail';
+import { Login } from '../screens/login/Login';
 
 const Drawer = createDrawerNavigator();
 

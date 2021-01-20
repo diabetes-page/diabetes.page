@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common';
-import { Unique } from '../../../blueprints/validators/Unique';
 import { Password } from '../../../blueprints/validators/Password';
+import { Unique } from '../../../blueprints/validators/Unique';
 
 @Global()
 @Module({

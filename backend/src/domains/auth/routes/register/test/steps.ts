@@ -1,6 +1,6 @@
+import { expect } from 'chai';
 import { Then, When } from 'cucumber';
 import { testRequest } from '../../../../../test/setup.steps';
-import { expect } from 'chai';
 
 When(
   /^I register a new account with E-Mail "([^"]*)" and password "([^"]*)"$/,

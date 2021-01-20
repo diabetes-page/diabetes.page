@@ -9,7 +9,6 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
-import { Expose } from 'class-transformer';
 import { CustomizedTraining } from './CustomizedTraining.entity';
 
 @Entity()

@@ -1,13 +1,4 @@
-import {
-  IsEmail,
-  IsInt,
-  IsString,
-  Min,
-  MinLength,
-  Validate,
-} from 'class-validator';
-import { Unique } from '../../../../blueprints/validators/Unique';
-import { User } from '../../../users/entities/User.entity';
+import { IsInt, Min } from 'class-validator';
 
 export class Parameters {
   // Todo: Check max index

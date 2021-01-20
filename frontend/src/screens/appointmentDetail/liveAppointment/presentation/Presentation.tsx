@@ -1,10 +1,10 @@
 import React, { useCallback, useContext } from 'react';
-import { ConferenceContext } from '../utilities/conferenceContext/ConferenceContext';
-import { Button, Text, View } from 'react-native';
-import { Put, withAuth } from '../../../../utilities/axios/axios';
-import { useSendMessage } from '../utilities/hooks/useSendMessage';
+import { Button, View } from 'react-native';
 import { Document, Page, pdfjs } from 'react-pdf';
+import { Put, withAuth } from '../../../../utilities/axios/axios';
 import { renderIf } from '../../../../utilities/rendering/rendering';
+import { ConferenceContext } from '../utilities/conferenceContext/ConferenceContext';
+import { useSendMessage } from '../utilities/hooks/useSendMessage';
 
 // todo: pdf worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, PipeTransform } from '@nestjs/common';
-import { AppointmentsService } from '../services/AppointmentsService';
 import { Appointment } from '../entities/Appointment.entity';
+import { AppointmentsService } from '../services/AppointmentsService';
 
 @Injectable()
 export class AppointmentById implements PipeTransform {

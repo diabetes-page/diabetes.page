@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import { Jitsi } from './jitsi/Jitsi';
-import { Chat } from './chat/Chat';
-import { renderIf } from '../../../utilities/rendering/rendering';
-import { Presentation } from './presentation/Presentation';
 import { View } from 'react-native';
+import { renderIf } from '../../../utilities/rendering/rendering';
+import { Chat } from './chat/Chat';
+import { Jitsi } from './jitsi/Jitsi';
+import { Presentation } from './presentation/Presentation';
 
 export function Conference(): JSX.Element {
   const [jitsiLoaded, setJitsiLoaded] = useState(false);

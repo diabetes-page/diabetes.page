@@ -1,10 +1,10 @@
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import {
   minLength,
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 
 // From https://gist.github.com/zarv1k/3ce359af1a3b2a7f1d99b4f66a17f1bc
 

@@ -9,7 +9,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Expose } from 'class-transformer';
 import { Client } from '../../clients/entities/Client.entity';
 import { CustomizedTraining } from './CustomizedTraining.entity';
 

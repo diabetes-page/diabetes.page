@@ -1,16 +1,15 @@
 import React, { useCallback, useState } from 'react';
-import 'strophejs-plugin-muc';
-import { useProcessMessages } from './useProcessMessages';
 import {
   Button,
   NativeSyntheticEvent,
-  NativeTouchEvent,
   Text,
   TextInput,
   TextInputKeyPressEventData,
   View,
 } from 'react-native';
+import 'strophejs-plugin-muc';
 import { useSendMessage } from '../utilities/hooks/useSendMessage';
+import { useProcessMessages } from './useProcessMessages';
 
 export function Chat(): JSX.Element {
   const [input, onInputChange, onButtonPress, onKeyPress] = useOnSendMessage();

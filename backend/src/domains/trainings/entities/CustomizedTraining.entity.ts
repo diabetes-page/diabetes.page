@@ -9,11 +9,10 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
-import { Expose } from 'class-transformer';
-import { Consultant } from '../../users/entities/Consultant.entity';
-import { TrainingTemplate } from './TrainingTemplate.entity';
 import { Appointment } from '../../appointments/entities/Appointment.entity';
+import { Consultant } from '../../users/entities/Consultant.entity';
 import { CustomizedTrainingSlide } from './CustomizedTrainingSlide.entity';
+import { TrainingTemplate } from './TrainingTemplate.entity';
 
 @Entity()
 @Unique(['consultant', 'trainingTemplate'])

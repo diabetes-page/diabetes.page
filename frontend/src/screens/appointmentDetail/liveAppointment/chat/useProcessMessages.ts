@@ -1,12 +1,8 @@
-import { useContext, useEffect, useRef, useState } from 'react';
-
-import * as nacl from 'tweetnacl';
 import * as base64 from '@stablelib/base64';
 import * as utf8 from '@stablelib/utf8';
-import {
-  ConferenceContext,
-  ConferenceDispatch,
-} from '../utilities/conferenceContext/ConferenceContext';
+import { useContext, useEffect, useRef } from 'react';
+import { Strophe } from 'strophe.js';
+import * as nacl from 'tweetnacl';
 import {
   CONFERENCE_OFFICIAL_MESSAGE_PREPEND,
   JITSI_BOSH_URL,
@@ -17,7 +13,10 @@ import {
   registerStropheRoom,
   setPresentationIndex,
 } from '../utilities/conferenceContext/actions';
-import { Strophe } from 'strophe.js';
+import {
+  ConferenceContext,
+  ConferenceDispatch,
+} from '../utilities/conferenceContext/ConferenceContext';
 
 export const useProcessMessages = (
   displayMessage: (msg: string) => void,

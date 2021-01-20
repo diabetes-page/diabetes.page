@@ -1,9 +1,9 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './modules/app/AppModule';
-import { setupPipes } from './pipes/setupPipes';
-import { setupInterceptors } from './interceptors/setupInterceptors';
 import { INestApplication } from '@nestjs/common';
 import { NestApplicationOptions } from '@nestjs/common/interfaces/nest-application-options.interface';
+import { NestFactory } from '@nestjs/core';
+import { setupInterceptors } from './interceptors/setupInterceptors';
+import { AppModule } from './modules/app/AppModule';
+import { setupPipes } from './pipes/setupPipes';
 
 export async function bootstrap(
   options?: NestApplicationOptions,

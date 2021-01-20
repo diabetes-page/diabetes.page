@@ -4,8 +4,8 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import { classToPlain, plainToClass } from 'class-transformer';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ResourceController } from '../../blueprints/controllers/ResourceController';
 

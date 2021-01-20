@@ -1,10 +1,10 @@
+import { Strophe } from 'strophe.js';
 import {
   ConferenceAction,
   INIT_CONFERENCE,
   REGISTER_STROPHE_ROOM,
   SET_PRESENTATION_INDEX,
 } from './actions';
-import { Strophe } from 'strophe.js';
 
 export type ConferenceState = {
   conferenceRoom: string | undefined;

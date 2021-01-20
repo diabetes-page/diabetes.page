@@ -25,4 +25,3 @@ npm run android
 # ios mode
 npm run ios
 ```
-

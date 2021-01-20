@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Appointment } from '../entities/Appointment.entity';
-import * as nacl from 'tweetnacl';
 import * as base64 from '@stablelib/base64';
+import * as nacl from 'tweetnacl';
+import { Appointment } from '../entities/Appointment.entity';
 
 @Injectable()
 export class AppointmentsService {

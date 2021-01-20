@@ -6,6 +6,7 @@ node_modules
 .env
 *.example
 *.png
+*.pdf
 
 backend/dist
 backend/**/*.feature

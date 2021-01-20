@@ -1,8 +1,8 @@
 import { Controller, Post } from '@nestjs/common';
+import { parseISO } from 'date-fns';
 import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
-import { Resource } from './Resource';
 import { AppointmentsService } from '../../services/AppointmentsService';
-import { parse, parseISO } from 'date-fns';
+import { Resource } from './Resource';
 
 @Controller()
 export class CreateAppointment extends ResourceController {

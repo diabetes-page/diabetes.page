@@ -1,11 +1,11 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { Parameters } from './Parameters';
-import { AuthService } from '../../services/AuthService';
-import { AuthenticationPipe } from './AuthenticationPipe';
-import { User } from '../../../users/entities/User.entity';
-import { Resource } from './Resource';
 import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
 import { InsecureRoute } from '../../../../blueprints/decorators/InsecureRoute';
+import { User } from '../../../users/entities/User.entity';
+import { AuthService } from '../../services/AuthService';
+import { AuthenticationPipe } from './AuthenticationPipe';
+import { Parameters } from './Parameters';
+import { Resource } from './Resource';
 
 @Controller()
 export class Login extends ResourceController {

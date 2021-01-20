@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '../../domains/users/entities/User.entity';
-import { hash } from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
+import { hash } from 'bcrypt';
 import * as Faker from 'faker';
-import { Client } from '../../domains/clients/entities/Client.entity';
 import { sample, times } from 'lodash';
+import { Client } from '../../domains/clients/entities/Client.entity';
+import { User } from '../../domains/users/entities/User.entity';
 
 @Injectable()
 export class Seeder {

@@ -9,10 +9,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Expose } from 'class-transformer';
-import { User } from './User.entity';
-import { Manager } from './Manager.entity';
 import { CustomizedTraining } from '../../trainings/entities/CustomizedTraining.entity';
+import { Manager } from './Manager.entity';
+import { User } from './User.entity';
 
 @Entity()
 export class Consultant extends BaseEntity {

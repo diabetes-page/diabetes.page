@@ -1,8 +1,8 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { Reflector } from '@nestjs/core';
-import { INSECURE_ROUTE_METADATA_KEY } from '../../../blueprints/decorators/InsecureRoute';
+import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
+import { INSECURE_ROUTE_METADATA_KEY } from '../../../blueprints/decorators/InsecureRoute';
 
 @Injectable()
 export class JWTAuthGuard extends AuthGuard('JWT') {

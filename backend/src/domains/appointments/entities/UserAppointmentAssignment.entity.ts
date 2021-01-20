@@ -9,8 +9,8 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
-import { Appointment } from './Appointment.entity';
 import { User } from '../../users/entities/User.entity';
+import { Appointment } from './Appointment.entity';
 
 @Entity()
 @Unique(['appointment', 'user'])

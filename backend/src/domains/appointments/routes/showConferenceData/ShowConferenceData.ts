@@ -1,11 +1,11 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
-import { Resource } from './Resource';
+import { RequestUser } from '../../../../blueprints/decorators/RequestUser';
+import { User } from '../../../users/entities/User.entity';
 import { Appointment } from '../../entities/Appointment.entity';
 import { AppointmentById } from '../../pipes/AppointmentById';
 import { ConferenceService } from '../../services/ConferenceService';
-import { RequestUser } from '../../../../blueprints/decorators/RequestUser';
-import { User } from '../../../users/entities/User.entity';
+import { Resource } from './Resource';
 
 @Controller()
 export class ShowConferenceData extends ResourceController {

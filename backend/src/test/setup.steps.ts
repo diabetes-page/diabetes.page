@@ -1,9 +1,9 @@
-import { Connection } from 'typeorm';
-import { findEnvOrFail } from '../config/utilities/findEnvOrFail';
-import { bootstrap } from '../bootstrap/bootstrap';
 import { Before, BeforeAll } from 'cucumber';
-import superagent = require('superagent');
 import * as https from 'https';
+import { Connection } from 'typeorm';
+import { bootstrap } from '../bootstrap/bootstrap';
+import { findEnvOrFail } from '../config/utilities/findEnvOrFail';
+import superagent = require('superagent');
 
 let server: any, connection: Connection;
 

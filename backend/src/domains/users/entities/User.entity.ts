@@ -10,10 +10,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Expose } from 'class-transformer';
+import { UserAppointmentAssignment } from '../../appointments/entities/UserAppointmentAssignment.entity';
 import { Client } from '../../clients/entities/Client.entity';
 import { Consultant } from './Consultant.entity';
-import { UserAppointmentAssignment } from '../../appointments/entities/UserAppointmentAssignment.entity';
 
 @Entity()
 export class User extends BaseEntity {

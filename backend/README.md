@@ -12,17 +12,22 @@ npm install
 
 ### Setting up postgres
 
-If you don't have postgres installed, [follow the instructions here to install it on Ubuntu (German article).](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04-de) 
+If you don't have postgres installed, [follow the instructions here to install it on Ubuntu (German article).](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04-de)
 
 Set password for default user `postgres`:
+
 ```bash
 sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';"
 ```
+
 Create test db:
+
 ```bash
 sudo -u postgres psql -c "CREATE DATABASE testdb;"
 ```
+
 Start/stop service:
+
 ```bash
 sudo service postgresql start
 ```

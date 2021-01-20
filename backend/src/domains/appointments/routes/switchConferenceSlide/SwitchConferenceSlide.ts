@@ -2,9 +2,9 @@ import { Body, Controller, Param, Put } from '@nestjs/common';
 import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
 import { Appointment } from '../../entities/Appointment.entity';
 import { AppointmentById } from '../../pipes/AppointmentById';
+import { OfficialMessageResource } from '../../resources/OfficialMessageResource';
 import { ConferenceService } from '../../services/ConferenceService';
 import { Parameters } from './Parameters';
-import { OfficialMessageResource } from '../../resources/OfficialMessageResource';
 
 @Controller()
 export class SwitchConferenceSlide extends ResourceController {

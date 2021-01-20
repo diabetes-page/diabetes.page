@@ -1,8 +1,8 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { Parameters } from './Parameters';
-import { UsersService } from '../../services/UsersService';
-import { Resource } from './Resource';
 import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
+import { UsersService } from '../../services/UsersService';
+import { Parameters } from './Parameters';
+import { Resource } from './Resource';
 
 @Controller()
 export class IndexUsers extends ResourceController {

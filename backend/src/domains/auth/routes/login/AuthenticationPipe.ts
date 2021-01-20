@@ -3,9 +3,9 @@ import {
   PipeTransform,
   UnauthorizedException,
 } from '@nestjs/common';
+import { User } from '../../../users/entities/User.entity';
 import { AuthService } from '../../services/AuthService';
 import { Parameters } from './Parameters';
-import { User } from '../../../users/entities/User.entity';
 
 @Injectable()
 export class AuthenticationPipe implements PipeTransform {

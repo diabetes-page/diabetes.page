@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Appointment } from '../entities/Appointment.entity';
 import { JwtService } from '@nestjs/jwt';
-import { getUnixTime } from 'date-fns';
-import { User } from '../../users/entities/User.entity';
-import * as nacl from 'tweetnacl';
 import * as base64 from '@stablelib/base64';
 import * as utf8 from '@stablelib/utf8';
+import { getUnixTime } from 'date-fns';
+import * as nacl from 'tweetnacl';
+import { User } from '../../users/entities/User.entity';
+import { Appointment } from '../entities/Appointment.entity';
 
 @Injectable()
 export class ConferenceService {

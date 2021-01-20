@@ -1,14 +1,14 @@
-import { Button, Text } from 'react-native';
 import React, { useCallback, useMemo, useReducer } from 'react';
+import { Button } from 'react-native';
 import { Get, withAuth } from '../../../utilities/axios/axios';
 import { renderIf } from '../../../utilities/rendering/rendering';
 import { Conference } from './Conference';
+import { initConference } from './utilities/conferenceContext/actions';
 import {
   ConferenceContext,
   ConferenceDispatch,
 } from './utilities/conferenceContext/ConferenceContext';
 import { initialState, reducer } from './utilities/conferenceContext/state';
-import { initConference } from './utilities/conferenceContext/actions';
 
 export function LiveAppointment(): JSX.Element {
   const [state, dispatch] = useReducer(reducer, initialState);
