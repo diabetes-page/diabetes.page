@@ -2,8 +2,9 @@ import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
-import { INSECURE_ROUTE_METADATA_KEY } from '../../../blueprints/decorators/InsecureRoute';
+import { INSECURE_ROUTE_METADATA_KEY } from '../decorators/InsecureRoute';
 
+/* This automatically makes use of the JWTStrategy defined somewhere else */
 @Injectable()
 export class JWTAuthGuard extends AuthGuard('JWT') {
   constructor(private reflector: Reflector) {
