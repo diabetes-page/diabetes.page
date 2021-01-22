@@ -19,6 +19,7 @@ export class JWTStrategy extends PassportStrategy(Strategy, 'JWT') {
   }
 
   async validate(payload: Record<string, number>): Promise<User | undefined> {
+    // todo: make sure that this request gets rejected if the user is not found
     return this.usersService.get(payload.sub);
   }
 }
