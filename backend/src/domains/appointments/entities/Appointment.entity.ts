@@ -10,7 +10,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { CustomizedTraining } from '../../trainings/entities/CustomizedTraining.entity';
+import { Training } from '../../trainings/entities/Training.entity';
+import { Consultant } from '../../users/entities/Consultant.entity';
 import { UserAppointmentAssignment } from './UserAppointmentAssignment.entity';
 
 @Entity()
@@ -18,22 +19,19 @@ export class Appointment extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(
-    () => CustomizedTraining,
-    (customizedTraining) => customizedTraining.appointments,
-    {
-      onDelete: 'RESTRICT',
-      onUpdate: 'CASCADE',
-      nullable: false,
-    },
-  )
-  customizedTraining: CustomizedTraining;
+  @ManyToOne(() => Training, (training) => training.appointments, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+    nullable: true,
+  })
+  trainings: Training | null;
 
-  @OneToMany(
-    () => UserAppointmentAssignment,
-    (assignment) => assignment.appointment,
-  )
-  userAssignments: UserAppointmentAssignment[];
+  @ManyToOne(() => Consultant, (consultant) => consultant.trainings, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+    nullable: false,
+  })
+  presenter: Consultant;
 
   @Column()
   startsAt: Date;
@@ -56,6 +54,13 @@ export class Appointment extends BaseEntity {
 
   @Column({ unique: true })
   officialMessagePrivateKey: string;
+
+  @OneToMany(
+    () => UserAppointmentAssignment,
+    (assignment) => assignment.appointment,
+    { cascade: true },
+  )
+  userAssignments: UserAppointmentAssignment[];
 
   @CreateDateColumn()
   createdAt: Date;

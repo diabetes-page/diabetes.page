@@ -38,10 +38,6 @@ We recommend using [WebStorm](https://www.jetbrains.com/webstorm/) for developme
   at `YOUR_PROJECT_FOLDER/node_modules/prettier` and check the boxes `On code reformat` and `On save`
   - Whenever you save the file, it will be formatted for you automatically!
   - You may want to develop the habit of always hitting `Ctrl+S` to format your code
-- When commiting, check the following boxes under "before commit":
-  - Reformat code
-  - Perform code analysis
-  - Check TODO
 - Mark the directories `backend/dist`, `frontend/.expo` and `frontend/.expo-shared` as excluded by right clicking them
   and selecting `Mark Directory as > Excluded`
 - Under `Settings > Appearance & Behaviour > Appearance` select the cool `Darcula` theme ;)

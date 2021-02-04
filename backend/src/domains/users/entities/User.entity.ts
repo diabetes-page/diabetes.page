@@ -4,14 +4,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { UserAppointmentAssignment } from '../../appointments/entities/UserAppointmentAssignment.entity';
-import { Client } from '../../clients/entities/Client.entity';
 import { Consultant } from './Consultant.entity';
 
 @Entity()
@@ -31,17 +29,12 @@ export class User extends BaseEntity {
   @Column({ type: 'character varying', nullable: true })
   verificationToken: string | null;
 
-  @ManyToOne(() => Client, (client) => client.users, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-    nullable: false,
+  @OneToMany(() => UserAppointmentAssignment, (assignment) => assignment.user, {
+    cascade: true,
   })
-  client: Client;
-
-  @OneToMany(() => UserAppointmentAssignment, (assignment) => assignment.user)
   appointmentAssignments: UserAppointmentAssignment[];
 
-  @OneToOne(() => Consultant)
+  @OneToOne(() => Consultant, { cascade: true })
   asConsultant: Consultant | null;
 
   @CreateDateColumn()

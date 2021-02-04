@@ -9,7 +9,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { CustomizedTraining } from '../../trainings/entities/CustomizedTraining.entity';
+import { Appointment } from '../../appointments/entities/Appointment.entity';
+import { Training } from '../../trainings/entities/Training.entity';
 import { Manager } from './Manager.entity';
 import { User } from './User.entity';
 
@@ -26,10 +27,15 @@ export class Consultant extends BaseEntity {
   @JoinColumn()
   user: User;
 
-  @OneToMany(() => CustomizedTraining, (training) => training.consultant)
-  customizedTrainings: CustomizedTraining[];
+  @OneToMany(() => Training, (training) => training.creator, { cascade: true })
+  trainings: Training[];
 
-  @OneToOne(() => Manager)
+  @OneToMany(() => Appointment, (appointment) => appointment.presenter, {
+    cascade: true,
+  })
+  appointments: Appointment[];
+
+  @OneToOne(() => Manager, { cascade: true })
   asManager: Manager | null;
 
   @CreateDateColumn()
