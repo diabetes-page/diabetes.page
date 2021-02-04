@@ -34,6 +34,8 @@ sudo service postgresql start
 
 Default port is `5432`.
 
+For inspecting the Postgres database, [Beekeper Studio](https://www.beekeeperstudio.io/) is a nice application.
+
 ### Creating the `.env` file
 
 Finally, create a `.env` file via

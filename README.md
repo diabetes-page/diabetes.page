@@ -48,3 +48,8 @@ We recommend using [WebStorm](https://www.jetbrains.com/webstorm/) for developme
   - Cleanup
 - Mark the directories `backend/dist`, `frontend/.expo` and `frontend/.expo-shared` as excluded by right clicking them and selecting `Mark Directory as > Excluded`
 - Under `Settings > Appearance & Behaviour > Appearance` select the cool `Darcula` theme ;)
+
+## Other recommended software
+
+- We recommend using [Typora](https://typora.io/) to edit markdown files.
+- For inspecting the Postgres database, [Beekeper Studio](https://www.beekeeperstudio.io/) is a nice application.
