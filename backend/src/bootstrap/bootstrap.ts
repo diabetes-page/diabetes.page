@@ -5,14 +5,12 @@ import { setupInterceptors } from './interceptors/setupInterceptors';
 import { AppModule } from './modules/app/AppModule';
 import { setupPipes } from './pipes/setupPipes';
 
-export async function bootstrap(
-  options?: NestApplicationOptions,
-  test = false,
-): Promise<INestApplication> {
-  // todo: don't allow passing options, just test mode or not.
-  options = options ?? {};
-  options.cors = {
-    origin: 'http://localhost:19006', // todo: put in .env
+export async function bootstrap(test = false): Promise<INestApplication> {
+  const options: NestApplicationOptions = {
+    logger: ['error', 'warn'],
+    cors: {
+      origin: 'http://localhost:19006', // todo: put in .env
+    },
   };
   const app = await NestFactory.create(AppModule, options);
 

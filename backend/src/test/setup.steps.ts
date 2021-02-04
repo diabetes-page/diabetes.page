@@ -35,7 +35,7 @@ const setEnv = (): void => {
 BeforeAll(async function () {
   setEnv();
 
-  const app = await bootstrap({ logger: ['error', 'warn'] }, true);
+  const app = await bootstrap(true);
   server = app.getHttpServer();
   connection = app.get(Connection);
 });
