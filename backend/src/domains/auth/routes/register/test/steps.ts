@@ -1,11 +1,12 @@
 import { expect } from 'chai';
-import { Then, When } from 'cucumber';
-import { testRequest } from '../../../../../test/setup.steps';
+import { Given, Then, When } from 'cucumber';
+import { seeder, testRequest } from '../../../../../test/setup.steps';
 
 When(
-  /^I register a new account with E-Mail "([^"]*)" and password "([^"]*)"$/,
-  async function (email: string, password: string) {
+  /^I register a new account with name "([^"]*)", E-Mail "([^"]*)" and password "([^"]*)"$/,
+  async function (name: string, email: string, password: string) {
     this.response = await testRequest('POST', '/register', {
+      name,
       email,
       password,
     });
@@ -34,7 +35,17 @@ Then(
   /^the reason for the rejection is that the E-Mail is already in use$/,
   function () {
     expect(this.response.body.message).to.have.members([
-      'email must be an email',
+      "User with the same 'email' already exist",
     ]);
+  },
+);
+
+Given(
+  /^a user with name "([^"]*)" and E\-Mail "([^"]*)"$/,
+  async function (name: string, email: string) {
+    await seeder.createUser({
+      name,
+      email,
+    });
   },
 );

@@ -13,7 +13,7 @@ export class Seeder {
   async seed(): Promise<void> {
     console.log('Seeding...');
 
-    await this.repeat(this.createUser, 10);
+    await this.repeat(() => this.createUser(), 10);
   }
 
   public async repeat<Entity extends BaseEntity>(
@@ -23,7 +23,7 @@ export class Seeder {
     return Promise.all(times(amount, factory));
   }
 
-  public createUser = async (): Promise<User> => {
+  public createUser = async (props: Partial<User> = {}): Promise<User> => {
     const passwordHash = await hash(
       'example',
       this.configService.get<number>('security.bcryptSaltRounds', 10),
@@ -33,6 +33,7 @@ export class Seeder {
       name: Faker.name.findName(),
       email: Faker.internet.email(),
       password: passwordHash,
+      ...props,
     }).save();
   };
 }

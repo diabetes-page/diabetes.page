@@ -1,11 +1,14 @@
-import { Before, BeforeAll } from 'cucumber';
+import { INestApplication } from '@nestjs/common';
+import { AfterAll, Before, BeforeAll } from 'cucumber';
 import * as https from 'https';
 import { Connection } from 'typeorm';
 import { bootstrap } from '../bootstrap/bootstrap';
 import { findEnvOrFail } from '../config/utilities/findEnvOrFail';
+import { Seeder } from '../database/seeding/Seeder';
 import superagent = require('superagent');
 
-let server: any, connection: Connection;
+let app: INestApplication, server: any, connection: Connection;
+export let seeder: Seeder;
 
 const getFullPath = (path: string): string => {
   const port = server.address().port;
@@ -35,12 +38,17 @@ const setEnv = (): void => {
 BeforeAll(async function () {
   setEnv();
 
-  const app = await bootstrap(true);
+  app = await bootstrap(true);
   server = app.getHttpServer();
   connection = app.get(Connection);
+  seeder = app.get(Seeder);
 });
 
 Before(async function migrateFresh(): Promise<void> {
   await connection.dropDatabase();
   await connection.runMigrations();
+});
+
+AfterAll(async function () {
+  await app.close();
 });

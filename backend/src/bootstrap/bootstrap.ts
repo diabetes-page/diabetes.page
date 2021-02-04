@@ -3,6 +3,7 @@ import { NestApplicationOptions } from '@nestjs/common/interfaces/nest-applicati
 import { NestFactory } from '@nestjs/core';
 import { setupInterceptors } from './interceptors/setupInterceptors';
 import { AppModule } from './modules/app/AppModule';
+import { TestingModule } from './modules/testing/TestingModule';
 import { setupPipes } from './pipes/setupPipes';
 
 export async function bootstrap(test = false): Promise<INestApplication> {
@@ -11,7 +12,8 @@ export async function bootstrap(test = false): Promise<INestApplication> {
       origin: 'http://localhost:19006', // todo: put in .env
     },
   };
-  const app = await NestFactory.create(AppModule, options);
+  const mainModule = test ? TestingModule : AppModule;
+  const app = await NestFactory.create(mainModule, options);
 
   setupPipes(app);
   setupInterceptors(app);
