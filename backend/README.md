@@ -28,10 +28,11 @@ Set password for default user `postgres`:
 sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';"
 ```
 
-Create test db:
+Create the main and test databases:
 
 ```bash
-sudo -u postgres psql -c "CREATE DATABASE testdb;"
+sudo -u postgres psql -c "CREATE DATABASE diabetes-page;"
+sudo -u postgres psql -c "CREATE DATABASE diabetes-page-test;"
 ```
 
 Start/stop service:
@@ -54,7 +55,7 @@ cp .env.example .env
 
 And set the correct values in the `.env` file. Choose a randomly generated password for `SECRET_KEY`.
 
-And you're done! Try to run the backend using one of the commands below.
+And you're done!
 
 ### Run the migrations
 
