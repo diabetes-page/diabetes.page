@@ -14,6 +14,7 @@ export const TypeOrmModule = TypeOrmModuleBase.forRootAsync({
       synchronize: process.env.TYPEORM_SYNCHRONIZE,
       migrations: [process.env.TYPEORM_MIGRATIONS],
       entities: [process.env.TYPEORM_ENTITIES],
+      autoLoadEntities: true,
     };
   },
 });

@@ -7,7 +7,6 @@ import { setupPipes } from './pipes/setupPipes';
 
 export async function bootstrap(test = false): Promise<INestApplication> {
   const options: NestApplicationOptions = {
-    logger: ['error', 'warn'],
     cors: {
       origin: 'http://localhost:19006', // todo: put in .env
     },
