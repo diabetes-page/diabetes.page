@@ -42,24 +42,36 @@ Finally, create a `.env` file via
 cp .env.example .env
 ```
 
-And set the correct values in the `.env` file.
+And set the correct values in the `.env` file. Choose a randomly generated password for `SECRET_KEY`.
 
 And you're done! Try to run the backend using one of the commands below.
+
+### Run the migrations
+
+Run all database migrations to set up the database.
+
+```bash
+# Delete all tables and run migrations
+npm run db:fresh
+
+# Run seeder 
+npm run db:seed
+
+# Or just use this command to do both in one run:
+npm run db:fresheed
+```
 
 ## Running the backend
 
 ```bash
-# development mode
-npm run start:dev
-
 # watch mode
-npm run start:dev:watch
+npm run watch
 
 # debug mode
-npm run start:dev:debug
+npm run debug
 
 # production mode
-npm run start:prod
+npm run prod
 ```
 
 ## Testing

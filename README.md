@@ -23,7 +23,7 @@ git clone git@bitbucket.org:thesoftwarebrothers/diabetes.page.git diabetes-page
 
 You will probably need to setup your SSH key first. [Check the bitbucket support page for SSH keys.](https://support.atlassian.com/bitbucket-cloud/docs/set-up-an-ssh-key/)
 
-Check if you have `node` installed by executing `node --version`. If not, [download the newest version here.](https://nodejs.org/en/)
+Check if you have `node` installed by executing `node --version`. If not, [download the newest (LTS) version here.](https://nodejs.org/en/)
 
 Next, enter the new directory with `cd diabetes-page` and install the root-level npm packages with `npm install`.
 
@@ -36,8 +36,9 @@ We recommend using [WebStorm](https://www.jetbrains.com/webstorm/) for developme
 - Under `Settings > Languages & Frameworks > JavaScript > Code Quality Tools > ESLint` select `Automatic ESLint configuration`.
 - Under `Settings > Languages & Frameworks > JavaScript > Prettier` select the Prettier package at `YOUR_PROJECT_FOLDER/node_modules/prettier` and check the boxes `On code reformat` and `On save`
   - Whenever you save the file, it will be formatted for you automatically!
-- Go to any `.ts`file, press `Ctrl+Alt+Shift+L` and select all tick boxes and press run
-  - Press ``Ctrl+Alt+L` anytime to clean up your code + imports!
+  - You may want to develop the habit of always hitting`Ctrl+S` to format your code
+- Go to any `.ts` file, press `Ctrl+Alt+Shift+L` and select all tick boxes and press run
+  - Press `Ctrl+Alt+L` anytime to clean up your code + imports!
 - When commiting, check at least the following boxes under "before commit":
   - Reformat code
   - Rearrange code
@@ -46,4 +47,4 @@ We recommend using [WebStorm](https://www.jetbrains.com/webstorm/) for developme
   - Check TODO
   - Cleanup
 - Mark the directories `backend/dist`, `frontend/.expo` and `frontend/.expo-shared` as excluded by right clicking them and selecting `Mark Directory as > Excluded`
-- Under `Settings > Appearance & Behaviour > Appearance` select the cool `Darcula` theme
+- Under `Settings > Appearance & Behaviour > Appearance` select the cool `Darcula` theme ;)
