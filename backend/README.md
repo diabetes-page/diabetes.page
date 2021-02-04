@@ -60,7 +60,7 @@ npm run db:fresh
 npm run db:seed
 
 # Or just use this command to do both in one run:
-npm run db:fresheed
+npm run db:freshseed
 ```
 
 ## Running the backend
