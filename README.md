@@ -34,19 +34,16 @@ Now, you will have to install the `backend`, `frontend`and `jitsi` services. For
 We recommend using [WebStorm](https://www.jetbrains.com/webstorm/) for development. The following settings are recommended:
 
 - Under `Settings > Languages & Frameworks > JavaScript > Code Quality Tools > ESLint` select `Automatic ESLint configuration`.
-- Under `Settings > Languages & Frameworks > JavaScript > Prettier` select the Prettier package at `YOUR_PROJECT_FOLDER/node_modules/prettier` and check the boxes `On code reformat` and `On save`
+- Under `Settings > Languages & Frameworks > JavaScript > Prettier` select the Prettier package
+  at `YOUR_PROJECT_FOLDER/node_modules/prettier` and check the boxes `On code reformat` and `On save`
   - Whenever you save the file, it will be formatted for you automatically!
-  - You may want to develop the habit of always hitting`Ctrl+S` to format your code
-- Go to any `.ts` file, press `Ctrl+Alt+Shift+L` and select all tick boxes and press run
-  - Press `Ctrl+Alt+L` anytime to clean up your code + imports!
-- When commiting, check at least the following boxes under "before commit":
+  - You may want to develop the habit of always hitting `Ctrl+S` to format your code
+- When commiting, check the following boxes under "before commit":
   - Reformat code
-  - Rearrange code
-  - Optimize imports
   - Perform code analysis
   - Check TODO
-  - Cleanup
-- Mark the directories `backend/dist`, `frontend/.expo` and `frontend/.expo-shared` as excluded by right clicking them and selecting `Mark Directory as > Excluded`
+- Mark the directories `backend/dist`, `frontend/.expo` and `frontend/.expo-shared` as excluded by right clicking them
+  and selecting `Mark Directory as > Excluded`
 - Under `Settings > Appearance & Behaviour > Appearance` select the cool `Darcula` theme ;)
 
 ## Other recommended software
