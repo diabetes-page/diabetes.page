@@ -1,10 +1,18 @@
 # diabetes.page backend
 
-This the backend of diabetes.page and offers an API written using `nest.js`.
+This the backend of diabetes.page and offers an API written using [nest.js](https://nestjs.com/).
 
 ## Installation
 
-First, run
+### Nest setup
+
+Install the nest command line interface (might need to be run with `sudo`):
+
+```bash
+npm install --global @nestjs/cli
+```
+
+Install all the packages:
 
 ```bash
 npm install
