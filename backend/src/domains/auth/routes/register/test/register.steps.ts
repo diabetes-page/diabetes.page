@@ -5,7 +5,7 @@ import { testRequest } from '../../../../../test/setup.steps';
 When(
   /^I register a new account with name "([^"]*)", E-Mail "([^"]*)" and password "([^"]*)"$/,
   async function (name: string, email: string, password: string) {
-    this.response = await testRequest('POST', '/register', {
+    this.response = await testRequest('POST', '/auth/register', {
       name,
       email,
       password,

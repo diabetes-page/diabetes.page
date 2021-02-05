@@ -1,3 +1,4 @@
+import { HttpStatus } from '@nestjs/common';
 import { expect } from 'chai';
 import { Given, Then, When } from 'cucumber';
 import { seeder, testRequest } from '../../../../../test/setup.steps';
@@ -16,7 +17,7 @@ Given(
 );
 
 When(/^I login to the application$/, async function () {
-  this.response = await testRequest('POST', '/login', {
+  this.response = await testRequest('POST', '/auth/login', {
     email: this.user.email,
     password: this.password,
   });
@@ -24,4 +25,10 @@ When(/^I login to the application$/, async function () {
 
 Then(/^the response contains a token$/, function () {
   expect(this.response.body.token).to.be.a('string');
+});
+
+Then(/^the token is valid$/, async function () {
+  const response = await testRequest('GET', '/auth/status');
+  expect(response.status).to.equal(HttpStatus.OK);
+  expect(response.body.authenticated).to.equal(true);
 });

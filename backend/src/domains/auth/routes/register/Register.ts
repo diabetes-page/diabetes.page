@@ -15,7 +15,7 @@ export class Register extends ResourceController {
 
   @InsecureRoute()
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Post('/register')
+  @Post('/auth/register')
   async login(@Body() params: Parameters): Promise<Resource> {
     await this.usersService.add(params.name, params.email, params.password);
     // todo: use verification code, send email

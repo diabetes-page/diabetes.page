@@ -8,3 +8,4 @@ Feature: Login
     When I login to the application
     Then the request is successful
     And the response contains a token
+    And the token is valid

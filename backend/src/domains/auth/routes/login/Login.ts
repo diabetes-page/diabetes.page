@@ -17,7 +17,7 @@ export class Login extends ResourceController {
 
   @InsecureRoute()
   @HttpCode(HttpStatus.OK)
-  @Post('/login')
+  @Post('/auth/login')
   async login(
     @Body() params: Parameters,
     @Body(AuthenticationPipe) authenticatedUser: User,
