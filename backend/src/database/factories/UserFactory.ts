@@ -7,6 +7,21 @@ import { User } from '../../domains/users/entities/User.entity';
 
 @Injectable()
 export class UserFactory {
+  public static readonly blueprints: Record<string, Partial<User>> = {
+    vincent: {
+      name: 'Vincent Rolfs',
+      email: 'v.rolfs@diabetes.page',
+    },
+    joe: {
+      name: 'Joe Hewett',
+      email: 'joehewett1@gmail.com',
+    },
+    tom: {
+      name: 'Tom Diacono',
+      email: 'thomas.diacono1999@gmail.com',
+    },
+  };
+
   constructor(private configService: ConfigService) {}
 
   public createConsultant = async (
@@ -21,7 +36,7 @@ export class UserFactory {
 
   public createUser = async (props: Partial<User> = {}): Promise<User> => {
     const passwordHash = await hash(
-      'example',
+      'rmr',
       this.configService.get<number>('security.bcryptSaltRounds', 10),
     );
 
