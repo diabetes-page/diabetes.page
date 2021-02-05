@@ -13,6 +13,11 @@ Feature: Registration
     Then the request is rejected
     And the reason for the rejection is that the E-Mail address has the wrong format
 
+  Scenario: Name must not be empty
+    When I register a new account with name "", E-Mail "test@example.com" and password "12345678"
+    Then the request is rejected
+    And the reason for the rejection is that the name must not be empty
+
   Scenario: E-Mail address must not be used already
     Given a user with name "Mr. X" and E-Mail "test@example.com"
     When I register a new account with name "Gustavo Fring", E-Mail "test@example.com" and password "12345678"

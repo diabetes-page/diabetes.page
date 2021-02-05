@@ -49,3 +49,13 @@ Given(
     });
   },
 );
+
+Then(
+  /^the reason for the rejection is that the name must not be empty$/,
+  function () {
+    expect(this.response.body.message).to.have.members([
+      'name must be longer than or equal to 1 characters',
+      'name must be a string',
+    ]);
+  },
+);
