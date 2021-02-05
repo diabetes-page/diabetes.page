@@ -21,9 +21,16 @@ export const testRequest = async (
   method: string,
   path: string,
   data?: string | Record<string, unknown>,
+  jwt?: string,
 ): Promise<superagent.Response> => {
   return new Promise((resolve) => {
-    superagent(method, getFullPath(path))
+    let agent = superagent(method, getFullPath(path));
+
+    if (jwt) {
+      agent = agent.auth(jwt, { type: 'bearer' });
+    }
+
+    agent
       .send(data)
       .end((err: any, response: superagent.Response) => resolve(response));
   });

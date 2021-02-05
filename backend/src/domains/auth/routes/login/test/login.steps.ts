@@ -25,10 +25,11 @@ When(/^I login to the application$/, async function () {
 
 Then(/^the response contains a token$/, function () {
   expect(this.response.body.token).to.be.a('string');
+  this.jwt = this.response.body.token;
 });
 
 Then(/^the token is valid$/, async function () {
-  const response = await testRequest('GET', '/auth/status');
+  const response = await testRequest('GET', '/auth/status', {}, this.jwt);
   expect(response.status).to.equal(HttpStatus.OK);
   expect(response.body.authenticated).to.equal(true);
 });

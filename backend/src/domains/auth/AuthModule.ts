@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from '../users/UsersModule';
+import { CheckIfAuthenticated } from './routes/login/checkIfAuthenticated/CheckIfAuthenticated';
 import { Login } from './routes/login/Login';
 import { Register } from './routes/register/Register';
 import { AuthService } from './services/AuthService';
@@ -20,7 +21,7 @@ import { JWTStrategy } from './strategies/JWTStrategy';
       inject: [ConfigService],
     }),
   ],
-  controllers: [Login, Register],
+  controllers: [Login, Register, CheckIfAuthenticated],
   providers: [AuthService, JWTStrategy],
 })
 export class AuthModule {}
