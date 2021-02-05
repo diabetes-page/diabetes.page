@@ -11,13 +11,15 @@
     "watch": "nest start --watch",
     "debug": "nest start --debug --watch",
     "prod": "node dist/main",
+
     "test": "ts-node scripts/runTests.ts",
     "db:fresh": "typeorm schema:drop && typeorm migration:run",
     "db:seed": "nest start --config src/database/seeding/bootstrap/nest-cli.json",
     "db:freshseed": "npm run db:fresh && npm run db:seed",
     "db:gen": "typeorm migration:generate",
     "db:migrate": "typeorm migration:run",
-    "docs": "node docs/generate_docs.js"
+
+    "make:requests": "ts-node scripts/generateRequestFunctions.ts"
   },
   "dependencies": {
     "@nestjs/common": "^7.4.4",
