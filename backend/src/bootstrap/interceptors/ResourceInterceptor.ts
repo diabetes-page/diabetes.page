@@ -32,7 +32,7 @@ export class ResourceInterceptor implements NestInterceptor {
       !controllerClass.Resource
     ) {
       throw new Error(
-        'Every controller must extend InsecureResourceController and declare Resource',
+        'Every controller must extend ResourceController and declare Resource',
       );
     }
 
