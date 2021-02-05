@@ -1,6 +1,7 @@
-import { Controller, Post } from '@nestjs/common';
+import { Controller, Post, UseGuards } from '@nestjs/common';
 import { parseISO } from 'date-fns';
 import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
+import { ConsultantGuard } from '../../../../blueprints/guards/ConsultantGuard';
 import { AppointmentsService } from '../../services/AppointmentsService';
 import { Resource } from './Resource';
 
@@ -12,7 +13,7 @@ export class CreateAppointment extends ResourceController {
     super();
   }
 
-  // todo: role-based protection
+  @UseGuards(ConsultantGuard)
   @Post('/appointments')
   async serve(): Promise<Resource> {
     const start = parseISO('2020-11-10T09:00');

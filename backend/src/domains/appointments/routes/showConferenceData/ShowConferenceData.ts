@@ -15,7 +15,7 @@ export class ShowConferenceData extends ResourceController {
     super();
   }
 
-  // todo: role-based protection, check users and appointment.startsAt
+  // todo: check if user is assigned (or creator), check appointment.startsAt / endsAt
   @Get('/appointments/:id/conference')
   async serve(
     @Param(AppointmentById) appointment: Appointment,

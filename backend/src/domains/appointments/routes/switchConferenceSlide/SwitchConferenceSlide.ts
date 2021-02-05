@@ -1,5 +1,6 @@
-import { Body, Controller, Param, Put } from '@nestjs/common';
+import { Body, Controller, Param, Put, UseGuards } from '@nestjs/common';
 import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
+import { ConsultantGuard } from '../../../../blueprints/guards/ConsultantGuard';
 import { Appointment } from '../../entities/Appointment.entity';
 import { AppointmentById } from '../../pipes/AppointmentById';
 import { OfficialMessageResource } from '../../resources/OfficialMessageResource';
@@ -14,7 +15,8 @@ export class SwitchConferenceSlide extends ResourceController {
     super();
   }
 
-  // todo: role-based protection, check users and appointment.startsAt
+  // todo: check if consultant is presenter
+  @UseGuards(ConsultantGuard)
   @Put('/appointments/:id/conference/slide')
   async serve(
     @Param(AppointmentById) appointment: Appointment,
