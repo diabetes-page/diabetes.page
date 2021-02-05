@@ -1,9 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
-import { ResourceController } from '../../../../../blueprints/controllers/ResourceController';
+import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
 import { Resource } from './Resource';
 
 @Controller()
-export class CheckIfAuthenticated extends ResourceController {
+export class CheckAuthStatus extends ResourceController {
   public static Resource = Resource;
 
   @Get('/auth/status')

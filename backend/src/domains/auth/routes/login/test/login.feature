@@ -1,7 +1,7 @@
 Feature: Login
   In order to gain access to the application
   As a user
-  I login to my account
+  I can login to my account
 
   Scenario: E-Mail address must not be used already
     Given I am a user with E-Mail "test@example.com" and password "12345678"
