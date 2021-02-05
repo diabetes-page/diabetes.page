@@ -4,11 +4,11 @@ import * as https from 'https';
 import { Connection } from 'typeorm';
 import { bootstrap } from '../bootstrap/bootstrap';
 import { findEnvOrFail } from '../config/utilities/findEnvOrFail';
-import { Seeder } from '../database/seeding/Seeder';
+import { MainSeeder } from '../database/seeding/MainSeeder';
 import superagent = require('superagent');
 
 let app: INestApplication, server: any, connection: Connection;
-export let seeder: Seeder;
+export let seeder: MainSeeder;
 
 const getFullPath = (path: string): string => {
   const port = server.address().port;
@@ -41,7 +41,7 @@ BeforeAll(async function () {
   app = await bootstrap(true);
   server = app.getHttpServer();
   connection = app.get(Connection);
-  seeder = app.get(Seeder);
+  seeder = app.get(MainSeeder);
 });
 
 Before(async function migrateFresh(): Promise<void> {

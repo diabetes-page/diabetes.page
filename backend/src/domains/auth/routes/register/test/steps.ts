@@ -43,7 +43,7 @@ Then(
 Given(
   /^a user with name "([^"]*)" and E\-Mail "([^"]*)"$/,
   async function (name: string, email: string) {
-    await seeder.createUser({
+    await seeder.userFactory.createUser({
       name,
       email,
     });
