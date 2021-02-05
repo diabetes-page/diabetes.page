@@ -3,8 +3,10 @@ import { sample, times } from 'lodash';
 import { BaseEntity } from 'typeorm';
 import { LearningBase } from '../../domains/learningBases/entities/LearningBase.entity';
 import { Topic } from '../../domains/learningBases/entities/Topic.entity';
+import { Training } from '../../domains/trainings/entities/Training.entity';
 import { Consultant } from '../../domains/users/entities/Consultant.entity';
 import { mapPromises } from '../../utilities/promises';
+import { AppointmentFactory } from '../factories/AppointmentFactory';
 import { LearningBaseFactory } from '../factories/LearningBaseFactory';
 import { TrainingFactory } from '../factories/TrainingFactory';
 import { UserFactory } from '../factories/UserFactory';
@@ -15,6 +17,7 @@ export class MainSeeder {
     public userFactory: UserFactory,
     public learningBaseFactory: LearningBaseFactory,
     public trainingFactory: TrainingFactory,
+    public appointmentFactory: AppointmentFactory,
   ) {}
 
   public async seed(): Promise<void> {
@@ -24,6 +27,7 @@ export class MainSeeder {
     await this.seedLearningBases();
     await this.seedTopics();
     await this.seedTrainings();
+    await this.seedAppointments();
   }
 
   public async repeat<Entity extends BaseEntity>(
@@ -34,6 +38,7 @@ export class MainSeeder {
   }
 
   private async seedUsers(): Promise<void> {
+    console.log('Seeding users...');
     await this.repeat(() => this.userFactory.createUser(), 10);
     await this.userFactory.createConsultant(UserFactory.blueprints.vincent);
     await this.userFactory.createConsultant(UserFactory.blueprints.joe);
@@ -41,6 +46,7 @@ export class MainSeeder {
   }
 
   private async seedLearningBases(): Promise<void> {
+    console.log('Seeding learning bases...');
     await this.repeat(async () => {
       const learningBase = await this.learningBaseFactory.createLearningBase();
       await this.repeat(
@@ -51,6 +57,7 @@ export class MainSeeder {
   }
 
   private async seedTopics(): Promise<any> {
+    console.log('Seeding topics...');
     return mapPromises(LearningBase.find(), (learningBase) => {
       return this.repeat(
         () => this.learningBaseFactory.createTopic(learningBase),
@@ -60,11 +67,28 @@ export class MainSeeder {
   }
 
   private async seedTrainings(): Promise<any> {
+    console.log('Seeding trainings...');
     const consultants = await Consultant.find();
 
     return mapPromises(Topic.find(), (topic) => {
       return this.repeat(
         () => this.trainingFactory.createTraining(topic, sample(consultants)!),
+        3,
+      );
+    });
+  }
+
+  private async seedAppointments(): Promise<any> {
+    console.log('Seeding appointments...');
+    const consultants = await Consultant.find();
+
+    return mapPromises(Training.find(), (training) => {
+      return this.repeat(
+        () =>
+          this.appointmentFactory.createAppointment(
+            training,
+            sample(consultants)!,
+          ),
         3,
       );
     });
