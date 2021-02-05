@@ -9,7 +9,7 @@ export class LearningBaseFactory {
     props: Partial<LearningBase> = {},
   ): Promise<LearningBase> => {
     return LearningBase.create({
-      name: Faker.company.catchPhrase(),
+      name: Faker.lorem.word(),
       ...props,
     }).save();
   };
@@ -20,7 +20,7 @@ export class LearningBaseFactory {
   ): Promise<Topic> => {
     return Topic.create({
       learningBase: learningBase,
-      name: Faker.company.bsNoun(),
+      name: Faker.company.catchPhrase(),
       ...props,
     }).save();
   };

@@ -1,7 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { times } from 'lodash';
+import { sample, times } from 'lodash';
 import { BaseEntity } from 'typeorm';
+import { LearningBase } from '../../domains/learningBases/entities/LearningBase.entity';
+import { Topic } from '../../domains/learningBases/entities/Topic.entity';
+import { Consultant } from '../../domains/users/entities/Consultant.entity';
+import { mapPromises } from '../../utilities/promises';
 import { LearningBaseFactory } from '../factories/LearningBaseFactory';
+import { TrainingFactory } from '../factories/TrainingFactory';
 import { UserFactory } from '../factories/UserFactory';
 
 @Injectable()
@@ -9,6 +14,7 @@ export class MainSeeder {
   constructor(
     public userFactory: UserFactory,
     public learningBaseFactory: LearningBaseFactory,
+    public trainingFactory: TrainingFactory,
   ) {}
 
   public async seed(): Promise<void> {
@@ -16,6 +22,8 @@ export class MainSeeder {
 
     await this.seedUsers();
     await this.seedLearningBases();
+    await this.seedTopics();
+    await this.seedTrainings();
   }
 
   public async repeat<Entity extends BaseEntity>(
@@ -27,7 +35,6 @@ export class MainSeeder {
 
   private async seedUsers(): Promise<void> {
     await this.repeat(() => this.userFactory.createUser(), 10);
-    await this.repeat(() => this.userFactory.createConsultant(), 3);
     await this.userFactory.createConsultant(UserFactory.blueprints.vincent);
     await this.userFactory.createConsultant(UserFactory.blueprints.joe);
     await this.userFactory.createConsultant(UserFactory.blueprints.tom);
@@ -41,5 +48,25 @@ export class MainSeeder {
         3,
       );
     }, 3);
+  }
+
+  private async seedTopics(): Promise<any> {
+    return mapPromises(LearningBase.find(), (learningBase) => {
+      return this.repeat(
+        () => this.learningBaseFactory.createTopic(learningBase),
+        3,
+      );
+    });
+  }
+
+  private async seedTrainings(): Promise<any> {
+    const consultants = await Consultant.find();
+
+    return mapPromises(Topic.find(), (topic) => {
+      return this.repeat(
+        () => this.trainingFactory.createTraining(topic, sample(consultants)!),
+        3,
+      );
+    });
   }
 }

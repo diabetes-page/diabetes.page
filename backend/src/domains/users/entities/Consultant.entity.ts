@@ -23,6 +23,7 @@ export class Consultant extends BaseEntity {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
     nullable: false,
+    eager: true,
   })
   @JoinColumn()
   user: User;
