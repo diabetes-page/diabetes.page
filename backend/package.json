@@ -11,7 +11,7 @@
     "watch": "nest start --watch",
     "debug": "nest start --debug --watch",
     "prod": "node dist/main",
-    "test": "ts-node scripts/run_tests.ts",
+    "test": "ts-node scripts/runTests.ts",
     "db:fresh": "typeorm schema:drop && typeorm migration:run",
     "db:seed": "nest start --config src/database/seeding/bootstrap/nest-cli.json",
     "db:freshseed": "npm run db:fresh && npm run db:seed",
