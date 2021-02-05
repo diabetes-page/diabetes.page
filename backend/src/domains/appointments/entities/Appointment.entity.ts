@@ -24,7 +24,7 @@ export class Appointment extends BaseEntity {
     onUpdate: 'CASCADE',
     nullable: true,
   })
-  trainings: Training | null;
+  training: Training | null;
 
   @ManyToOne(() => Consultant, (consultant) => consultant.trainings, {
     onDelete: 'CASCADE',

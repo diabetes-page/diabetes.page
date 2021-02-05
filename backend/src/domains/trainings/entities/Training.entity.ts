@@ -35,7 +35,7 @@ export class Training extends BaseEntity {
   })
   creator: Consultant;
 
-  @OneToMany(() => Appointment, (appointment) => appointment.trainings, {
+  @OneToMany(() => Appointment, (appointment) => appointment.training, {
     cascade: true,
   })
   appointments: Appointment[];
