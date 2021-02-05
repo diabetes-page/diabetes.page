@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { Given, Then, When } from 'cucumber';
-import { seeder, testRequest } from '../../../../../test/setup.steps';
+import { Then, When } from 'cucumber';
+import { testRequest } from '../../../../../test/setup.steps';
 
 When(
   /^I register a new account with name "([^"]*)", E-Mail "([^"]*)" and password "([^"]*)"$/,
@@ -37,16 +37,6 @@ Then(
     expect(this.response.body.message).to.have.members([
       "User with the same 'email' already exist",
     ]);
-  },
-);
-
-Given(
-  /^a user with name "([^"]*)" and E\-Mail "([^"]*)"$/,
-  async function (name: string, email: string) {
-    await seeder.userFactory.createUser({
-      name,
-      email,
-    });
   },
 );
 

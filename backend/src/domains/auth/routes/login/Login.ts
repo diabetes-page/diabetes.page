@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
 import { InsecureRoute } from '../../../../blueprints/decorators/InsecureRoute';
 import { User } from '../../../users/entities/User.entity';
@@ -16,6 +16,7 @@ export class Login extends ResourceController {
   }
 
   @InsecureRoute()
+  @HttpCode(HttpStatus.OK)
   @Post('/login')
   async login(
     @Body() params: Parameters,

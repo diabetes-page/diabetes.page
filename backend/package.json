@@ -11,7 +11,7 @@
     "watch": "nest start --watch",
     "debug": "nest start --debug --watch",
     "prod": "node dist/main",
-    "test": "cucumber-js src/**/*.feature --require 'src/**/*.steps.ts' --require 'src/**/steps.ts' --require-module ts-node/register",
+    "test": "ts-node scripts/run_tests.ts",
     "db:fresh": "typeorm schema:drop && typeorm migration:run",
     "db:seed": "nest start --config src/database/seeding/bootstrap/nest-cli.json",
     "db:freshseed": "npm run db:fresh && npm run db:seed",

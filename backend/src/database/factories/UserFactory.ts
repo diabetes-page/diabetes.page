@@ -34,9 +34,12 @@ export class UserFactory {
     }).save();
   };
 
-  public createUser = async (props: Partial<User> = {}): Promise<User> => {
+  public createUser = async (
+    props: Partial<User> = {},
+    password = 'rmr',
+  ): Promise<User> => {
     const passwordHash = await hash(
-      'rmr',
+      password,
       this.configService.get<number>('security.bcryptSaltRounds', 10),
     );
 
