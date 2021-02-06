@@ -1,11 +1,20 @@
 import { Action } from '../root/actions';
+import { SET_USER } from './actions';
+import { UserState } from './state';
 
-export type UserState = void | null;
-const initialState: UserState = null;
+const initialState: UserState = {};
 
 export const main = (
   state: UserState = initialState,
   action: Action,
 ): UserState => {
-  return state;
+  switch (action.type) {
+    case SET_USER:
+      return {
+        ...state,
+        ...action.user,
+      };
+    default:
+      return state;
+  }
 };

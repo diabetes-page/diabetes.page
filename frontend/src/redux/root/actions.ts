@@ -1,1 +1,3 @@
-export type Action = void;
+import { SetUser } from '../user/actions';
+
+export type Action = SetUser;
