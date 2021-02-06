@@ -1,4 +1,4 @@
-import { Action } from '../main/actions';
+import { Action } from '../root/actions';
 
 export type UserState = void | null;
 const initialState: UserState = null;
