@@ -2,11 +2,11 @@ import { StatusCodes } from 'http-status-codes';
 import React, { useEffect } from 'react';
 import { LOCAL_STORAGE_JWT_KEY } from '../../config/constants/constants';
 import { DEREGISTER_LOADING_INITIAL } from '../../redux/loading/actions';
+import { SET_LOGGED_IN } from '../../redux/login/actions';
 import {
   SafeDispatch,
   useSafeDispatch,
 } from '../../redux/root/useSafeDispatch';
-import { SET_USER } from '../../redux/user/actions';
 import { handleStatusError } from '../../utilities/misc/errors';
 import { checkAuthStatus } from '../../utilities/requests/requests';
 
@@ -26,28 +26,31 @@ const establishConnection = async (dispatch: SafeDispatch): Promise<void> => {
   const token = localStorage.getItem(LOCAL_STORAGE_JWT_KEY);
 
   if (!token) {
-    return markLoadingFinished(dispatch);
+    return saveResult(false, dispatch);
   }
   try {
     await checkAuthStatus();
   } catch (error) {
     // todo: handle other errors
     return handleStatusError(error, {
-      [StatusCodes.UNAUTHORIZED]: () => markLoadingFinished(dispatch),
+      [StatusCodes.UNAUTHORIZED]: () => saveResult(false, dispatch),
     });
   }
 
-  // todo: See todo #1
-  dispatch({
-    type: SET_USER,
-    user: { id: 1 },
-  });
-  markLoadingFinished(dispatch);
+  saveResult(true, dispatch);
 };
 
-const markLoadingFinished = (dispatch: SafeDispatch): void => {
+const saveResult = (result: boolean, dispatch: SafeDispatch): void => {
   dispatch({
     type: DEREGISTER_LOADING_INITIAL,
-    action: SET_USER,
+    action: SET_LOGGED_IN,
   });
+  dispatch({
+    type: SET_LOGGED_IN,
+    loggedIn: result,
+  });
+
+  if (!result) {
+    localStorage.removeItem(LOCAL_STORAGE_JWT_KEY);
+  }
 };

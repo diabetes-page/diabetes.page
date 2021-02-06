@@ -1,6 +1,6 @@
 import { reject } from 'lodash';
+import { SET_LOGGED_IN } from '../login/actions';
 import { Action } from '../root/actions';
-import { SET_USER } from '../user/actions';
 import {
   DEREGISTER_LOADING_INITIAL,
   REGISTER_LOADING_INITIAL,
@@ -8,7 +8,7 @@ import {
 import { LoadingState } from './state';
 
 const initialState: LoadingState = {
-  initial: [SET_USER],
+  initial: [SET_LOGGED_IN],
   refreshing: [],
 };
 
