@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react';
 import { Button, View } from 'react-native';
 import { Document, Page, pdfjs } from 'react-pdf';
-import { renderIf } from '../../../../../utilities/rendering/rendering';
+import { renderIf } from '../../../../../utilities/misc/rendering';
 import { Put, withAuth } from '../../../../../utilities/requests/axios';
 import { ConferenceContext } from '../utilities/conferenceContext/ConferenceContext';
 import { useSendMessage } from '../utilities/hooks/useSendMessage';

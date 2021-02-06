@@ -1,9 +1,10 @@
 import { Action } from '../root/actions';
+import { SET_USER } from '../user/actions';
 import { LOADING_INITIAL } from './actions';
 import { LoadingState } from './state';
 
 const initialState: LoadingState = {
-  initial: [],
+  initial: [SET_USER],
   refreshing: [],
 };
 

@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useReducer } from 'react';
 import { Button } from 'react-native';
-import { renderIf } from '../../../../utilities/rendering/rendering';
+import { renderIf } from '../../../../utilities/misc/rendering';
 import { Get, withAuth } from '../../../../utilities/requests/axios';
 import { Conference } from './Conference';
 import { initConference } from './utilities/conferenceContext/actions';
