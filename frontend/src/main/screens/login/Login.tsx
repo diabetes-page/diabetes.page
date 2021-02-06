@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { Button, Text, View } from 'react-native';
-import { Post, withAuth } from '../../utilities/requests/axios';
+import { Post, withAuth } from '../../../utilities/requests/axios';
 
 export function Login(): JSX.Element {
   const [status, setStatus] = useState('');

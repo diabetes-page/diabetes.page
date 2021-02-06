@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { View } from 'react-native';
-import { renderIf } from '../../../utilities/rendering/rendering';
+import { renderIf } from '../../../../utilities/rendering/rendering';
 import { Chat } from './chat/Chat';
 import { Jitsi } from './jitsi/Jitsi';
 import { Presentation } from './presentation/Presentation';
