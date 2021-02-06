@@ -29,6 +29,8 @@
     "react-native-screens": "~2.10.1",
     "react-native-web": "~0.13.12",
     "react-pdf": "^5.1.0",
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5",
     "strophe.js": "^1.4.1",
     "strophejs-plugin-muc": "^1.1.0",
     "tweetnacl": "^1.0.3"
