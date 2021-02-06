@@ -1,6 +1,7 @@
 import { includes } from 'lodash';
 import React from 'react';
-import { Text } from 'react-native-paper';
+import { View } from 'react-native';
+import { Text, useTheme } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { SET_LOGGED_IN } from '../../redux/login/actions';
 import { RootState } from '../../redux/root/state';
@@ -13,6 +14,7 @@ export function Initial(): JSX.Element {
     includes(state.loading.initial, SET_LOGGED_IN),
   );
   const loggedIn = useSelector((state: RootState) => !!state.login.loggedIn);
+  const theme = useTheme();
   let content: JSX.Element;
 
   if (loginLoading) {
@@ -24,9 +26,9 @@ export function Initial(): JSX.Element {
   }
 
   return (
-    <>
+    <View style={{ backgroundColor: theme.colors.backdrop, height: '100%' }}>
       <Auth />
       {content}
-    </>
+    </View>
   );
 }

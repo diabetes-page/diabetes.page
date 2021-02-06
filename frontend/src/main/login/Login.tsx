@@ -33,24 +33,29 @@ export function Login(): JSX.Element {
         <Title>Login</Title>
         <View>
           <TextInput
+            label="Email"
             value={email}
             onChangeText={onChangeEmail}
             onSubmitEditing={login}
             autoCompleteType="email"
             keyboardType="email-address"
             textContentType="emailAddress"
-            style={{ marginTop: '16px' }}
+            style={{
+              marginTop: '16px',
+              backgroundColor: theme.colors.background,
+            }}
             error={error}
           />
           <TextInput
+            label="Password"
             style={{ marginTop: '16px' }}
             value={password}
             onChangeText={onChangePassword}
             onSubmitEditing={login}
             autoCompleteType="password"
             textContentType="password"
-            secureTextEntry
             error={error}
+            secureTextEntry
           />
           {renderIf(error)(() => (
             <Paragraph style={{ color: theme.colors.error }}>
