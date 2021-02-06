@@ -1,13 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useCallback } from 'react';
 import { View } from 'react-native';
-import {
-  Button,
-  Paragraph,
-  TextInput,
-  Title,
-  useTheme,
-} from 'react-native-paper';
+import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
+import { StandardTextInput } from '../../components/StandardTextInput';
 import { LOCAL_STORAGE_JWT_KEY } from '../../config/constants/constants';
 import { SET_LOGGED_IN } from '../../redux/login/actions';
 import { useSafeDispatch } from '../../redux/root/useSafeDispatch';
@@ -32,36 +27,37 @@ export function Login(): JSX.Element {
       <View style={{ width: '25%' }}>
         <Title>Login</Title>
         <View>
-          <TextInput
+          <StandardTextInput
             label="Email"
             value={email}
             onChangeText={onChangeEmail}
             onSubmitEditing={login}
+            error={error}
             autoCompleteType="email"
             keyboardType="email-address"
             textContentType="emailAddress"
             style={{
               marginTop: '16px',
-              backgroundColor: theme.colors.background,
             }}
-            error={error}
           />
-          <TextInput
+          <StandardTextInput
             label="Password"
-            style={{ marginTop: '16px' }}
             value={password}
             onChangeText={onChangePassword}
             onSubmitEditing={login}
+            error={error}
             autoCompleteType="password"
             textContentType="password"
-            error={error}
+            style={{ marginTop: '16px' }}
             secureTextEntry
           />
+
           {renderIf(error)(() => (
             <Paragraph style={{ color: theme.colors.error }}>
               The email and password you entered did not match our records.
             </Paragraph>
           ))}
+
           <Button
             onPress={login}
             mode="contained"
