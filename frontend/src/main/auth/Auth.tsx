@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import React, { useEffect } from 'react';
 import { LOCAL_STORAGE_JWT_KEY } from '../../config/constants/constants';
+import { DEREGISTER_LOADING_INITIAL } from '../../redux/loading/actions';
 import {
   SafeDispatch,
   useSafeDispatch,
@@ -43,4 +44,9 @@ const establishConnection = async (dispatch: SafeDispatch): Promise<void> => {
   });
 };
 
-const markLoadingFinished = (dispatch: SafeDispatch): void => {};
+const markLoadingFinished = (dispatch: SafeDispatch): void => {
+  dispatch({
+    type: DEREGISTER_LOADING_INITIAL,
+    action: SET_USER,
+  });
+};
