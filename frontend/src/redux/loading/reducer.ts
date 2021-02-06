@@ -7,7 +7,7 @@ const initialState: LoadingState = {
   refreshing: [],
 };
 
-export const main = (
+export const loading = (
   state: LoadingState = initialState,
   action: Action,
 ): LoadingState => {

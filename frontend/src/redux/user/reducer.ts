@@ -4,7 +4,7 @@ import { UserState } from './state';
 
 const initialState: UserState = {};
 
-export const main = (
+export const user = (
   state: UserState = initialState,
   action: Action,
 ): UserState => {

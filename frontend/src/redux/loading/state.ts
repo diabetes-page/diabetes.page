@@ -1,6 +1,8 @@
-import { Action } from '../root/actions';
+import { SET_USER } from '../user/actions';
+
+export type LoadableAction = typeof SET_USER;
 
 export type LoadingState = {
-  initial: Action[];
-  refreshing: Action[];
+  initial: LoadableAction[];
+  refreshing: LoadableAction[];
 };

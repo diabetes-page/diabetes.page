@@ -1,3 +1,3 @@
-export function Auth(): void {
-  return void 0;
+export function Auth(): JSX.Element {
+  return <></>;
 }
