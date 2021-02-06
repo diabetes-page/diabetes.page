@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, { AxiosRequestConfig } from 'axios';
 import { LOCAL_STORAGE_JWT_KEY } from '../../config/constants/constants';
 
@@ -11,10 +12,10 @@ export const Put = instance.put;
 export const Patch = instance.patch;
 export const Delete = instance.delete;
 
-export const withAuth = (
+export const withAuth = async (
   config: AxiosRequestConfig = {},
-): AxiosRequestConfig => {
-  const token = localStorage.getItem(LOCAL_STORAGE_JWT_KEY);
+): Promise<AxiosRequestConfig> => {
+  const token = await AsyncStorage.getItem(LOCAL_STORAGE_JWT_KEY);
 
   if (token) {
     return {

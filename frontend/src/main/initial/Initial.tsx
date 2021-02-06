@@ -1,5 +1,6 @@
 import { includes } from 'lodash';
 import React from 'react';
+import { Text } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { SET_LOGGED_IN } from '../../redux/login/actions';
 import { RootState } from '../../redux/root/state';
@@ -15,7 +16,7 @@ export function Initial(): JSX.Element {
   let content: JSX.Element;
 
   if (loginLoading) {
-    content = <>Loading...</>;
+    content = <Text>Loading...</Text>;
   } else if (loggedIn) {
     content = <Navigation />;
   } else {

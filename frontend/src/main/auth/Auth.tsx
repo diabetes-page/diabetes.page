@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusCodes } from 'http-status-codes';
 import React, { useEffect } from 'react';
 import { LOCAL_STORAGE_JWT_KEY } from '../../config/constants/constants';
@@ -23,11 +24,12 @@ const useEstablishConnection = (): void => {
 
 const establishConnection = async (dispatch: SafeDispatch): Promise<void> => {
   // Todo #1: Instead of using checkAuthStatus, just grab own user immediately
-  const token = localStorage.getItem(LOCAL_STORAGE_JWT_KEY);
+  const token = await AsyncStorage.getItem(LOCAL_STORAGE_JWT_KEY);
 
   if (!token) {
     return saveResult(false, dispatch);
   }
+
   try {
     await checkAuthStatus();
   } catch (error) {
@@ -37,10 +39,13 @@ const establishConnection = async (dispatch: SafeDispatch): Promise<void> => {
     });
   }
 
-  saveResult(true, dispatch);
+  return saveResult(true, dispatch);
 };
 
-const saveResult = (result: boolean, dispatch: SafeDispatch): void => {
+const saveResult = async (
+  result: boolean,
+  dispatch: SafeDispatch,
+): Promise<void> => {
   dispatch({
     type: DEREGISTER_LOADING_INITIAL,
     action: SET_LOGGED_IN,
@@ -51,6 +56,6 @@ const saveResult = (result: boolean, dispatch: SafeDispatch): void => {
   });
 
   if (!result) {
-    localStorage.removeItem(LOCAL_STORAGE_JWT_KEY);
+    await AsyncStorage.removeItem(LOCAL_STORAGE_JWT_KEY);
   }
 };

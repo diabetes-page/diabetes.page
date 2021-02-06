@@ -4,38 +4,39 @@
 import { AxiosResponse } from 'axios';
 import { Get, Post, Put, withAuth } from './axios';
 
-export const createAppointment = (): Promise<AxiosResponse> =>
-  Post(`/appointments`, withAuth());
+export const createAppointment = async (): Promise<AxiosResponse> =>
+  Post(`/appointments`, await withAuth());
 
-export const showConferenceData = (id: number): Promise<AxiosResponse> =>
-  Get(`/appointments/${id}/conference`, withAuth());
+export const showConferenceData = async (id: number): Promise<AxiosResponse> =>
+  Get(`/appointments/${id}/conference`, await withAuth());
 
 type SwitchConferenceSlideParameters = {
   presentationIndex: number;
 };
-export const switchConferenceSlide = (
+export const switchConferenceSlide = async (
   id: number,
   params: SwitchConferenceSlideParameters,
 ): Promise<AxiosResponse> =>
-  Put(`/appointments/${id}/conference/slide`, params, withAuth());
+  Put(`/appointments/${id}/conference/slide`, params, await withAuth());
 
-export const checkAuthStatus = (): Promise<AxiosResponse> =>
-  Get(`/auth/status`, withAuth());
+export const checkAuthStatus = async (): Promise<AxiosResponse> =>
+  Get(`/auth/status`, await withAuth());
 
 type LoginParameters = {
   email: string;
   password: string;
 };
-export const login = (params: LoginParameters): Promise<AxiosResponse> =>
-  Post(`/auth/login`, params, withAuth());
+export const login = async (params: LoginParameters): Promise<AxiosResponse> =>
+  Post(`/auth/login`, params, await withAuth());
 
 type RegisterParameters = {
   email: string;
   password: string;
   name: string;
 };
-export const register = (params: RegisterParameters): Promise<AxiosResponse> =>
-  Post(`/auth/register`, params, withAuth());
+export const register = async (
+  params: RegisterParameters,
+): Promise<AxiosResponse> => Post(`/auth/register`, params, await withAuth());
 
-export const indexUsers = (): Promise<AxiosResponse> =>
-  Get(`/users`, withAuth());
+export const indexUsers = async (): Promise<AxiosResponse> =>
+  Get(`/users`, await withAuth());

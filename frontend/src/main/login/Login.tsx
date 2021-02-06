@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useCallback } from 'react';
 import { View } from 'react-native';
 import {
@@ -78,7 +79,7 @@ const useLogin = (
   return useCallback(() => {
     login({ email, password })
       .then((response) => {
-        localStorage.setItem(LOCAL_STORAGE_JWT_KEY, response.data.token);
+        AsyncStorage.setItem(LOCAL_STORAGE_JWT_KEY, response.data.token);
         dispatch({
           type: SET_LOGGED_IN,
           loggedIn: true,

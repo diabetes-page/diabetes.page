@@ -50,11 +50,11 @@ class RequestFinder {
       requestArgs.push(`params: ${capitalize(route)}Parameters `);
     }
 
-    requestDefinition += `export const ${route} = (${requestArgs.join(
+    requestDefinition += `export const ${route} = async (${requestArgs.join(
       ', ',
     )}): Promise<AxiosResponse> => ${requestType}(${routeUrl}${
       parameters ? ', params' : ''
-    }, withAuth());`;
+    }, await withAuth());`;
 
     this.output += requestDefinition;
   }
