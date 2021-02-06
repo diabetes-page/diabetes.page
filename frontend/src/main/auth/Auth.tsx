@@ -32,7 +32,7 @@ const establishConnection = async (dispatch: SafeDispatch): Promise<void> => {
     await checkAuthStatus();
   } catch (error) {
     // todo: handle other errors
-    handleStatusError(error, {
+    return handleStatusError(error, {
       [StatusCodes.UNAUTHORIZED]: () => markLoadingFinished(dispatch),
     });
   }
@@ -42,6 +42,7 @@ const establishConnection = async (dispatch: SafeDispatch): Promise<void> => {
     type: SET_USER,
     user: { id: 1 },
   });
+  markLoadingFinished(dispatch);
 };
 
 const markLoadingFinished = (dispatch: SafeDispatch): void => {
