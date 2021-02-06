@@ -1,6 +1,6 @@
-import { SET_USER } from '../user/actions';
+import { SET_LOGGED_IN } from '../login/actions';
 
-export type LoadableAction = typeof SET_USER;
+export type LoadableAction = typeof SET_LOGGED_IN;
 
 export type LoadingState = {
   initial: LoadableAction[];
