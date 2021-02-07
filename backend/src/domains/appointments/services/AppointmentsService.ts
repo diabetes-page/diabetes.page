@@ -11,8 +11,9 @@ export class AppointmentsService {
   }
 
   async getAppointmentsForUser(user: User): Promise<Appointment[]> {
-    return user.appointmentAssignments.map((appAss) => {
-      return appAss.appointment;
+    const appointmentAssignments = await user.appointmentAssignments;
+    appointmentAssignments.map((appointmentAssignment) => {
+      return appointmentAssignment.appointment;
     });
   }
 
