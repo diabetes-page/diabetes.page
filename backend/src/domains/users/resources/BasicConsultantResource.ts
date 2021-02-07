@@ -1,4 +1,4 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { Consultant } from '../entities/Consultant.entity';
 import { BasicUserResource } from './BasicUserResource';
 
@@ -7,9 +7,13 @@ export class BasicConsultantResource {
   id: number;
 
   @Expose()
+  @Type(() => BasicUserResource)
   user: BasicUserResource;
 
-  static make = (consultant: Consultant): BasicConsultantResource => {
+  static make = async (
+    consultant: Consultant,
+  ): Promise<BasicConsultantResource> => {
+    await consultant.loadUser();
     return consultant;
   };
 }
