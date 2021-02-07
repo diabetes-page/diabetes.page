@@ -1,7 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
 import { expect } from 'chai';
 import { Given, Then } from 'cucumber';
-import { seeder } from './setup.steps';
+import { seeder, testRequest } from './setup.steps';
 
 Then(/^the request is rejected$/, function () {
   expect(this.response.status).to.equal(HttpStatus.BAD_REQUEST);
@@ -37,3 +37,12 @@ Given(
     this.password = password;
   },
 );
+
+Given(/^I am logged in$/, async function () {
+  const response = await testRequest('POST', '/auth/login', {
+    email: this.user.email,
+    password: this.password,
+  });
+
+  this.jwt = response.body.token;
+});
