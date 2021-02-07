@@ -11,7 +11,7 @@ export class TrainingFactory {
     props: Partial<Training> = {},
   ): Promise<Training> => {
     return Training.create({
-      name: `${topic.name} by ${creator.user.name}`,
+      name: `${topic.name} by ${(await creator.loadUser()).name}`,
       topic,
       creator,
       ...props,

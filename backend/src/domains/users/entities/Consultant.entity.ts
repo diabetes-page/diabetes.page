@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { loadNotNullSingularRelation } from '../../../utilities/relations';
 import { Appointment } from '../../appointments/entities/Appointment.entity';
 import { Training } from '../../trainings/entities/Training.entity';
 import { Manager } from './Manager.entity';
@@ -23,10 +24,13 @@ export class Consultant extends BaseEntity {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
     nullable: false,
-    eager: true,
   })
   @JoinColumn()
   user: User;
+
+  loadUser(): Promise<User> {
+    return loadNotNullSingularRelation(this, 'user');
+  }
 
   @OneToMany(() => Training, (training) => training.creator, { cascade: true })
   trainings: Training[];
