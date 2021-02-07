@@ -15,5 +15,6 @@ Feature: GetAppointmentsForUser
     And the appointment presented by "Walter White" is assigned to "Jesse Pinkman" (me)
     When I request my appointments
     Then the request is successful
-    And the response contains an array of appoinments
+    And the response contains an array of appointments
     And the amount of appointments is 1
+    And the appointment at index 0 has presenter "Walter White"
