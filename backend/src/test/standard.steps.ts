@@ -1,7 +1,6 @@
 import { HttpStatus } from '@nestjs/common';
 import { expect } from 'chai';
 import { Given, Then } from 'cucumber';
-import { Appointment } from '../domains/appointments/entities/Appointment.entity';
 import { LearningBase } from '../domains/learningBases/entities/LearningBase.entity';
 import { Topic } from '../domains/learningBases/entities/Topic.entity';
 import { Training } from '../domains/trainings/entities/Training.entity';
@@ -71,10 +70,10 @@ Given(
 
 Given(
   /^the topic "([^"]*)" has a training "([^"]*)" created by "([^"]*)"$/,
-  async function (topicName, trainingName, userName) {
+  async function (topicName, trainingName, creatorName) {
     await seeder.trainingFactory.createTraining(
       (await Topic.findOne({ name: topicName }))!,
-      (await (await User.findOne({ name: userName }))!.loadAsConsultant())!,
+      (await (await User.findOne({ name: creatorName }))!.loadAsConsultant())!,
       {
         name: trainingName,
       },
@@ -83,24 +82,28 @@ Given(
 );
 
 Given(
-  /^the training "([^"]*)" has an appointment with id (\d+) and presenter "([^"]*)"$/,
-  async function (trainingName, appointmentId, userName) {
+  /^the training "([^"]*)" has an appointment with presenter "([^"]*)"$/,
+  async function (trainingName, presenterName) {
     await seeder.appointmentFactory.createAppointment(
       (await Training.findOne({ name: trainingName }))!,
-      (await (await User.findOne({ name: userName }))!.loadAsConsultant())!,
-      {
-        id: appointmentId,
-      },
+      (await (await User.findOne({
+        name: presenterName,
+      }))!.loadAsConsultant())!,
     );
   },
 );
 
 Given(
-  /^the appointment with id (\d+) is assigned to "([^"]*)"(?: \(me\)|)$/,
-  async function (appointmentId, userName) {
+  /^the appointment presented by "([^"]*)" is assigned to "([^"]*)"(?: \(me\)|)$/,
+  async function (presenterName, userName) {
+    const appointments = await (await (await User.findOne({
+      name: presenterName,
+    }))!.loadAsConsultant())!.loadAppointments();
+    expect(appointments).to.have.length(1);
+
     await seeder.appointmentFactory.createUserAppointmentAssignment(
       (await User.findOne({ name: userName }))!,
-      (await Appointment.findOne({ id: appointmentId }))!,
+      appointments[0]!,
     );
   },
 );
