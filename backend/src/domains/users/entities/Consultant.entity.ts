@@ -36,7 +36,7 @@ export class Consultant extends BaseEntity {
   })
   appointments: Appointment[];
 
-  @OneToOne(() => Manager, { cascade: true })
+  @OneToOne(() => Manager, (manager) => manager.consultant, { cascade: true })
   asManager: Manager | null;
 
   @CreateDateColumn()

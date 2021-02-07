@@ -3,7 +3,10 @@ import { BaseEntity } from 'typeorm';
 export async function loadNullableSingularRelation<
   Input extends BaseEntity,
   Key extends keyof Input
->(entity: Input, relation: Key & string): Promise<Input[Key] | undefined> {
+>(
+  entity: Input,
+  relation: Key & string,
+): Promise<Input[Key] | null | undefined> {
   const entityClass = entity.constructor as typeof BaseEntity;
 
   return await entityClass

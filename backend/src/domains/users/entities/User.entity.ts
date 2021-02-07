@@ -9,7 +9,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { loadPluralRelation } from '../../../utilities/relations';
+import {
+  loadNullableSingularRelation,
+  loadPluralRelation,
+} from '../../../utilities/relations';
 import { UserAppointmentAssignment } from '../../appointments/entities/UserAppointmentAssignment.entity';
 import { Consultant } from './Consultant.entity';
 
@@ -42,8 +45,13 @@ export class User extends BaseEntity {
     );
   }
 
-  @OneToOne(() => Consultant, { cascade: true })
+  @OneToOne(() => Consultant, (consultant) => consultant.user, {
+    cascade: true,
+  })
   asConsultant: Consultant | null;
+  get asConsultantRelation(): Promise<Consultant | null | undefined> {
+    return loadNullableSingularRelation(this, 'asConsultant');
+  }
 
   @CreateDateColumn()
   createdAt: Date;

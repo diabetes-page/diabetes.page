@@ -24,6 +24,15 @@ export class UserFactory {
 
   constructor(private configService: ConfigService) {}
 
+  public createConsultantForUser = async (
+    user: User,
+    props: Partial<User> = {},
+  ): Promise<Consultant> => {
+    return await Consultant.create({
+      user: user,
+    }).save();
+  };
+
   public createConsultant = async (
     props: Partial<User> = {},
   ): Promise<Consultant> => {
