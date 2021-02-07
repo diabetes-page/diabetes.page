@@ -38,7 +38,7 @@ export class User extends BaseEntity {
   })
   appointmentAssignments: UserAppointmentAssignment[];
 
-  get appointmentAssignmentsRelation(): Promise<UserAppointmentAssignment[]> {
+  loadAppointmentAssignments(): Promise<UserAppointmentAssignment[]> {
     return loadPluralRelation<User, 'appointmentAssignments'>(
       this,
       'appointmentAssignments',
@@ -49,7 +49,7 @@ export class User extends BaseEntity {
     cascade: true,
   })
   asConsultant: Consultant | null;
-  get asConsultantRelation(): Promise<Consultant | null | undefined> {
+  loadAsConsultant(): Promise<Consultant | null | undefined> {
     return loadNullableSingularRelation(this, 'asConsultant');
   }
 

@@ -26,8 +26,7 @@ export class UserAppointmentAssignment extends BaseEntity {
   })
   appointment: Appointment;
 
-  // Todo: name this appointment and name appointment -> appointmentRef
-  get appointmentRelation(): Promise<Appointment> {
+  loadAppointment(): Promise<Appointment> {
     return loadNotNullSingularRelation(this, 'appointment');
   }
 
@@ -38,7 +37,7 @@ export class UserAppointmentAssignment extends BaseEntity {
   })
   user: User;
 
-  get userRelation(): Promise<User> {
+  loadUser(): Promise<User> {
     return loadNotNullSingularRelation(this, 'user');
   }
 

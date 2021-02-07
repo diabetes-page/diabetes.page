@@ -74,7 +74,7 @@ Given(
   async function (topicName, trainingName, userName) {
     await seeder.trainingFactory.createTraining(
       (await Topic.findOne({ name: topicName }))!,
-      (await (await User.findOne({ name: userName }))!.asConsultantRelation)!,
+      (await (await User.findOne({ name: userName }))!.loadAsConsultant())!,
       {
         name: trainingName,
       },
@@ -87,7 +87,7 @@ Given(
   async function (trainingName, appointmentId, userName) {
     await seeder.appointmentFactory.createAppointment(
       (await Training.findOne({ name: trainingName }))!,
-      (await (await User.findOne({ name: userName }))!.asConsultantRelation)!,
+      (await (await User.findOne({ name: userName }))!.loadAsConsultant())!,
       {
         id: appointmentId,
       },

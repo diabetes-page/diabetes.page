@@ -13,12 +13,12 @@ export class AppointmentsService {
   }
 
   async forUser(user: User): Promise<Appointment[]> {
-    const appointmentAssignments = await user.appointmentAssignmentsRelation;
+    const appointmentAssignments = await user.loadAppointmentAssignments();
 
     return mapPromises(
       appointmentAssignments,
       async (assignment: UserAppointmentAssignment) =>
-        assignment.appointmentRelation,
+        assignment.loadAppointment(),
     );
   }
 
