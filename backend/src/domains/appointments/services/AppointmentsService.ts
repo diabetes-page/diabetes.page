@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as base64 from '@stablelib/base64';
 import * as nacl from 'tweetnacl';
+import { mapPromises } from '../../../utilities/promises';
 import { User } from '../../users/entities/User.entity';
 import { Appointment } from '../entities/Appointment.entity';
 
@@ -12,9 +13,12 @@ export class AppointmentsService {
 
   async getAppointmentsForUser(user: User): Promise<Appointment[]> {
     const appointmentAssignments = await user.appointmentAssignments;
-    appointmentAssignments.map((appointmentAssignment) => {
-      return appointmentAssignment.appointment;
-    });
+    const callbackFunction = async (
+      appointmentAssignment,
+    ): Promise<Appointment> => {
+      return await appointmentAssignment.appointment;
+    };
+    return mapPromises(appointmentAssignments, callbackFunction);
   }
 
   async add(startsAt: Date, endsAt: Date): Promise<Appointment> {
