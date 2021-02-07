@@ -28,9 +28,10 @@ export async function loadNotNullSingularRelation<
     .loadOne())!;
 }
 
-type KeyMappingToArray<T> = {
-  [K in keyof T]-?: T[K] extends any[] ? K : never;
-}[keyof T];
+// Based on https://stackoverflow.com/questions/54520676/in-typescript-how-to-specify-only-keys-of-a-generic-object-whose-values-are-stri
+type KeyMappingToArray<Obj> = {
+  [K in keyof Obj]-?: Obj[K] extends any[] ? K : never;
+}[keyof Obj];
 export async function loadPluralRelation<
   Input extends BaseEntity,
   Key extends KeyMappingToArray<Input>
