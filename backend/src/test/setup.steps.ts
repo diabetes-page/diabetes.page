@@ -20,7 +20,7 @@ const getFullPath = (path: string): string => {
 export const testRequest = async (
   method: string,
   path: string,
-  data?: string | Record<string, unknown>,
+  data?: Record<string, unknown>,
   jwt?: string,
 ): Promise<superagent.Response> => {
   return new Promise((resolve) => {

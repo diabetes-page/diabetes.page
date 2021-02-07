@@ -33,5 +33,5 @@ Then(/^the response contains an array of appoinments$/, async function () {
 });
 
 Then(/^the amount of appointments is (\d+)$/, function (appointmentCount) {
-  expect(this.response.body.appointments.count).equals(appointmentCount);
+  expect(this.response.body.appointments.length).equals(appointmentCount);
 });

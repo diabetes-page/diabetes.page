@@ -4,6 +4,7 @@ import * as nacl from 'tweetnacl';
 import { mapPromises } from '../../../utilities/promises';
 import { User } from '../../users/entities/User.entity';
 import { Appointment } from '../entities/Appointment.entity';
+import { UserAppointmentAssignment } from '../entities/UserAppointmentAssignment.entity';
 
 @Injectable()
 export class AppointmentsService {
@@ -12,11 +13,11 @@ export class AppointmentsService {
   }
 
   async getAppointmentsForUser(user: User): Promise<Appointment[]> {
-    const appointmentAssignments = await user.appointmentAssignments;
+    const appointmentAssignments = user.appointmentAssignments;
     const callbackFunction = async (
-      appointmentAssignment,
+      appointmentAssignment: UserAppointmentAssignment,
     ): Promise<Appointment> => {
-      return await appointmentAssignment.appointment;
+      return appointmentAssignment.appointment;
     };
     return mapPromises(appointmentAssignments, callbackFunction);
   }
