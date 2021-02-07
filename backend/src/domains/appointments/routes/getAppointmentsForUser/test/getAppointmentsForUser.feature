@@ -1,7 +1,7 @@
-Feature: GetAppointmentsForUser
-#  In order to gain access to the application
-#  As a user
-#  I can login to my account
+Feature: Get appointments for user
+  In order to get an overview over my appointments
+  As a user
+  I can get a list of my appointments
 
   Scenario: Get Appointments for the logged in user
     Given I am a user with name "Jesse Pinkman", E-Mail "test@example.com" and password "12345678"
