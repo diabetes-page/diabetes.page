@@ -1,11 +1,11 @@
 import { Expose, Type } from 'class-transformer';
 import { User } from '../../entities/User.entity';
-import { UserResource } from '../../resources/UserResource';
+import { SensitiveDataUserResource } from '../../resources/SensitiveDataUserResource';
 
 export class Resource {
   @Expose()
-  @Type(() => UserResource)
-  users: UserResource[];
+  @Type(() => SensitiveDataUserResource)
+  users: SensitiveDataUserResource[];
 
   static make = (users: User[]): Resource => {
     return { users };

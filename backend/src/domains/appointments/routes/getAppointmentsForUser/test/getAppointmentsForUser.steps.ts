@@ -25,7 +25,7 @@ Given(
 );
 
 When(/^I request for my appointments$/, async function () {
-  this.response = await testRequest('GET', '/appointments', {}, this.jwt);
+  this.response = await testRequest('GET', '/me/appointments', {}, this.jwt);
 });
 
 Then(/^the response contains an array of appoinments$/, async function () {

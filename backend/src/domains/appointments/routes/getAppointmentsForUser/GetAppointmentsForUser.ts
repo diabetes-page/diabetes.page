@@ -13,7 +13,8 @@ export class GetAppointmentsForUser extends ResourceController {
     super();
   }
 
-  @Get('/appointments')
+  // todo: Be able to specify id of target user, not just self
+  @Get('/me/appointments')
   async serve(@RequestUser() user: User): Promise<Resource> {
     const appointments = await this.appointmentsService.forUser(user);
 
