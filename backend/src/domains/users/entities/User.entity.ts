@@ -38,19 +38,20 @@ export class User extends BaseEntity {
   })
   appointmentAssignments: UserAppointmentAssignment[];
 
-  loadAppointmentAssignments(): Promise<UserAppointmentAssignment[]> {
-    return loadPluralRelation<User, 'appointmentAssignments'>(
-      this,
-      'appointmentAssignments',
-    );
+  async loadAppointmentAssignments(): Promise<UserAppointmentAssignment[]> {
+    return (this.appointmentAssignments = await loadPluralRelation<
+      User,
+      'appointmentAssignments'
+    >(this, 'appointmentAssignments'));
   }
 
   @OneToOne(() => Consultant, (consultant) => consultant.user, {
     cascade: true,
   })
   asConsultant: Consultant | null;
-  loadAsConsultant(): Promise<Consultant | null | undefined> {
-    return loadNullableSingularRelation(this, 'asConsultant');
+  async loadAsConsultant(): Promise<Consultant | null> {
+    return (this.asConsultant =
+      (await loadNullableSingularRelation(this, 'asConsultant')) || null);
   }
 
   @CreateDateColumn()

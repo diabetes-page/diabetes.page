@@ -24,8 +24,11 @@ export class Manager extends BaseEntity {
   @JoinColumn()
   consultant: Consultant;
 
-  loadConsultant(): Promise<Consultant> {
-    return loadNotNullSingularRelation(this, 'consultant');
+  async loadConsultant(): Promise<Consultant> {
+    return (this.consultant = await loadNotNullSingularRelation(
+      this,
+      'consultant',
+    ));
   }
 
   @CreateDateColumn()

@@ -31,8 +31,8 @@ export class Consultant extends BaseEntity {
   @JoinColumn()
   user: User;
 
-  loadUser(): Promise<User> {
-    return loadNotNullSingularRelation(this, 'user');
+  async loadUser(): Promise<User> {
+    return (this.user = await loadNotNullSingularRelation(this, 'user'));
   }
 
   @OneToMany(() => Training, (training) => training.creator, { cascade: true })
@@ -43,8 +43,11 @@ export class Consultant extends BaseEntity {
   })
   appointments: Appointment[];
 
-  loadAppointments(): Promise<Appointment[]> {
-    return loadPluralRelation<Consultant, 'appointments'>(this, 'appointments');
+  async loadAppointments(): Promise<Appointment[]> {
+    return (this.appointments = await loadPluralRelation<
+      Consultant,
+      'appointments'
+    >(this, 'appointments'));
   }
 
   @OneToOne(() => Manager, (manager) => manager.consultant, { cascade: true })

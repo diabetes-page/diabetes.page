@@ -26,8 +26,11 @@ export class UserAppointmentAssignment extends BaseEntity {
   })
   appointment: Appointment;
 
-  loadAppointment(): Promise<Appointment> {
-    return loadNotNullSingularRelation(this, 'appointment');
+  async loadAppointment(): Promise<Appointment> {
+    return (this.appointment = await loadNotNullSingularRelation(
+      this,
+      'appointment',
+    ));
   }
 
   @ManyToOne(() => User, (user) => user.appointmentAssignments, {
@@ -37,8 +40,8 @@ export class UserAppointmentAssignment extends BaseEntity {
   })
   user: User;
 
-  loadUser(): Promise<User> {
-    return loadNotNullSingularRelation(this, 'user');
+  async loadUser(): Promise<User> {
+    return (this.user = await loadNotNullSingularRelation(this, 'user'));
   }
 
   @Column({ default: false })

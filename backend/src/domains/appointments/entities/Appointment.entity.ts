@@ -10,6 +10,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { loadNotNullSingularRelation } from '../../../utilities/relations';
 import { Training } from '../../trainings/entities/Training.entity';
 import { Consultant } from '../../users/entities/Consultant.entity';
 import { UserAppointmentAssignment } from './UserAppointmentAssignment.entity';
@@ -32,6 +33,13 @@ export class Appointment extends BaseEntity {
     nullable: false,
   })
   presenter: Consultant;
+
+  async loadPresenter(): Promise<Consultant> {
+    return (this.presenter = await loadNotNullSingularRelation(
+      this,
+      'presenter',
+    ));
+  }
 
   @Column()
   startsAt: Date;
