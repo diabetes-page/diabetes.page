@@ -7,6 +7,9 @@ import { Get, Post, Put, withAuth } from './axios';
 export const createAppointment = async (): Promise<AxiosResponse> =>
   Post(`/appointments`, await withAuth());
 
+export const getAppointmentsForUser = async (): Promise<AxiosResponse> =>
+  Get(`/me/appointments`, await withAuth());
+
 export const showConferenceData = async (id: number): Promise<AxiosResponse> =>
   Get(`/appointments/${id}/conference`, await withAuth());
 
@@ -40,3 +43,6 @@ export const register = async (
 
 export const indexUsers = async (): Promise<AxiosResponse> =>
   Get(`/users`, await withAuth());
+
+export const showOwnUser = async (): Promise<AxiosResponse> =>
+  Get(`/me`, await withAuth());
