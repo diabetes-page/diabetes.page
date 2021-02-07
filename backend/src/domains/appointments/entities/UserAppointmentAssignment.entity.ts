@@ -9,6 +9,7 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
+import { loadNotNullSingularRelation } from '../../../utilities/relations';
 import { User } from '../../users/entities/User.entity';
 import { Appointment } from './Appointment.entity';
 
@@ -25,12 +26,21 @@ export class UserAppointmentAssignment extends BaseEntity {
   })
   appointment: Appointment;
 
+  // Todo: name this appointment and name appointment -> appointmentRef
+  get appointmentRelation(): Promise<Appointment> {
+    return loadNotNullSingularRelation(this, 'appointment');
+  }
+
   @ManyToOne(() => User, (user) => user.appointmentAssignments, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
     nullable: false,
   })
   user: User;
+
+  get userRelation(): Promise<User> {
+    return loadNotNullSingularRelation(this, 'user');
+  }
 
   @Column({ default: false })
   hasAttended: boolean;

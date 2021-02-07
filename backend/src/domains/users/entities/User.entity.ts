@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { loadPluralRelation } from '../../../utilities/relations';
 import { UserAppointmentAssignment } from '../../appointments/entities/UserAppointmentAssignment.entity';
 import { Consultant } from './Consultant.entity';
 
@@ -33,6 +34,13 @@ export class User extends BaseEntity {
     cascade: true,
   })
   appointmentAssignments: UserAppointmentAssignment[];
+
+  get appointmentAssignmentsRelation(): Promise<UserAppointmentAssignment[]> {
+    return loadPluralRelation<User, 'appointmentAssignments'>(
+      this,
+      'appointmentAssignments',
+    );
+  }
 
   @OneToOne(() => Consultant, { cascade: true })
   asConsultant: Consultant | null;

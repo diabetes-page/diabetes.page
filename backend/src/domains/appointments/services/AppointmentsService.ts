@@ -12,14 +12,14 @@ export class AppointmentsService {
     return Appointment.findOne({ where: { id } });
   }
 
-  async getAppointmentsForUser(user: User): Promise<Appointment[]> {
-    const appointmentAssignments = user.appointmentAssignments;
-    const callbackFunction = async (
-      appointmentAssignment: UserAppointmentAssignment,
-    ): Promise<Appointment> => {
-      return appointmentAssignment.appointment;
-    };
-    return mapPromises(appointmentAssignments, callbackFunction);
+  async forUser(user: User): Promise<Appointment[]> {
+    const appointmentAssignments = await user.appointmentAssignmentsRelation;
+
+    return mapPromises(
+      appointmentAssignments,
+      async (assignment: UserAppointmentAssignment) =>
+        assignment.appointmentRelation,
+    );
   }
 
   async add(startsAt: Date, endsAt: Date): Promise<Appointment> {

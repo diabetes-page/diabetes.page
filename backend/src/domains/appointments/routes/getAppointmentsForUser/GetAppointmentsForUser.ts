@@ -15,9 +15,7 @@ export class GetAppointmentsForUser extends ResourceController {
 
   @Get('/appointments')
   async serve(@RequestUser() user: User): Promise<Resource> {
-    const appointments = await this.appointmentsService.getAppointmentsForUser(
-      user,
-    );
+    const appointments = await this.appointmentsService.forUser(user);
 
     return Resource.make(appointments);
   }
