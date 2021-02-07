@@ -22,3 +22,10 @@ Then(
     );
   },
 );
+
+Then(
+  /^the appointment at index (\d+) has training "([^"]*)"$/,
+  function (index, name) {
+    expect(this.response.body.appointments[index].training.name).equals(name);
+  },
+);

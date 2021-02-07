@@ -18,3 +18,4 @@ Feature: GetAppointmentsForUser
     And the response contains an array of appointments
     And the amount of appointments is 1
     And the appointment at index 0 has presenter "Walter White"
+    And the appointment at index 0 has training "Turing Machines by Walter White"

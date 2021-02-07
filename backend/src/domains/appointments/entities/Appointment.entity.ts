@@ -10,7 +10,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { loadNotNullSingularRelation } from '../../../utilities/relations';
+import {
+  loadNotNullSingularRelation,
+  loadNullableSingularRelation,
+} from '../../../utilities/relations';
 import { Training } from '../../trainings/entities/Training.entity';
 import { Consultant } from '../../users/entities/Consultant.entity';
 import { UserAppointmentAssignment } from './UserAppointmentAssignment.entity';
@@ -26,6 +29,11 @@ export class Appointment extends BaseEntity {
     nullable: true,
   })
   training: Training | null;
+
+  async loadTraining(): Promise<Training | null> {
+    return (this.training =
+      (await loadNullableSingularRelation(this, 'training')) || null);
+  }
 
   @ManyToOne(() => Consultant, (consultant) => consultant.trainings, {
     onDelete: 'CASCADE',
