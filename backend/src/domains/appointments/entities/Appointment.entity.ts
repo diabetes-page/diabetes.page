@@ -42,6 +42,7 @@ export class Appointment extends BaseEntity {
   })
   presenter: Consultant;
 
+  // Todo: Don't load again if it is already set, unless refresh parameter is provided
   async loadPresenter(): Promise<Consultant> {
     return (this.presenter = await loadNotNullSingularRelation(
       this,
