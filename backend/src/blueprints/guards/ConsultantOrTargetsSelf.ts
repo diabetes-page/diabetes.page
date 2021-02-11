@@ -3,7 +3,7 @@ import { User } from '../../domains/users/entities/User.entity';
 
 @Injectable()
 export class ConsultantOrTargetsSelf implements CanActivate {
-  constructor(protected key: string) {}
+  constructor(protected param: string) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -14,6 +14,6 @@ export class ConsultantOrTargetsSelf implements CanActivate {
       return true;
     }
 
-    return parseInt(request.params[this.key]) === user.id;
+    return parseInt(request.params[this.param]) === user.id;
   }
 }
