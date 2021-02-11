@@ -1,8 +1,8 @@
 import { UseGuards } from '@nestjs/common';
 import { ClassType } from 'class-transformer/ClassTransformer';
-import { JWTAuthGuard } from '../guards/JWTAuthGuard';
+import { JWTAuth } from '../guards/JWTAuth';
 
-@UseGuards(JWTAuthGuard)
+@UseGuards(JWTAuth)
 export class ResourceController {
   public static Resource: ClassType<any>;
 }

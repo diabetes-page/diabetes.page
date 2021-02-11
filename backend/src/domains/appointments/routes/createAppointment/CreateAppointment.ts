@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { parseISO } from 'date-fns';
 import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
-import { ConsultantGuard } from '../../../../blueprints/guards/ConsultantGuard';
+import { Consultant } from '../../../../blueprints/guards/Consultant';
 import { AppointmentsService } from '../../services/AppointmentsService';
 import { Resource } from './Resource';
 
@@ -19,7 +19,7 @@ export class CreateAppointment extends ResourceController {
     super();
   }
 
-  @UseGuards(ConsultantGuard)
+  @UseGuards(Consultant)
   @HttpCode(HttpStatus.NO_CONTENT)
   @Post('/appointments')
   async serve(): Promise<Resource> {

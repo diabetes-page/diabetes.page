@@ -6,7 +6,7 @@ import { INSECURE_ROUTE_METADATA_KEY } from '../decorators/InsecureRoute';
 
 /* This automatically makes use of the JWTStrategy defined somewhere else */
 @Injectable()
-export class JWTAuthGuard extends AuthGuard('JWT') {
+export class JWTAuth extends AuthGuard('JWT') {
   constructor(private reflector: Reflector) {
     super();
   }
