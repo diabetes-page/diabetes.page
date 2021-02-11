@@ -4,6 +4,7 @@ import React from 'react';
 import { useWindowDimensions } from 'react-native';
 import { STICKY_DRAWER_MIN_WIDTH } from '../../config/constants/constants';
 import { AppointmentDetail } from '../screens/appointmentDetail/AppointmentDetail';
+import { ShowAppointments } from '../screens/showAppointments/ShowAppointments';
 
 const Drawer = createDrawerNavigator();
 
@@ -23,6 +24,11 @@ export function Navigation(): JSX.Element {
           name="appointment"
           component={AppointmentDetail}
           options={{ drawerLabel: 'Appointment' }}
+        />
+        <Drawer.Screen
+          name="appointments"
+          component={ShowAppointments}
+          options={{ drawerLabel: 'Show appointments' }}
         />
       </Drawer.Navigator>
     </NavigationContainer>

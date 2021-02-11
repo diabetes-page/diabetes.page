@@ -23,7 +23,8 @@ const useEstablishConnection = (): void => {
 };
 
 const establishConnection = async (dispatch: SafeDispatch): Promise<void> => {
-  // Todo #1: Instead of using checkAuthStatus, just grab own user immediately
+  // Todo: Instead of using checkAuthStatus, just grab own user immediately
+  // Todo: Don't use AsyncStorage, as it is insecure
   const token = await AsyncStorage.getItem(LOCAL_STORAGE_JWT_KEY);
 
   if (!token) {
