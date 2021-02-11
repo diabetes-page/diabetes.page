@@ -12,7 +12,7 @@ export class ShowUser extends ResourceController {
   @UseGuards(new ConsultantOrTargetsSelf('id'))
   @Get('/users/:id')
   async serve(
-    @Param(new EntityById(User))
+    @Param(new EntityById(User, 'id'))
     user: User,
   ): Promise<SensitiveDataUserResource> {
     return SensitiveDataUserResource.make(user);

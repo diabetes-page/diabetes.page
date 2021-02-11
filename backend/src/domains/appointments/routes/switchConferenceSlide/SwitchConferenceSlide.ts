@@ -19,7 +19,7 @@ export class SwitchConferenceSlide extends ResourceController {
   @UseGuards(Consultant)
   @Put('/appointments/:id/conference/slide')
   async serve(
-    @Param(new EntityById(Appointment))
+    @Param(new EntityById(Appointment, 'id'))
     appointment: Appointment,
     @Body() params: Parameters,
   ): Promise<OfficialMessageResource> {
