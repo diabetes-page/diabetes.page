@@ -5,7 +5,8 @@ import { LearningBase } from '../../domains/learningBases/entities/LearningBase.
 import { Topic } from '../../domains/learningBases/entities/Topic.entity';
 import { Training } from '../../domains/trainings/entities/Training.entity';
 import { Consultant } from '../../domains/users/entities/Consultant.entity';
-import { mapPromises } from '../../utilities/promises';
+import { User } from '../../domains/users/entities/User.entity';
+import { eachPromise, mapPromises } from '../../utilities/promises';
 import { AppointmentFactory } from '../factories/AppointmentFactory';
 import { LearningBaseFactory } from '../factories/LearningBaseFactory';
 import { TrainingFactory } from '../factories/TrainingFactory';
@@ -51,9 +52,9 @@ export class MainSeeder {
       const learningBase = await this.learningBaseFactory.createLearningBase();
       await this.repeat(
         () => this.learningBaseFactory.createTopic(learningBase),
-        3,
+        1,
       );
-    }, 3);
+    }, 1);
   }
 
   private async seedTopics(): Promise<any> {
@@ -61,7 +62,7 @@ export class MainSeeder {
     return mapPromises(LearningBase.find(), (learningBase) => {
       return this.repeat(
         () => this.learningBaseFactory.createTopic(learningBase),
-        3,
+        1,
       );
     });
   }
@@ -82,15 +83,23 @@ export class MainSeeder {
     console.log('Seeding appointments...');
     const consultants = await Consultant.find();
 
-    return mapPromises(Training.find(), (training) => {
-      return this.repeat(
-        () =>
-          this.appointmentFactory.createAppointment(
-            training,
-            sample(consultants)!,
-          ),
-        3,
-      );
+    await mapPromises(Training.find(), (training) => {
+      return this.repeat(async () => {
+        const appointment = await this.appointmentFactory.createAppointment(
+          training,
+          sample(consultants)!,
+        );
+
+        await eachPromise(
+          await User.find(),
+          async (user: User): Promise<void> => {
+            await this.appointmentFactory.createUserAppointmentAssignment(
+              user,
+              appointment,
+            );
+          },
+        );
+      }, 3);
     });
   }
 }
