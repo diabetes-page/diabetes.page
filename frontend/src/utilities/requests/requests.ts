@@ -44,5 +44,5 @@ export const register = async (
 export const indexUsers = async (): Promise<AxiosResponse> =>
   Get(`/users`, await withAuth());
 
-export const showOwnUser = async (): Promise<AxiosResponse> =>
-  Get(`/me`, await withAuth());
+export const showUser = async (id: number): Promise<AxiosResponse> =>
+  Get(`/users/${id}`, await withAuth());
