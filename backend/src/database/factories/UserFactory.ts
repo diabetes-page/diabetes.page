@@ -20,14 +20,15 @@ export class UserFactory {
       name: 'Tom Diacono',
       email: 'thomas.diacono1999@gmail.com',
     },
+    participant: {
+      name: 'Participant',
+      email: 'p@diabetes.page',
+    },
   };
 
   constructor(private configService: ConfigService) {}
 
-  public createConsultantForUser = async (
-    user: User,
-    props: Partial<User> = {},
-  ): Promise<Consultant> => {
+  public createConsultantForUser = async (user: User): Promise<Consultant> => {
     return await Consultant.create({
       user: user,
     }).save();

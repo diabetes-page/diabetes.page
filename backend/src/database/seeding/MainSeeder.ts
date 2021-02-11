@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { sample, times } from 'lodash';
+import { reject, sample, sampleSize, times } from 'lodash';
 import { BaseEntity } from 'typeorm';
+import { Appointment } from '../../domains/appointments/entities/Appointment.entity';
 import { LearningBase } from '../../domains/learningBases/entities/LearningBase.entity';
 import { Topic } from '../../domains/learningBases/entities/Topic.entity';
 import { Training } from '../../domains/trainings/entities/Training.entity';
@@ -29,6 +30,7 @@ export class MainSeeder {
     await this.seedTopics();
     await this.seedTrainings();
     await this.seedAppointments();
+    await this.seedAppointmentAssignments();
   }
 
   public async repeat<Entity extends BaseEntity>(
@@ -40,7 +42,8 @@ export class MainSeeder {
 
   private async seedUsers(): Promise<void> {
     console.log('Seeding users...');
-    await this.repeat(() => this.userFactory.createUser(), 10);
+    await this.repeat(() => this.userFactory.createUser(), 100);
+    await this.userFactory.createUser(UserFactory.blueprints.participant);
     await this.userFactory.createConsultant(UserFactory.blueprints.vincent);
     await this.userFactory.createConsultant(UserFactory.blueprints.joe);
     await this.userFactory.createConsultant(UserFactory.blueprints.tom);
@@ -48,13 +51,10 @@ export class MainSeeder {
 
   private async seedLearningBases(): Promise<void> {
     console.log('Seeding learning bases...');
-    await this.repeat(async () => {
-      const learningBase = await this.learningBaseFactory.createLearningBase();
-      await this.repeat(
-        () => this.learningBaseFactory.createTopic(learningBase),
-        1,
-      );
-    }, 1);
+    await this.repeat(
+      async () => this.learningBaseFactory.createLearningBase(),
+      2,
+    );
   }
 
   private async seedTopics(): Promise<any> {
@@ -62,7 +62,7 @@ export class MainSeeder {
     return mapPromises(LearningBase.find(), (learningBase) => {
       return this.repeat(
         () => this.learningBaseFactory.createTopic(learningBase),
-        1,
+        2,
       );
     });
   }
@@ -84,22 +84,33 @@ export class MainSeeder {
     const consultants = await Consultant.find();
 
     await mapPromises(Training.find(), (training) => {
-      return this.repeat(async () => {
-        const appointment = await this.appointmentFactory.createAppointment(
-          training,
-          sample(consultants)!,
-        );
-
-        await eachPromise(
-          await User.find(),
-          async (user: User): Promise<void> => {
-            await this.appointmentFactory.createUserAppointmentAssignment(
-              user,
-              appointment,
-            );
-          },
-        );
-      }, 3);
+      return this.repeat(
+        async () =>
+          this.appointmentFactory.createAppointment(
+            training,
+            sample(consultants)!,
+          ),
+        3,
+      );
     });
+  }
+
+  private async seedAppointmentAssignments(): Promise<any> {
+    console.log('Seeding appointment assignments...');
+    const users = await User.find();
+    await eachPromise(
+      users,
+      async (user) => void (await user.loadAsConsultant()),
+    );
+    const participants = reject(users, (user) => !!user.asConsultant);
+
+    return mapPromises(Appointment.find(), (appointment) =>
+      mapPromises(sampleSize(participants, 10), (user) =>
+        this.appointmentFactory.createUserAppointmentAssignment(
+          user,
+          appointment,
+        ),
+      ),
+    );
   }
 }
