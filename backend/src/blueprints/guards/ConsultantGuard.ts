@@ -3,9 +3,9 @@ import { User } from '../../domains/users/entities/User.entity';
 
 @Injectable()
 export class ConsultantGuard implements CanActivate {
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const user: User = request.user;
-    return !!user.asConsultant;
+    return !!(await user.loadAsConsultant());
   }
 }
