@@ -7,6 +7,7 @@ import { StandardTextInput } from '../../components/StandardTextInput';
 import { LOCAL_STORAGE_JWT_KEY } from '../../config/constants/constants';
 import { SET_LOGGED_IN } from '../../redux/login/actions';
 import { useSafeDispatch } from '../../redux/root/useSafeDispatch';
+import { SET_USER } from '../../redux/user/actions';
 import { renderIf } from '../../utilities/misc/rendering';
 import { login } from '../../utilities/requests/requests';
 
@@ -81,6 +82,10 @@ const useLogin = (
 
   function onLogin(response: AxiosResponse): void {
     AsyncStorage.setItem(LOCAL_STORAGE_JWT_KEY, response.data.token);
+    dispatch({
+      type: SET_USER,
+      user: response.data.user,
+    });
     dispatch({
       type: SET_LOGGED_IN,
       loggedIn: true,
