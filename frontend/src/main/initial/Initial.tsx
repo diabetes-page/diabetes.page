@@ -1,8 +1,9 @@
 import { includes } from 'lodash';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
+import { ActivityIndicator } from 'react-native-paper';
 import { useSelector } from 'react-redux';
+import { StandardScreen } from '../../components/StandardScreen';
 import { SET_LOGGED_IN } from '../../redux/login/actions';
 import { RootState } from '../../redux/root/state';
 import { theme } from '../../theme';
@@ -15,11 +16,14 @@ export function Initial(): JSX.Element {
     includes(state.loading.initial, SET_LOGGED_IN),
   );
   const loggedIn = useSelector((state: RootState) => !!state.login.loggedIn);
-  const theme = useTheme();
   let content: JSX.Element;
 
   if (loginLoading) {
-    content = <Text>Loading...</Text>;
+    content = (
+      <StandardScreen>
+        <ActivityIndicator animating />
+      </StandardScreen>
+    );
   } else if (loggedIn) {
     content = <Main />;
   } else {
