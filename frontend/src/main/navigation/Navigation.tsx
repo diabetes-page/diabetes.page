@@ -14,17 +14,17 @@ export function Navigation(): JSX.Element {
   return (
     <NavigationContainer linking={{ prefixes: [], enabled: true }}>
       <Drawer.Navigator
-        initialRouteName="Home"
+        initialRouteName="appointments"
         drawerType={
           dimensions.width >= STICKY_DRAWER_MIN_WIDTH ? 'permanent' : 'front'
         }
       >
+        {/* todo: i18n */}
         <Drawer.Screen
           name="appointments"
           component={IndexAppointments}
-          options={{ drawerLabel: 'Show appointments' }}
+          options={{ drawerLabel: 'My appointments' }}
         />
-        {/* todo: i18n */}
         <Drawer.Screen
           name="appointment"
           component={AppointmentDetail}

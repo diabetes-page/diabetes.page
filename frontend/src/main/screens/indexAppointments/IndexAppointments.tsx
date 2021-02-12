@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../../redux/root/hooks';
 import {
   AppointmentResource,
   requests,
@@ -13,16 +13,12 @@ export function IndexAppointments(): JSX.Element {
   const [isLoading, setIsLoading] = useState(true);
   const userId = useSelector((state) => state.user.id);
 
-  function getAppointments(): void {
-    requests.indexAppointmentsForUser(1).then((response) => {
+  useEffect(() => {
+    requests.indexAppointmentsForUser(userId).then((response) => {
       setAppointments(response.data.appointments);
       setIsLoading(false);
     });
-  }
-
-  useEffect(() => {
-    getAppointments();
-  }, []);
+  }, [userId]);
 
   if (isLoading) {
     return (
