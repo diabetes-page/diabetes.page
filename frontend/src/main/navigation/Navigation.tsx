@@ -1,8 +1,8 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { useWindowDimensions } from 'react-native';
-import { STICKY_DRAWER_MIN_WIDTH } from '../../config/style';
+import { StyleSheet, useWindowDimensions } from 'react-native';
+import { DRAWER_WIDTH, STICKY_DRAWER_MIN_WIDTH } from '../../config/style';
 import { theme } from '../../theme';
 import { AppointmentDetail } from '../screens/appointmentDetail/AppointmentDetail';
 import { IndexAppointments } from '../screens/indexAppointments/IndexAppointments';
@@ -22,6 +22,7 @@ export function Navigation(): JSX.Element {
         drawerType={
           dimensions.width >= STICKY_DRAWER_MIN_WIDTH ? 'permanent' : 'front'
         }
+        drawerStyle={styles.drawer}
       >
         {/* todo: i18n */}
         <Drawer.Screen
@@ -38,3 +39,7 @@ export function Navigation(): JSX.Element {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  drawer: { width: DRAWER_WIDTH },
+});
