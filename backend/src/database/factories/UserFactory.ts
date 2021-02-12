@@ -21,7 +21,7 @@ export class UserFactory {
       email: 'thomas.diacono1999@gmail.com',
     },
     participant: {
-      name: 'Participant',
+      name: 'John Doe',
       email: 'p@diabetes.page',
     },
   };
