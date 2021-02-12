@@ -2,7 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AxiosResponse } from 'axios';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
+import { Button, Paragraph } from 'react-native-paper';
+import { StandardHeading } from '../../components/StandardHeading';
 import { StandardTextInput } from '../../components/StandardTextInput';
 import { LOCAL_STORAGE_JWT_KEY } from '../../config/security';
 import { UNIT } from '../../config/style';
@@ -18,12 +19,11 @@ export function Login(): JSX.Element {
   const [password, onChangePassword] = React.useState('');
   const [error, setError] = React.useState(false);
   const login = useLogin(email, password, setError);
-  const theme = useTheme();
 
   return (
     <View style={styles.centeringBox}>
       <View style={styles.sizeBox}>
-        <Title>Login</Title>
+        <StandardHeading>Login</StandardHeading>
         <View>
           <StandardTextInput
             label="Email"
@@ -49,7 +49,7 @@ export function Login(): JSX.Element {
           />
 
           {renderIf(error)(() => (
-            <Paragraph style={styles.errorInfo}>
+            <Paragraph style={[styles.inputElement, styles.errorInfo]}>
               The email and password you entered did not match our records.
             </Paragraph>
           ))}
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: '100%',
   },
-  sizeBox: { width: '25%' },
-  inputElement: { marginTop: UNIT * 2 },
+  sizeBox: { width: '40%' },
+  inputElement: { marginBottom: UNIT * 2 },
   errorInfo: { color: theme.colors.error },
 });
