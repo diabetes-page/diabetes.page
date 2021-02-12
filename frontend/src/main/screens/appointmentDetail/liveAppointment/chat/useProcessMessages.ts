@@ -8,7 +8,7 @@ import {
   JITSI_BOSH_URL,
   JITSI_JID,
   JITSI_ROOM_ADDRESS,
-} from '../../../../../config/constants/constants';
+} from '../../../../../config/jitsi';
 import {
   registerStropheRoom,
   setPresentationIndex,

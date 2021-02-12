@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusCodes } from 'http-status-codes';
 import React, { useEffect } from 'react';
-import { LOCAL_STORAGE_JWT_KEY } from '../../config/constants/constants';
+import { LOCAL_STORAGE_JWT_KEY } from '../../config/security';
 import { DEREGISTER_LOADING_INITIAL } from '../../redux/loading/actions';
 import { SET_LOGGED_IN } from '../../redux/login/actions';
 import { SafeDispatch, useSafeDispatch } from '../../redux/root/hooks';

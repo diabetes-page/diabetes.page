@@ -2,7 +2,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import { useWindowDimensions } from 'react-native';
-import { STICKY_DRAWER_MIN_WIDTH } from '../../config/constants/constants';
+import { STICKY_DRAWER_MIN_WIDTH } from '../../config/style';
 import { AppointmentDetail } from '../screens/appointmentDetail/AppointmentDetail';
 import { IndexAppointments } from '../screens/indexAppointments/IndexAppointments';
 

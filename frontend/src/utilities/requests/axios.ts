@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, { AxiosRequestConfig } from 'axios';
-import { LOCAL_STORAGE_JWT_KEY } from '../../config/constants/constants';
+import { LOCAL_STORAGE_JWT_KEY } from '../../config/security';
 
 const instance = axios.create({
   baseURL: 'http://localhost:3000',
