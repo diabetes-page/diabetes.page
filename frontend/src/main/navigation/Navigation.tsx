@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import { useWindowDimensions } from 'react-native';
 import { STICKY_DRAWER_MIN_WIDTH } from '../../config/style';
+import { theme } from '../../theme';
 import { AppointmentDetail } from '../screens/appointmentDetail/AppointmentDetail';
 import { IndexAppointments } from '../screens/indexAppointments/IndexAppointments';
 
@@ -12,7 +13,10 @@ export function Navigation(): JSX.Element {
   const dimensions = useWindowDimensions();
 
   return (
-    <NavigationContainer linking={{ prefixes: [], enabled: true }}>
+    <NavigationContainer
+      linking={{ prefixes: [], enabled: true }}
+      theme={theme}
+    >
       <Drawer.Navigator
         initialRouteName="appointments"
         drawerType={
