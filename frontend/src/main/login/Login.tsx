@@ -3,13 +3,14 @@ import { AxiosResponse } from 'axios';
 import React from 'react';
 import { View } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
+import { Resource as LoginResource } from '../../../../backend/src/domains/auth/routes/login/Resource';
 import { StandardTextInput } from '../../components/StandardTextInput';
 import { LOCAL_STORAGE_JWT_KEY } from '../../config/constants/constants';
 import { SET_LOGGED_IN } from '../../redux/login/actions';
 import { useSafeDispatch } from '../../redux/root/useSafeDispatch';
 import { SET_USER } from '../../redux/user/actions';
 import { renderIf } from '../../utilities/misc/rendering';
-import { login } from '../../utilities/requests/requests';
+import { requests } from '../../utilities/requests/requests';
 
 export function Login(): JSX.Element {
   const [email, onChangeEmail] = React.useState('');
@@ -80,7 +81,7 @@ const useLogin = (
 ): (() => void) => {
   const dispatch = useSafeDispatch();
 
-  function onLogin(response: AxiosResponse): void {
+  function onLogin(response: AxiosResponse<LoginResource>): void {
     AsyncStorage.setItem(LOCAL_STORAGE_JWT_KEY, response.data.token);
     dispatch({
       type: SET_USER,
@@ -93,7 +94,5 @@ const useLogin = (
   }
 
   return () =>
-    void login({ email, password })
-      .then(onLogin)
-      .catch(() => setError(true)); // Todo: Deal with other types of errors
+    void requests.login({ email, password }).catch(() => setError(true)); // Todo: Deal with other types of errors
 };

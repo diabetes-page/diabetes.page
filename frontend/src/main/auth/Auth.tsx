@@ -9,7 +9,7 @@ import {
   useSafeDispatch,
 } from '../../redux/root/useSafeDispatch';
 import { handleStatusError } from '../../utilities/misc/errors';
-import { checkAuthStatus } from '../../utilities/requests/requests';
+import { requests } from '../../utilities/requests/requests';
 
 export function Auth(): JSX.Element {
   useEstablishConnection();
@@ -32,7 +32,7 @@ const establishConnection = async (dispatch: SafeDispatch): Promise<void> => {
   }
 
   try {
-    await checkAuthStatus();
+    await requests.checkAuthStatus();
   } catch (error) {
     // todo: handle other errors
     return handleStatusError(error, {
