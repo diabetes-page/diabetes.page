@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
+import { StandardHeading } from '../../../components/StandardHeading';
 import { StandardScreen } from '../../../components/StandardScreen';
 import { useSelector } from '../../../redux/root/hooks';
 import {
@@ -31,12 +32,9 @@ export function IndexAppointments(): JSX.Element {
 
   return (
     <StandardScreen>
+      <StandardHeading>My appointments</StandardHeading>
       {appointments.map((appointment) => (
-        <AppointmentListItem
-          name={appointment?.training?.name || 'No training'}
-          presenter={appointment.presenter.user.name}
-          key={appointment.id}
-        />
+        <AppointmentListItem appointment={appointment} key={appointment.id} />
       ))}
     </StandardScreen>
   );

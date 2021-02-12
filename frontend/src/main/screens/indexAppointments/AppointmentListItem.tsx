@@ -1,14 +1,25 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { Card } from 'react-native-paper';
+import { UNIT } from '../../../config/style';
+import { AppointmentResource } from '../../../utilities/requests/requests';
 
-type AppointmentListItemProps = { name: string; presenter: string };
+type AppointmentListItemProps = { appointment: AppointmentResource };
 export function AppointmentListItem({
-  name,
-  presenter,
+  appointment,
 }: AppointmentListItemProps): JSX.Element {
   return (
-    <Card>
-      <Card.Title title={name} subtitle={presenter} />
+    <Card style={styles.card}>
+      <Card.Title
+        title={appointment.training?.name || 'No training'}
+        subtitle={appointment.presenter.user.name}
+      />
     </Card>
   );
 }
+
+const styles = StyleSheet.create({
+  card: {
+    marginBottom: UNIT * 2,
+  },
+});

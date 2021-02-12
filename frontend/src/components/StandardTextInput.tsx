@@ -7,7 +7,7 @@ export function StandardTextInput(props: Partial<TextInputProps>): JSX.Element {
   return (
     <TextInput
       {...props}
-      style={[props.style, { backgroundColor: theme.colors.surface }]}
+      style={[{ backgroundColor: theme.colors.surface }, props.style]}
     />
   );
 }
