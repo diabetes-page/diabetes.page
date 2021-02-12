@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useCallback } from 'react';
+import { AxiosResponse } from 'axios';
+import React from 'react';
 import { View } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
 import { StandardTextInput } from '../../components/StandardTextInput';
@@ -77,15 +78,17 @@ const useLogin = (
   setError: (v: boolean) => void,
 ): (() => void) => {
   const dispatch = useSafeDispatch();
-  return useCallback(() => {
-    login({ email, password })
-      .then((response) => {
-        AsyncStorage.setItem(LOCAL_STORAGE_JWT_KEY, response.data.token);
-        dispatch({
-          type: SET_LOGGED_IN,
-          loggedIn: true,
-        });
-      })
-      .catch(() => setError(true));
-  }, [email, password, setError, dispatch]);
+
+  function onLogin(response: AxiosResponse): void {
+    AsyncStorage.setItem(LOCAL_STORAGE_JWT_KEY, response.data.token);
+    dispatch({
+      type: SET_LOGGED_IN,
+      loggedIn: true,
+    });
+  }
+
+  return () =>
+    void login({ email, password })
+      .then(onLogin)
+      .catch(() => setError(true)); // Todo: Deal with other types of errors
 };
