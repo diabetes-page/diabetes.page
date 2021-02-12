@@ -4,7 +4,8 @@ import React, { useEffect } from 'react';
 import { LOCAL_STORAGE_JWT_KEY } from '../../config/constants/constants';
 import { DEREGISTER_LOADING_INITIAL } from '../../redux/loading/actions';
 import { SET_LOGGED_IN } from '../../redux/login/actions';
-import { useSafeDispatch, SafeDispatch } from '../../redux/root/hooks';
+import { SafeDispatch, useSafeDispatch } from '../../redux/root/hooks';
+import { SET_USER } from '../../redux/user/actions';
 import { handleStatusError } from '../../utilities/misc/errors';
 import { requests } from '../../utilities/requests/requests';
 
@@ -20,7 +21,6 @@ const useEstablishConnection = (): void => {
 };
 
 const establishConnection = async (dispatch: SafeDispatch): Promise<void> => {
-  // Todo: Instead of using checkAuthStatus, just grab own user immediately
   // Todo: Don't use AsyncStorage, as it is insecure
   const token = await AsyncStorage.getItem(LOCAL_STORAGE_JWT_KEY);
 
@@ -29,7 +29,12 @@ const establishConnection = async (dispatch: SafeDispatch): Promise<void> => {
   }
 
   try {
-    await requests.checkAuthStatus();
+    const status = await requests.checkAuthStatus();
+    const userResponse = await requests.showUser(status.data.userId);
+    dispatch({
+      type: SET_USER,
+      user: userResponse.data,
+    });
   } catch (error) {
     // todo: handle other errors
     return handleStatusError(error, {

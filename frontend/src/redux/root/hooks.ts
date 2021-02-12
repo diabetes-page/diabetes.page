@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import {
   useDispatch as useReduxDispatch,
   useSelector as useReduxSelector,
@@ -9,7 +10,7 @@ export type SafeDispatch = (action: Action) => void;
 export const useSafeDispatch = (): SafeDispatch => {
   const dispatch = useReduxDispatch();
 
-  return (action: Action) => void dispatch(action);
+  return useCallback((action: Action) => void dispatch(action), [dispatch]);
 };
 
 export const useSelector = <TSelected = unknown>(

@@ -15,7 +15,15 @@ Feature: Check authentication status
 
   Scenario: I am not authenticated if my account is deleted
     Given I am a user with name "X", E-Mail "test@example.com" and password "12345678"
-    And I have a valid JSON Web Token
+    And I am logged in
     And my account is deleted
     When I check my authentication status
     Then the request is unauthenticated
+
+  Scenario: I am not authenticated without a token
+    Given I am a user with name "X", E-Mail "test@example.com" and password "12345678"
+    And I am logged in
+    When I check my authentication status
+    Then the request is successful
+    And the response shows that I am authenticated
+    And the response contains my user id

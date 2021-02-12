@@ -54,7 +54,7 @@ Given(/^I am logged in$/, async function () {
     email: this.user.email,
     password: this.password,
   });
-
+  expect(response.status).to.equal(HttpStatus.OK);
   this.jwt = response.body.token;
 });
 

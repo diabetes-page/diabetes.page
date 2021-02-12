@@ -1,6 +1,5 @@
-import { HttpStatus } from '@nestjs/common';
 import { expect } from 'chai';
-import { Given, When } from 'cucumber';
+import { Given, Then, When } from 'cucumber';
 import { testRequest } from '../../../../../test/setup.steps';
 import { User } from '../../../../users/entities/User.entity';
 
@@ -16,16 +15,15 @@ Given(/^I have a JSON Web Token "([^"]*)"$/, function (jwt: string) {
   this.jwt = jwt;
 });
 
-Given(/^I have a valid JSON Web Token$/, async function () {
-  const response = await testRequest('POST', '/auth/login', {
-    email: this.user.email,
-    password: this.password,
-  });
-  expect(response.status).to.equal(HttpStatus.OK);
-  this.jwt = response.body.token;
-});
-
 Given(/^my account is deleted$/, async function () {
   const user = await User.findOne(this.user.id);
   await user!.softRemove();
+});
+
+Then(/^the response shows that I am authenticated$/, function () {
+  expect(this.response.body.authenticated).to.equal(true);
+});
+
+Then(/^the response contains my user id$/, function () {
+  expect(this.response.body.userId).to.equal(this.user.id);
 });
