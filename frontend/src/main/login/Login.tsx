@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: '100%',
   },
-  sizeBox: { width: '40%' },
+  sizeBox: { width: '75%', maxWidth: 600 },
   inputElement: { marginBottom: UNIT * 2 },
   errorInfo: { color: theme.colors.error },
 });
