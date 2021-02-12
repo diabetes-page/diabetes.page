@@ -28,7 +28,7 @@ class RequestFinder {
     const output =
       this.imports +
       '\n\n' +
-      this.types.join(';\n') +
+      this.types.join('\n') +
       '\n\nexport const requests = {\n' +
       this.requests.join(',\n\n') +
       '\n};';
@@ -45,7 +45,8 @@ class RequestFinder {
     fs.readdirSync(baseDir).forEach((resourceFile) => {
       const resourceName = resourceFile.substring(0, resourceFile.length - 3);
       const resourcePath = `${BACKEND_PREPEND}/${baseDir}/${resourceName}`;
-      this.imports += `\nimport { ${resourceName} } from '${resourcePath}';`;
+      this.imports += `\nimport { ${resourceName} as Backend${resourceName} } from '${resourcePath}';`;
+      this.types.push(`export type ${resourceName} = Backend${resourceName};`);
     });
   }
 
@@ -67,7 +68,8 @@ class RequestFinder {
     }
     const resourceName = capitalize(route) + 'Resource';
     const resourcePath = `${BACKEND_PREPEND}/${file}`;
-    this.imports += `\nimport { Resource as ${resourceName} } from '${resourcePath}';`;
+    this.imports += `\nimport { Resource as Backend${resourceName} } from '${resourcePath}';`;
+    this.types.push(`export type ${resourceName} = Backend${resourceName};`);
   }
 
   private parseRoute(route: string, baseDir: string): void {
@@ -161,7 +163,9 @@ class RequestFinder {
 
     if (requestDataParameters) {
       this.types.push(
-        `type ${capitalize(route)}Parameters = {${requestDataParameters}}`,
+        `export type ${capitalize(
+          route,
+        )}Parameters = {${requestDataParameters}};`,
       );
 
       requestArguments.push(`data: ${capitalize(route)}Parameters `);

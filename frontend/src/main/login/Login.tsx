@@ -3,14 +3,13 @@ import { AxiosResponse } from 'axios';
 import React from 'react';
 import { View } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
-import { Resource as LoginResource } from '../../../../backend/src/domains/auth/routes/login/Resource';
 import { StandardTextInput } from '../../components/StandardTextInput';
 import { LOCAL_STORAGE_JWT_KEY } from '../../config/constants/constants';
 import { SET_LOGGED_IN } from '../../redux/login/actions';
 import { useSafeDispatch } from '../../redux/root/useSafeDispatch';
 import { SET_USER } from '../../redux/user/actions';
 import { renderIf } from '../../utilities/misc/rendering';
-import { requests } from '../../utilities/requests/requests';
+import { LoginResource, requests } from '../../utilities/requests/requests';
 
 export function Login(): JSX.Element {
   const [email, onChangeEmail] = React.useState('');
@@ -94,5 +93,8 @@ const useLogin = (
   }
 
   return () =>
-    void requests.login({ email, password }).catch(() => setError(true)); // Todo: Deal with other types of errors
+    void requests
+      .login({ email, password })
+      .then(onLogin)
+      .catch(() => setError(true)); // Todo: Deal with other types of errors
 };

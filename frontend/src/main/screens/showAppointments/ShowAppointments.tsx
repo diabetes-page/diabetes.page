@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
-import { AppointmentResource } from '../../../../../backend/src/domains/appointments/resources/AppointmentResource';
-import { requests } from '../../../utilities/requests/requests';
+import {
+  AppointmentResource,
+  requests,
+} from '../../../utilities/requests/requests';
 import { AppointmentListItem } from './AppointmentListItem';
 
 export function ShowAppointments(): JSX.Element {
