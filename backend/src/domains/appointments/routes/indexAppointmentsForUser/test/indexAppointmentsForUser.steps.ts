@@ -1,10 +1,20 @@
 import { expect } from 'chai';
 import { Then, When } from 'cucumber';
 import { testRequest } from '../../../../../test/setup.steps';
+import { User } from '../../../../users/entities/User.entity';
 
-When(/^I request my appointments$/, async function () {
-  this.response = await testRequest('GET', '/me/appointments', {}, this.jwt);
-});
+When(
+  /^I request the appointments of the user "([^"]*)"$/,
+  async function (name) {
+    const user = await User.findOne({ name });
+    this.response = await testRequest(
+      'GET',
+      `/users/${user!.id}/appointments`,
+      {},
+      this.jwt,
+    );
+  },
+);
 
 Then(/^the response contains an array of appointments$/, async function () {
   expect(this.response.body.appointments).is.a('array');

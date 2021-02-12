@@ -15,8 +15,14 @@ Then(/^the request is successful$/, function () {
   expect(this.response.status).to.equal(HttpStatus.OK);
 });
 
-Then(/^the request is unauthorized$/, function () {
+Then(/^the request is unauthenticated$/, function () {
+  // Weirdly, HTTP 401 is called "Unauthorized" when it should be called "Unauthenticated", see
+  // https://stackoverflow.com/questions/3297048/403-forbidden-vs-401-unauthorized-http-responses
   expect(this.response.status).to.equal(HttpStatus.UNAUTHORIZED);
+});
+
+Then(/^the request is unauthorized$/, function () {
+  expect(this.response.status).to.equal(HttpStatus.FORBIDDEN);
 });
 
 Given(
@@ -94,7 +100,7 @@ Given(
 );
 
 Given(
-  /^the appointment presented by "([^"]*)" is assigned to "([^"]*)"(?: \(me\)|)$/,
+  /^the appointment presented by "([^"]*)" is assigned to "([^"]*)"$/,
   async function (presenterName, userName) {
     const appointments = await (await (await User.findOne({
       name: presenterName,
