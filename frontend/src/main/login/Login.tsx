@@ -6,7 +6,7 @@ import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
 import { StandardTextInput } from '../../components/StandardTextInput';
 import { LOCAL_STORAGE_JWT_KEY } from '../../config/constants/constants';
 import { SET_LOGGED_IN } from '../../redux/login/actions';
-import { useSafeDispatch } from '../../redux/root/useSafeDispatch';
+import { useSafeDispatch } from '../../redux/root/hooks';
 import { SET_USER } from '../../redux/user/actions';
 import { renderIf } from '../../utilities/misc/rendering';
 import { LoginResource, requests } from '../../utilities/requests/requests';

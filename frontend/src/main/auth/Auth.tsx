@@ -4,10 +4,7 @@ import React, { useEffect } from 'react';
 import { LOCAL_STORAGE_JWT_KEY } from '../../config/constants/constants';
 import { DEREGISTER_LOADING_INITIAL } from '../../redux/loading/actions';
 import { SET_LOGGED_IN } from '../../redux/login/actions';
-import {
-  SafeDispatch,
-  useSafeDispatch,
-} from '../../redux/root/useSafeDispatch';
+import { useSafeDispatch, SafeDispatch } from '../../redux/root/hooks';
 import { handleStatusError } from '../../utilities/misc/errors';
 import { requests } from '../../utilities/requests/requests';
 

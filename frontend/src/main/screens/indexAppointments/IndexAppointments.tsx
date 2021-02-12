@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
+import { useSelector } from 'react-redux';
 import {
   AppointmentResource,
   requests,
 } from '../../../utilities/requests/requests';
 import { AppointmentListItem } from './AppointmentListItem';
 
-export function ShowAppointments(): JSX.Element {
+export function IndexAppointments(): JSX.Element {
   const [appointments, setAppointments] = useState([] as AppointmentResource[]);
   const [isLoading, setIsLoading] = useState(true);
+  const userId = useSelector((state) => state.user.id);
 
   function getAppointments(): void {
     requests.indexAppointmentsForUser(1).then((response) => {
