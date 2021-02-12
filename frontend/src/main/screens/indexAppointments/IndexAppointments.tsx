@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import { StandardHeading } from '../../../components/StandardHeading';
 import { StandardScreen } from '../../../components/StandardScreen';
@@ -24,9 +23,9 @@ export function IndexAppointments(): JSX.Element {
 
   if (isLoading) {
     return (
-      <View style={{ height: '100%', justifyContent: 'center' }}>
+      <StandardScreen>
         <ActivityIndicator animating />
-      </View>
+      </StandardScreen>
     );
   }
 

@@ -1,10 +1,11 @@
 import { includes } from 'lodash';
 import React from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { SET_LOGGED_IN } from '../../redux/login/actions';
 import { RootState } from '../../redux/root/state';
+import { theme } from '../../theme';
 import { Auth } from '../auth/Auth';
 import { Login } from '../login/Login';
 import { Main } from '../main/Main';
@@ -26,9 +27,13 @@ export function Initial(): JSX.Element {
   }
 
   return (
-    <View style={{ backgroundColor: theme.colors.backdrop, height: '100%' }}>
+    <View style={styles.topWrapper}>
       <Auth />
       {content}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  topWrapper: { backgroundColor: theme.colors.backdrop, height: '100%' },
+});

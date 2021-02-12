@@ -1,13 +1,15 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AxiosResponse } from 'axios';
 import React from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Button, Paragraph, Title, useTheme } from 'react-native-paper';
 import { StandardTextInput } from '../../components/StandardTextInput';
 import { LOCAL_STORAGE_JWT_KEY } from '../../config/security';
+import { UNIT } from '../../config/style';
 import { SET_LOGGED_IN } from '../../redux/login/actions';
 import { useSafeDispatch } from '../../redux/root/hooks';
 import { SET_USER } from '../../redux/user/actions';
+import { theme } from '../../theme';
 import { renderIf } from '../../utilities/misc/rendering';
 import { LoginResource, requests } from '../../utilities/requests/requests';
 
@@ -19,14 +21,8 @@ export function Login(): JSX.Element {
   const theme = useTheme();
 
   return (
-    <View
-      style={{
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100%',
-      }}
-    >
-      <View style={{ width: '25%' }}>
+    <View style={styles.centeringBox}>
+      <View style={styles.sizeBox}>
         <Title>Login</Title>
         <View>
           <StandardTextInput
@@ -38,9 +34,7 @@ export function Login(): JSX.Element {
             autoCompleteType="email"
             keyboardType="email-address"
             textContentType="emailAddress"
-            style={{
-              marginTop: '16px',
-            }}
+            style={styles.inputElement}
           />
           <StandardTextInput
             label="Password"
@@ -50,21 +44,17 @@ export function Login(): JSX.Element {
             error={error}
             autoCompleteType="password"
             textContentType="password"
-            style={{ marginTop: '16px' }}
+            style={styles.inputElement}
             secureTextEntry
           />
 
           {renderIf(error)(() => (
-            <Paragraph style={{ color: theme.colors.error }}>
+            <Paragraph style={styles.errorInfo}>
               The email and password you entered did not match our records.
             </Paragraph>
           ))}
 
-          <Button
-            onPress={login}
-            mode="contained"
-            style={{ marginTop: '16px' }}
-          >
+          <Button onPress={login} mode="contained" style={styles.inputElement}>
             Login
           </Button>
         </View>
@@ -98,3 +88,14 @@ const useLogin = (
       .then(onLogin)
       .catch(() => setError(true)); // Todo: Deal with other types of errors
 };
+
+const styles = StyleSheet.create({
+  centeringBox: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+  },
+  sizeBox: { width: '25%' },
+  inputElement: { marginTop: UNIT * 2 },
+  errorInfo: { color: theme.colors.error },
+});
