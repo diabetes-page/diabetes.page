@@ -12,7 +12,7 @@ When(/^I check my authentication status$/, async function () {
   this.response = await testRequest('GET', '/auth/status', {}, this.jwt);
 });
 
-Given(/^I have a JSON WEB Token "([^"]*)"$/, function (jwt: string) {
+Given(/^I have a JSON Web Token "([^"]*)"$/, function (jwt: string) {
   this.jwt = jwt;
 });
 

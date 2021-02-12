@@ -9,7 +9,7 @@ Feature: Check authentication status
     Then the request is unauthorized
 
   Scenario: I am not authenticated with a wrong token
-    Given I have a JSON WEB Token "abcdef"
+    Given I have a JSON Web Token "abcdef"
     When I check my authentication status
     Then the request is unauthorized
 

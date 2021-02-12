@@ -24,6 +24,6 @@ export class Login extends ResourceController {
   ): Promise<Resource> {
     const token = await this.authService.login(authenticatedUser);
 
-    return Resource.make(token);
+    return Resource.make(token, authenticatedUser);
   }
 }

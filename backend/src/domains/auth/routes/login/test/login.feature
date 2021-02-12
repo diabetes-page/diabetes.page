@@ -3,9 +3,10 @@ Feature: Login
   As a user
   I can login to my account
 
-  Scenario: E-Mail address must not be used already
+  Scenario: I can login with valid credentials
     Given I am a user with name "X", E-Mail "test@example.com" and password "12345678"
-    When I login to the application
+    When I login to the application with E-Mail "test@example.com" and password "12345678"
     Then the request is successful
     And the response contains a token
     And the token is valid
+    And the response contains the id, email and name of me
