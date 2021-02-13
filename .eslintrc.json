@@ -21,6 +21,7 @@
         "plugin:react-hooks/recommended"
       ],
       "rules": {
+        "curly": "error",
         "@typescript-eslint/interface-name-prefix": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/explicit-function-return-type": [
