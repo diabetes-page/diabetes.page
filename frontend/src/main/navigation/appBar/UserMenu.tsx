@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { List, Menu, Text } from 'react-native-paper';
-import { useSelector } from '../../redux/root/hooks';
-import { useMenu } from '../../utilities/hooks/hooks';
+import { useSelector } from '../../../redux/root/hooks';
+import { useMenu } from '../../../utilities/hooks/hooks';
 
 export function UserMenu(): JSX.Element {
   const name = useSelector((state) => state.user.name);

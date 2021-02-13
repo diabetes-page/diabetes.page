@@ -9,7 +9,7 @@ import { RootState } from '../../redux/root/state';
 import { theme } from '../../theme';
 import { Auth } from '../auth/Auth';
 import { Login } from '../login/Login';
-import { Main } from '../main/Main';
+import { Navigation } from '../navigation/Navigation';
 
 export function Initial(): JSX.Element {
   const loginLoading = useSelector((state: RootState) =>
@@ -25,7 +25,7 @@ export function Initial(): JSX.Element {
       </StandardScreen>
     );
   } else if (loggedIn) {
-    content = <Main />;
+    content = <Navigation />;
   } else {
     content = <Login />;
   }

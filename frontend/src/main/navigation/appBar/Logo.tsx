@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import logo from '../../../assets/logo.svg';
-import { LOGO_HEIGHT, LOGO_WIDTH, UNIT } from '../../config/style';
+import logo from '../../../../assets/logo.svg';
+import { LOGO_HEIGHT, LOGO_WIDTH, UNIT } from '../../../config/style';
 
 export function Logo(): JSX.Element {
   return (
