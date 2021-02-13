@@ -4,7 +4,11 @@ import React, { useEffect } from 'react';
 import { LOCAL_STORAGE_JWT_KEY } from '../../config/security';
 import { DEREGISTER_LOADING_INITIAL } from '../../redux/loading/actions';
 import { SET_LOGGED_IN } from '../../redux/login/actions';
-import { SafeDispatch, useSafeDispatch } from '../../redux/root/hooks';
+import {
+  SafeDispatch,
+  useSafeDispatch,
+  useSelector,
+} from '../../redux/root/hooks';
 import { SET_USER } from '../../redux/user/actions';
 import { handleStatusError } from '../../utilities/misc/errors';
 import { requests } from '../../utilities/requests/requests';
@@ -15,9 +19,16 @@ export function Auth(): JSX.Element {
 }
 
 const useEstablishConnection = (): void => {
+  const loading = useSelector(
+    (state) => state.loading.initial.indexOf(SET_LOGGED_IN) !== -1,
+  );
   const dispatch = useSafeDispatch();
 
-  useEffect(() => void establishConnection(dispatch), [dispatch]);
+  useEffect((): void => {
+    if (loading) {
+      establishConnection(dispatch);
+    }
+  }, [loading, dispatch]);
 };
 
 const establishConnection = async (dispatch: SafeDispatch): Promise<void> => {

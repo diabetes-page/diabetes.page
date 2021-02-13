@@ -1,11 +1,15 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { List, Menu, Text } from 'react-native-paper';
-import { useSelector } from '../../../redux/root/hooks';
+import { LOCAL_STORAGE_JWT_KEY } from '../../../config/security';
+import { RESET_REDUX } from '../../../redux/root/actions';
+import { useSafeDispatch, useSelector } from '../../../redux/root/hooks';
 import { useMenu } from '../../../utilities/hooks/hooks';
 
 export function UserMenu(): JSX.Element {
   const name = useSelector((state) => state.user.name);
+  const logout = useLogout();
   const { visible, openMenu, closeMenu } = useMenu();
 
   return (
@@ -21,10 +25,21 @@ export function UserMenu(): JSX.Element {
         </Text>
       }
     >
-      <Menu.Item onPress={() => void 0} title="Logout" />
+      <Menu.Item onPress={logout} title="Logout" />
     </Menu>
   );
 }
+
+const useLogout = (): (() => Promise<void>) => {
+  const dispatch = useSafeDispatch();
+
+  return async (): Promise<void> => {
+    await AsyncStorage.removeItem(LOCAL_STORAGE_JWT_KEY);
+    dispatch({
+      type: RESET_REDUX,
+    });
+  };
+};
 
 const styles = StyleSheet.create({
   menu: {
