@@ -11,14 +11,12 @@
     "watch": "nest start --watch",
     "debug": "nest start --debug --watch",
     "prod": "node dist/main",
-
     "test": "ts-node scripts/runTests.ts",
     "db:fresh": "typeorm schema:drop && typeorm migration:run",
     "db:seed": "nest start --config src/database/seeding/bootstrap/nest-cli.json",
     "db:freshseed": "npm run db:fresh && npm run db:seed",
     "db:gen": "typeorm migration:generate",
     "db:migrate": "typeorm migration:run",
-
     "make:requests": "ts-node scripts/generateRequestFunctions.ts"
   },
   "dependencies": {
@@ -28,7 +26,9 @@
     "@nestjs/jwt": "^7.1.0",
     "@nestjs/passport": "^7.1.0",
     "@nestjs/platform-express": "^7.4.4",
+    "@nestjs/platform-socket.io": "^7.6.12",
     "@nestjs/typeorm": "^7.1.4",
+    "@nestjs/websockets": "^7.6.12",
     "@stablelib/base64": "^1.0.0",
     "@stablelib/utf8": "^1.0.0",
     "@types/bcrypt": "^3.0.0",
@@ -60,6 +60,7 @@
     "@types/express": "^4.17.8",
     "@types/faker": "^5.1.5",
     "@types/node": "^14.11.2",
+    "@types/socket.io": "^2.1.13",
     "@types/superagent": "^4.1.10",
     "chai": "^4.2.0",
     "cucumber": "^6.0.5",

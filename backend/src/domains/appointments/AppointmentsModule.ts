@@ -4,6 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Appointment } from './entities/Appointment.entity';
 import { UserAppointmentAssignment } from './entities/UserAppointmentAssignment.entity';
+import { ConferenceGateway } from './routes/conferenceGateway/ConferenceGateway';
 import { CreateAppointment } from './routes/createAppointment/CreateAppointment';
 import { IndexAppointmentsForUser } from './routes/indexAppointmentsForUser/IndexAppointmentsForUser';
 import { ShowConferenceData } from './routes/showConferenceData/ShowConferenceData';
@@ -26,6 +27,7 @@ import { ConferenceService } from './services/ConferenceService';
     ShowConferenceData,
     SwitchConferenceSlide,
     IndexAppointmentsForUser,
+    ConferenceGateway,
   ],
   providers: [AppointmentsService, ConferenceService],
   exports: [],
