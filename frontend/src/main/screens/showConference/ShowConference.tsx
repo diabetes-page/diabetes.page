@@ -1,4 +1,4 @@
-import React, { useMemo, useReducer } from 'react';
+import React, { useEffect, useMemo, useReducer } from 'react';
 import { ActivityIndicator } from 'react-native-paper';
 import { StandardScreen } from '../../../components/StandardScreen';
 import { renderIf } from '../../../utilities/misc/rendering';
@@ -20,8 +20,8 @@ type ShowConferenceParams = {
 };
 export function ShowConference({ route }: ShowConferenceParams): JSX.Element {
   const [state, dispatch] = useReducer(reducer, initialState);
-  useConference(dispatch, route.params.id);
   const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
+  useConference(dispatch, route.params.id);
 
   return (
     <ConferenceContext.Provider value={contextValue}>
@@ -43,24 +43,27 @@ export function ShowConference({ route }: ShowConferenceParams): JSX.Element {
 const useConference = (
   dispatch: ConferenceDispatch,
   appointmentId: number,
-): (() => void) => {
-  return () =>
-    void requests.showConferenceData(appointmentId).then((response) => {
-      const {
-        conferenceRoom,
-        conferenceToken,
-        presentationIndex,
-        officialMessagePublicKey,
-        conferenceUpdateCounter,
-      } = response.data;
-      dispatch(
-        initConference(
+): void => {
+  return useEffect(
+    () =>
+      void requests.showConferenceData(appointmentId).then((response) => {
+        const {
           conferenceRoom,
           conferenceToken,
           presentationIndex,
           officialMessagePublicKey,
           conferenceUpdateCounter,
-        ),
-      );
-    });
+        } = response.data;
+        dispatch(
+          initConference(
+            conferenceRoom,
+            conferenceToken,
+            presentationIndex,
+            officialMessagePublicKey,
+            conferenceUpdateCounter,
+          ),
+        );
+      }),
+    [dispatch, appointmentId],
+  );
 };
