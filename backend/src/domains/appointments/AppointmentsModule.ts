@@ -27,9 +27,8 @@ import { ConferenceService } from './services/ConferenceService';
     ShowConferenceData,
     SwitchConferenceSlide,
     IndexAppointmentsForUser,
-    ConferenceGateway,
   ],
-  providers: [AppointmentsService, ConferenceService],
+  providers: [AppointmentsService, ConferenceService, ConferenceGateway],
   exports: [],
 })
 export class AppointmentsModule {}

@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { NestApplicationOptions } from '@nestjs/common/interfaces/nest-application-options.interface';
 import { NestFactory } from '@nestjs/core';
+import { WsAdapter } from '@nestjs/platform-ws';
 import { setupInterceptors } from './interceptors/setupInterceptors';
 import { AppModule } from './modules/app/AppModule';
 import { TestingModule } from './modules/testing/TestingModule';
@@ -17,6 +18,8 @@ export async function bootstrap(test = false): Promise<INestApplication> {
 
   setupPipes(app);
   setupInterceptors(app);
+  // Todo: use Method setupAdapters for this
+  app.useWebSocketAdapter(new WsAdapter(app));
 
   await app.listen(test ? 0 : 3000);
 

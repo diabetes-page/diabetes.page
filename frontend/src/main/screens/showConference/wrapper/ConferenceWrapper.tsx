@@ -7,9 +7,12 @@ export function ConferenceWrapper(): JSX.Element {
 
   useEffect(() => {
     console.log('socket start');
-    const socket = new WebSocket('ws://localhost:7348');
+    const socket = new WebSocket('ws://localhost:3000/xyz');
     socket.addEventListener('message', function (event) {
       console.log('Message from server ', event.data);
+    });
+    socket.addEventListener('open', (event) => {
+      socket.send('Hello Server!');
     });
     // socket.send('msgToServer');
   }, []);
