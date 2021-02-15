@@ -1,8 +1,8 @@
 import React, { useCallback, useContext } from 'react';
 import { Button, View } from 'react-native';
 import { Document, Page, pdfjs } from 'react-pdf';
-import { renderIf } from '../../../../../utilities/misc/rendering';
-import { Put, withAuth } from '../../../../../utilities/requests/axios';
+import { renderIf } from '../../../../utilities/misc/rendering';
+import { Put, withAuth } from '../../../../utilities/requests/axios';
 import { ConferenceContext } from '../utilities/conferenceContext/ConferenceContext';
 import { useSendMessage } from '../utilities/hooks/useSendMessage';
 
@@ -16,7 +16,7 @@ export const Presentation = (): JSX.Element => {
 
   return (
     <View>
-      <Document file={require('../../../../../../assets/pdf.pdf')}>
+      <Document file={require('../../../../../assets/pdf.pdf')}>
         <Page
           pageNumber={presentationIndex + 1}
           renderAnnotationLayer={false}

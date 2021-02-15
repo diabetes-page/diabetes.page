@@ -1,16 +1,16 @@
 import React, { useCallback, useMemo, useReducer } from 'react';
 import { Button } from 'react-native';
-import { renderIf } from '../../../../utilities/misc/rendering';
-import { Get, withAuth } from '../../../../utilities/requests/axios';
-import { Conference } from './Conference';
+import { renderIf } from '../../../utilities/misc/rendering';
+import { Get, withAuth } from '../../../utilities/requests/axios';
 import { initConference } from './utilities/conferenceContext/actions';
 import {
   ConferenceContext,
   ConferenceDispatch,
 } from './utilities/conferenceContext/ConferenceContext';
 import { initialState, reducer } from './utilities/conferenceContext/state';
+import { ConferenceWrapper } from './wrapper/ConferenceWrapper';
 
-export function LiveAppointment(): JSX.Element {
+export function ShowConference(): JSX.Element {
   const [state, dispatch] = useReducer(reducer, initialState);
   const startConference = useConference(dispatch);
   const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
@@ -23,7 +23,7 @@ export function LiveAppointment(): JSX.Element {
         ),
 
         () => (
-          <Conference />
+          <ConferenceWrapper />
         ),
       )}
     </ConferenceContext.Provider>

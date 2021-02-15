@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { renderIf } from '../../../../utilities/misc/rendering';
-import { Chat } from './chat/Chat';
-import { Jitsi } from './jitsi/Jitsi';
-import { Presentation } from './presentation/Presentation';
+import { Chat } from '../chat/Chat';
+import { Jitsi } from '../jitsi/Jitsi';
+import { Presentation } from '../presentation/Presentation';
 
-export function Conference(): JSX.Element {
+export function ConferenceWrapper(): JSX.Element {
   const [jitsiLoaded, setJitsiLoaded] = useState(false);
   const onJitsiLoad = useCallback(() => setJitsiLoaded(true), [setJitsiLoaded]);
 
