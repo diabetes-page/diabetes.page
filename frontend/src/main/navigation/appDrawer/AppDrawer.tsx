@@ -4,8 +4,7 @@ import React from 'react';
 import { StyleSheet, useWindowDimensions } from 'react-native';
 import { DRAWER_WIDTH, STICKY_DRAWER_MIN_WIDTH } from '../../../config/style';
 import { theme } from '../../../theme';
-import { AppointmentDetail } from '../../screens/appointmentDetail/AppointmentDetail';
-import { IndexAppointments } from '../../screens/indexAppointments/IndexAppointments';
+import { linking, stacks } from '../config';
 
 const Drawer = createDrawerNavigator();
 
@@ -13,10 +12,7 @@ export function AppDrawer(): JSX.Element {
   const dimensions = useWindowDimensions();
 
   return (
-    <NavigationContainer
-      linking={{ prefixes: [], enabled: true }}
-      theme={theme}
-    >
+    <NavigationContainer linking={linking} theme={theme}>
       <Drawer.Navigator
         initialRouteName="appointments"
         drawerType={
@@ -24,17 +20,13 @@ export function AppDrawer(): JSX.Element {
         }
         drawerStyle={styles.drawer}
       >
-        {/* todo: i18n */}
-        <Drawer.Screen
-          name="appointments"
-          component={IndexAppointments}
-          options={{ drawerLabel: 'My appointments' }}
-        />
-        <Drawer.Screen
-          name="appointment"
-          component={AppointmentDetail}
-          options={{ drawerLabel: 'Appointment' }}
-        />
+        {Object.values(stacks).map((stack) => (
+          <Drawer.Screen
+            name={stack.name}
+            component={stack.component}
+            options={{ drawerLabel: stack.drawerLabel }}
+          />
+        ))}
       </Drawer.Navigator>
     </NavigationContainer>
   );
