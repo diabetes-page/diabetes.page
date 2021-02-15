@@ -1,17 +1,28 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import {
-  MessageBody,
   SubscribeMessage,
   WebSocketGateway,
+  WebSocketServer,
 } from '@nestjs/websockets';
-import { JWTAuth } from '../../../../blueprints/guards/JWTAuth';
+import * as WebSocket from 'ws';
+import { RequestUser } from '../../../../blueprints/decorators/RequestUser';
+import { User } from '../../../users/entities/User.entity';
+import { WebSocketAuth } from './WebSocketAuth';
 
 @Controller()
-@UseGuards(JWTAuth) // Todo: Check that this actually works
+@UseGuards(WebSocketAuth)
 @WebSocketGateway({ path: '/xyz' })
 export class ConferenceGateway {
+  @WebSocketServer() server: WebSocket.Server;
+
   @SubscribeMessage('events')
-  handleEvent(@MessageBody() data: string): string {
-    return data;
+  handleEvent(
+    client: WebSocket,
+    data: string,
+    @RequestUser() user: User,
+  ): void {
+    this.server.clients.forEach((client) =>
+      client.send(JSON.stringify({ newname: user.name })),
+    );
   }
 }
