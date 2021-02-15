@@ -3,19 +3,16 @@ import { Appointment } from '../../entities/Appointment.entity';
 
 export class Resource {
   @Expose()
-  id: number;
+  conferenceRoom: string;
 
   @Expose()
   conferenceToken: string;
 
   @Expose()
-  conferenceRoom: string;
+  conferenceUpdateCounter: number;
 
   @Expose()
   presentationIndex: number;
-
-  @Expose()
-  conferenceUpdateCounter: number;
 
   @Expose()
   officialMessagePublicKey: string;
