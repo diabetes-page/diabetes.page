@@ -1,7 +1,8 @@
-import React, { useCallback, useMemo, useReducer } from 'react';
-import { Button } from 'react-native';
+import React, { useMemo, useReducer } from 'react';
+import { ActivityIndicator } from 'react-native-paper';
+import { StandardScreen } from '../../../components/StandardScreen';
 import { renderIf } from '../../../utilities/misc/rendering';
-import { Get, withAuth } from '../../../utilities/requests/axios';
+import { requests } from '../../../utilities/requests/requests';
 import { initConference } from './utilities/conferenceContext/actions';
 import {
   ConferenceContext,
@@ -10,16 +11,25 @@ import {
 import { initialState, reducer } from './utilities/conferenceContext/state';
 import { ConferenceWrapper } from './wrapper/ConferenceWrapper';
 
-export function ShowConference(): JSX.Element {
+type ShowConferenceParams = {
+  route: {
+    params: {
+      id: number;
+    };
+  };
+};
+export function ShowConference({ route }: ShowConferenceParams): JSX.Element {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const startConference = useConference(dispatch);
+  useConference(dispatch, route.params.id);
   const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
 
   return (
     <ConferenceContext.Provider value={contextValue}>
       {renderIf(state!.conferenceRoom === undefined)(
         () => (
-          <Button title="Teilnehmen" onPress={startConference} />
+          <StandardScreen>
+            <ActivityIndicator animating />
+          </StandardScreen>
         ),
 
         () => (
@@ -30,9 +40,12 @@ export function ShowConference(): JSX.Element {
   );
 }
 
-const useConference = (dispatch: ConferenceDispatch): (() => void) => {
-  return useCallback(() => {
-    Get('/appointments/1/conference', withAuth()).then((response) => {
+const useConference = (
+  dispatch: ConferenceDispatch,
+  appointmentId: number,
+): (() => void) => {
+  return () =>
+    void requests.showConferenceData(appointmentId).then((response) => {
       const {
         conferenceRoom,
         conferenceToken,
@@ -50,5 +63,4 @@ const useConference = (dispatch: ConferenceDispatch): (() => void) => {
         ),
       );
     });
-  }, [dispatch]);
 };

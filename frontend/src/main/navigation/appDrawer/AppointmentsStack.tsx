@@ -6,9 +6,16 @@ const Stack = createStackNavigator();
 
 export function AppointmentsStack(): JSX.Element {
   return (
-    <Stack.Navigator headerMode="none">
+    <Stack.Navigator
+      headerMode="none"
+      initialRouteName={stacks.appointments.screens.index.name}
+    >
       {Object.values(stacks.appointments.screens).map((screen) => (
-        <Stack.Screen name={screen.name} component={screen.component} />
+        <Stack.Screen
+          name={screen.name}
+          key={screen.name}
+          component={screen.component}
+        />
       ))}
     </Stack.Navigator>
   );

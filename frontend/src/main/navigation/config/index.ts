@@ -1,5 +1,6 @@
 import { transform } from 'lodash';
 import { IndexAppointments } from '../../screens/indexAppointments/IndexAppointments';
+import { ShowConference } from '../../screens/showConference/ShowConference';
 import { AppointmentsStack } from '../appDrawer/AppointmentsStack';
 
 export const stacks = {
@@ -12,6 +13,11 @@ export const stacks = {
         name: 'indexAppointments',
         url: 'appointments',
         component: IndexAppointments,
+      },
+      conference: {
+        name: 'showConference',
+        url: 'appointments/:id/conference',
+        component: ShowConference,
       },
     },
   },

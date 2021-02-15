@@ -14,7 +14,7 @@ export function AppDrawer(): JSX.Element {
   return (
     <NavigationContainer linking={linking} theme={theme}>
       <Drawer.Navigator
-        initialRouteName="appointments"
+        initialRouteName={stacks.appointments.name}
         drawerType={
           dimensions.width >= STICKY_DRAWER_MIN_WIDTH ? 'permanent' : 'front'
         }
@@ -23,6 +23,7 @@ export function AppDrawer(): JSX.Element {
         {Object.values(stacks).map((stack) => (
           <Drawer.Screen
             name={stack.name}
+            key={stack.name}
             component={stack.component}
             options={{ drawerLabel: stack.drawerLabel }}
           />
