@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react';
 import { Button, View } from 'react-native';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { renderIf } from '../../../../utilities/misc/rendering';
-import { Put, withAuth } from '../../../../utilities/requests/axios';
+import { requests } from '../../../../utilities/requests/requests';
 import { ConferenceContext } from '../utilities/conferenceContext/ConferenceContext';
 import { useSendMessage } from '../utilities/hooks/useSendMessage';
 
@@ -47,15 +47,13 @@ function useChangeSlide(): [() => void, () => void] {
 
   const changeSlide = useCallback(
     (presentationIndex) => {
-      Put(
-        '/appointments/1/conference/slide',
-        {
+      requests // todo: don't hardcode slide number
+        .switchConferenceSlide(5, {
           presentationIndex,
-        },
-        withAuth(),
-      ).then((response) => {
-        sendMessage(response.data.officialMessage);
-      });
+        })
+        .then((response) => {
+          sendMessage(response.data.officialMessage);
+        });
     },
     [sendMessage],
   );
