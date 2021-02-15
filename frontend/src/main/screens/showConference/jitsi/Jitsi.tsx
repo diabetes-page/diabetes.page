@@ -1,7 +1,8 @@
 import React, { RefObject, useContext, useEffect, useRef } from 'react';
+import { View } from 'react-native';
+import { JITSI_DOMAIN } from '../../../../config/jitsi';
 import { ConferenceContext } from '../utilities/conferenceContext/ConferenceContext';
 import JitsiApi from './JitsiApi';
-import { View } from 'react-native';
 
 type Props = {
   onLoad: () => void;
@@ -22,7 +23,6 @@ const useJitsi = (onLoad: () => void, ref: RefObject<View>): void => {
   ];
 
   useEffect(() => {
-    const domain = 'localhost:8443';
     const options = {
       roomName: conferenceRoom,
       jwt: conferenceToken,
@@ -36,7 +36,7 @@ const useJitsi = (onLoad: () => void, ref: RefObject<View>): void => {
       },
     };
 
-    const jitsi = new JitsiApi(domain, options);
+    const jitsi = new JitsiApi(JITSI_DOMAIN, options);
 
     jitsi.on('videoConferenceJoined', onLoad);
 

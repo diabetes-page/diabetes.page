@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
+import { WEBSOCKET_URL } from '../../../../config/networking';
 
 export function ConferenceWrapper(): JSX.Element {
   // const [jitsiLoaded, setJitsiLoaded] = useState(false);
@@ -7,12 +8,19 @@ export function ConferenceWrapper(): JSX.Element {
 
   useEffect(() => {
     console.log('socket start');
-    const socket = new WebSocket('ws://localhost:3000/xyz');
+    const socket = new WebSocket(WEBSOCKET_URL);
     socket.addEventListener('message', function (event) {
-      console.log('Message from server ', event.data);
+      console.log('Message from server ', JSON.parse(event.data));
     });
     socket.addEventListener('open', (event) => {
-      socket.send('Hello Server!');
+      socket.send(
+        JSON.stringify({
+          event: 'events',
+          data: {
+            a: 'b',
+          },
+        }),
+      );
     });
     // socket.send('msgToServer');
   }, []);
