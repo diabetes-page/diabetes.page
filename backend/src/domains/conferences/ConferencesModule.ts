@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { ConferenceGateway } from './gateways/ConferenceGateway';
-import { ShowConferenceData } from './routes/showConferenceData/ShowConferenceData';
+import { ShowConferenceToken } from './routes/showConferenceToken/ShowConferenceToken';
 import { SwitchConferenceSlide } from './routes/switchConferenceSlide/SwitchConferenceSlide';
 
 @Module({
@@ -14,7 +14,7 @@ import { SwitchConferenceSlide } from './routes/switchConferenceSlide/SwitchConf
       inject: [ConfigService],
     }),
   ],
-  controllers: [ShowConferenceData, SwitchConferenceSlide],
+  controllers: [ShowConferenceToken, SwitchConferenceSlide],
   providers: [ConferenceGateway],
   exports: [],
 })

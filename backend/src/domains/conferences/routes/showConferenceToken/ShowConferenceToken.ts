@@ -8,15 +8,15 @@ import { ConferenceService } from '../../services/ConferenceService';
 import { Resource } from './Resource';
 
 @Controller()
-export class ShowConferenceData extends ResourceController {
+export class ShowConferenceToken extends ResourceController {
   public static Resource = Resource;
 
   constructor(private conferenceService: ConferenceService) {
     super();
   }
 
-  // todo: check if user is assigned (or presenter), check appointment.startsAt / endsAt
-  @Get('/appointments/:id/conference')
+  // todo: check if user is assigned (or consultant), check appointment.startsAt / endsAt
+  @Get('/appointments/:id/conference/token')
   async serve(
     @Param(new EntityById(Appointment, 'id'))
     appointment: Appointment,
@@ -24,6 +24,6 @@ export class ShowConferenceData extends ResourceController {
   ): Promise<Resource> {
     const token = await this.conferenceService.createToken(appointment, user);
 
-    return Resource.make(token, appointment);
+    return Resource.make(token);
   }
 }

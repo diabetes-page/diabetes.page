@@ -9,7 +9,7 @@ import { Resource as BackendIndexAppointmentsForUserResource } from '../../../..
 import { Resource as BackendCheckAuthStatusResource } from '../../../../backend/src/domains/auth/routes/checkAuthStatus/Resource';
 import { Resource as BackendLoginResource } from '../../../../backend/src/domains/auth/routes/login/Resource';
 import { Resource as BackendRegisterResource } from '../../../../backend/src/domains/auth/routes/register/Resource';
-import { Resource as BackendShowConferenceDataResource } from '../../../../backend/src/domains/conferences/routes/showConferenceData/Resource';
+import { Resource as BackendShowConferenceDataResource } from '../../../../backend/src/domains/conferences/routes/showConferenceToken/Resource';
 import { BasicTrainingResource as BackendBasicTrainingResource } from '../../../../backend/src/domains/trainings/resources/BasicTrainingResource';
 import { BasicConsultantResource as BackendBasicConsultantResource } from '../../../../backend/src/domains/users/resources/BasicConsultantResource';
 import { BasicUserResource as BackendBasicUserResource } from '../../../../backend/src/domains/users/resources/BasicUserResource';
