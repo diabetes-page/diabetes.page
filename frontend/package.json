@@ -1,5 +1,5 @@
 {
-  "main": "src/main/app/App.tsx",
+  "main": "src/app/App.tsx",
   "name": "frontend",
   "version": "0.0.1",
   "description": "The frontend of diabetes.page. It works using expo.",
