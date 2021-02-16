@@ -18,7 +18,9 @@ export class ConferencesService {
       iss: this.configService.get<string>('jitsi.jwtIssuer')!,
       sub: this.configService.get<string>('jitsi.jitsiDomain')!,
       aud: this.configService.get<string>('jitsi.jitsiAppId')!,
-      exp: getUnixTime(appointment.endsAt), // exp is specified as Unix timestamp (seconds since epoch). See https://stackoverflow.com/questions/39926104/what-format-is-the-exp-expiration-time-claim-in-a-jwt
+      // Todo: We have to decide if we want appointments to expire immediately at "endsAt". Many appointments will go longer accidentally. We should add a grace period.
+      // exp is specified as Unix timestamp (seconds since epoch). See https://stackoverflow.com/questions/39926104/what-format-is-the-exp-expiration-time-claim-in-a-jwt
+      exp: getUnixTime(appointment.endsAt),
       room: appointment.conferenceRoom,
       context: {
         user: {

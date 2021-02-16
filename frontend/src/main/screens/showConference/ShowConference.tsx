@@ -1,7 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect } from 'react';
 import { WEBSOCKET_URL } from '../../../config/networking';
-import { LOCAL_STORAGE_JWT_KEY } from '../../../config/security';
+import { requests } from '../../../utilities/requests/requests';
 
 type ShowConferenceParams = {
   route: {
@@ -11,8 +10,9 @@ type ShowConferenceParams = {
   };
 };
 
-async function socketTest(): Promise<void> {
-  const token = await AsyncStorage.getItem(LOCAL_STORAGE_JWT_KEY);
+async function socketTest(appointmentId: number): Promise<void> {
+  const conferenceToken = (await requests.showConferenceToken(appointmentId))
+    .data.conferenceToken;
   const socket = new WebSocket(WEBSOCKET_URL);
 
   socket.addEventListener('message', function (event) {
@@ -30,10 +30,9 @@ async function socketTest(): Promise<void> {
   socket.addEventListener('open', () => {
     socket.send(
       JSON.stringify({
-        event: 'events',
+        event: 'authenticate',
         data: {
-          authorization: 'Bearer ' + token,
-          test: 42,
+          conferenceToken,
         },
       }),
     );
@@ -41,7 +40,7 @@ async function socketTest(): Promise<void> {
 }
 
 export function ShowConference({ route }: ShowConferenceParams): JSX.Element {
-  useEffect(() => void socketTest(), []);
+  useEffect(() => void socketTest(route.params.id), [route.params.id]);
 
   return <></>;
   // const [state, dispatch] = useReducer(reducer, initialState);

@@ -3,6 +3,8 @@ import { CanActivate } from '@nestjs/common/interfaces';
 import { JwtService } from '@nestjs/jwt';
 import { ConferenceClient } from '../types/ConferenceClient';
 
+type conferenceAuthData = { conferenceToken: string | undefined } | undefined;
+
 @Injectable()
 export class ConferenceAuth implements CanActivate {
   constructor(private jwtService: JwtService) {}
@@ -10,15 +12,13 @@ export class ConferenceAuth implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ws = context.switchToWs();
     const client: ConferenceClient | undefined = ws.getClient();
-    const data:
-      | { conferenceToken: string | undefined }
-      | undefined = ws.getData();
+    const data: conferenceAuthData = ws.getData();
 
     if (!client || !data || !data.conferenceToken) {
       return ConferenceAuth.failAuthentication(client);
     }
 
-    const verificationResult = await this.jwtService.verifyAsync(
+    const verificationResult = await this.getVerificationResult(
       data.conferenceToken,
     );
 
@@ -27,6 +27,17 @@ export class ConferenceAuth implements CanActivate {
     }
 
     return ConferenceAuth.allowAuthentication(client);
+  }
+
+  private async getVerificationResult(
+    conferenceToken: string,
+  ): Promise<boolean> {
+    try {
+      await this.jwtService.verifyAsync(conferenceToken);
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   private static failAuthentication(
