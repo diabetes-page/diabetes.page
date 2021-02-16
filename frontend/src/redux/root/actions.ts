@@ -1,4 +1,9 @@
 import {
+  EndConference,
+  SetConferenceToken,
+  UpdateConference,
+} from '../conference/actions';
+import {
   DeregisterLoadingInitial,
   RegisterLoadingInitial,
 } from '../loading/actions';
@@ -15,4 +20,7 @@ export type Action =
   | SetUser
   | RegisterLoadingInitial
   | DeregisterLoadingInitial
-  | SetLoggedIn;
+  | SetLoggedIn
+  | UpdateConference
+  | EndConference
+  | SetConferenceToken;

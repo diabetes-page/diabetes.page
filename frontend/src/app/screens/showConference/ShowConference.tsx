@@ -1,5 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { ActivityIndicator } from 'react-native-paper';
+import { StandardScreen } from '../../../components/StandardScreen';
 import { WEBSOCKET_URL } from '../../../config/networking';
+import {
+  SET_CONFERENCE_TOKEN,
+  UPDATE_CONFERENCE,
+} from '../../../redux/conference/actions';
+import {
+  SafeDispatch,
+  useSafeDispatch,
+  useSelector,
+} from '../../../redux/root/hooks';
 import { requests } from '../../../utilities/requests/requests';
 
 type ShowConferenceParams = {
@@ -10,22 +21,64 @@ type ShowConferenceParams = {
   };
 };
 
-async function socketTest(appointmentId: number): Promise<void> {
-  const conferenceToken = (await requests.showConferenceToken(appointmentId))
-    .data.conferenceToken;
+export function ShowConference({ route }: ShowConferenceParams): JSX.Element {
+  const hasConference = useSelector((state) => !!state.conference.conference);
+  useConference(route.params.id);
+
+  if (!hasConference) {
+    return (
+      <StandardScreen>
+        <ActivityIndicator animating />
+      </StandardScreen>
+    );
+  }
+
+  return <></>;
+}
+
+const useConference = (appointmentId: number): void => {
+  useConferenceToken(appointmentId);
+  useConferenceWebSocket();
+};
+
+const useConferenceToken = (appointmentId: number): void => {
+  const dispatch = useSafeDispatch();
+
+  useEffect(
+    () =>
+      void requests.showConferenceToken(appointmentId).then((response) => {
+        dispatch({
+          type: SET_CONFERENCE_TOKEN,
+          token: response.data.conferenceToken,
+        });
+      }),
+    [dispatch, appointmentId],
+  );
+};
+
+const useConferenceWebSocket = (): void => {
+  const dispatch = useSafeDispatch();
+  const conferenceToken = useSelector((state) => state.conference.token);
+  const webSocket = useRef<WebSocket>();
+
+  useEffect(() => {
+    webSocket.current?.close();
+
+    if (conferenceToken) {
+      webSocket.current = buildWebSocket(conferenceToken, dispatch);
+    }
+
+    return () => void webSocket.current?.close();
+  }, [dispatch, conferenceToken]);
+};
+
+// Todo: Refactor into own file
+function buildWebSocket(
+  conferenceToken: string,
+  dispatch: SafeDispatch,
+): WebSocket {
   const socket = new WebSocket(WEBSOCKET_URL);
-
-  socket.addEventListener('message', function (event) {
-    console.log('Message from server ', JSON.parse(event.data));
-  });
-
-  socket.addEventListener('error', function (event) {
-    console.log('WebSocket error: ', event);
-  });
-
-  socket.addEventListener('close', function (event) {
-    console.log('WebSocket close: ', event);
-  });
+  // Todo: Deal with WebSocket errors
 
   socket.addEventListener('open', () => {
     socket.send(
@@ -37,57 +90,13 @@ async function socketTest(appointmentId: number): Promise<void> {
       }),
     );
   });
+
+  socket.addEventListener('message', function (event) {
+    dispatch({
+      type: UPDATE_CONFERENCE,
+      conference: JSON.parse(event.data),
+    });
+  });
+
+  return socket;
 }
-
-export function ShowConference({ route }: ShowConferenceParams): JSX.Element {
-  useEffect(() => void socketTest(route.params.id), [route.params.id]);
-
-  return <></>;
-  // const [state, dispatch] = useReducer(reducer, initialState);
-  // const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
-  // useConference(dispatch, route.params.id);
-  //
-  // return (
-  //   <ConferenceContext.Provider value={contextValue}>
-  //     {renderIf(state!.conferenceRoom === undefined)(
-  //       () => (
-  //         <StandardScreen>
-  //           <ActivityIndicator animating />
-  //         </StandardScreen>
-  //       ),
-  //
-  //       () => (
-  //         <ConferenceWrapper />
-  //       ),
-  //     )}
-  //   </ConferenceContext.Provider>
-  // );
-}
-
-// const useConference = (
-//   dispatch: ConferenceDispatch,
-//   appointmentId: number,
-// ): void => {
-//   return useEffect(
-//     () =>
-//       void requests.showConferenceData(appointmentId).then((response) => {
-//         const {
-//           conferenceRoom,
-//           conferenceToken,
-//           presentationIndex,
-//           officialMessagePublicKey,
-//           conferenceUpdateCounter,
-//         } = response.data;
-//         dispatch(
-//           initConference(
-//             conferenceRoom,
-//             conferenceToken,
-//             presentationIndex,
-//             officialMessagePublicKey,
-//             conferenceUpdateCounter,
-//           ),
-//         );
-//       }),
-//     [dispatch, appointmentId],
-//   );
-// };

@@ -16,7 +16,7 @@ export const stacks = {
       },
       conference: {
         name: 'showConference',
-        url: 'appointments/:id/conference',
+        url: 'appointments/:id/conference', // Todo: can we get type checking for the params?
         component: ShowConference,
       },
     },

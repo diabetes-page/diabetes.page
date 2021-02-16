@@ -21,6 +21,7 @@ export class ConferenceGateway extends ResourceController {
 
   @WebSocketServer() server: WebSocket.Server;
 
+  // Todo: Generate requests code for this
   @InsecureRoute() // This disables the default JWT auth, we use an auth based on the conference token here
   @UseGuards(ConferenceAuth)
   @SubscribeMessage('authenticate')

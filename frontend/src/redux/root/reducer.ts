@@ -4,6 +4,7 @@ import {
   Reducer,
   ReducersMapObject,
 } from 'redux';
+import { conference } from '../conference/reducer';
 import { loading } from '../loading/reducer';
 import { login } from '../login/reducer';
 import { user } from '../user/reducer';
@@ -24,7 +25,8 @@ function combineReducersWithReset<S>(
 }
 
 export const rootReducer = combineReducersWithReset({
-  user,
   loading,
   login,
+  user,
+  conference,
 });

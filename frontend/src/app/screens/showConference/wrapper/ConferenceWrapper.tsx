@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { View } from 'react-native';
+import { StandardScreen } from '../../../../components/StandardScreen';
 import { renderIf } from '../../../../utilities/misc/rendering';
 import { Chat } from '../chat/Chat';
 import { Jitsi } from '../jitsi/Jitsi';
@@ -10,7 +11,7 @@ export function ConferenceWrapper(): JSX.Element {
   const onJitsiLoad = useCallback(() => setJitsiLoaded(true), [setJitsiLoaded]);
 
   return (
-    <View>
+    <StandardScreen>
       <Presentation />
       <View style={{ display: 'flex', flexDirection: 'row' }}>
         <Jitsi onLoad={onJitsiLoad} />
@@ -18,6 +19,6 @@ export function ConferenceWrapper(): JSX.Element {
           <Chat />
         ))}
       </View>
-    </View>
+    </StandardScreen>
   );
 }
