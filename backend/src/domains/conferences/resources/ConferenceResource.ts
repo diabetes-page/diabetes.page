@@ -3,6 +3,9 @@ import { Appointment } from '../../appointments/entities/Appointment.entity';
 
 export class ConferenceResource {
   @Expose()
+  appointmentId: number;
+
+  @Expose()
   conferenceRoom: string;
 
   @Expose()
@@ -12,6 +15,9 @@ export class ConferenceResource {
   presentationIndex: number;
 
   static make = (appointment: Appointment): ConferenceResource => {
-    return appointment;
+    return {
+      ...appointment,
+      appointmentId: appointment.id,
+    };
   };
 }

@@ -30,6 +30,7 @@ export class ConferenceGateway extends ResourceController {
     const appointment = await Appointment.findOne(client.appointmentId);
 
     if (!appointment) {
+      client.terminate();
       return {};
     }
 
