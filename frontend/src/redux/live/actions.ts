@@ -14,5 +14,5 @@ export interface EndConference {
 export const SET_CONFERENCE_TOKEN = 'SET_CONFERENCE_TOKEN';
 export interface SetConferenceToken {
   type: typeof SET_CONFERENCE_TOKEN;
-  token: string;
+  conferenceToken: string;
 }

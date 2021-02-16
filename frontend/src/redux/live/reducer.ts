@@ -8,7 +8,7 @@ import { ConferenceState } from './state';
 
 const initialState: ConferenceState = {};
 
-export const conference = (
+export const live = (
   state: ConferenceState = initialState,
   action: Action,
 ): ConferenceState => {
@@ -31,7 +31,7 @@ export const conference = (
     case SET_CONFERENCE_TOKEN:
       return {
         ...state,
-        token: action.token,
+        conferenceToken: action.conferenceToken,
       };
     default:
       return state;

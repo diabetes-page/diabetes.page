@@ -2,7 +2,7 @@ import {
   EndConference,
   SetConferenceToken,
   UpdateConference,
-} from '../conference/actions';
+} from '../live/actions';
 import {
   DeregisterLoadingInitial,
   RegisterLoadingInitial,

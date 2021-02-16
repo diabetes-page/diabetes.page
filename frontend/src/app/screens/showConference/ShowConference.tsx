@@ -5,7 +5,7 @@ import { WEBSOCKET_URL } from '../../../config/networking';
 import {
   SET_CONFERENCE_TOKEN,
   UPDATE_CONFERENCE,
-} from '../../../redux/conference/actions';
+} from '../../../redux/live/actions';
 import {
   SafeDispatch,
   useSafeDispatch,
@@ -22,8 +22,9 @@ type ShowConferenceParams = {
 };
 
 export function ShowConference({ route }: ShowConferenceParams): JSX.Element {
-  const hasConference = useSelector((state) => !!state.conference.conference);
-  useConference(route.params.id);
+  // todo:
+  const hasConference = useSelector((state) => !!state.live.conference);
+  useLive(route.params.id);
 
   if (!hasConference) {
     return (
@@ -36,7 +37,7 @@ export function ShowConference({ route }: ShowConferenceParams): JSX.Element {
   return <></>;
 }
 
-const useConference = (appointmentId: number): void => {
+const useLive = (appointmentId: number): void => {
   useConferenceToken(appointmentId);
   useConferenceWebSocket();
 };
@@ -49,7 +50,7 @@ const useConferenceToken = (appointmentId: number): void => {
       void requests.showConferenceToken(appointmentId).then((response) => {
         dispatch({
           type: SET_CONFERENCE_TOKEN,
-          token: response.data.conferenceToken,
+          conferenceToken: response.data.conferenceToken,
         });
       }),
     [dispatch, appointmentId],
@@ -58,7 +59,7 @@ const useConferenceToken = (appointmentId: number): void => {
 
 const useConferenceWebSocket = (): void => {
   const dispatch = useSafeDispatch();
-  const conferenceToken = useSelector((state) => state.conference.token);
+  const conferenceToken = useSelector((state) => state.live.conferenceToken);
   const webSocket = useRef<WebSocket>();
 
   useEffect(() => {

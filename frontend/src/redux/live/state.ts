@@ -2,7 +2,7 @@ import { ConferenceResource } from '../../utilities/requests/requests';
 
 export type FilledConferenceState = {
   conference: ConferenceResource;
-  token: string;
+  conferenceToken: string;
 };
 
 export type ConferenceState = Partial<FilledConferenceState>;
