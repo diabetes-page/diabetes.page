@@ -14,6 +14,7 @@ export class ConferencesService {
   ) {}
 
   async createToken(appointment: Appointment, user: User): Promise<string> {
+    const consultant = await user.loadAsConsultant();
     const payload: ConferenceTokenPayload = {
       iss: this.configService.get<string>('jitsi.jwtIssuer')!,
       sub: this.configService.get<string>('jitsi.jitsiDomain')!,
@@ -26,6 +27,10 @@ export class ConferencesService {
         user: {
           name: user.name,
           email: user.email,
+          isConsultant: !!consultant,
+        },
+        appointment: {
+          id: appointment.id,
         },
       },
     };

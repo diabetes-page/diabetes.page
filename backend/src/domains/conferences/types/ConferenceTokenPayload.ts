@@ -9,6 +9,10 @@ export type ConferenceTokenPayload = {
     user: {
       name: string;
       email: string;
+      isConsultant: boolean;
+    };
+    appointment: {
+      id: number;
     };
   };
 };

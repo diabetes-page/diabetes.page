@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { ConferenceGateway } from './gateways/ConferenceGateway';
+import { ConferenceGateway } from './gateways/conferenceGateway/ConferenceGateway';
 import { ShowConferenceToken } from './routes/showConferenceToken/ShowConferenceToken';
 import { ConferencesService } from './services/ConferencesService';
 
