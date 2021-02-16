@@ -11,7 +11,7 @@ import { WebSocketAuth } from './WebSocketAuth';
 
 @Controller()
 @UseGuards(WebSocketAuth)
-@WebSocketGateway({ path: '/xyz' })
+@WebSocketGateway({ path: '/conferences' })
 export class ConferenceGateway {
   @WebSocketServer() server: WebSocket.Server;
 
