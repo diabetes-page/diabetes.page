@@ -22,7 +22,7 @@ type ShowConferenceParams = {
 };
 
 export function ShowConference({ route }: ShowConferenceParams): JSX.Element {
-  // todo:
+  // todo: in useLive, also get appointment, compute isLoading as !state.live.conference || state.live.appointment
   const hasConference = useSelector((state) => !!state.live.conference);
   useLive(route.params.id);
 
