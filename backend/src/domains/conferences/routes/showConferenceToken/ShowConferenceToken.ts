@@ -4,14 +4,14 @@ import { RequestUser } from '../../../../blueprints/decorators/RequestUser';
 import { EntityById } from '../../../../blueprints/pipes/EntityById';
 import { Appointment } from '../../../appointments/entities/Appointment.entity';
 import { User } from '../../../users/entities/User.entity';
-import { ConferenceService } from '../../services/ConferenceService';
+import { ConferencesService } from '../../services/ConferencesService';
 import { Resource } from './Resource';
 
 @Controller()
 export class ShowConferenceToken extends ResourceController {
   public static Resource = Resource;
 
-  constructor(private conferenceService: ConferenceService) {
+  constructor(private conferenceService: ConferencesService) {
     super();
   }
 
@@ -22,8 +22,11 @@ export class ShowConferenceToken extends ResourceController {
     appointment: Appointment,
     @RequestUser() user: User,
   ): Promise<Resource> {
-    const token = await this.conferenceService.createToken(appointment, user);
+    const conferenceToken = await this.conferenceService.createToken(
+      appointment,
+      user,
+    );
 
-    return Resource.make(token);
+    return Resource.make(conferenceToken);
   }
 }

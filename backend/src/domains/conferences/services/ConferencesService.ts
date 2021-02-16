@@ -4,20 +4,20 @@ import { JwtService } from '@nestjs/jwt';
 import { getUnixTime } from 'date-fns';
 import { Appointment } from '../../appointments/entities/Appointment.entity';
 import { User } from '../../users/entities/User.entity';
+import { ConferenceTokenPayload } from '../types/ConferenceTokenPayload';
 
 @Injectable()
-export class ConferenceService {
+export class ConferencesService {
   constructor(
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {}
 
   async createToken(appointment: Appointment, user: User): Promise<string> {
-    // todo: test if token expiry is enforced by Jitsi/ConferenceGateway
-    return this.jwtService.sign({
-      iss: this.configService.get<string>('jitsi.jwtIssuer'),
-      sub: this.configService.get<string>('jitsi.jitsiDomain'),
-      aud: this.configService.get<string>('jitsi.jitsiAppId'),
+    const payload: ConferenceTokenPayload = {
+      iss: this.configService.get<string>('jitsi.jwtIssuer')!,
+      sub: this.configService.get<string>('jitsi.jitsiDomain')!,
+      aud: this.configService.get<string>('jitsi.jitsiAppId')!,
       exp: getUnixTime(appointment.endsAt), // exp is specified as Unix timestamp (seconds since epoch). See https://stackoverflow.com/questions/39926104/what-format-is-the-exp-expiration-time-claim-in-a-jwt
       room: appointment.conferenceRoom,
       context: {
@@ -26,6 +26,9 @@ export class ConferenceService {
           email: user.email,
         },
       },
-    });
+    };
+
+    // todo: test if token expiry is enforced by Jitsi/ConferenceGateway
+    return this.jwtService.signAsync(payload);
   }
 }
