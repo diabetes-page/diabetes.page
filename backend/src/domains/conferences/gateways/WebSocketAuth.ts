@@ -1,6 +1,6 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import * as WebSocket from 'ws';
-import { JWTAuth } from '../../../../blueprints/guards/JWTAuth';
+import { JWTAuth } from '../../../blueprints/guards/JWTAuth';
 
 @Injectable()
 export class WebSocketAuth extends JWTAuth {

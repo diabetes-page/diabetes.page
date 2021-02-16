@@ -2,7 +2,7 @@ import { Body, Controller, Param, Put, UseGuards } from '@nestjs/common';
 import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
 import { Consultant } from '../../../../blueprints/guards/Consultant';
 import { EntityById } from '../../../../blueprints/pipes/EntityById';
-import { Appointment } from '../../entities/Appointment.entity';
+import { Appointment } from '../../../appointments/entities/Appointment.entity';
 import { OfficialMessageResource } from '../../resources/OfficialMessageResource';
 import { ConferenceService } from '../../services/ConferenceService';
 import { Parameters } from './Parameters';

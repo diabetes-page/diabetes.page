@@ -5,8 +5,8 @@ import * as base64 from '@stablelib/base64';
 import * as utf8 from '@stablelib/utf8';
 import { getUnixTime } from 'date-fns';
 import * as nacl from 'tweetnacl';
+import { Appointment } from '../../appointments/entities/Appointment.entity';
 import { User } from '../../users/entities/User.entity';
-import { Appointment } from '../entities/Appointment.entity';
 
 @Injectable()
 export class ConferenceService {

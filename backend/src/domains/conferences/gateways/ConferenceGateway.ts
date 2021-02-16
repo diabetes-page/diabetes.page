@@ -5,8 +5,8 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import * as WebSocket from 'ws';
-import { RequestUser } from '../../../../blueprints/decorators/RequestUser';
-import { User } from '../../../users/entities/User.entity';
+import { RequestUser } from '../../../blueprints/decorators/RequestUser';
+import { User } from '../../users/entities/User.entity';
 import { WebSocketAuth } from './WebSocketAuth';
 
 @Controller()

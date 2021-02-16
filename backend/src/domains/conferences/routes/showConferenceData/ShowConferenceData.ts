@@ -2,8 +2,8 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
 import { RequestUser } from '../../../../blueprints/decorators/RequestUser';
 import { EntityById } from '../../../../blueprints/pipes/EntityById';
+import { Appointment } from '../../../appointments/entities/Appointment.entity';
 import { User } from '../../../users/entities/User.entity';
-import { Appointment } from '../../entities/Appointment.entity';
 import { ConferenceService } from '../../services/ConferenceService';
 import { Resource } from './Resource';
 

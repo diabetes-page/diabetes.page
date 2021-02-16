@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { Appointment } from '../../entities/Appointment.entity';
+import { Appointment } from '../../../appointments/entities/Appointment.entity';
 
 export class Resource {
   @Expose()
