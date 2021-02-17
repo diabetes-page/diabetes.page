@@ -3,8 +3,8 @@ import { Button, View } from 'react-native';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { renderIf } from '../../../../utilities/misc/rendering';
 import { requests } from '../../../../utilities/requests/requests';
+import { useSendMessage } from '../hooks/useSendMessage';
 import { ConferenceContext } from '../utilities/conferenceContext/ConferenceContext';
-import { useSendMessage } from '../utilities/hooks/useSendMessage';
 
 // todo: pdf worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;

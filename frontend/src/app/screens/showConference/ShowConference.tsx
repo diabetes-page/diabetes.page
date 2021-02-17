@@ -12,6 +12,7 @@ import {
   useSelector,
 } from '../../../redux/root/hooks';
 import { requests } from '../../../utilities/requests/requests';
+import { ConferenceWrapper } from './wrapper/ConferenceWrapper';
 
 type ShowConferenceParams = {
   route: {
@@ -34,7 +35,7 @@ export function ShowConference({ route }: ShowConferenceParams): JSX.Element {
     );
   }
 
-  return <></>;
+  return <ConferenceWrapper />;
 }
 
 const useLive = (appointmentId: number): void => {

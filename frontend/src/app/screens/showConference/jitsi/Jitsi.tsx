@@ -1,7 +1,7 @@
-import React, { RefObject, useContext, useEffect, useRef } from 'react';
+import React, { RefObject, useEffect, useRef } from 'react';
 import { View } from 'react-native';
 import { JITSI_DOMAIN } from '../../../../config/jitsi';
-import { ConferenceContext } from '../utilities/conferenceContext/ConferenceContext';
+import { useConferenceRoomAndToken } from '../hooks/useConferenceRoomAndToken';
 import JitsiApi from './JitsiApi';
 
 type Props = {
@@ -9,24 +9,20 @@ type Props = {
 };
 
 export const Jitsi = ({ onLoad }: Props): JSX.Element => {
-  const ref = useRef<View>(null);
-  useJitsi(onLoad, ref);
+  const parentNode = useRef<View>(null);
+  useJitsi(onLoad, parentNode);
 
-  return <View ref={ref} />;
+  return <View ref={parentNode} />;
 };
 
-const useJitsi = (onLoad: () => void, ref: RefObject<View>): void => {
-  const conference = useContext(ConferenceContext);
-  const [conferenceRoom, conferenceToken] = [
-    conference?.state.conferenceRoom,
-    conference?.state.conferenceToken,
-  ];
+const useJitsi = (onLoad: () => void, parentNode: RefObject<View>): void => {
+  const { conferenceRoom, conferenceToken } = useConferenceRoomAndToken();
 
   useEffect(() => {
     const options = {
       roomName: conferenceRoom,
       jwt: conferenceToken,
-      parentNode: ref.current,
+      parentNode: parentNode.current,
       width: 700, // todo: figure out width/height
       height: 700,
       interfaceConfigOverwrite: {
@@ -35,12 +31,12 @@ const useJitsi = (onLoad: () => void, ref: RefObject<View>): void => {
         DISABLE_VIDEO_BACKGROUND: true,
       },
     };
-
     const jitsi = new JitsiApi(JITSI_DOMAIN, options);
 
     jitsi.on('videoConferenceJoined', onLoad);
 
-    // todo: more sophisticated unload check? (also on tab change)
+    // todo: more sophisticated unload check? (also when user navigates away?)
     window.addEventListener('beforeunload', () => void jitsi.dispose());
-  }, [conferenceRoom, conferenceToken, onLoad, ref]);
+    return () => void jitsi.dispose();
+  }, [onLoad, parentNode, conferenceRoom, conferenceToken]);
 };
