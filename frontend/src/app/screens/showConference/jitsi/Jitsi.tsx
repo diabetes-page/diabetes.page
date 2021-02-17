@@ -17,8 +17,16 @@ export const Jitsi = ({ onLoad }: Props): JSX.Element => {
 
 const useJitsi = (onLoad: () => void, parentNode: RefObject<View>): void => {
   const { conferenceRoom, conferenceToken } = useConferenceRoomAndToken();
+  const jitsi = useRef<JitsiApi>();
+
+  function endJitsi(): void {
+    jitsi.current?.executeCommand('hangup');
+    jitsi.current?.dispose();
+  }
 
   useEffect(() => {
+    endJitsi();
+
     const options = {
       roomName: conferenceRoom,
       jwt: conferenceToken,
@@ -31,12 +39,11 @@ const useJitsi = (onLoad: () => void, parentNode: RefObject<View>): void => {
         DISABLE_VIDEO_BACKGROUND: true,
       },
     };
-    const jitsi = new JitsiApi(JITSI_DOMAIN, options);
+    jitsi.current = new JitsiApi(JITSI_DOMAIN, options);
+    jitsi.current.on('videoConferenceJoined', onLoad);
 
-    jitsi.on('videoConferenceJoined', onLoad);
+    window.addEventListener('beforeunload', () => void endJitsi());
 
-    // todo: more sophisticated unload check? (also when user navigates away?)
-    window.addEventListener('beforeunload', () => void jitsi.dispose());
-    return () => void jitsi.dispose();
-  }, [onLoad, parentNode, conferenceRoom, conferenceToken]);
+    return () => void endJitsi();
+  }, [onLoad, parentNode, conferenceRoom, conferenceToken, jitsi]);
 };

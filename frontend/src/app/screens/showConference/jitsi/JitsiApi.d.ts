@@ -5,8 +5,11 @@
 
 export = JitsiApi;
 
+type Command = 'hangup';
+
 declare class JitsiApi {
   constructor(domain: string, options: Record<string, any>);
   on(event: string, callback: (data: Record<string, string>) => void): void;
   dispose(): void;
+  executeCommand(command: Command): void;
 }
