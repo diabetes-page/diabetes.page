@@ -5,8 +5,6 @@ Author: 'Vincent Rolfs'
 
 # diabetes.page
 
-
-
 ## Introduction
 
 This is the repository for the diabetes.page software. It contains three main parts:
