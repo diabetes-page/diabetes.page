@@ -13,7 +13,7 @@ import {
   loadNullableSingularRelation,
   loadPluralRelation,
 } from '../../../utilities/relations';
-import { UserAppointmentAssignment } from '../../appointments/entities/UserAppointmentAssignment.entity';
+import { UserWorkingGroupAssignment } from '../../workingGroups/entities/UserWorkingGroupAssignment.entity';
 import { Consultant } from './Consultant.entity';
 
 @Entity()
@@ -33,16 +33,14 @@ export class User extends BaseEntity {
   @Column({ type: 'character varying', nullable: true })
   verificationToken: string | null;
 
-  @OneToMany(() => UserAppointmentAssignment, (assignment) => assignment.user, {
-    cascade: true,
-  })
-  appointmentAssignments: UserAppointmentAssignment[];
+  @OneToMany(() => UserWorkingGroupAssignment, (assignment) => assignment.user)
+  workingGroupAssignments: UserWorkingGroupAssignment[];
 
-  async loadAppointmentAssignments(): Promise<UserAppointmentAssignment[]> {
-    return (this.appointmentAssignments = await loadPluralRelation<
+  async loadWorkingGroupAssignments(): Promise<UserWorkingGroupAssignment[]> {
+    return (this.workingGroupAssignments = await loadPluralRelation<
       User,
-      'appointmentAssignments'
-    >(this, 'appointmentAssignments'));
+      'workingGroupAssignments'
+    >(this, 'workingGroupAssignments'));
   }
 
   @OneToOne(() => Consultant, (consultant) => consultant.user, {

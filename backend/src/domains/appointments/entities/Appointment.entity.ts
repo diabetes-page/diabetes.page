@@ -16,7 +16,7 @@ import {
 } from '../../../utilities/relations';
 import { Training } from '../../trainings/entities/Training.entity';
 import { Consultant } from '../../users/entities/Consultant.entity';
-import { UserAppointmentAssignment } from './UserAppointmentAssignment.entity';
+import { WorkingGroupAppointmentAssignment } from '../../workingGroups/entities/WorkingGroupAppointmentAssignment.entity';
 
 @Entity()
 export class Appointment extends BaseEntity {
@@ -66,19 +66,11 @@ export class Appointment extends BaseEntity {
   @Column()
   conferenceUpdateCounter: number;
 
-  // Todo: remove
-  @Column({ unique: true })
-  officialMessagePublicKey: string;
-
-  @Column({ unique: true })
-  officialMessagePrivateKey: string;
-
   @OneToMany(
-    () => UserAppointmentAssignment,
+    () => WorkingGroupAppointmentAssignment,
     (assignment) => assignment.appointment,
-    { cascade: true },
   )
-  userAssignments: UserAppointmentAssignment[];
+  workingGroupAssignments: WorkingGroupAppointmentAssignment[];
 
   @CreateDateColumn()
   createdAt: Date;
