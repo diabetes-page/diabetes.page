@@ -4,7 +4,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  OneToMany,
+  ManyToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -13,7 +13,7 @@ import {
   loadNullableSingularRelation,
   loadPluralRelation,
 } from '../../../utilities/relations';
-import { UserWorkingGroupAssignment } from '../../workingGroups/entities/UserWorkingGroupAssignment.entity';
+import { WorkingGroup } from '../../workingGroups/entities/WorkingGroup.entity';
 import { Consultant } from './Consultant.entity';
 
 @Entity()
@@ -33,14 +33,14 @@ export class User extends BaseEntity {
   @Column({ type: 'character varying', nullable: true })
   verificationToken: string | null;
 
-  @OneToMany(() => UserWorkingGroupAssignment, (assignment) => assignment.user)
-  workingGroupAssignments: UserWorkingGroupAssignment[];
+  @ManyToMany(() => WorkingGroup, (workingGroup) => workingGroup.users)
+  workingGroups: WorkingGroup[];
 
-  async loadWorkingGroupAssignments(): Promise<UserWorkingGroupAssignment[]> {
-    return (this.workingGroupAssignments = await loadPluralRelation<
+  async loadWorkingGroups(): Promise<WorkingGroup[]> {
+    return (this.workingGroups = await loadPluralRelation<
       User,
-      'workingGroupAssignments'
-    >(this, 'workingGroupAssignments'));
+      'workingGroups'
+    >(this, 'workingGroups'));
   }
 
   @OneToOne(() => Consultant, (consultant) => consultant.user, {

@@ -5,18 +5,19 @@ import {
   DeleteDateColumn,
   Entity,
   Generated,
+  ManyToMany,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import {
   loadNotNullSingularRelation,
   loadNullableSingularRelation,
+  loadPluralRelation,
 } from '../../../utilities/relations';
 import { Training } from '../../trainings/entities/Training.entity';
 import { Consultant } from '../../users/entities/Consultant.entity';
-import { WorkingGroupAppointmentAssignment } from '../../workingGroups/entities/WorkingGroupAppointmentAssignment.entity';
+import { WorkingGroup } from '../../workingGroups/entities/WorkingGroup.entity';
 
 @Entity()
 export class Appointment extends BaseEntity {
@@ -24,8 +25,6 @@ export class Appointment extends BaseEntity {
   id: number;
 
   @ManyToOne(() => Training, (training) => training.appointments, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
     nullable: true,
   })
   training: Training | null;
@@ -36,8 +35,6 @@ export class Appointment extends BaseEntity {
   }
 
   @ManyToOne(() => Consultant, (consultant) => consultant.trainings, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
     nullable: false,
   })
   presenter: Consultant;
@@ -66,11 +63,15 @@ export class Appointment extends BaseEntity {
   @Column()
   conferenceUpdateCounter: number;
 
-  @OneToMany(
-    () => WorkingGroupAppointmentAssignment,
-    (assignment) => assignment.appointment,
-  )
-  workingGroupAssignments: WorkingGroupAppointmentAssignment[];
+  @ManyToMany(() => WorkingGroup, (workingGroup) => workingGroup.appointments)
+  workingGroups: WorkingGroup[];
+
+  async loadWorkingGroups(): Promise<WorkingGroup[]> {
+    return (this.workingGroups = await loadPluralRelation<
+      Appointment,
+      'workingGroups'
+    >(this, 'workingGroups'));
+  }
 
   @CreateDateColumn()
   createdAt: Date;

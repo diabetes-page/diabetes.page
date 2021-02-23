@@ -4,12 +4,14 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  OneToMany,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserWorkingGroupAssignment } from './UserWorkingGroupAssignment.entity';
-import { WorkingGroupAppointmentAssignment } from './WorkingGroupAppointmentAssignment.entity';
+import { loadPluralRelation } from '../../../utilities/relations';
+import { Appointment } from '../../appointments/entities/Appointment.entity';
+import { User } from '../../users/entities/User.entity';
 
 @Entity()
 export class WorkingGroup extends BaseEntity {
@@ -19,17 +21,27 @@ export class WorkingGroup extends BaseEntity {
   @Column({ unique: true })
   name: string;
 
-  @OneToMany(
-    () => UserWorkingGroupAssignment,
-    (assignment) => assignment.workingGroup,
-  )
-  userAssignments: UserWorkingGroupAssignment[];
+  @ManyToMany(() => User, (user) => user.workingGroups)
+  @JoinTable()
+  users: User[];
 
-  @OneToMany(
-    () => WorkingGroupAppointmentAssignment,
-    (assignment) => assignment.workingGroup,
-  )
-  appointmentAssignments: WorkingGroupAppointmentAssignment[];
+  async loadUsers(): Promise<User[]> {
+    return (this.users = await loadPluralRelation<WorkingGroup, 'users'>(
+      this,
+      'users',
+    ));
+  }
+
+  @ManyToMany(() => Appointment, (appointment) => appointment.workingGroups)
+  @JoinTable()
+  appointments: Appointment[];
+
+  async loadAppointments(): Promise<Appointment[]> {
+    return (this.appointments = await loadPluralRelation<
+      WorkingGroup,
+      'appointments'
+    >(this, 'appointments'));
+  }
 
   @CreateDateColumn()
   createdAt: Date;
