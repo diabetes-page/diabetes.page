@@ -25,8 +25,6 @@ export class Consultant extends BaseEntity {
   id: number;
 
   @OneToOne(() => User, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
     nullable: false,
   })
   @JoinColumn()
@@ -42,9 +40,7 @@ export class Consultant extends BaseEntity {
   @OneToMany(() => Training, (training) => training.creator)
   trainings: Training[];
 
-  @OneToMany(() => Appointment, (appointment) => appointment.presenter, {
-    cascade: true,
-  })
+  @OneToMany(() => Appointment, (appointment) => appointment.presenter)
   appointments: Appointment[];
 
   async loadAppointments(): Promise<Appointment[]> {
@@ -54,7 +50,7 @@ export class Consultant extends BaseEntity {
     >(this, 'appointments'));
   }
 
-  @OneToOne(() => Manager, (manager) => manager.consultant, { cascade: true })
+  @OneToOne(() => Manager, (manager) => manager.consultant)
   asManager: Manager | null;
 
   @CreateDateColumn()

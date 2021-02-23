@@ -63,7 +63,10 @@ export class Appointment extends BaseEntity {
   @Column()
   conferenceUpdateCounter: number;
 
-  @ManyToMany(() => WorkingGroup, (workingGroup) => workingGroup.appointments)
+  @ManyToMany(() => WorkingGroup, (workingGroup) => workingGroup.appointments, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
+  })
   workingGroups: WorkingGroup[];
 
   async loadWorkingGroups(): Promise<WorkingGroup[]> {

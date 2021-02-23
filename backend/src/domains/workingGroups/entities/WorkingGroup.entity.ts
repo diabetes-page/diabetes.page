@@ -33,7 +33,11 @@ export class WorkingGroup extends BaseEntity {
   })
   creator: Consultant;
 
-  @ManyToMany(() => User, (user) => user.workingGroups)
+  // todo: set ON UPDATE CASCADE in SQL, see https://github.com/typeorm/typeorm/issues/4980
+  @ManyToMany(() => User, (user) => user.workingGroups, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinTable()
   users: User[];
 
@@ -44,7 +48,10 @@ export class WorkingGroup extends BaseEntity {
     ));
   }
 
-  @ManyToMany(() => Appointment, (appointment) => appointment.workingGroups)
+  @ManyToMany(() => Appointment, (appointment) => appointment.workingGroups, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
+  })
   @JoinTable()
   appointments: Appointment[];
 

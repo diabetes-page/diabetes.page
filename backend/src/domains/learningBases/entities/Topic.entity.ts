@@ -20,8 +20,6 @@ export class Topic extends BaseEntity {
   id: number;
 
   @ManyToOne(() => LearningBase, (learningBase) => learningBase.topics, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
     nullable: false,
   })
   learningBase: LearningBase;
@@ -29,7 +27,7 @@ export class Topic extends BaseEntity {
   @Column()
   name: string;
 
-  @OneToMany(() => Training, (training) => training.topic, { cascade: true })
+  @OneToMany(() => Training, (training) => training.topic)
   trainings: Training[];
 
   @CreateDateColumn()

@@ -23,22 +23,16 @@ export class Training extends BaseEntity {
   name: string;
 
   @ManyToOne(() => Topic, (topic) => topic.trainings, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
     nullable: false,
   })
   topic: Topic;
 
   @ManyToOne(() => Consultant, (consultant) => consultant.trainings, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
     nullable: false,
   })
   creator: Consultant;
 
-  @OneToMany(() => Appointment, (appointment) => appointment.training, {
-    cascade: true,
-  })
+  @OneToMany(() => Appointment, (appointment) => appointment.training)
   appointments: Appointment[];
 
   async loadAppointments(): Promise<Appointment[]> {

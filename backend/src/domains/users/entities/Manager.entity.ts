@@ -17,8 +17,6 @@ export class Manager extends BaseEntity {
   id: number;
 
   @OneToOne(() => Consultant, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
     nullable: false,
   })
   @JoinColumn()

@@ -33,7 +33,11 @@ export class User extends BaseEntity {
   @Column({ type: 'character varying', nullable: true })
   verificationToken: string | null;
 
-  @ManyToMany(() => WorkingGroup, (workingGroup) => workingGroup.users)
+  // todo: set ON UPDATE CASCADE in SQL, see https://github.com/typeorm/typeorm/issues/4980
+  @ManyToMany(() => WorkingGroup, (workingGroup) => workingGroup.users, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   workingGroups: WorkingGroup[];
 
   async loadWorkingGroups(): Promise<WorkingGroup[]> {
@@ -43,9 +47,7 @@ export class User extends BaseEntity {
     >(this, 'workingGroups'));
   }
 
-  @OneToOne(() => Consultant, (consultant) => consultant.user, {
-    cascade: true,
-  })
+  @OneToOne(() => Consultant, (consultant) => consultant.user)
   asConsultant: Consultant | null;
   async loadAsConsultant(): Promise<Consultant | null> {
     return (this.asConsultant =
