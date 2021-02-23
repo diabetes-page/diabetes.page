@@ -4,7 +4,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  OneToMany,
+  ManyToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -13,7 +13,7 @@ import {
   loadNullableSingularRelation,
   loadPluralRelation,
 } from '../../../utilities/relations';
-import { UserAppointmentAssignment } from '../../appointments/entities/UserAppointmentAssignment.entity';
+import { WorkingGroup } from '../../workingGroups/entities/WorkingGroup.entity';
 import { Consultant } from './Consultant.entity';
 
 @Entity()
@@ -33,21 +33,21 @@ export class User extends BaseEntity {
   @Column({ type: 'character varying', nullable: true })
   verificationToken: string | null;
 
-  @OneToMany(() => UserAppointmentAssignment, (assignment) => assignment.user, {
-    cascade: true,
+  // todo: set ON UPDATE CASCADE in SQL, see https://github.com/typeorm/typeorm/issues/4980
+  @ManyToMany(() => WorkingGroup, (workingGroup) => workingGroup.users, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
-  appointmentAssignments: UserAppointmentAssignment[];
+  workingGroups: WorkingGroup[];
 
-  async loadAppointmentAssignments(): Promise<UserAppointmentAssignment[]> {
-    return (this.appointmentAssignments = await loadPluralRelation<
+  async loadWorkingGroups(): Promise<WorkingGroup[]> {
+    return (this.workingGroups = await loadPluralRelation<
       User,
-      'appointmentAssignments'
-    >(this, 'appointmentAssignments'));
+      'workingGroups'
+    >(this, 'workingGroups'));
   }
 
-  @OneToOne(() => Consultant, (consultant) => consultant.user, {
-    cascade: true,
-  })
+  @OneToOne(() => Consultant, (consultant) => consultant.user)
   asConsultant: Consultant | null;
   async loadAsConsultant(): Promise<Consultant | null> {
     return (this.asConsultant =

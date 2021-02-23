@@ -5,18 +5,19 @@ import {
   DeleteDateColumn,
   Entity,
   Generated,
+  ManyToMany,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import {
   loadNotNullSingularRelation,
   loadNullableSingularRelation,
+  loadPluralRelation,
 } from '../../../utilities/relations';
 import { Training } from '../../trainings/entities/Training.entity';
 import { Consultant } from '../../users/entities/Consultant.entity';
-import { UserAppointmentAssignment } from './UserAppointmentAssignment.entity';
+import { WorkingGroup } from '../../workingGroups/entities/WorkingGroup.entity';
 
 @Entity()
 export class Appointment extends BaseEntity {
@@ -24,8 +25,6 @@ export class Appointment extends BaseEntity {
   id: number;
 
   @ManyToOne(() => Training, (training) => training.appointments, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
     nullable: true,
   })
   training: Training | null;
@@ -36,8 +35,6 @@ export class Appointment extends BaseEntity {
   }
 
   @ManyToOne(() => Consultant, (consultant) => consultant.trainings, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
     nullable: false,
   })
   presenter: Consultant;
@@ -66,19 +63,18 @@ export class Appointment extends BaseEntity {
   @Column()
   conferenceUpdateCounter: number;
 
-  // Todo: remove
-  @Column({ unique: true })
-  officialMessagePublicKey: string;
+  @ManyToMany(() => WorkingGroup, (workingGroup) => workingGroup.appointments, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
+  })
+  workingGroups: WorkingGroup[];
 
-  @Column({ unique: true })
-  officialMessagePrivateKey: string;
-
-  @OneToMany(
-    () => UserAppointmentAssignment,
-    (assignment) => assignment.appointment,
-    { cascade: true },
-  )
-  userAssignments: UserAppointmentAssignment[];
+  async loadWorkingGroups(): Promise<WorkingGroup[]> {
+    return (this.workingGroups = await loadPluralRelation<
+      Appointment,
+      'workingGroups'
+    >(this, 'workingGroups'));
+  }
 
   @CreateDateColumn()
   createdAt: Date;

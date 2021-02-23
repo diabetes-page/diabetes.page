@@ -18,7 +18,7 @@ export class LearningBase extends BaseEntity {
   @Column({ unique: true })
   name: string;
 
-  @OneToMany(() => Topic, (topic) => topic.learningBase, { cascade: true })
+  @OneToMany(() => Topic, (topic) => topic.learningBase)
   topics: Topic[];
 
   @CreateDateColumn()

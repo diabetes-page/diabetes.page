@@ -5,6 +5,7 @@ import { AppointmentFactory } from '../../factories/AppointmentFactory';
 import { LearningBaseFactory } from '../../factories/LearningBaseFactory';
 import { TrainingFactory } from '../../factories/TrainingFactory';
 import { UserFactory } from '../../factories/UserFactory';
+import { WorkingGroupFactory } from '../../factories/WorkingGroupFactory';
 import { MainSeeder } from '../MainSeeder';
 
 @Module({
@@ -15,6 +16,7 @@ import { MainSeeder } from '../MainSeeder';
     LearningBaseFactory,
     TrainingFactory,
     AppointmentFactory,
+    WorkingGroupFactory,
   ],
 })
 export class SeederModule {}
