@@ -1,6 +1,6 @@
 export async function mapPromises<Input, Output>(
   inputs: Promise<Input[]> | Input[],
-  callbackfn: (input: Input) => Promise<Output>,
+  callbackfn: (input: Input, index: number) => Promise<Output>,
 ): Promise<Output[]> {
   const awaitedInputs = await inputs;
   const outputPromises = awaitedInputs.map(callbackfn);
@@ -10,7 +10,7 @@ export async function mapPromises<Input, Output>(
 
 export async function eachPromise<Input>(
   inputs: Promise<Input[]> | Input[],
-  callbackfn: (input: Input) => Promise<void>,
+  callbackfn: (input: Input, index: number) => Promise<void>,
 ): Promise<void> {
   await mapPromises(inputs, callbackfn);
 }

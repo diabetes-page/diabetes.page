@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { loadPluralRelation } from '../../../utilities/relations';
 import { Appointment } from '../../appointments/entities/Appointment.entity';
 import { Topic } from '../../learningBases/entities/Topic.entity';
 import { Consultant } from '../../users/entities/Consultant.entity';
@@ -39,6 +40,13 @@ export class Training extends BaseEntity {
     cascade: true,
   })
   appointments: Appointment[];
+
+  async loadAppointments(): Promise<Appointment[]> {
+    return (this.appointments = await loadPluralRelation<
+      Training,
+      'appointments'
+    >(this, 'appointments'));
+  }
 
   @CreateDateColumn()
   createdAt: Date;

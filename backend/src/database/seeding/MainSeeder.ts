@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { reject, sample, sampleSize, times } from 'lodash';
+import { sample, times } from 'lodash';
 import { BaseEntity } from 'typeorm';
 import { Appointment } from '../../domains/appointments/entities/Appointment.entity';
 import { LearningBase } from '../../domains/learningBases/entities/LearningBase.entity';
@@ -7,11 +7,13 @@ import { Topic } from '../../domains/learningBases/entities/Topic.entity';
 import { Training } from '../../domains/trainings/entities/Training.entity';
 import { Consultant } from '../../domains/users/entities/Consultant.entity';
 import { User } from '../../domains/users/entities/User.entity';
+import { WorkingGroup } from '../../domains/workingGroups/entities/WorkingGroup.entity';
 import { eachPromise, mapPromises } from '../../utilities/promises';
 import { AppointmentFactory } from '../factories/AppointmentFactory';
 import { LearningBaseFactory } from '../factories/LearningBaseFactory';
 import { TrainingFactory } from '../factories/TrainingFactory';
 import { UserFactory } from '../factories/UserFactory';
+import { WorkingGroupFactory } from '../factories/WorkingGroupFactory';
 
 @Injectable()
 export class MainSeeder {
@@ -20,6 +22,7 @@ export class MainSeeder {
     public learningBaseFactory: LearningBaseFactory,
     public trainingFactory: TrainingFactory,
     public appointmentFactory: AppointmentFactory,
+    public workingGroupFactory: WorkingGroupFactory,
   ) {}
 
   public async seed(): Promise<void> {
@@ -30,7 +33,8 @@ export class MainSeeder {
     await this.seedTopics();
     await this.seedTrainings();
     await this.seedAppointments();
-    await this.seedAppointmentAssignments();
+    await this.seedWorkingGroups();
+    await this.addUsersToWorkingGroups();
   }
 
   public async repeat<Entity extends BaseEntity>(
@@ -95,22 +99,54 @@ export class MainSeeder {
     });
   }
 
-  private async seedAppointmentAssignments(): Promise<any> {
-    console.log('Seeding appointment assignments...');
-    const users = await User.find();
-    await eachPromise(
-      users,
-      async (user) => void (await user.loadAsConsultant()),
-    );
-    const participants = reject(users, (user) => !!user.asConsultant);
+  private async seedWorkingGroups(): Promise<any> {
+    console.log('Seeding working groups...');
+    const consultants = await Consultant.find();
+    const appointmentsGrouped: Appointment[][] = [];
 
-    return mapPromises(Appointment.find(), (appointment) =>
-      mapPromises(sampleSize(participants, 10), (user) =>
-        this.appointmentFactory.createUserAppointmentAssignment(
-          user,
-          appointment,
-        ),
-      ),
+    await eachPromise(Training.find(), async (training) =>
+      eachPromise(training.loadAppointments(), async (appointment, index) => {
+        if (!appointmentsGrouped[index]) {
+          appointmentsGrouped[index] = [];
+        }
+
+        appointmentsGrouped[index].push(appointment);
+      }),
+    );
+
+    return eachPromise(
+      appointmentsGrouped,
+      async (appointments) =>
+        void (await this.workingGroupFactory.createWorkingGroup(
+          sample(consultants)!,
+          {
+            appointments,
+          },
+        )),
+    );
+  }
+
+  private async addUsersToWorkingGroups(): Promise<any> {
+    console.log('Adding users to working groups...');
+    const users = await User.find();
+    const workingGroups = await WorkingGroup.find();
+
+    await eachPromise(
+      workingGroups,
+      async (workingGroup) => void (await workingGroup.loadUsers()),
+    );
+
+    await eachPromise(users, async (user) => {
+      const asConsultant = await user.loadAsConsultant();
+
+      if (!asConsultant) {
+        sample(workingGroups)!.users.push(user);
+      }
+    });
+
+    return eachPromise(
+      workingGroups,
+      async (workingGroup) => void (await workingGroup.save()),
     );
   }
 }
