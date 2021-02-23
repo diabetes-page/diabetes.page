@@ -15,6 +15,7 @@ import {
 } from '../../../utilities/relations';
 import { Appointment } from '../../appointments/entities/Appointment.entity';
 import { Training } from '../../trainings/entities/Training.entity';
+import { WorkingGroup } from '../../workingGroups/entities/WorkingGroup.entity';
 import { Manager } from './Manager.entity';
 import { User } from './User.entity';
 
@@ -35,7 +36,10 @@ export class Consultant extends BaseEntity {
     return (this.user = await loadNotNullSingularRelation(this, 'user'));
   }
 
-  @OneToMany(() => Training, (training) => training.creator, { cascade: true })
+  @OneToMany(() => WorkingGroup, (workingGroup) => workingGroup.creator)
+  workingGroups: WorkingGroup[];
+
+  @OneToMany(() => Training, (training) => training.creator)
   trainings: Training[];
 
   @OneToMany(() => Appointment, (appointment) => appointment.presenter, {
