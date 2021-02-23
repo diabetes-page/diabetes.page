@@ -23,6 +23,7 @@ export class CreateAppointment extends ResourceController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @Post('/appointments')
   async serve(): Promise<Resource> {
+    // Todo: use parameters for dates
     const start = parseISO('2020-11-10T09:00');
     const end = parseISO('2021-11-20T09:00');
 

@@ -4,13 +4,13 @@
 import { AxiosResponse } from "axios";
 import {Get, Post, Put, Patch, Delete, withAuth} from "./axios";
 import { AppointmentResource as BackendAppointmentResource } from '../../../../backend/src/domains/appointments/resources/AppointmentResource';
-import { OfficialMessageResource as BackendOfficialMessageResource } from '../../../../backend/src/domains/appointments/resources/OfficialMessageResource';
 import { Resource as BackendCreateAppointmentResource } from '../../../../backend/src/domains/appointments/routes/createAppointment/Resource';
 import { Resource as BackendIndexAppointmentsForUserResource } from '../../../../backend/src/domains/appointments/routes/indexAppointmentsForUser/Resource';
-import { Resource as BackendShowConferenceDataResource } from '../../../../backend/src/domains/appointments/routes/showConferenceData/Resource';
 import { Resource as BackendCheckAuthStatusResource } from '../../../../backend/src/domains/auth/routes/checkAuthStatus/Resource';
 import { Resource as BackendLoginResource } from '../../../../backend/src/domains/auth/routes/login/Resource';
 import { Resource as BackendRegisterResource } from '../../../../backend/src/domains/auth/routes/register/Resource';
+import { ConferenceResource as BackendConferenceResource } from '../../../../backend/src/domains/conferences/resources/ConferenceResource';
+import { Resource as BackendShowConferenceTokenResource } from '../../../../backend/src/domains/conferences/routes/showConferenceToken/Resource';
 import { BasicTrainingResource as BackendBasicTrainingResource } from '../../../../backend/src/domains/trainings/resources/BasicTrainingResource';
 import { BasicConsultantResource as BackendBasicConsultantResource } from '../../../../backend/src/domains/users/resources/BasicConsultantResource';
 import { BasicUserResource as BackendBasicUserResource } from '../../../../backend/src/domains/users/resources/BasicUserResource';
@@ -18,13 +18,8 @@ import { SensitiveDataUserResource as BackendSensitiveDataUserResource } from '.
 import { Resource as BackendIndexUsersResource } from '../../../../backend/src/domains/users/routes/indexUsers/Resource';
 
 export type AppointmentResource = BackendAppointmentResource;
-export type OfficialMessageResource = BackendOfficialMessageResource;
 export type CreateAppointmentResource = BackendCreateAppointmentResource;
 export type IndexAppointmentsForUserResource = BackendIndexAppointmentsForUserResource;
-export type ShowConferenceDataResource = BackendShowConferenceDataResource;
-export type SwitchConferenceSlideParameters = {
-  presentationIndex: number;
-};
 export type CheckAuthStatusResource = BackendCheckAuthStatusResource;
 export type LoginResource = BackendLoginResource;
 export type LoginParameters = {
@@ -37,6 +32,8 @@ export type RegisterParameters = {
   password: string;
   name: string;
 };
+export type ConferenceResource = BackendConferenceResource;
+export type ShowConferenceTokenResource = BackendShowConferenceTokenResource;
 export type BasicTrainingResource = BackendBasicTrainingResource;
 export type BasicConsultantResource = BackendBasicConsultantResource;
 export type BasicUserResource = BackendBasicUserResource;
@@ -48,15 +45,13 @@ export const requests = {
 
   indexAppointmentsForUser: async (id: number): Promise<AxiosResponse<IndexAppointmentsForUserResource>> => Get(`/users/${id}/appointments`, await withAuth()),
 
-  showConferenceData: async (id: number): Promise<AxiosResponse<ShowConferenceDataResource>> => Get(`/appointments/${id}/conference`, await withAuth()),
-
-  switchConferenceSlide: async (id: number, data: SwitchConferenceSlideParameters ): Promise<AxiosResponse<OfficialMessageResource>> => Put(`/appointments/${id}/conference/slide`, data, await withAuth()),
-
   checkAuthStatus: async (): Promise<AxiosResponse<CheckAuthStatusResource>> => Get(`/auth/status`, await withAuth()),
 
   login: async (data: LoginParameters ): Promise<AxiosResponse<LoginResource>> => Post(`/auth/login`, data, await withAuth()),
 
   register: async (data: RegisterParameters ): Promise<AxiosResponse<RegisterResource>> => Post(`/auth/register`, data, await withAuth()),
+
+  showConferenceToken: async (id: number): Promise<AxiosResponse<ShowConferenceTokenResource>> => Get(`/appointments/${id}/conference/token`, await withAuth()),
 
   indexUsers: async (): Promise<AxiosResponse<IndexUsersResource>> => Get(`/users`, await withAuth()),
 

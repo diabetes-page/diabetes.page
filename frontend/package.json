@@ -1,5 +1,5 @@
 {
-  "main": "src/main/app/App.tsx",
+  "main": "src/app/App.tsx",
   "name": "frontend",
   "version": "0.0.1",
   "description": "The frontend of diabetes.page. It works using expo.",
@@ -37,6 +37,7 @@
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
+    "socket.io-client": "^2.4.0",
     "strophe.js": "^1.4.1",
     "strophejs-plugin-muc": "^1.1.0",
     "tweetnacl": "^1.0.3"

@@ -66,6 +66,7 @@ export class Appointment extends BaseEntity {
   @Column()
   conferenceUpdateCounter: number;
 
+  // Todo: remove
   @Column({ unique: true })
   officialMessagePublicKey: string;
 
