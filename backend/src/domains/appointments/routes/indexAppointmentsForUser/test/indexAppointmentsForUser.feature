@@ -10,11 +10,13 @@ Feature: Get appointments for user
     And the learning base "Computer Science 101" has a topic "Turing Machines"
     And the topic "Turing Machines" has a training "Turing Machines by Walter White" created by "Walter White"
     And the training "Turing Machines by Walter White" has an appointment with presenter "Walter White"
+    And there is a working group "Best group" with description "..." created by "Walter White"
 
   Scenario: I can get a list my own appointments
     Given I am a user with name "Jesse Pinkman", E-Mail "test@example.com" and password "12345678"
     And I am logged in
-    And the appointment presented by "Walter White" is assigned to "Jesse Pinkman"
+    And the user "Jesse Pinkman" is in the working group "Best group"
+    And the appointment presented by "Walter White" is assigned to the working group "Best group"
     When I request the appointments of the user "Jesse Pinkman"
     Then the request is successful
     And the response contains an array of appointments
@@ -24,7 +26,8 @@ Feature: Get appointments for user
 
   Scenario: I cannot get a list of other people's appointments
     Given there is a user with name "Some guy" and E-Mail "a@b.com"
-    And the appointment presented by "Walter White" is assigned to "Some guy"
+    And the user "Some guy" is in the working group "Best group"
+    And the appointment presented by "Walter White" is assigned to the working group "Best group"
     And I am a user with name "Jesse Pinkman", E-Mail "test@example.com" and password "12345678"
     And I am logged in
     When I request the appointments of the user "Some guy"
@@ -32,7 +35,8 @@ Feature: Get appointments for user
 
   Scenario: As a consultant, I can get a list of other people's appointments
     Given there is a user with name "Some guy" and E-Mail "a@b.com"
-    And the appointment presented by "Walter White" is assigned to "Some guy"
+    And the user "Some guy" is in the working group "Best group"
+    And the appointment presented by "Walter White" is assigned to the working group "Best group"
     And I am a user with name "Jesse Pinkman", E-Mail "test@example.com" and password "12345678"
     And the user "Jesse Pinkman" is a consultant
     And I am logged in

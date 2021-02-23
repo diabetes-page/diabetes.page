@@ -5,6 +5,7 @@ import { LearningBase } from '../domains/learningBases/entities/LearningBase.ent
 import { Topic } from '../domains/learningBases/entities/Topic.entity';
 import { Training } from '../domains/trainings/entities/Training.entity';
 import { User } from '../domains/users/entities/User.entity';
+import { WorkingGroup } from '../domains/workingGroups/entities/WorkingGroup.entity';
 import { seeder, testRequest } from './setup.steps';
 
 Then(/^the request is rejected$/, function () {
@@ -26,7 +27,7 @@ Then(/^the request is unauthorized$/, function () {
 });
 
 Given(
-  /^there is a user with name "([^"]*)" and E\-Mail "([^"]*)"$/,
+  /^there is a user with name "([^"]*)" and E-Mail "([^"]*)"$/,
   async function (name, email) {
     await seeder.userFactory.createUser({
       name,
@@ -36,7 +37,7 @@ Given(
 );
 
 Given(
-  /^I am a user with name "([^"]*)", E\-Mail "([^"]*)" and password "([^"]*)"$/,
+  /^I am a user with name "([^"]*)", E-Mail "([^"]*)" and password "([^"]*)"$/,
   async function (name, email, password) {
     this.user = await seeder.userFactory.createUser(
       {
@@ -100,17 +101,22 @@ Given(
 );
 
 Given(
-  /^the appointment presented by "([^"]*)" is assigned to "([^"]*)"$/,
-  async function (presenterName, userName) {
+  /^the appointment presented by "([^"]*)" is assigned to the working group "([^"]*)"$/,
+  async function (presenterName, workingGroupName) {
     const appointments = await (await (await User.findOne({
       name: presenterName,
     }))!.loadAsConsultant())!.loadAppointments();
     expect(appointments).to.have.length(1);
 
-    await seeder.appointmentFactory.createUserAppointmentAssignment(
-      (await User.findOne({ name: userName }))!,
-      appointments[0]!,
-    );
+    const workingGroup = (await WorkingGroup.findOne({
+      name: workingGroupName,
+    }))!;
+
+    workingGroup.appointments = [
+      ...(await workingGroup.loadAppointments()),
+      appointments[0],
+    ];
+    await workingGroup.save();
   },
 );
 
@@ -119,3 +125,27 @@ Given(/^the user "([^"]*)" is a consultant$/, async function (name) {
     (await User.findOne({ name }))!,
   );
 });
+
+Given(
+  /^there is a working group "([^"]*)" with description "([^"]*)" created by "([^"]*)"$/,
+  async function (name, description, creatorName) {
+    await seeder.workingGroupFactory.createWorkingGroup(
+      (await (await User.findOne({ name: creatorName }))!.loadAsConsultant())!,
+      {
+        name,
+        description,
+      },
+    );
+  },
+);
+
+Given(
+  /^the user "([^"]*)" is in the working group "([^"]*)"$/,
+  async function (userName, groupName) {
+    const user = (await User.findOne({ name: userName }))!;
+    const workingGroup = (await WorkingGroup.findOne({ name: groupName }))!;
+
+    user.workingGroups = [...(await user.loadWorkingGroups()), workingGroup];
+    await user.save();
+  },
+);
