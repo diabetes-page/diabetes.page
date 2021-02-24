@@ -7,6 +7,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { loadPluralRelation } from '../../../utilities/relations';
@@ -15,6 +16,7 @@ import { Topic } from '../../teachingBases/entities/Topic.entity';
 import { Consultant } from '../../users/entities/Consultant.entity';
 
 @Entity()
+@Unique(['name', 'creator'])
 export class Training extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
