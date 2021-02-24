@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { TeachingBaseDocument } from './TeachingBaseDocument.entity';
 import { Topic } from './Topic.entity';
 
 @Entity()
@@ -20,6 +21,9 @@ export class TeachingBase extends BaseEntity {
 
   @OneToMany(() => Topic, (topic) => topic.teachingBase)
   topics: Topic[];
+
+  @OneToMany(() => TeachingBaseDocument, (document) => document.teachingBase)
+  documents: TeachingBaseDocument[];
 
   @CreateDateColumn()
   createdAt: Date;
