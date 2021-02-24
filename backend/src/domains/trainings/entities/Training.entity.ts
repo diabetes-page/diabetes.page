@@ -22,6 +22,13 @@ export class Training extends BaseEntity {
   @Column()
   name: string;
 
+  @Column({
+    type: 'jsonb',
+    array: false,
+    nullable: false,
+  })
+  slides: number[];
+
   @ManyToOne(() => Topic, (topic) => topic.trainings, {
     nullable: false,
   })
