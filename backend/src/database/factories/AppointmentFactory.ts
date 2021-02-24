@@ -23,7 +23,7 @@ export class AppointmentFactory {
       presenter,
       startsAt,
       endsAt,
-      presentationIndex: 0,
+      slideIndex: 0,
       conferenceUpdateCounter: 0,
       ...props,
     }).save();
