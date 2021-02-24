@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Topic } from '../../domains/learningBases/entities/Topic.entity';
+import { Topic } from '../../domains/teachingBases/entities/Topic.entity';
 import { Training } from '../../domains/trainings/entities/Training.entity';
 import { Consultant } from '../../domains/users/entities/Consultant.entity';
 

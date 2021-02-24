@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 import { loadPluralRelation } from '../../../utilities/relations';
 import { Appointment } from '../../appointments/entities/Appointment.entity';
-import { Topic } from '../../learningBases/entities/Topic.entity';
+import { Topic } from '../../teachingBases/entities/Topic.entity';
 import { Consultant } from '../../users/entities/Consultant.entity';
 
 @Entity()

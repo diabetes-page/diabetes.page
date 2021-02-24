@@ -6,8 +6,8 @@ Feature: Get appointments for user
   Background:
     Given there is a user with name "Walter White" and E-Mail "ww@example.com"
     And the user "Walter White" is a consultant
-    And there is a learning base called "Computer Science 101"
-    And the learning base "Computer Science 101" has a topic "Turing Machines"
+    And there is a teaching base called "Computer Science 101"
+    And the teaching base "Computer Science 101" has a topic "Turing Machines"
     And the topic "Turing Machines" has a training "Turing Machines by Walter White" created by "Walter White"
     And the training "Turing Machines by Walter White" has an appointment with presenter "Walter White"
     And there is a working group "Best group" with description "..." created by "Walter White"

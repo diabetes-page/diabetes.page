@@ -11,18 +11,18 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Training } from '../../trainings/entities/Training.entity';
-import { LearningBase } from './LearningBase.entity';
+import { TeachingBase } from './TeachingBase.entity';
 
 @Entity()
-@Unique(['learningBase', 'name'])
+@Unique(['teachingBase', 'name'])
 export class Topic extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => LearningBase, (learningBase) => learningBase.topics, {
+  @ManyToOne(() => TeachingBase, (teachingBase) => teachingBase.topics, {
     nullable: false,
   })
-  learningBase: LearningBase;
+  teachingBase: TeachingBase;
 
   @Column()
   name: string;

@@ -2,15 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { sample, times } from 'lodash';
 import { BaseEntity } from 'typeorm';
 import { Appointment } from '../../domains/appointments/entities/Appointment.entity';
-import { LearningBase } from '../../domains/learningBases/entities/LearningBase.entity';
-import { Topic } from '../../domains/learningBases/entities/Topic.entity';
+import { TeachingBase } from '../../domains/teachingBases/entities/TeachingBase.entity';
+import { Topic } from '../../domains/teachingBases/entities/Topic.entity';
 import { Training } from '../../domains/trainings/entities/Training.entity';
 import { Consultant } from '../../domains/users/entities/Consultant.entity';
 import { User } from '../../domains/users/entities/User.entity';
 import { WorkingGroup } from '../../domains/workingGroups/entities/WorkingGroup.entity';
 import { eachPromise, mapPromises } from '../../utilities/promises';
 import { AppointmentFactory } from '../factories/AppointmentFactory';
-import { LearningBaseFactory } from '../factories/LearningBaseFactory';
+import { TeachingBaseFactory } from '../factories/TeachingBaseFactory';
 import { TrainingFactory } from '../factories/TrainingFactory';
 import { UserFactory } from '../factories/UserFactory';
 import { WorkingGroupFactory } from '../factories/WorkingGroupFactory';
@@ -19,7 +19,7 @@ import { WorkingGroupFactory } from '../factories/WorkingGroupFactory';
 export class MainSeeder {
   constructor(
     public userFactory: UserFactory,
-    public learningBaseFactory: LearningBaseFactory,
+    public teachingBaseFactory: TeachingBaseFactory,
     public trainingFactory: TrainingFactory,
     public appointmentFactory: AppointmentFactory,
     public workingGroupFactory: WorkingGroupFactory,
@@ -29,7 +29,7 @@ export class MainSeeder {
     console.log('Seeding...');
 
     await this.seedUsers();
-    await this.seedLearningBases();
+    await this.seedTeachingBases();
     await this.seedTopics();
     await this.seedTrainings();
     await this.seedAppointments();
@@ -53,19 +53,19 @@ export class MainSeeder {
     await this.userFactory.createConsultant(UserFactory.blueprints.tom);
   }
 
-  private async seedLearningBases(): Promise<void> {
-    console.log('Seeding learning bases...');
+  private async seedTeachingBases(): Promise<void> {
+    console.log('Seeding teaching bases...');
     await this.repeat(
-      async () => this.learningBaseFactory.createLearningBase(),
+      async () => this.teachingBaseFactory.createTeachingBase(),
       2,
     );
   }
 
   private async seedTopics(): Promise<any> {
     console.log('Seeding topics...');
-    return mapPromises(LearningBase.find(), (learningBase) => {
+    return mapPromises(TeachingBase.find(), (teachingBase) => {
       return this.repeat(
-        () => this.learningBaseFactory.createTopic(learningBase),
+        () => this.teachingBaseFactory.createTopic(teachingBase),
         2,
       );
     });

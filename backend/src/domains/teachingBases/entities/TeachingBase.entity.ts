@@ -11,14 +11,14 @@ import {
 import { Topic } from './Topic.entity';
 
 @Entity()
-export class LearningBase extends BaseEntity {
+export class TeachingBase extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ unique: true })
   name: string;
 
-  @OneToMany(() => Topic, (topic) => topic.learningBase)
+  @OneToMany(() => Topic, (topic) => topic.teachingBase)
   topics: Topic[];
 
   @CreateDateColumn()
