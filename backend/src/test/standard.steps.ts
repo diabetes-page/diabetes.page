@@ -2,6 +2,7 @@ import { HttpStatus } from '@nestjs/common';
 import { expect } from 'chai';
 import { Given, Then } from 'cucumber';
 import { TeachingBase } from '../domains/teachingBases/entities/TeachingBase.entity';
+import { TeachingBaseDocument } from '../domains/teachingBases/entities/TeachingBaseDocument.entity';
 import { Topic } from '../domains/teachingBases/entities/Topic.entity';
 import { Training } from '../domains/trainings/entities/Training.entity';
 import { User } from '../domains/users/entities/User.entity';
@@ -74,12 +75,24 @@ Given(
     );
   },
 );
+Given(
+  /^the teaching base "([^"]*)" has a document named "([^"]*)"$/,
+  async function (teachingBaseName, documentName) {
+    await seeder.teachingBaseFactory.createDocument(
+      (await TeachingBase.findOne({ name: teachingBaseName }))!,
+      {
+        name: documentName,
+      },
+    );
+  },
+);
 
 Given(
-  /^the topic "([^"]*)" has a training "([^"]*)" created by "([^"]*)"$/,
-  async function (topicName, trainingName, creatorName) {
+  /^the topic "([^"]*)" has a training "([^"]*)" created by "([^"]*)" based on the document "([^"]*)"$/,
+  async function (topicName, trainingName, creatorName, documentName) {
     await seeder.trainingFactory.createTraining(
       (await Topic.findOne({ name: topicName }))!,
+      (await TeachingBaseDocument.findOne({ name: documentName }))!,
       (await (await User.findOne({ name: creatorName }))!.loadAsConsultant())!,
       {
         name: trainingName,
