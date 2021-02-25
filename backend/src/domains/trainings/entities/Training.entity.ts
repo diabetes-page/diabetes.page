@@ -12,6 +12,7 @@ import {
 } from 'typeorm';
 import { loadPluralRelation } from '../../../utilities/relations';
 import { Appointment } from '../../appointments/entities/Appointment.entity';
+import { TeachingBaseDocument } from '../../teachingBases/entities/TeachingBaseDocument.entity';
 import { Topic } from '../../teachingBases/entities/Topic.entity';
 import { Consultant } from '../../users/entities/Consultant.entity';
 
@@ -30,6 +31,11 @@ export class Training extends BaseEntity {
     nullable: false,
   })
   slides: number[];
+
+  @ManyToOne(() => TeachingBaseDocument, (document) => document.trainings, {
+    nullable: false,
+  })
+  teachingBaseDocument: TeachingBaseDocument;
 
   @ManyToOne(() => Topic, (topic) => topic.trainings, {
     nullable: false,

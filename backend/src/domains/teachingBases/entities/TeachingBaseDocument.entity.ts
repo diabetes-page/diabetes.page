@@ -5,10 +5,12 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
+import { Training } from '../../trainings/entities/Training.entity';
 import { TeachingBase } from './TeachingBase.entity';
 
 @Entity()
@@ -28,6 +30,9 @@ export class TeachingBaseDocument extends BaseEntity {
 
   @Column()
   documentPath: string;
+
+  @OneToMany(() => Training, (training) => training.teachingBaseDocument)
+  trainings: Training[];
 
   @CreateDateColumn()
   createdAt: Date;
