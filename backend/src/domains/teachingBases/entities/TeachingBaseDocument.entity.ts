@@ -10,6 +10,10 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
+import {
+  loadNotNullSingularRelation,
+  loadPluralRelation,
+} from '../../../utilities/relations';
 import { Training } from '../../trainings/entities/Training.entity';
 import { TeachingBase } from './TeachingBase.entity';
 
@@ -25,6 +29,13 @@ export class TeachingBaseDocument extends BaseEntity {
   })
   teachingBase: TeachingBase;
 
+  async loadTeachingBase(): Promise<TeachingBase> {
+    return (this.teachingBase = await loadNotNullSingularRelation(
+      this,
+      'teachingBase',
+    ));
+  }
+
   @Column()
   name: string;
 
@@ -33,6 +44,13 @@ export class TeachingBaseDocument extends BaseEntity {
 
   @OneToMany(() => Training, (training) => training.teachingBaseDocument)
   trainings: Training[];
+
+  async loadTrainings(): Promise<Training[]> {
+    return (this.trainings = await loadPluralRelation<
+      TeachingBaseDocument,
+      'trainings'
+    >(this, 'trainings'));
+  }
 
   @CreateDateColumn()
   createdAt: Date;
