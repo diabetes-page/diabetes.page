@@ -1,8 +1,9 @@
 import { HttpStatus } from '@nestjs/common';
 import { expect } from 'chai';
 import { Given, Then } from 'cucumber';
-import { LearningBase } from '../domains/learningBases/entities/LearningBase.entity';
-import { Topic } from '../domains/learningBases/entities/Topic.entity';
+import { TeachingBase } from '../domains/teachingBases/entities/TeachingBase.entity';
+import { TeachingBaseDocument } from '../domains/teachingBases/entities/TeachingBaseDocument.entity';
+import { Topic } from '../domains/teachingBases/entities/Topic.entity';
 import { Training } from '../domains/trainings/entities/Training.entity';
 import { User } from '../domains/users/entities/User.entity';
 import { WorkingGroup } from '../domains/workingGroups/entities/WorkingGroup.entity';
@@ -59,27 +60,39 @@ Given(/^I am logged in$/, async function () {
   this.jwt = response.body.token;
 });
 
-Given(/^there is a learning base called "([^"]*)"$/, async function (name) {
-  await seeder.learningBaseFactory.createLearningBase({ name });
+Given(/^there is a teaching base called "([^"]*)"$/, async function (name) {
+  await seeder.teachingBaseFactory.createTeachingBase({ name });
 });
 
 Given(
-  /^the learning base "([^"]*)" has a topic "([^"]*)"$/,
-  async function (learningBaseName, topicName) {
-    await seeder.learningBaseFactory.createTopic(
-      (await LearningBase.findOne({ name: learningBaseName }))!,
+  /^the teaching base "([^"]*)" has a topic "([^"]*)"$/,
+  async function (teachingBaseName, topicName) {
+    await seeder.teachingBaseFactory.createTopic(
+      (await TeachingBase.findOne({ name: teachingBaseName }))!,
       {
         name: topicName,
       },
     );
   },
 );
+Given(
+  /^the teaching base "([^"]*)" has a document named "([^"]*)"$/,
+  async function (teachingBaseName, documentName) {
+    await seeder.teachingBaseFactory.createDocument(
+      (await TeachingBase.findOne({ name: teachingBaseName }))!,
+      {
+        name: documentName,
+      },
+    );
+  },
+);
 
 Given(
-  /^the topic "([^"]*)" has a training "([^"]*)" created by "([^"]*)"$/,
-  async function (topicName, trainingName, creatorName) {
+  /^the topic "([^"]*)" has a training "([^"]*)" created by "([^"]*)" based on the document "([^"]*)"$/,
+  async function (topicName, trainingName, creatorName, documentName) {
     await seeder.trainingFactory.createTraining(
       (await Topic.findOne({ name: topicName }))!,
+      (await TeachingBaseDocument.findOne({ name: documentName }))!,
       (await (await User.findOne({ name: creatorName }))!.loadAsConsultant())!,
       {
         name: trainingName,

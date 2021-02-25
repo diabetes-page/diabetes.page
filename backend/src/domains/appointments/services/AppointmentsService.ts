@@ -25,7 +25,7 @@ export class AppointmentsService {
 
   async add(startsAt: Date, endsAt: Date): Promise<Appointment> {
     return await Appointment.create({
-      presentationIndex: 0,
+      slideIndex: 0,
       conferenceUpdateCounter: 0,
       startsAt,
       endsAt,

@@ -11,14 +11,14 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 export const Presentation = (): JSX.Element => {
   const conference = useContext(ConferenceContext);
-  const presentationIndex = conference?.state.presentationIndex ?? 0;
+  const slideIndex = conference?.state.slideIndex ?? 0;
   const [previousSlide, nextSlide] = useChangeSlide();
 
   return (
     <View>
       <Document file={require('../../../../../assets/pdf.pdf')}>
         <Page
-          pageNumber={presentationIndex + 1}
+          pageNumber={slideIndex + 1}
           renderAnnotationLayer={false}
           height={600}
         />
@@ -28,12 +28,12 @@ export const Presentation = (): JSX.Element => {
           <Button
             title="Vorherige Slide"
             onPress={previousSlide}
-            disabled={presentationIndex <= 0}
+            disabled={slideIndex <= 0}
           />
           <Button
             title="Nächste Slide"
             onPress={nextSlide}
-            disabled={presentationIndex >= 49}
+            disabled={slideIndex >= 49}
           />
         </>
       ))}
@@ -46,10 +46,10 @@ function useChangeSlide(): [() => void, () => void] {
   const sendMessage = useSendMessage();
 
   const changeSlide = useCallback(
-    (presentationIndex) => {
+    (slideIndex) => {
       requests // todo: don't hardcode slide number
         .switchConferenceSlide(5, {
-          presentationIndex,
+          slideIndex,
         })
         .then((response) => {
           sendMessage(response.data.officialMessage);
@@ -59,13 +59,13 @@ function useChangeSlide(): [() => void, () => void] {
   );
 
   const previousSlide = useCallback(() => {
-    const oldSlide = conference?.state.presentationIndex ?? 1;
+    const oldSlide = conference?.state.slideIndex ?? 1;
     const newSlide = Math.max(0, oldSlide - 1);
     return changeSlide(newSlide);
   }, [conference, changeSlide]);
 
   const nextSlide = useCallback(() => {
-    const oldSlide = conference?.state.presentationIndex ?? 48;
+    const oldSlide = conference?.state.slideIndex ?? 48;
     const newSlide = Math.min(49, oldSlide + 1);
     return changeSlide(newSlide);
   }, [conference, changeSlide]);

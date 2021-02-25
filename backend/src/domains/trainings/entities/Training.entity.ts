@@ -7,20 +7,35 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { loadPluralRelation } from '../../../utilities/relations';
 import { Appointment } from '../../appointments/entities/Appointment.entity';
-import { Topic } from '../../learningBases/entities/Topic.entity';
+import { TeachingBaseDocument } from '../../teachingBases/entities/TeachingBaseDocument.entity';
+import { Topic } from '../../teachingBases/entities/Topic.entity';
 import { Consultant } from '../../users/entities/Consultant.entity';
 
 @Entity()
+@Unique(['name', 'creator'])
 export class Training extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   name: string;
+
+  @Column({
+    type: 'jsonb',
+    array: false,
+    nullable: false,
+  })
+  slides: number[];
+
+  @ManyToOne(() => TeachingBaseDocument, (document) => document.trainings, {
+    nullable: false,
+  })
+  teachingBaseDocument: TeachingBaseDocument;
 
   @ManyToOne(() => Topic, (topic) => topic.trainings, {
     nullable: false,

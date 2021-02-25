@@ -12,7 +12,7 @@ export class ConferenceResource {
   conferenceUpdateCounter: number;
 
   @Expose()
-  presentationIndex: number;
+  slideIndex: number;
 
   static make = (appointment: Appointment): ConferenceResource => {
     return {

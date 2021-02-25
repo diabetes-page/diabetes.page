@@ -58,7 +58,7 @@ export class Appointment extends BaseEntity {
   conferenceRoom: string;
 
   @Column()
-  presentationIndex: number;
+  slideIndex: number;
 
   @Column()
   conferenceUpdateCounter: number;
