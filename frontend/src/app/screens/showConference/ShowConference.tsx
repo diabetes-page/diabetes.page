@@ -3,6 +3,7 @@ import { ActivityIndicator } from 'react-native-paper';
 import { StandardScreen } from '../../../components/StandardScreen';
 import { WEBSOCKET_URL } from '../../../config/networking';
 import {
+  SET_APPOINTMENT,
   SET_CONFERENCE_TOKEN,
   UPDATE_CONFERENCE,
 } from '../../../redux/live/actions';
@@ -23,11 +24,15 @@ type ShowConferenceParams = {
 };
 
 export function ShowConference({ route }: ShowConferenceParams): JSX.Element {
-  // todo: in useLive, also get appointment, compute isLoading as !state.live.conference || !state.live.appointment
-  const hasConference = useSelector((state) => !!state.live.conference);
+  const isLoading = useSelector(
+    (state) =>
+      !state.live.conferenceToken ||
+      !state.live.conference ||
+      !state.live.appointment,
+  );
   useLive(route.params.id);
 
-  if (!hasConference) {
+  if (isLoading) {
     return (
       <StandardScreen>
         <ActivityIndicator animating />
@@ -40,6 +45,7 @@ export function ShowConference({ route }: ShowConferenceParams): JSX.Element {
 
 const useLive = (appointmentId: number): void => {
   useConferenceToken(appointmentId);
+  useAppointment(appointmentId);
   useConferenceWebSocket();
 };
 
@@ -52,6 +58,21 @@ const useConferenceToken = (appointmentId: number): void => {
         dispatch({
           type: SET_CONFERENCE_TOKEN,
           conferenceToken: response.data.conferenceToken,
+        });
+      }),
+    [dispatch, appointmentId],
+  );
+};
+
+const useAppointment = (appointmentId: number): void => {
+  const dispatch = useSafeDispatch();
+
+  useEffect(
+    () =>
+      void requests.showAppointment(appointmentId).then((response) => {
+        dispatch({
+          type: SET_APPOINTMENT,
+          appointment: response.data,
         });
       }),
     [dispatch, appointmentId],
