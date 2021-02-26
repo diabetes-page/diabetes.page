@@ -1,6 +1,7 @@
 import { Action } from '../root/actions';
 import {
   END_CONFERENCE,
+  SET_APPOINTMENT,
   SET_CONFERENCE_TOKEN,
   UPDATE_CONFERENCE,
 } from './actions';
@@ -32,6 +33,11 @@ export const live = (
       return {
         ...state,
         conferenceToken: action.conferenceToken,
+      };
+    case SET_APPOINTMENT:
+      return {
+        ...state,
+        appointment: action.appointment,
       };
     default:
       return state;

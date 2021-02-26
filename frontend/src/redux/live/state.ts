@@ -1,7 +1,11 @@
-import { ConferenceResource } from '../../utilities/requests/requests';
+import {
+  AppointmentResource,
+  ConferenceResource,
+} from '../../utilities/requests/requests';
 
 export type FilledConferenceState = {
   conference: ConferenceResource;
+  appointment: AppointmentResource;
   conferenceToken: string;
 };
 

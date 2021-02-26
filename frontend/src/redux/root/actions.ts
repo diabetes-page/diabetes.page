@@ -1,5 +1,6 @@
 import {
   EndConference,
+  SetAppointment,
   SetConferenceToken,
   UpdateConference,
 } from '../live/actions';
@@ -23,4 +24,5 @@ export type Action =
   | SetLoggedIn
   | UpdateConference
   | EndConference
-  | SetConferenceToken;
+  | SetConferenceToken
+  | SetAppointment;

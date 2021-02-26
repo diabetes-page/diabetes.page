@@ -1,4 +1,7 @@
-import { ConferenceResource } from '../../utilities/requests/requests';
+import {
+  AppointmentResource,
+  ConferenceResource,
+} from '../../utilities/requests/requests';
 
 export const UPDATE_CONFERENCE = 'UPDATE_CONFERENCE';
 export interface UpdateConference {
@@ -15,4 +18,10 @@ export const SET_CONFERENCE_TOKEN = 'SET_CONFERENCE_TOKEN';
 export interface SetConferenceToken {
   type: typeof SET_CONFERENCE_TOKEN;
   conferenceToken: string;
+}
+
+export const SET_APPOINTMENT = 'SET_APPOINTMENT';
+export interface SetAppointment {
+  type: typeof SET_APPOINTMENT;
+  appointment: AppointmentResource;
 }
