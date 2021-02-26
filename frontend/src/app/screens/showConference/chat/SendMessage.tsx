@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import {
-  Button,
   NativeSyntheticEvent,
-  TextInput,
+  StyleSheet,
   TextInputKeyPressEventData,
   View,
 } from 'react-native';
+import { Button } from 'react-native-paper';
 import 'strophejs-plugin-muc';
+import { StandardTextInput } from '../../../../components/StandardTextInput';
 import { SendMessageFunction } from './useChat';
 
 type SendMessageProps = { sendMessage: SendMessageFunction };
@@ -16,14 +17,13 @@ export function SendMessage({ sendMessage }: SendMessageProps): JSX.Element {
   );
 
   return (
-    <View style={{ display: 'flex', flexDirection: 'row' }}>
-      <TextInput
-        style={{ backgroundColor: 'white' }}
+    <View style={styles.sendMessageWrapper}>
+      <StandardTextInput
         onChangeText={onTyping}
         onKeyPress={onPressEnter}
         value={messageDraft}
       />
-      <Button title="Send" onPress={onPressSend} />
+      <Button onPress={onPressSend}>Send</Button>
     </View>
   );
 }
@@ -54,3 +54,7 @@ const useMessageSending = (
 
   return [messageDraft, onTyping, onPressSend, onPressEnter];
 };
+
+const styles = StyleSheet.create({
+  sendMessageWrapper: { display: 'flex', flexDirection: 'row' },
+});
