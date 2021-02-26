@@ -4,3 +4,4 @@ export const LOGO_WIDTH = 95;
 export const LOGO_HEIGHT = 71;
 export const APPBAR_HEIGHT = 90;
 export const DRAWER_WIDTH = 275;
+export const PDF_HEIGHT = 600;

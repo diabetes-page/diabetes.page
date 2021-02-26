@@ -10,7 +10,10 @@ import { Resource as BackendLoginResource } from '../../../../backend/src/domain
 import { Resource as BackendRegisterResource } from '../../../../backend/src/domains/auth/routes/register/Resource';
 import { ConferenceResource as BackendConferenceResource } from '../../../../backend/src/domains/conferences/resources/ConferenceResource';
 import { Resource as BackendShowConferenceTokenResource } from '../../../../backend/src/domains/conferences/routes/showConferenceToken/Resource';
+import { TeachingBaseDocumentResource as BackendTeachingBaseDocumentResource } from '../../../../backend/src/domains/teachingBases/resources/TeachingBaseDocumentResource';
+import { TopicResource as BackendTopicResource } from '../../../../backend/src/domains/teachingBases/resources/TopicResource';
 import { BasicTrainingResource as BackendBasicTrainingResource } from '../../../../backend/src/domains/trainings/resources/BasicTrainingResource';
+import { FullTrainingResource as BackendFullTrainingResource } from '../../../../backend/src/domains/trainings/resources/FullTrainingResource';
 import { BasicConsultantResource as BackendBasicConsultantResource } from '../../../../backend/src/domains/users/resources/BasicConsultantResource';
 import { BasicUserResource as BackendBasicUserResource } from '../../../../backend/src/domains/users/resources/BasicUserResource';
 import { SensitiveDataUserResource as BackendSensitiveDataUserResource } from '../../../../backend/src/domains/users/resources/SensitiveDataUserResource';
@@ -34,7 +37,10 @@ export type RegisterParameters = {
 };
 export type ConferenceResource = BackendConferenceResource;
 export type ShowConferenceTokenResource = BackendShowConferenceTokenResource;
+export type TeachingBaseDocumentResource = BackendTeachingBaseDocumentResource;
+export type TopicResource = BackendTopicResource;
 export type BasicTrainingResource = BackendBasicTrainingResource;
+export type FullTrainingResource = BackendFullTrainingResource;
 export type BasicConsultantResource = BackendBasicConsultantResource;
 export type BasicUserResource = BackendBasicUserResource;
 export type SensitiveDataUserResource = BackendSensitiveDataUserResource;
@@ -70,6 +76,11 @@ export const requests = {
     id: number,
   ): Promise<AxiosResponse<ShowConferenceTokenResource>> =>
     Get(`/appointments/${id}/conference/token`, await withAuth()),
+
+  showTraining: async (
+    appointmentId: number,
+  ): Promise<AxiosResponse<FullTrainingResource>> =>
+    Get(`/appointments/${appointmentId}/training`, await withAuth()),
 
   indexUsers: async (): Promise<AxiosResponse<IndexUsersResource>> =>
     Get(`/users`, await withAuth()),

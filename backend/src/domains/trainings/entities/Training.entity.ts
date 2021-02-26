@@ -10,7 +10,10 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
-import { loadPluralRelation } from '../../../utilities/relations';
+import {
+  loadNotNullSingularRelation,
+  loadPluralRelation,
+} from '../../../utilities/relations';
 import { Appointment } from '../../appointments/entities/Appointment.entity';
 import { TeachingBaseDocument } from '../../teachingBases/entities/TeachingBaseDocument.entity';
 import { Topic } from '../../teachingBases/entities/Topic.entity';
@@ -37,10 +40,21 @@ export class Training extends BaseEntity {
   })
   teachingBaseDocument: TeachingBaseDocument;
 
+  async loadTeachingBaseDocument(): Promise<TeachingBaseDocument> {
+    return (this.teachingBaseDocument = await loadNotNullSingularRelation(
+      this,
+      'teachingBaseDocument',
+    ));
+  }
+
   @ManyToOne(() => Topic, (topic) => topic.trainings, {
     nullable: false,
   })
   topic: Topic;
+
+  async loadTopic(): Promise<Topic> {
+    return (this.topic = await loadNotNullSingularRelation(this, 'topic'));
+  }
 
   @ManyToOne(() => Consultant, (consultant) => consultant.trainings, {
     nullable: false,
