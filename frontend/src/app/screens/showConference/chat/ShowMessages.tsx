@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
-import 'strophejs-plugin-muc';
 
 type ShowMessagesProps = { messages: string[] };
 export function ShowMessages({ messages }: ShowMessagesProps): JSX.Element {

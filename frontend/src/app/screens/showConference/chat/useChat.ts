@@ -1,5 +1,6 @@
 import { MutableRefObject, useCallback, useEffect, useRef } from 'react';
 import { Strophe } from 'strophe.js';
+import 'strophejs-plugin-muc';
 import {
   JITSI_BOSH_URL,
   JITSI_JID,

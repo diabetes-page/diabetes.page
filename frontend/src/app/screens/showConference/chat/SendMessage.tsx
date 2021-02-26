@@ -6,7 +6,6 @@ import {
   View,
 } from 'react-native';
 import { Button } from 'react-native-paper';
-import 'strophejs-plugin-muc';
 import { StandardTextInput } from '../../../../components/StandardTextInput';
 import { SendMessageFunction } from './useChat';
 

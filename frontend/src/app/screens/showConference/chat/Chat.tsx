@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import { View } from 'react-native';
-import 'strophejs-plugin-muc';
 import { SendMessage } from './SendMessage';
 import { ShowMessages } from './ShowMessages';
 import { useChat } from './useChat';
