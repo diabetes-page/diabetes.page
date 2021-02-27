@@ -1,12 +1,18 @@
 import { useEffect, useRef } from 'react';
 import { WEBSOCKET_URL } from '../../../../config/networking';
-import { UPDATE_CONFERENCE } from '../../../../redux/live/actions';
+import {
+  SET_SEND_TO_WEB_SOCKET,
+  UPDATE_CONFERENCE,
+} from '../../../../redux/live/actions';
+import {
+  SocketPayload,
+  SOCKET_AUTHENTICATE,
+} from '../../../../redux/live/SocketPayload';
 import {
   SafeDispatch,
   useSafeDispatch,
   useSelector,
 } from '../../../../redux/root/hooks';
-import { SocketPayload, SOCKET_AUTHENTICATE } from '../socket/SocketPayload';
 
 export const useCreateWebSocket = (): void => {
   const dispatch = useSafeDispatch();
@@ -14,28 +20,32 @@ export const useCreateWebSocket = (): void => {
   const webSocket = useRef<WebSocket>();
 
   useEffect(() => {
-    webSocket.current?.close();
+    removeWebSocket(webSocket.current, dispatch);
 
     if (conferenceToken) {
       webSocket.current = buildWebSocket(conferenceToken, dispatch);
     }
 
-    return () => void webSocket.current?.close();
+    return () => void removeWebSocket(webSocket.current, dispatch);
   }, [dispatch, conferenceToken]);
 };
 
-// Todo: Refactor into own file
 function buildWebSocket(
   conferenceToken: string,
   dispatch: SafeDispatch,
 ): WebSocket {
   const socket = new WebSocket(WEBSOCKET_URL);
-  const sendToSocket = (payload: SocketPayload): void =>
-    socket.send(JSON.stringify(payload));
+  const sendToWebSocket = (payload: SocketPayload): void =>
+    socket?.send(JSON.stringify(payload));
   // Todo: Deal with WebSocket errors
 
+  dispatch({
+    type: SET_SEND_TO_WEB_SOCKET,
+    sendToWebSocket,
+  });
+
   socket.addEventListener('open', () =>
-    sendToSocket({
+    sendToWebSocket({
       event: SOCKET_AUTHENTICATE,
       data: { conferenceToken },
     }),
@@ -49,4 +59,20 @@ function buildWebSocket(
   });
 
   return socket;
+}
+
+function removeWebSocket(
+  socket: WebSocket | undefined,
+  dispatch: SafeDispatch,
+): void {
+  if (!socket) {
+    return;
+  }
+
+  socket.close();
+
+  dispatch({
+    type: SET_SEND_TO_WEB_SOCKET,
+    sendToWebSocket: undefined,
+  });
 }

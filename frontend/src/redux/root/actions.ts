@@ -2,6 +2,7 @@ import {
   EndConference,
   SetAppointment,
   SetConferenceToken,
+  SetSendToWebSocket,
   UpdateConference,
 } from '../live/actions';
 import {
@@ -25,4 +26,5 @@ export type Action =
   | UpdateConference
   | EndConference
   | SetConferenceToken
-  | SetAppointment;
+  | SetAppointment
+  | SetSendToWebSocket;

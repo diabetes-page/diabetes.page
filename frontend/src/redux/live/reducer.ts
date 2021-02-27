@@ -3,6 +3,7 @@ import {
   END_CONFERENCE,
   SET_APPOINTMENT,
   SET_CONFERENCE_TOKEN,
+  SET_SEND_TO_WEB_SOCKET,
   UPDATE_CONFERENCE,
 } from './actions';
 import { LiveState } from './state';
@@ -38,6 +39,11 @@ export const live = (
       return {
         ...state,
         appointment: action.appointment,
+      };
+    case SET_SEND_TO_WEB_SOCKET:
+      return {
+        ...state,
+        sendToWebSocket: action.sendToWebSocket,
       };
     default:
       return state;
