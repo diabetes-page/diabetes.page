@@ -1,18 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { ActivityIndicator } from 'react-native-paper';
 import { StandardScreen } from '../../../components/StandardScreen';
-import { WEBSOCKET_URL } from '../../../config/networking';
 import {
   SET_APPOINTMENT,
   SET_CONFERENCE_TOKEN,
-  UPDATE_CONFERENCE,
 } from '../../../redux/live/actions';
-import {
-  SafeDispatch,
-  useSafeDispatch,
-  useSelector,
-} from '../../../redux/root/hooks';
+import { useSafeDispatch, useSelector } from '../../../redux/root/hooks';
 import { requests } from '../../../utilities/requests/requests';
+import { useCreateWebSocket } from './hooks/useCreateWebSocket';
 import { ConferenceWrapper } from './wrapper/ConferenceWrapper';
 
 type ShowConferenceParams = {
@@ -44,12 +39,12 @@ export function ShowConference({ route }: ShowConferenceParams): JSX.Element {
 }
 
 const useLive = (appointmentId: number): void => {
-  useConferenceToken(appointmentId);
-  useAppointment(appointmentId);
-  useConferenceWebSocket();
+  useFetchConferenceToken(appointmentId);
+  useFetchAppointment(appointmentId);
+  useCreateWebSocket();
 };
 
-const useConferenceToken = (appointmentId: number): void => {
+const useFetchConferenceToken = (appointmentId: number): void => {
   const dispatch = useSafeDispatch();
 
   useEffect(
@@ -64,7 +59,7 @@ const useConferenceToken = (appointmentId: number): void => {
   );
 };
 
-const useAppointment = (appointmentId: number): void => {
+const useFetchAppointment = (appointmentId: number): void => {
   const dispatch = useSafeDispatch();
 
   useEffect(
@@ -78,48 +73,3 @@ const useAppointment = (appointmentId: number): void => {
     [dispatch, appointmentId],
   );
 };
-
-const useConferenceWebSocket = (): void => {
-  const dispatch = useSafeDispatch();
-  const conferenceToken = useSelector((state) => state.live.conferenceToken);
-  const webSocket = useRef<WebSocket>();
-
-  useEffect(() => {
-    webSocket.current?.close();
-
-    if (conferenceToken) {
-      webSocket.current = buildWebSocket(conferenceToken, dispatch);
-    }
-
-    return () => void webSocket.current?.close();
-  }, [dispatch, conferenceToken]);
-};
-
-// Todo: Refactor into own file
-function buildWebSocket(
-  conferenceToken: string,
-  dispatch: SafeDispatch,
-): WebSocket {
-  const socket = new WebSocket(WEBSOCKET_URL);
-  // Todo: Deal with WebSocket errors
-
-  socket.addEventListener('open', () => {
-    socket.send(
-      JSON.stringify({
-        event: 'authenticate',
-        data: {
-          conferenceToken,
-        },
-      }),
-    );
-  });
-
-  socket.addEventListener('message', function (event) {
-    dispatch({
-      type: UPDATE_CONFERENCE,
-      conference: JSON.parse(event.data),
-    });
-  });
-
-  return socket;
-}
