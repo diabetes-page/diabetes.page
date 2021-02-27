@@ -1,4 +1,5 @@
 import { Expose, Type } from 'class-transformer';
+import { mapPromises } from '../../../../utilities/promises';
 import { User } from '../../entities/User.entity';
 import { SensitiveDataUserResource } from '../../resources/SensitiveDataUserResource';
 
@@ -7,7 +8,11 @@ export class Resource {
   @Type(() => SensitiveDataUserResource)
   users: SensitiveDataUserResource[];
 
-  static make = (users: User[]): Resource => {
-    return { users };
+  static make = async (users: User[]): Promise<Resource> => {
+    return {
+      users: await mapPromises(users, (user) =>
+        SensitiveDataUserResource.make(user),
+      ),
+    };
   };
 }

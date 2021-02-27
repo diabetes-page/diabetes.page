@@ -11,7 +11,21 @@ export class SensitiveDataUserResource {
   @Expose()
   email: string;
 
-  static make = (user: User): SensitiveDataUserResource => {
-    return user;
+  @Expose()
+  isConsultant: boolean;
+
+  @Expose()
+  isManager: boolean;
+
+  static make = async (user: User): Promise<SensitiveDataUserResource> => {
+    const consultant = user.asConsultant || (await user.loadAsConsultant());
+    const manager =
+      consultant?.asManager || (await consultant?.loadAsManager());
+
+    return {
+      ...user,
+      isConsultant: !!consultant,
+      isManager: !!manager,
+    };
   };
 }

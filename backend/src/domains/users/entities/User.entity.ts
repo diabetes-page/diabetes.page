@@ -49,6 +49,7 @@ export class User extends BaseEntity {
 
   @OneToOne(() => Consultant, (consultant) => consultant.user)
   asConsultant: Consultant | null;
+
   async loadAsConsultant(): Promise<Consultant | null> {
     return (this.asConsultant =
       (await loadNullableSingularRelation(this, 'asConsultant')) || null);

@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import {
   loadNotNullSingularRelation,
+  loadNullableSingularRelation,
   loadPluralRelation,
 } from '../../../utilities/relations';
 import { Appointment } from '../../appointments/entities/Appointment.entity';
@@ -52,6 +53,11 @@ export class Consultant extends BaseEntity {
 
   @OneToOne(() => Manager, (manager) => manager.consultant)
   asManager: Manager | null;
+
+  async loadAsManager(): Promise<Manager | null> {
+    return (this.asManager =
+      (await loadNullableSingularRelation(this, 'asManager')) || null);
+  }
 
   @CreateDateColumn()
   createdAt: Date;

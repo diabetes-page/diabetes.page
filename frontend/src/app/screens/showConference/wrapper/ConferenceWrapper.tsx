@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import { View } from 'react-native';
 import { StandardScreen } from '../../../../components/StandardScreen';
 import { renderIf } from '../../../../utilities/misc/rendering';
 import { Chat } from '../chat/Chat';
@@ -15,12 +14,10 @@ export function ConferenceWrapper(): JSX.Element {
   return (
     <StandardScreen>
       <Presentation />
-      <View>
-        <Jitsi onLoad={onJitsiLoad} />
-        {renderIf(jitsiLoaded)(() => (
-          <Chat />
-        ))}
-      </View>
+      <Jitsi onLoad={onJitsiLoad} />
+      {renderIf(jitsiLoaded)(() => (
+        <Chat />
+      ))}
     </StandardScreen>
   );
 }

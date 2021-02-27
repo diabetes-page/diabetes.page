@@ -25,6 +25,7 @@ export type CreateAppointmentResource = BackendCreateAppointmentResource;
 export type IndexAppointmentsForUserResource = BackendIndexAppointmentsForUserResource;
 export type CheckAuthStatusResource = BackendCheckAuthStatusResource;
 export type LoginResource = BackendLoginResource;
+
 export type LoginParameters = {
   email: string;
   password: string;
