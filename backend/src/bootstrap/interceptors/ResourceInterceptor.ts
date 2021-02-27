@@ -5,6 +5,7 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { classToPlain, plainToClass } from 'class-transformer';
+import { ClassType } from 'class-transformer/ClassTransformer';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ResourceController } from '../../blueprints/controllers/ResourceController';
@@ -38,12 +39,16 @@ export class ResourceInterceptor implements NestInterceptor {
 
     return next
       .handle()
-      .pipe(map((value) => this.mapResource(value, controllerClass)));
+      .pipe(
+        map((value) =>
+          ResourceInterceptor.mapResource(value, controllerClass.Resource),
+        ),
+      );
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types,@typescript-eslint/ban-types
-  mapResource(value: any, controllerClass: any): Object {
-    const asClass = plainToClass(controllerClass.Resource, value);
+  static mapResource(value: any, resource: ClassType<any>): Object {
+    const asClass = plainToClass(resource, value);
 
     return classToPlain(asClass, {
       strategy: 'excludeAll',

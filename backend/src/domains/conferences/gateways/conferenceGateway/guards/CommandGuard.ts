@@ -1,6 +1,6 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { CanActivate } from '@nestjs/common/interfaces';
-import { ConferenceClient } from '../../types/ConferenceClient';
+import { ConferenceClient } from '../../../types/ConferenceClient';
 @Injectable()
 export class CommandGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {

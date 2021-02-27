@@ -1,9 +1,9 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { CanActivate } from '@nestjs/common/interfaces';
 import { JwtService } from '@nestjs/jwt';
-import { Appointment } from '../../../appointments/entities/Appointment.entity';
-import { ConferenceClient } from '../../types/ConferenceClient';
-import { ConferenceTokenPayload } from '../../types/ConferenceTokenPayload';
+import { Appointment } from '../../../../appointments/entities/Appointment.entity';
+import { ConferenceClient } from '../../../types/ConferenceClient';
+import { ConferenceTokenPayload } from '../../../types/ConferenceTokenPayload';
 
 type conferenceAuthData = { conferenceToken: string | undefined } | undefined;
 
