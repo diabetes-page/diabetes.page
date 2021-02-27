@@ -1,9 +1,17 @@
-export const SOCKET_AUTHENTICATE = 'SOCKET_AUTHENTICATE';
+export const SOCKET_AUTHENTICATE = 'authenticate';
 export interface SocketAuthenticate {
-    event: typeof SOCKET_AUTHENTICATE;
-    data: {
-        conferenceToken: string;
-    };
+  event: typeof SOCKET_AUTHENTICATE;
+  data: {
+    conferenceToken: string;
+  };
 }
 
-export type SocketPayload = SocketAuthenticate;
+export const SOCKET_SWITCH_SLIDE = 'switch-slide';
+export interface SocketSwitchSlide {
+  event: typeof SOCKET_SWITCH_SLIDE;
+  data: {
+    slideIndex: number;
+  };
+}
+
+export type SocketPayload = SocketAuthenticate | SocketSwitchSlide;

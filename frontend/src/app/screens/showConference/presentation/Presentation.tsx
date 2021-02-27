@@ -9,6 +9,7 @@ import {
   FullTrainingResource,
   requests,
 } from '../../../../utilities/requests/requests';
+import { Controls } from './Controls';
 import { Slide } from './Slide';
 
 export const Presentation = (): JSX.Element => {
@@ -26,6 +27,7 @@ export const Presentation = (): JSX.Element => {
   return (
     <View>
       <Slide training={training} />
+      <Controls training={training} />
     </View>
   );
 };
