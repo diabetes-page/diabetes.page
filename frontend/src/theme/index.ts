@@ -19,6 +19,9 @@ export const theme = {
     card: '#FFFFFF',
     notification: 'green',
     border: '#E0E0E0',
+
+    // Custom use
+    grey: '#E0E0E0',
   },
 };
 

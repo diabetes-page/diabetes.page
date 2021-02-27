@@ -1,6 +1,8 @@
 import React, { RefObject, useEffect, useRef } from 'react';
 import { View } from 'react-native';
 import { JITSI_DOMAIN } from '../../../../config/jitsi';
+import { JITSI_HEIGHT, JITSI_WIDTH } from '../../../../config/style';
+import { theme } from '../../../../theme';
 import { useConferenceRoomAndToken } from '../hooks/useConferenceRoomAndToken';
 import JitsiApi from './JitsiApi';
 
@@ -31,12 +33,14 @@ const useJitsi = (onLoad: () => void, parentNode: RefObject<View>): void => {
       roomName: conferenceRoom,
       jwt: conferenceToken,
       parentNode: parentNode.current,
-      width: 700, // todo: figure out width/height
-      height: 700,
+      width: JITSI_WIDTH,
+      height: JITSI_HEIGHT,
       interfaceConfigOverwrite: {
         TOOLBAR_BUTTONS: ['microphone', 'camera', 'stats'],
         TOOLBAR_ALWAYS_VISIBLE: true,
         DISABLE_VIDEO_BACKGROUND: true,
+        DEFAULT_BACKGROUND: theme.colors.background,
+        DEFAULT_REMOTE_DISPLAY_NAME: '(chat client)',
       },
     };
     jitsi.current = new JitsiApi(JITSI_DOMAIN, options);

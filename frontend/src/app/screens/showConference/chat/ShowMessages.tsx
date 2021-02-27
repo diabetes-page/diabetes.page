@@ -1,18 +1,22 @@
 import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { UNIT } from '../../../../config/style';
 
 type ShowMessagesProps = { messages: string[] };
 export function ShowMessages({ messages }: ShowMessagesProps): JSX.Element {
   return (
-    <>
-      <Text style={styles.heading}>Chat</Text>
+    <View style={styles.showMessageWrapper}>
       {messages.map((message, index) => (
         <Text key={index}>{message}</Text>
       ))}
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  heading: { fontWeight: 'bold' },
+  showMessageWrapper: {
+    padding: UNIT * 2,
+    flex: 1,
+    overflowY: 'auto',
+  },
 });
