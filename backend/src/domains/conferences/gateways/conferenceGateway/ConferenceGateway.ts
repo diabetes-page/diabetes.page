@@ -11,7 +11,8 @@ import { ResourceInterceptor } from '../../../../bootstrap/interceptors/Resource
 import { Appointment } from '../../../appointments/entities/Appointment.entity';
 import { ConferenceResource } from '../../resources/ConferenceResource';
 import { ConferenceClient } from '../../types/ConferenceClient';
-import { ConferenceAuth } from './ConferenceAuth';
+import { CommandGuard } from './CommandGuard';
+import { LoginGuard } from './LoginGuard';
 
 @Controller()
 @WebSocketGateway({ path: '/conferences' })
@@ -23,7 +24,7 @@ export class ConferenceGateway extends ResourceController {
 
   // Todo: Generate requests code for this
   @InsecureRoute() // This disables the default JWT auth, we use an auth based on the conference token here
-  @UseGuards(ConferenceAuth)
+  @UseGuards(LoginGuard)
   @SubscribeMessage('authenticate')
   async authenticate(
     client: ConferenceClient,
@@ -36,5 +37,17 @@ export class ConferenceGateway extends ResourceController {
     }
 
     return ConferenceResource.make(appointment);
+  }
+
+  @InsecureRoute()
+  @UseGuards(CommandGuard)
+  @SubscribeMessage('switch-slide')
+  async switchSlide(client: ConferenceClient): Promise<void> {
+    const appointment = await Appointment.findOne(client.appointmentId);
+
+    if (!appointment) {
+      client.terminate();
+      return;
+    }
   }
 }
