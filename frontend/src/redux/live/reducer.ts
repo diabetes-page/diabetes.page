@@ -5,14 +5,14 @@ import {
   SET_CONFERENCE_TOKEN,
   UPDATE_CONFERENCE,
 } from './actions';
-import { ConferenceState } from './state';
+import { LiveState } from './state';
 
-const initialState: ConferenceState = {};
+const initialState: LiveState = {};
 
 export const live = (
-  state: ConferenceState = initialState,
+  state: LiveState = initialState,
   action: Action,
-): ConferenceState => {
+): LiveState => {
   switch (action.type) {
     case UPDATE_CONFERENCE:
       if (

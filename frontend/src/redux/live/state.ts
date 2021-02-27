@@ -3,10 +3,10 @@ import {
   ConferenceResource,
 } from '../../utilities/requests/requests';
 
-export type FilledConferenceState = {
+export type FilledLiveState = {
   conference: ConferenceResource;
   appointment: AppointmentResource;
   conferenceToken: string;
 };
 
-export type ConferenceState = Partial<FilledConferenceState>;
+export type LiveState = Partial<FilledLiveState>;
