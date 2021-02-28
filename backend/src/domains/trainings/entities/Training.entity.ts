@@ -22,8 +22,8 @@ import { Consultant } from '../../users/entities/Consultant.entity';
 @Entity()
 @Unique(['name', 'creator'])
 export class Training extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   name: string;

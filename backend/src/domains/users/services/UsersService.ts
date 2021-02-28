@@ -7,7 +7,7 @@ import { User } from '../entities/User.entity';
 export class UsersService {
   constructor(private configService: ConfigService) {}
 
-  async get(id: number): Promise<User | undefined> {
+  async get(id: string): Promise<User | undefined> {
     return User.findOne({ where: { id } });
   }
 

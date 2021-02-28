@@ -6,7 +6,7 @@ export class Resource {
   authenticated: boolean;
 
   @Expose()
-  userId: number;
+  userId: string;
 
   static make = (user: User): Resource => {
     return { authenticated: true, userId: user.id };

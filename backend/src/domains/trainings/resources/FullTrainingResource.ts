@@ -6,7 +6,7 @@ import { Training } from '../entities/Training.entity';
 
 export class FullTrainingResource {
   @Expose()
-  id: number;
+  id: string;
 
   @Expose()
   name: string;

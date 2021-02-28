@@ -18,8 +18,8 @@ import { Consultant } from './Consultant.entity';
 
 @Entity()
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ unique: true })
   email: string;

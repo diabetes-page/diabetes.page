@@ -3,7 +3,7 @@ import { TeachingBaseDocument } from '../entities/TeachingBaseDocument.entity';
 
 export class TeachingBaseDocumentResource {
   @Expose()
-  id: number;
+  id: string;
 
   @Expose()
   name: string;

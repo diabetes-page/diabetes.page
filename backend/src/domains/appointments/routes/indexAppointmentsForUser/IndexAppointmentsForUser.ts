@@ -14,10 +14,10 @@ export class IndexAppointmentsForUser extends ResourceController {
     super();
   }
 
-  @UseGuards(new ConsultantOrTargetsSelf('id'))
-  @Get('/users/:id/appointments')
+  @UseGuards(new ConsultantOrTargetsSelf('userId'))
+  @Get('/users/:userId/appointments')
   async serve(
-    @Param(new EntityById(User, 'id')) user: User,
+    @Param(new EntityById(User, 'userId')) user: User,
   ): Promise<Resource> {
     const appointments = await this.appointmentsService.forUser(user);
 

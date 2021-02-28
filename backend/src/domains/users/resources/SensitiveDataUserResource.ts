@@ -3,7 +3,7 @@ import { User } from '../entities/User.entity';
 
 export class SensitiveDataUserResource {
   @Expose()
-  id: number;
+  id: string;
 
   @Expose()
   name: string;

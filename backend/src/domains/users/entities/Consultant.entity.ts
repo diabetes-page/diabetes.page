@@ -22,8 +22,8 @@ import { User } from './User.entity';
 
 @Entity()
 export class Consultant extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @OneToOne(() => User, {
     nullable: false,

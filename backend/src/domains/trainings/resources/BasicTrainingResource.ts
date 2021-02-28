@@ -3,7 +3,7 @@ import { Training } from '../entities/Training.entity';
 
 export class BasicTrainingResource {
   @Expose()
-  id: number;
+  id: string;
 
   @Expose()
   name: string;

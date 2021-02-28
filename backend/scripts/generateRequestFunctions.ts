@@ -142,7 +142,7 @@ class RequestFinder {
       return;
     }
     const contents = fs.readFileSync(path, 'utf8');
-    const regex = /class\s+Parameters[^\{]+{([\s\S]+)}/;
+    const regex = /class\s+Parameters[^{]+{([\s\S]+)}/;
     const regexMatch = contents.match(regex);
     if (!regexMatch) {
       throw new Error('Could not find parameters in path: ' + path);
@@ -159,7 +159,7 @@ class RequestFinder {
     requestDataParameters: string | undefined,
     resource: string,
   ): void {
-    const requestArguments = urlParams.map((p) => `${p}: number`);
+    const requestArguments = urlParams.map((p) => `${p}: string`);
 
     if (requestDataParameters) {
       this.types.push(
