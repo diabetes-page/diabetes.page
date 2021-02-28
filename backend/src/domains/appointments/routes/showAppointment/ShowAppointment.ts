@@ -9,9 +9,10 @@ export class ShowAppointment extends ResourceController {
   public static Resource = AppointmentResource;
 
   // todo: authorization
-  @Get('/appointments/:id')
+  @Get('/appointments/:appointmentId')
   async serve(
-    @Param(new EntityById(Appointment, 'id')) appointment: Appointment,
+    @Param(new EntityById(Appointment, 'appointmentId'))
+    appointment: Appointment,
   ): Promise<AppointmentResource> {
     return AppointmentResource.make(appointment);
   }

@@ -52,14 +52,14 @@ export const requests = {
   > => Post(`/appointments`, await withAuth()),
 
   indexAppointmentsForUser: async (
-    userId: number,
+    userId: string,
   ): Promise<AxiosResponse<IndexAppointmentsForUserResource>> =>
     Get(`/users/${userId}/appointments`, await withAuth()),
 
   showAppointment: async (
-    id: number,
+    appointmentId: string,
   ): Promise<AxiosResponse<AppointmentResource>> =>
-    Get(`/appointments/${id}`, await withAuth()),
+    Get(`/appointments/${appointmentId}`, await withAuth()),
 
   checkAuthStatus: async (): Promise<AxiosResponse<CheckAuthStatusResource>> =>
     Get(`/auth/status`, await withAuth()),
@@ -73,12 +73,12 @@ export const requests = {
     Post(`/auth/register`, data, await withAuth()),
 
   showConferenceToken: async (
-    appointmentId: number,
+    appointmentId: string,
   ): Promise<AxiosResponse<ShowConferenceTokenResource>> =>
     Get(`/appointments/${appointmentId}/conference/token`, await withAuth()),
 
   showTraining: async (
-    appointmentId: number,
+    appointmentId: string,
   ): Promise<AxiosResponse<FullTrainingResource>> =>
     Get(`/appointments/${appointmentId}/training`, await withAuth()),
 
@@ -86,7 +86,7 @@ export const requests = {
     Get(`/users`, await withAuth()),
 
   showUser: async (
-    id: number,
+    userId: string,
   ): Promise<AxiosResponse<SensitiveDataUserResource>> =>
-    Get(`/users/${id}`, await withAuth()),
+    Get(`/users/${userId}`, await withAuth()),
 };

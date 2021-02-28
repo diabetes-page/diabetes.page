@@ -9,10 +9,10 @@ import { SensitiveDataUserResource } from '../../resources/SensitiveDataUserReso
 export class ShowUser extends ResourceController {
   public static Resource = SensitiveDataUserResource;
 
-  @UseGuards(new ConsultantOrTargetsSelf('id'))
-  @Get('/users/:id')
+  @UseGuards(new ConsultantOrTargetsSelf('userId'))
+  @Get('/users/:userId')
   async serve(
-    @Param(new EntityById(User, 'id'))
+    @Param(new EntityById(User, 'userId'))
     user: User,
   ): Promise<SensitiveDataUserResource> {
     return SensitiveDataUserResource.make(user);

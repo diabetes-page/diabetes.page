@@ -13,7 +13,7 @@ import { ConferenceWrapper } from './wrapper/ConferenceWrapper';
 type ShowConferenceParams = {
   route: {
     params: {
-      id: number;
+      id: string;
     };
   };
 };
@@ -38,13 +38,13 @@ export function ShowConference({ route }: ShowConferenceParams): JSX.Element {
   return <ConferenceWrapper />;
 }
 
-const useLive = (appointmentId: number): void => {
+const useLive = (appointmentId: string): void => {
   useFetchConferenceToken(appointmentId);
   useFetchAppointment(appointmentId);
   useCreateWebSocket();
 };
 
-const useFetchConferenceToken = (appointmentId: number): void => {
+const useFetchConferenceToken = (appointmentId: string): void => {
   const dispatch = useSafeDispatch();
 
   useEffect(
@@ -59,7 +59,7 @@ const useFetchConferenceToken = (appointmentId: number): void => {
   );
 };
 
-const useFetchAppointment = (appointmentId: number): void => {
+const useFetchAppointment = (appointmentId: string): void => {
   const dispatch = useSafeDispatch();
 
   useEffect(
