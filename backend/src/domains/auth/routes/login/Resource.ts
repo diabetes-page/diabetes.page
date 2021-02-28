@@ -10,7 +10,7 @@ export class Resource {
   @Type(() => SensitiveDataUserResource)
   user: SensitiveDataUserResource;
 
-  static make(token: string, user: User): Resource {
-    return { token, user };
+  static async make(token: string, user: User): Promise<Resource> {
+    return { token, user: await SensitiveDataUserResource.make(user) };
   }
 }

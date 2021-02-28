@@ -1,8 +1,14 @@
-import { ConferenceResource } from '../../utilities/requests/requests';
+import {
+  AppointmentResource,
+  ConferenceResource,
+} from '../../utilities/requests/requests';
+import { SocketPayload } from './SocketPayload';
 
-export type FilledConferenceState = {
+export type FilledLiveState = {
   conference: ConferenceResource;
+  appointment: AppointmentResource;
   conferenceToken: string;
+  sendToWebSocket: (payload: SocketPayload) => void;
 };
 
-export type ConferenceState = Partial<FilledConferenceState>;
+export type LiveState = Partial<FilledLiveState>;

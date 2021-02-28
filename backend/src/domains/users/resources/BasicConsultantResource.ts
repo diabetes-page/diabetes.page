@@ -13,7 +13,7 @@ export class BasicConsultantResource {
   static make = async (
     consultant: Consultant,
   ): Promise<BasicConsultantResource> => {
-    await consultant.loadUser();
+    consultant.user || (await consultant.loadUser());
     return consultant;
   };
 }

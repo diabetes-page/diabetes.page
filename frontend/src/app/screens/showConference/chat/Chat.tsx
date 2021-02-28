@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import { View } from 'react-native';
-import 'strophejs-plugin-muc';
+import { StyleSheet, View } from 'react-native';
+import { Card } from 'react-native-paper';
+import { CHAT_HEIGHT } from '../../../../config/style';
 import { SendMessage } from './SendMessage';
 import { ShowMessages } from './ShowMessages';
 import { useChat } from './useChat';
@@ -14,9 +15,21 @@ export function Chat(): JSX.Element {
   const sendMessage = useChat(displayMessage);
 
   return (
-    <View>
-      <ShowMessages messages={messages} />
-      <SendMessage sendMessage={sendMessage} />
-    </View>
+    <Card style={styles.messagesBox}>
+      <View style={styles.messagesWrapper}>
+        <ShowMessages messages={messages} />
+        <SendMessage sendMessage={sendMessage} />
+      </View>
+    </Card>
   );
 }
+
+const styles = StyleSheet.create({
+  messagesBox: {
+    height: CHAT_HEIGHT,
+  },
+  messagesWrapper: {
+    height: CHAT_HEIGHT,
+    flexDirection: 'column',
+  },
+});

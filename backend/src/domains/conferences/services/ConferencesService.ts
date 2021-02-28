@@ -13,6 +13,19 @@ export class ConferencesService {
     private configService: ConfigService,
   ) {}
 
+  async switchSlide(
+    appointment: Appointment,
+    slideIndex: number,
+  ): Promise<void> {
+    // Make sure slideIndex is always a valid index in training.slide
+    const training = await appointment.loadTraining();
+    const mod = training ? training.slides.length : 1;
+    // Same as regular modulo, but guarantess non-negative result
+    appointment.slideIndex = (mod + (slideIndex % mod)) % mod;
+
+    await appointment.save();
+  }
+
   async createToken(appointment: Appointment, user: User): Promise<string> {
     const consultant = await user.loadAsConsultant();
     const payload: ConferenceTokenPayload = {

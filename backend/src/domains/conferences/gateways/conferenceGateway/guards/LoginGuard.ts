@@ -1,14 +1,14 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { CanActivate } from '@nestjs/common/interfaces';
 import { JwtService } from '@nestjs/jwt';
-import { Appointment } from '../../../appointments/entities/Appointment.entity';
-import { ConferenceClient } from '../../types/ConferenceClient';
-import { ConferenceTokenPayload } from '../../types/ConferenceTokenPayload';
+import { Appointment } from '../../../../appointments/entities/Appointment.entity';
+import { ConferenceClient } from '../../../types/ConferenceClient';
+import { ConferenceTokenPayload } from '../../../types/ConferenceTokenPayload';
 
 type conferenceAuthData = { conferenceToken: string | undefined } | undefined;
 
 @Injectable()
-export class ConferenceAuth implements CanActivate {
+export class LoginGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -17,7 +17,7 @@ export class ConferenceAuth implements CanActivate {
     const data: conferenceAuthData = ws.getData();
 
     if (!client || !data?.conferenceToken) {
-      return ConferenceAuth.failAuthentication(client);
+      return LoginGuard.failAuthentication(client);
     }
 
     const [verificationResult, payload] = await this.verifyConferenceToken(
@@ -25,21 +25,21 @@ export class ConferenceAuth implements CanActivate {
     );
 
     if (!verificationResult || !payload) {
-      return ConferenceAuth.failAuthentication(client);
+      return LoginGuard.failAuthentication(client);
     }
 
-    const setAppointmentResult = await ConferenceAuth.setAppointment(
+    const setAppointmentResult = await LoginGuard.setAppointment(
       client,
       payload,
     );
 
     if (!setAppointmentResult) {
-      return ConferenceAuth.failAuthentication(client);
+      return LoginGuard.failAuthentication(client);
     }
 
-    ConferenceAuth.awardRights(client, payload);
+    LoginGuard.awardRights(client, payload);
 
-    return ConferenceAuth.allowAuthentication(client);
+    return LoginGuard.allowAuthentication(client);
   }
 
   private async verifyConferenceToken(
