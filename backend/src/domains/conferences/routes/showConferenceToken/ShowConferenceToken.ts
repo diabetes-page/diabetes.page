@@ -16,9 +16,9 @@ export class ShowConferenceToken extends ResourceController {
   }
 
   // todo: check if user is assigned (or consultant), check appointment.startsAt / endsAt
-  @Get('/appointments/:id/conference/token')
+  @Get('/appointments/:appointmentId/conference/token')
   async serve(
-    @Param(new EntityById(Appointment, 'id'))
+    @Param(new EntityById(Appointment, 'appointmentId'))
     appointment: Appointment,
     @RequestUser() user: User,
   ): Promise<Resource> {

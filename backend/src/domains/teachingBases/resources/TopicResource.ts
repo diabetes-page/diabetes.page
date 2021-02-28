@@ -3,7 +3,7 @@ import { Topic } from '../entities/Topic.entity';
 
 export class TopicResource {
   @Expose()
-  id: number;
+  id: string;
 
   @Expose()
   name: string;

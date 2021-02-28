@@ -14,6 +14,6 @@ export class ConsultantOrTargetsSelf implements CanActivate {
       return true;
     }
 
-    return parseInt(request.params[this.param]) === user.id;
+    return request.params[this.param] === user.id;
   }
 }

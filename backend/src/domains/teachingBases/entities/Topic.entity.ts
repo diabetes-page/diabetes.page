@@ -20,8 +20,8 @@ import { TeachingBase } from './TeachingBase.entity';
 @Entity()
 @Unique(['teachingBase', 'name'])
 export class Topic extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ManyToOne(() => TeachingBase, (teachingBase) => teachingBase.topics, {
     nullable: false,

@@ -5,7 +5,7 @@ import { Appointment } from '../entities/Appointment.entity';
 
 export class AppointmentResource {
   @Expose()
-  id: number;
+  id: string;
 
   @Expose()
   @Type(() => BasicConsultantResource)

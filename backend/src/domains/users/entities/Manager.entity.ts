@@ -13,8 +13,8 @@ import { Consultant } from './Consultant.entity';
 
 @Entity()
 export class Manager extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @OneToOne(() => Consultant, {
     nullable: false,

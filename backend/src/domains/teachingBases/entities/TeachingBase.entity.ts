@@ -14,8 +14,8 @@ import { Topic } from './Topic.entity';
 
 @Entity()
 export class TeachingBase extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ unique: true })
   name: string;

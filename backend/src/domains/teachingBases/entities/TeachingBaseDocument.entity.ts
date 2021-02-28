@@ -21,8 +21,8 @@ import { TeachingBase } from './TeachingBase.entity';
 @Unique(['teachingBase', 'documentPath'])
 @Unique(['teachingBase', 'name'])
 export class TeachingBaseDocument extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ManyToOne(() => TeachingBase, (teachingBase) => teachingBase.documents, {
     nullable: false,

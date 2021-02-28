@@ -12,7 +12,7 @@ export type ConferenceTokenPayload = {
       isConsultant: boolean;
     };
     appointment: {
-      id: number;
+      id: string;
     };
   };
 };

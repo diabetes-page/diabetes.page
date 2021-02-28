@@ -4,7 +4,7 @@ import { BasicUserResource } from './BasicUserResource';
 
 export class BasicConsultantResource {
   @Expose()
-  id: number;
+  id: string;
 
   @Expose()
   @Type(() => BasicUserResource)

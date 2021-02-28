@@ -21,8 +21,8 @@ import { WorkingGroup } from '../../workingGroups/entities/WorkingGroup.entity';
 
 @Entity()
 export class Appointment extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ManyToOne(() => Training, (training) => training.appointments, {
     nullable: true,

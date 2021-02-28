@@ -19,8 +19,8 @@ import { User } from '../../users/entities/User.entity';
 @Entity()
 @Unique(['name', 'creator'])
 export class WorkingGroup extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   name: string;

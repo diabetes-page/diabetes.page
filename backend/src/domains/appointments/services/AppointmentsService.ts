@@ -7,7 +7,7 @@ import { Appointment } from '../entities/Appointment.entity';
 
 @Injectable()
 export class AppointmentsService {
-  async get(id: number): Promise<Appointment | undefined> {
+  async get(id: string): Promise<Appointment | undefined> {
     return Appointment.findOne({ where: { id } });
   }
 
