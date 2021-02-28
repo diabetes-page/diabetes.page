@@ -33,10 +33,16 @@ export class UsersService {
       this.configService.get<number>('security.bcryptSaltRounds', 10),
     );
 
+    const verificationToken = await hash(
+      Math.random().toString(),
+      this.configService.get<number>('security.bcryptSaltRounds', 10),
+    );
+
     return await User.create({
       name,
       email,
       password: passwordHash,
+      verificationToken: verificationToken,
     }).save();
   }
 }
