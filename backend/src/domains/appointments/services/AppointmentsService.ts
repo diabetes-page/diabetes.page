@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { flatten, uniqBy } from 'lodash';
 import { mapPromises } from '../../../utilities/promises';
+import { Training } from '../../trainings/entities/Training.entity';
+import { Consultant } from '../../users/entities/Consultant.entity';
 import { User } from '../../users/entities/User.entity';
 import { WorkingGroup } from '../../workingGroups/entities/WorkingGroup.entity';
 import { Appointment } from '../entities/Appointment.entity';
@@ -23,12 +25,19 @@ export class AppointmentsService {
     return uniqBy(appointmentsFlat, 'id');
   }
 
-  async add(startsAt: Date, endsAt: Date): Promise<Appointment> {
+  async add(
+    training: Training,
+    presenter: Consultant,
+    startsAt: Date,
+    endsAt: Date,
+  ): Promise<Appointment> {
     return await Appointment.create({
-      slideIndex: 0,
-      conferenceUpdateCounter: 0,
+      training,
+      presenter,
       startsAt,
       endsAt,
+      slideIndex: 0,
+      conferenceUpdateCounter: 0,
     }).save();
   }
 }

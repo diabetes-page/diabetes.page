@@ -17,6 +17,10 @@ Then(/^the request is successful$/, function () {
   expect(this.response.status).to.equal(HttpStatus.OK);
 });
 
+Then(/^the request is successful without response$/, function () {
+  expect(this.response.status).to.equal(HttpStatus.NO_CONTENT);
+});
+
 Then(/^the request is unauthenticated$/, function () {
   // Weirdly, HTTP 401 is called "Unauthorized" when it should be called "Unauthenticated", see
   // https://stackoverflow.com/questions/3297048/403-forbidden-vs-401-unauthorized-http-responses
