@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { flatten, uniqBy } from 'lodash';
+import { flatten } from 'lodash';
 import { mapPromises } from '../../../utilities/promises';
 import { Training } from '../../trainings/entities/Training.entity';
 import { Consultant } from '../../users/entities/Consultant.entity';
 import { User } from '../../users/entities/User.entity';
 import { WorkingGroup } from '../../workingGroups/entities/WorkingGroup.entity';
 import { Appointment } from '../entities/Appointment.entity';
+import { AppointmentInWorkingGroup } from '../types/AppointmentInWorkingGroup';
 
 @Injectable()
 export class AppointmentsService {
@@ -13,16 +14,19 @@ export class AppointmentsService {
     return Appointment.findOne({ where: { id } });
   }
 
-  async forUser(user: User): Promise<Appointment[]> {
+  async forUser(user: User): Promise<AppointmentInWorkingGroup[]> {
     const groups = await user.loadWorkingGroups();
 
-    const appointmentsDeep = await mapPromises(
+    const appointmentsDeep: AppointmentInWorkingGroup[][] = await mapPromises(
       groups,
-      async (group: WorkingGroup) => group.loadAppointments(),
+      async (workingGroup: WorkingGroup) =>
+        (await workingGroup.loadAppointments()).map((appointment) => ({
+          workingGroup,
+          appointment,
+        })),
     );
-    const appointmentsFlat = flatten(appointmentsDeep);
 
-    return uniqBy(appointmentsFlat, 'id');
+    return flatten(appointmentsDeep);
   }
 
   async add(

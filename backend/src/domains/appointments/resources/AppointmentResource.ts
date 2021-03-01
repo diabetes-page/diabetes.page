@@ -1,7 +1,8 @@
 import { Expose, Type } from 'class-transformer';
 import { BasicTrainingResource } from '../../trainings/resources/BasicTrainingResource';
 import { BasicConsultantResource } from '../../users/resources/BasicConsultantResource';
-import { Appointment } from '../entities/Appointment.entity';
+import { BasicWorkingGroupResource } from '../../workingGroups/resources/BasicWorkingGroupResource';
+import { AppointmentInWorkingGroup } from '../types/AppointmentInWorkingGroup';
 
 export class AppointmentResource {
   @Expose()
@@ -16,20 +17,26 @@ export class AppointmentResource {
   training: BasicTrainingResource | null;
 
   @Expose()
+  @Type(() => BasicWorkingGroupResource)
+  workingGroup: BasicWorkingGroupResource;
+
+  @Expose()
   startsAt: Date;
 
   @Expose()
   endsAt: Date;
 
-  static make = async (
-    appointment: Appointment,
-  ): Promise<AppointmentResource> => {
+  static make = async ({
+    appointment,
+    workingGroup,
+  }: AppointmentInWorkingGroup): Promise<AppointmentResource> => {
     await appointment.loadPresenter();
     await appointment.loadTraining();
 
     return {
       ...appointment,
       presenter: await BasicConsultantResource.make(appointment.presenter),
+      workingGroup: await BasicWorkingGroupResource.make(workingGroup),
       training:
         appointment.training &&
         (await BasicTrainingResource.make(appointment.training)),
