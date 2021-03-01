@@ -11,19 +11,24 @@ Feature: Show appointment
     And the teaching base "Computer Science 101" has a document named "Turing Machines textbook"
     And the topic "Turing Machines" has a training "Turing Machines by Walter White" created by "Walter White" based on the document "Turing Machines textbook"
     And the training "Turing Machines by Walter White" has an appointment with the following configuration:
-      | Presenter  | Walter White     |
-      | Start time | 2020-11-10T09:00 |
-      | End time   | 2020-11-10T15:30 |
-    And there is a working group "Best group" with description "..." created by "Walter White"
+      | Presenter  | Walter White           |
+      | Start time | 2020-11-10T09:00+01:00 |
+      | End time   | 2020-11-10T15:30+01:00 |
+    And there is a working group "Easy group" with description "This is an easy group" created by "Walter White"
 
-  Scenario: I can get a list my own appointments
+  Scenario: I can get display an appointment when I am assigned to it
     Given I am a user with name "Jesse Pinkman", E-Mail "test@example.com" and password "12345678"
     And I am logged in
-    And the user "Jesse Pinkman" is in the working group "Best group"
-    And the appointment presented by "Walter White" is assigned to the working group "Best group"
-    When I look at the appointment for the training "Turing Machines by Walter White" in the working group "Best group"
+    And the user "Jesse Pinkman" is in the working group "Easy group"
+    And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is assigned to the working group "Easy group"
+    When I request the appointment for the training "Turing Machines by Walter White" presented by "Walter White" in the working group "Easy group"
     Then the request is successful
-#    And the response contains an appointment with
+    And the response contains an appointment with the following attributes:
+      | Training      | Turing Machines by Walter White |
+      | Presenter     | Walter White                    |
+      | Start time    | 2020-11-10T08:00:00.000Z        |
+      | End time      | 2020-11-10T14:30:00.000Z        |
+      | Working group | Easy group                      |
 #
 #  Scenario: I cannot get a list of other people's appointments
 #    Given there is a user with name "Some guy" and E-Mail "a@b.com"

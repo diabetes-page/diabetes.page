@@ -8,6 +8,7 @@ import { Training } from '../domains/trainings/entities/Training.entity';
 import { User } from '../domains/users/entities/User.entity';
 import { WorkingGroup } from '../domains/workingGroups/entities/WorkingGroup.entity';
 import { seeder, testRequest } from './setup.steps';
+import { getAppointment } from './testingUtilities';
 
 Then(/^the request is rejected$/, function () {
   expect(this.response.status).to.equal(HttpStatus.BAD_REQUEST);
@@ -118,20 +119,16 @@ Given(
 );
 
 Given(
-  /^the appointment presented by "([^"]*)" is assigned to the working group "([^"]*)"$/,
-  async function (presenterName, workingGroupName) {
-    const appointments = await (await (await User.findOne({
-      name: presenterName,
-    }))!.loadAsConsultant())!.loadAppointments();
-    expect(appointments).to.have.length(1);
-
+  /^the appointment for the training "([^"]*)" presented by "([^"]*)" is assigned to the working group "([^"]*)"$/,
+  async function (trainingName, presenterName, workingGroupName) {
+    const appointment = await getAppointment(trainingName, presenterName);
     const workingGroup = (await WorkingGroup.findOne({
       name: workingGroupName,
     }))!;
 
     workingGroup.appointments = [
       ...(await workingGroup.loadAppointments()),
-      appointments[0],
+      appointment,
     ];
     await workingGroup.save();
   },
