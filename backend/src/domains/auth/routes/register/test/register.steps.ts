@@ -3,7 +3,7 @@ import { Then, When } from 'cucumber';
 import { testRequest } from '../../../../../test/setup.steps';
 
 When(
-  /^I register a new account with name "([^"]*)", E-Mail "([^"]*)" and password "([^"]*)"$/,
+  /^I register a new account with name "([^"]*)", e-mail "([^"]*)" and password "([^"]*)"$/,
   async function (name: string, email: string, password: string) {
     this.response = await testRequest('POST', '/auth/register', {
       name,
@@ -23,7 +23,7 @@ Then(
 );
 
 Then(
-  /^the reason for the rejection is that the E-Mail address has the wrong format$/,
+  /^the reason for the rejection is that the e-mail address has the wrong format$/,
   function () {
     expect(this.response.body.message).to.have.members([
       'email must be an email',
@@ -32,7 +32,7 @@ Then(
 );
 
 Then(
-  /^the reason for the rejection is that the E-Mail is already in use$/,
+  /^the reason for the rejection is that the e-mail is already in use$/,
   function () {
     expect(this.response.body.message).to.have.members([
       'User with this email already exists',

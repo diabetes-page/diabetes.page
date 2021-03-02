@@ -4,7 +4,7 @@ Feature: Get appointments for user
   I can get a list of my appointments
 
   Background:
-    Given there is a user with name "Walter White" and E-Mail "ww@example.com"
+    Given there is a user with name "Walter White" and e-mail "ww@example.com"
     And the user "Walter White" is a consultant
     And there is a teaching base called "Computer Science 101"
     And the teaching base "Computer Science 101" has a topic "Turing Machines"
@@ -14,7 +14,7 @@ Feature: Get appointments for user
     And there is a working group "Best group" with description "..." created by "Walter White"
 
   Scenario: I can get a list my own appointments
-    Given I am a user with name "Jesse Pinkman", E-Mail "test@example.com" and password "12345678"
+    Given I am a user with name "Jesse Pinkman", e-mail "test@example.com" and password "12345678"
     And I am logged in
     And the user "Jesse Pinkman" is in the working group "Best group"
     And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is assigned to the working group "Best group"
@@ -26,19 +26,19 @@ Feature: Get appointments for user
     And the appointment at index 0 has training "Turing Machines by Walter White"
 
   Scenario: I cannot get a list of other people's appointments
-    Given there is a user with name "Some guy" and E-Mail "a@b.com"
+    Given there is a user with name "Some guy" and e-mail "a@b.com"
     And the user "Some guy" is in the working group "Best group"
     And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is assigned to the working group "Best group"
-    And I am a user with name "Jesse Pinkman", E-Mail "test@example.com" and password "12345678"
+    And I am a user with name "Jesse Pinkman", e-mail "test@example.com" and password "12345678"
     And I am logged in
     When I request the appointments of the user "Some guy"
     Then the request is unauthorized
 
   Scenario: As a consultant, I can get a list of other people's appointments
-    Given there is a user with name "Some guy" and E-Mail "a@b.com"
+    Given there is a user with name "Some guy" and e-mail "a@b.com"
     And the user "Some guy" is in the working group "Best group"
     And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is assigned to the working group "Best group"
-    And I am a user with name "Jesse Pinkman", E-Mail "test@example.com" and password "12345678"
+    And I am a user with name "Jesse Pinkman", e-mail "test@example.com" and password "12345678"
     And the user "Jesse Pinkman" is a consultant
     And I am logged in
     When I request the appointments of the user "Some guy"

@@ -33,7 +33,7 @@ Then(/^the request is unauthorized$/, function () {
 });
 
 Given(
-  /^there is a user with name "([^"]*)" and E-Mail "([^"]*)"$/,
+  /^there is a user with name "([^"]*)" and e-mail "([^"]*)"$/,
   async function (name, email) {
     await seeder.userFactory.createUser({
       name,
@@ -43,7 +43,7 @@ Given(
 );
 
 Given(
-  /^I am a user with name "([^"]*)", E-Mail "([^"]*)" and password "([^"]*)"$/,
+  /^I am a user with name "([^"]*)", e-mail "([^"]*)" and password "([^"]*)"$/,
   async function (name, email, password) {
     this.user = await seeder.userFactory.createUser(
       {
