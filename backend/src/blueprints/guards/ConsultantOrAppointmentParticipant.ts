@@ -14,11 +14,6 @@ export class ConsultantOrAppointmentParticipant implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const user: User = request.user;
-    const isConsultant = !!(await user.loadAsConsultant());
-
-    if (isConsultant) {
-      return true;
-    }
 
     const workingGroupId: string | undefined =
       request.params[this.workingGroupIdParam];
@@ -40,17 +35,6 @@ export class ConsultantOrAppointmentParticipant implements CanActivate {
       return false;
     }
 
-    const userInWorkingGroup =
-      -1 !==
-      findIndex(
-        workingGroup.users,
-        (groupUser: User) => groupUser.id === user.id,
-      );
-
-    if (!userInWorkingGroup) {
-      return false;
-    }
-
     const appointmentInWorkingGroup =
       -1 !==
       findIndex(
@@ -59,6 +43,21 @@ export class ConsultantOrAppointmentParticipant implements CanActivate {
           appointmentGroup.id === workingGroup.id,
       );
 
-    return appointmentInWorkingGroup;
+    if (!appointmentInWorkingGroup) {
+      return false;
+    }
+
+    if (await user.loadAsConsultant()) {
+      return true;
+    }
+
+    const userInWorkingGroup =
+      -1 !==
+      findIndex(
+        workingGroup.users,
+        (groupUser: User) => groupUser.id === user.id,
+      );
+
+    return userInWorkingGroup;
   }
 }
