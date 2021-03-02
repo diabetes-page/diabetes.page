@@ -180,3 +180,17 @@ Given(
     await user.save();
   },
 );
+
+Given(
+  /^the training "([^"]*)" uses the following slides: "([^"]*)"$/,
+  async function (trainingName, slidesString) {
+    const training = (await Training.findOne({ name: trainingName }))!;
+    const slides = slidesString
+      .split(',')
+      .map((s: string) => parseInt(s.trim()));
+
+    await Training.update(training.id, {
+      slides: slides,
+    });
+  },
+);
