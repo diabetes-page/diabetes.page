@@ -1,11 +1,12 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
 import { RequestUser } from '../../../../blueprints/decorators/RequestUser';
-import { EntityById } from '../../../../blueprints/pipes/EntityById';
+import { ConsultantOrAppointmentParticipant } from '../../../../blueprints/guards/ConsultantOrAppointmentParticipant';
 import { Appointment } from '../../../appointments/entities/Appointment.entity';
 import { User } from '../../../users/entities/User.entity';
 import { ConferencesService } from '../../services/ConferencesService';
 import { Resource } from './Resource';
+import { RunningAppointmentById } from './RunningAppointmentById';
 
 @Controller()
 export class ShowConferenceToken extends ResourceController {
@@ -15,10 +16,14 @@ export class ShowConferenceToken extends ResourceController {
     super();
   }
 
-  // todo: check if user is assigned (or consultant), check appointment.startsAt / endsAt
-  @Get('/appointments/:appointmentId/conference/token')
+  @UseGuards(
+    new ConsultantOrAppointmentParticipant('workingGroupId', 'appointmentId'),
+  )
+  @Get(
+    '/working-groups/:workingGroupId/appointments/:appointmentId/conference/token',
+  )
   async serve(
-    @Param(new EntityById(Appointment, 'appointmentId'))
+    @Param(new RunningAppointmentById('appointmentId'))
     appointment: Appointment,
     @RequestUser() user: User,
   ): Promise<Resource> {
