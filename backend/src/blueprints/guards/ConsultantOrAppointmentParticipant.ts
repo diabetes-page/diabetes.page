@@ -1,8 +1,8 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { findIndex } from 'lodash';
-import { User } from '../../users/entities/User.entity';
-import { WorkingGroup } from '../../workingGroups/entities/WorkingGroup.entity';
-import { Appointment } from '../entities/Appointment.entity';
+import { Appointment } from '../../domains/appointments/entities/Appointment.entity';
+import { User } from '../../domains/users/entities/User.entity';
+import { WorkingGroup } from '../../domains/workingGroups/entities/WorkingGroup.entity';
 
 @Injectable()
 export class ConsultantOrAppointmentParticipant implements CanActivate {
