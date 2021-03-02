@@ -16,7 +16,7 @@ Feature: Show appointment
       | End time   | 2020-11-10T15:30+01:00 |
     And there is a working group "Easy group" with description "This is an easy group" created by "Walter White"
 
-  Scenario: As a participant, I can display an appointment if I am assigned to the correct working group
+  Scenario: As a participant, I can display an appointment
     Given I am a user with name "Jesse Pinkman", e-mail "test@example.com" and password "12345678"
     And the user "Jesse Pinkman" is in the working group "Easy group"
     And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is assigned to the working group "Easy group"

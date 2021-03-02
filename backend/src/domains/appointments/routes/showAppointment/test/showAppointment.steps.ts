@@ -1,27 +1,8 @@
 import { expect } from 'chai';
-import { Given, TableDefinition, Then, When } from 'cucumber';
-import { parseISO } from 'date-fns';
-import { seeder, testRequest } from '../../../../../test/setup.steps';
+import { TableDefinition, Then, When } from 'cucumber';
+import { testRequest } from '../../../../../test/setup.steps';
 import { getAppointment } from '../../../../../test/testingUtilities';
-import { Training } from '../../../../trainings/entities/Training.entity';
-import { User } from '../../../../users/entities/User.entity';
 import { WorkingGroup } from '../../../../workingGroups/entities/WorkingGroup.entity';
-
-Given(
-  /^the training "([^"]*)" has an appointment with the following configuration:$/,
-  async function (trainingName, configuration: TableDefinition) {
-    const dataHash = configuration.rowsHash();
-    const training = (await Training.findOne({ name: trainingName }))!;
-    const presenter = (await (await User.findOne({
-      name: dataHash.Presenter,
-    }))!.loadAsConsultant())!;
-
-    await seeder.appointmentFactory.createAppointment(training, presenter, {
-      startsAt: parseISO(dataHash['Start time']),
-      endsAt: parseISO(dataHash['End time']),
-    });
-  },
-);
 
 When(
   /^I request the appointment for the training "([^"]*)" presented by "([^"]*)" in the working group "([^"]*)"$/,

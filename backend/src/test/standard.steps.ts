@@ -1,6 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
 import { expect } from 'chai';
-import { Given, Then } from 'cucumber';
+import { Given, TableDefinition, Then } from 'cucumber';
+import { parseISO } from 'date-fns';
 import { TeachingBase } from '../domains/teachingBases/entities/TeachingBase.entity';
 import { TeachingBaseDocument } from '../domains/teachingBases/entities/TeachingBaseDocument.entity';
 import { Topic } from '../domains/teachingBases/entities/Topic.entity';
@@ -115,6 +116,22 @@ Given(
         name: presenterName,
       }))!.loadAsConsultant())!,
     );
+  },
+);
+
+Given(
+  /^the training "([^"]*)" has an appointment with the following configuration:$/,
+  async function (trainingName, configuration: TableDefinition) {
+    const dataHash = configuration.rowsHash();
+    const training = (await Training.findOne({ name: trainingName }))!;
+    const presenter = (await (await User.findOne({
+      name: dataHash.Presenter,
+    }))!.loadAsConsultant())!;
+
+    await seeder.appointmentFactory.createAppointment(training, presenter, {
+      startsAt: parseISO(dataHash['Start time']),
+      endsAt: parseISO(dataHash['End time']),
+    });
   },
 );
 
