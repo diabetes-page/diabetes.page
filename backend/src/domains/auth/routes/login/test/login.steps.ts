@@ -1,7 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
 import { expect } from 'chai';
-import { Then, When } from 'cucumber';
-import { testRequest } from '../../../../../test/setup.steps';
+import { Given, Then, When } from 'cucumber';
+import { seeder, testRequest } from '../../../../../test/setup.steps';
 
 Then(/^the response contains a token$/, function () {
   expect(this.response.body.token).to.be.a('string');
@@ -30,4 +30,8 @@ Then(/^the response contains the id, email and name of me$/, function () {
     name: this.user.name,
     email: this.user.email,
   });
+});
+
+Given(/^I have a verification token set$/, async function () {
+  return await seeder.userFactory.addVerificationToken(this.user);
 });

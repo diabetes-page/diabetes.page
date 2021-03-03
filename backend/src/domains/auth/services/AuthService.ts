@@ -17,7 +17,11 @@ export class AuthService {
     password: string,
   ): Promise<User | undefined> {
     const user = await this.usersService.oneWhere({ email });
-    const match = user && (await compare(password, user.password));
+
+    if (!user || !user.password || user.verificationToken) {
+      return;
+    }
+    const match = await compare(password, user.password);
 
     // Todo: check if last login has expired
     if (match) {
