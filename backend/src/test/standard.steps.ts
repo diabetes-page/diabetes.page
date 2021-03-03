@@ -162,3 +162,6 @@ Given(
     await user.save();
   },
 );
+Then(/^the request is successful and resource created$/, function() {
+  expect(this.response.status).to.equal(HttpStatus.CREATED)
+});
