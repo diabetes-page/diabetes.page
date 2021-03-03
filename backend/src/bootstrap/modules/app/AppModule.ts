@@ -1,4 +1,6 @@
+import { MailerModule } from '@nestjs-modules/mailer';
 import { Module } from '@nestjs/common';
+import { mailerConfig } from '../../../config/mailerConfig';
 import { AppointmentsModule } from '../../../domains/appointments/AppointmentsModule';
 import { AuthModule } from '../../../domains/auth/AuthModule';
 import { ConferencesModule } from '../../../domains/conferences/ConferencesModule';
@@ -22,6 +24,7 @@ import { ValidationModule } from '../validation/ValidationModule';
     AppointmentsModule,
     ConferencesModule,
     WorkingGroupsModule,
+    MailerModule.forRoot(mailerConfig),
   ],
 })
 export class AppModule {}

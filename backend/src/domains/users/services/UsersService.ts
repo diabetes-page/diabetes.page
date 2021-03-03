@@ -1,3 +1,4 @@
+import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { hash } from 'bcrypt';
@@ -6,7 +7,10 @@ import { User } from '../entities/User.entity';
 
 @Injectable()
 export class UsersService {
-  constructor(private configService: ConfigService) {}
+  constructor(
+    private configService: ConfigService,
+    private readonly mailerService: MailerService,
+  ) {}
 
   async get(id: string): Promise<User | undefined> {
     return User.findOne({ where: { id } });
@@ -38,11 +42,26 @@ export class UsersService {
 
     const verificationToken = crypto.randomInt(1000);
 
-    return await User.create({
+    const user = await User.create({
       name,
       email,
       password: passwordHash,
       verificationToken: verificationToken.toString(),
     }).save();
+
+    this.sendVerificationEmail(user);
+    return user;
+  }
+
+  private sendVerificationEmail(user: User): void {
+    this.mailerService
+      .sendMail({
+        to: user.email,
+        from: 'test@somemail.com',
+        subject: user.name,
+        text: 'hello world',
+      })
+      .then((success) => console.log(success))
+      .catch((err) => console.log(err));
   }
 }
