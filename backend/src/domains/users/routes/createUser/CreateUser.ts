@@ -22,8 +22,8 @@ export class CreateUser extends ResourceController {
 
   @UseGuards(Consultant)
   @HttpCode(HttpStatus.CREATED)
-  @Post('/users/create')
+  @Post('/users')
   async serve(@Body() params: Parameters): Promise<SensitiveDataUserResource> {
-    return this.usersService.add(params.name, params.email, params.password);
+    return this.usersService.add(params.name, params.email);
   }
 }

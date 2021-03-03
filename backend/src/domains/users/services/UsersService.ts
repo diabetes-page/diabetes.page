@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { hash } from 'bcrypt';
+import * as crypto from 'crypto';
 import { User } from '../entities/User.entity';
 
 @Injectable()
@@ -26,23 +27,22 @@ export class UsersService {
   async add(
     name: string,
     email: string,
-    cleartextPassword: string,
+    cleartextPassword: string | null = null,
   ): Promise<User> {
-    const passwordHash = await hash(
-      cleartextPassword,
-      this.configService.get<number>('security.bcryptSaltRounds', 10),
-    );
+    const passwordHash = cleartextPassword
+      ? await hash(
+          cleartextPassword,
+          this.configService.get<number>('security.bcryptSaltRounds', 10),
+        )
+      : cleartextPassword;
 
-    const verificationToken = await hash(
-      Math.random().toString(),
-      this.configService.get<number>('security.bcryptSaltRounds', 10),
-    );
+    const verificationToken = crypto.randomInt(1000);
 
     return await User.create({
       name,
       email,
       password: passwordHash,
-      verificationToken: verificationToken,
+      verificationToken: verificationToken.toString(),
     }).save();
   }
 }
