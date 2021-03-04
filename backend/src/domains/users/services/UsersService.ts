@@ -36,7 +36,7 @@ export class UsersService {
         )
       : cleartextPassword;
 
-    const verificationToken = crypto.randomInt(1000);
+    const verificationToken = crypto.randomInt(9999999999999999);
 
     return await User.create({
       name,
