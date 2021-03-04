@@ -11,7 +11,7 @@ Feature: Login
     And the token is valid
     And the response contains the id, email and name of me
 
-  Scenario: I can't login if Verification Token is set
+  Scenario: I can't login if verification token is set
     Given I am a user with name "X", E-Mail "test@example.com" and password "12345678"
     And I have a verification token set
     When I login to the application with E-Mail "test@example.com" and password "12345678"
