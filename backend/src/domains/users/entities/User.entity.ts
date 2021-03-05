@@ -27,8 +27,8 @@ export class User extends BaseEntity {
   @Column()
   name: string;
 
-  @Column()
-  password: string;
+  @Column({ type: 'character varying', nullable: true })
+  password: string | null;
 
   @Column({ type: 'character varying', nullable: true })
   verificationToken: string | null;
