@@ -2,19 +2,15 @@ import { expect } from 'chai';
 import { TableDefinition, Then, When } from 'cucumber';
 import { testRequest } from '../../../../../test/setup.steps';
 import { getAppointment } from '../../../../../test/testingUtilities';
-import { WorkingGroup } from '../../../../workingGroups/entities/WorkingGroup.entity';
 
 When(
-  /^I request the appointment for the training "([^"]*)" presented by "([^"]*)" in the working group "([^"]*)"$/,
-  async function (trainingName, presenterName, workingGroupName) {
+  /^I request the appointment for the training "([^"]*)" presented by "([^"]*)"$/,
+  async function (trainingName, presenterName) {
     const appointment = await getAppointment(trainingName, presenterName);
-    const workingGroup = (await WorkingGroup.findOne({
-      name: workingGroupName,
-    }))!;
 
     this.response = await testRequest(
       'GET',
-      `/working-groups/${workingGroup.id}/appointments/${appointment.id}`,
+      `/appointments/${appointment.id}`,
       {},
       this.jwt,
     );
@@ -31,8 +27,5 @@ Then(
     );
     expect(this.response.body.startsAt).to.equal(expectation['Start time']);
     expect(this.response.body.endsAt).to.equal(expectation['End time']);
-    expect(this.response.body.workingGroup.name).to.equal(
-      expectation['Working group'],
-    );
   },
 );

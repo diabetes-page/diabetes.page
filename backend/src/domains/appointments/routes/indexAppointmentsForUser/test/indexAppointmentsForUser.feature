@@ -24,6 +24,7 @@ Feature: Get appointments for user
     And the amount of appointments is 1
     And the appointment at index 0 has presenter "Walter White"
     And the appointment at index 0 has training "Turing Machines by Walter White"
+    And the appointment at index 0 is assigned through the working group "Best group"
 
   Scenario: I cannot get a list of other people's appointments
     Given there is a user with name "Some guy" and e-mail "a@b.com"
@@ -47,3 +48,4 @@ Feature: Get appointments for user
     And the amount of appointments is 1
     And the appointment at index 0 has presenter "Walter White"
     And the appointment at index 0 has training "Turing Machines by Walter White"
+    And the appointment at index 0 is assigned through the working group "Best group"

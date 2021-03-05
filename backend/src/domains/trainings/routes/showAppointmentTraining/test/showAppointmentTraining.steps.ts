@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import { Given, Then, When } from 'cucumber';
 import { testRequest } from '../../../../../test/setup.steps';
 import { getAppointment } from '../../../../../test/testingUtilities';
-import { WorkingGroup } from '../../../../workingGroups/entities/WorkingGroup.entity';
 
 Given(
   /^I am interested in the appointment for the training "([^"]*)" presented by "([^"]*)"$/,
@@ -11,21 +10,14 @@ Given(
   },
 );
 
-When(
-  /^I request the appointment's training in the context of in the working group "([^"]*)"$/,
-  async function (workingGroupName) {
-    const workingGroup = (await WorkingGroup.findOne({
-      name: workingGroupName,
-    }))!;
-
-    this.response = await testRequest(
-      'GET',
-      `/working-groups/${workingGroup.id}/appointments/${this.appointment.id}/training`,
-      {},
-      this.jwt,
-    );
-  },
-);
+When(/^I request the appointment's training$/, async function () {
+  this.response = await testRequest(
+    'GET',
+    `/appointments/${this.appointment.id}/training`,
+    {},
+    this.jwt,
+  );
+});
 
 Then(
   /^the response contains a training with name "([^"]*)" and slides "([^"]*)"$/,

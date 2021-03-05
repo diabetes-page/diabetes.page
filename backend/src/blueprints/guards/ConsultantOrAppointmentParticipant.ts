@@ -12,7 +12,7 @@ export class ConsultantOrAppointmentParticipant implements CanActivate {
     const isConsultant = !!(await user.loadAsConsultant());
 
     const query = Appointment.createQueryBuilder('appointment')
-      .select('1')
+      .select('appointment.id')
       .where('appointment.id = :appointmentId', {
         appointmentId: request.params[this.appointmentIdParam],
       });

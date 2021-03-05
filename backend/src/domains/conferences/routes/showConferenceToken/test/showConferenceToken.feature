@@ -22,7 +22,7 @@ Feature: Show conference token
     And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is assigned to the working group "Easy group"
     And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is running
     And I am logged in
-    When I request the conference token for the training "Turing Machines by Walter White" presented by "Walter White" in the working group "Easy group"
+    When I request the conference token for the training "Turing Machines by Walter White" presented by "Walter White"
     Then the request is successful
     And the response contains a conference token
 
@@ -32,7 +32,7 @@ Feature: Show conference token
     And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is assigned to the working group "Easy group"
     And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is not running
     And I am logged in
-    When I request the conference token for the training "Turing Machines by Walter White" presented by "Walter White" in the working group "Easy group"
+    When I request the conference token for the training "Turing Machines by Walter White" presented by "Walter White"
     Then the request is unauthorized
 
   Scenario: As a participant, I cannot get the conference token if I am not assigned to the correct working group
@@ -40,7 +40,7 @@ Feature: Show conference token
     And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is assigned to the working group "Easy group"
     And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is running
     And I am logged in
-    When I request the conference token for the training "Turing Machines by Walter White" presented by "Walter White" in the working group "Easy group"
+    When I request the conference token for the training "Turing Machines by Walter White" presented by "Walter White"
     Then the request is unauthorized
 
   Scenario: As a participant, I cannot get the conference token if it does not belong to my working group
@@ -48,16 +48,15 @@ Feature: Show conference token
     And the user "Jesse Pinkman" is in the working group "Easy group"
     And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is running
     And I am logged in
-    When I request the conference token for the training "Turing Machines by Walter White" presented by "Walter White" in the working group "Easy group"
+    When I request the conference token for the training "Turing Machines by Walter White" presented by "Walter White"
     Then the request is unauthorized
 
-  Scenario: As a consultant, I can get the conference token in the context of any associated working group
+  Scenario: As a consultant, I can get the conference token
     Given I am a user with name "Jesse Pinkman", e-mail "test@example.com" and password "12345678"
     And the user "Jesse Pinkman" is a consultant
-    And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is assigned to the working group "Easy group"
     And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is running
     And I am logged in
-    When I request the conference token for the training "Turing Machines by Walter White" presented by "Walter White" in the working group "Easy group"
+    When I request the conference token for the training "Turing Machines by Walter White" presented by "Walter White"
     Then the request is successful
     And the response contains a conference token
 
@@ -67,13 +66,5 @@ Feature: Show conference token
     And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is assigned to the working group "Easy group"
     And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is not running
     And I am logged in
-    When I request the conference token for the training "Turing Machines by Walter White" presented by "Walter White" in the working group "Easy group"
-    Then the request is unauthorized
-
-  Scenario: As a consultant, I cannot get the conference token if it is not associated to the working group
-    Given I am a user with name "Jesse Pinkman", e-mail "test@example.com" and password "12345678"
-    And the user "Jesse Pinkman" is a consultant
-    And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is running
-    And I am logged in
-    When I request the conference token for the training "Turing Machines by Walter White" presented by "Walter White" in the working group "Easy group"
+    When I request the conference token for the training "Turing Machines by Walter White" presented by "Walter White"
     Then the request is unauthorized
