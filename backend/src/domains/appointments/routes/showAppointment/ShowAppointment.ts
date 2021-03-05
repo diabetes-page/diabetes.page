@@ -9,10 +9,8 @@ import { AppointmentResource } from '../../resources/AppointmentResource';
 export class ShowAppointment extends ResourceController {
   public static Resource = AppointmentResource;
 
-  @UseGuards(
-    new ConsultantOrAppointmentParticipant('workingGroupId', 'appointmentId'),
-  )
-  @Get('/working-groups/:workingGroupId/appointments/:appointmentId')
+  @UseGuards(new ConsultantOrAppointmentParticipant('appointmentId'))
+  @Get('appointments/:appointmentId')
   async serve(
     @Param(new EntityById(Appointment, 'appointmentId'))
     appointment: Appointment,

@@ -16,12 +16,8 @@ export class ShowConferenceToken extends ResourceController {
     super();
   }
 
-  @UseGuards(
-    new ConsultantOrAppointmentParticipant('workingGroupId', 'appointmentId'),
-  )
-  @Get(
-    '/working-groups/:workingGroupId/appointments/:appointmentId/conference/token',
-  )
+  @UseGuards(new ConsultantOrAppointmentParticipant('appointmentId'))
+  @Get('/appointments/:appointmentId/conference/token')
   async serve(
     @Param(new RunningAppointmentById('appointmentId'))
     appointment: Appointment,

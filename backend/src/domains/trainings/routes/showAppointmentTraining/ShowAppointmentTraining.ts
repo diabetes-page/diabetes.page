@@ -9,10 +9,8 @@ import { AppointmentTrainingById } from './AppointmentTrainingById';
 export class ShowAppointmentTraining extends ResourceController {
   public static Resource = FullTrainingResource;
 
-  @UseGuards(
-    new ConsultantOrAppointmentParticipant('workingGroupId', 'appointmentId'),
-  )
-  @Get('/working-groups/:workingGroupId/appointments/:appointmentId/training')
+  @UseGuards(new ConsultantOrAppointmentParticipant('appointmentId'))
+  @Get('/appointments/:appointmentId/training')
   async serve(
     @Param(new AppointmentTrainingById('appointmentId'))
     training: Training,
