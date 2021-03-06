@@ -4,13 +4,15 @@ import { StandardHeading } from '../../../components/StandardHeading';
 import { StandardScreen } from '../../../components/StandardScreen';
 import { useSelector } from '../../../redux/root/hooks';
 import {
-  AppointmentResource,
+  AppointmentInWorkingGroupResource,
   requests,
 } from '../../../utilities/requests/requests';
 import { AppointmentListItem } from './AppointmentListItem';
 
 export function IndexAppointments(): JSX.Element {
-  const [appointments, setAppointments] = useState([] as AppointmentResource[]);
+  const [appointments, setAppointments] = useState<
+    AppointmentInWorkingGroupResource[]
+  >([]);
   const [isLoading, setIsLoading] = useState(true);
   const userId = useSelector((state) => state.user.id);
 
@@ -32,8 +34,11 @@ export function IndexAppointments(): JSX.Element {
   return (
     <StandardScreen>
       <StandardHeading>My appointments</StandardHeading>
-      {appointments.map((appointment) => (
-        <AppointmentListItem appointment={appointment} key={appointment.id} />
+      {appointments.map((appointmentInGroup) => (
+        <AppointmentListItem
+          appointmentInGroup={appointmentInGroup}
+          key={appointmentInGroup.appointment.id}
+        />
       ))}
     </StandardScreen>
   );

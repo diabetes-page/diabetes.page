@@ -43,7 +43,7 @@ function useTraining(
 
   useEffect(() => {
     requests
-      .showTraining(appointment.id)
+      .showAppointmentTraining(appointment.id)
       .then((data) => setTraining(data.data)); // Todo: Deal with errors
   }, [appointment, setTraining]);
 
