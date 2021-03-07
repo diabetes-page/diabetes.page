@@ -1,12 +1,16 @@
 import React, { useEffect } from 'react';
-import { ActivityIndicator } from 'react-native-paper';
+import { Text } from 'react-native';
+import { ActivityIndicator, Button } from 'react-native-paper';
 import { StandardHeading } from '../../../components/StandardHeading';
 import { StandardScreen } from '../../../components/StandardScreen';
+import { useSelector } from '../../../redux/root/hooks';
 import { useLoadingState } from '../../../utilities/hooks/hooks';
+import { renderIf } from '../../../utilities/misc/rendering';
 import {
   AppointmentResource,
   requests,
 } from '../../../utilities/requests/requests';
+import { StartConferenceButton } from './StartConferenceButton';
 
 const paramKeys = ['appointmentId'] as const;
 
@@ -31,6 +35,8 @@ function ShowAppointment({ route }: Props): JSX.Element {
   const [appointment, loading] = useFetchAppointment(
     route.params.appointmentId,
   );
+  const userId = useSelector((state) => state.user.id);
+  const isPresenter = appointment?.presenter.id === userId;
 
   if (loading || !appointment) {
     return (
@@ -45,6 +51,16 @@ function ShowAppointment({ route }: Props): JSX.Element {
       <StandardHeading>
         {appointment.training?.name ?? 'Appointment'}
       </StandardHeading>
+
+      <Text>Appointment is{appointment.isRunning ? ' ' : ' not '}running.</Text>
+
+      {renderIf(appointment.isRunning)(() => (
+        <Button>Join</Button>
+      ))}
+
+      {renderIf(isPresenter && !appointment.isRunning)(() => (
+        <StartConferenceButton />
+      ))}
     </StandardScreen>
   );
 }

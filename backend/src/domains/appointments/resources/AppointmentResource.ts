@@ -9,18 +9,21 @@ export class AppointmentResource {
   id: string;
 
   @Expose()
-  @Type(() => BasicConsultantResource)
-  presenter: BasicConsultantResource;
-
-  @Expose()
-  @Type(() => BasicTrainingResource)
-  training: BasicTrainingResource | null;
+  isRunning: boolean;
 
   @Expose()
   startsAt: string;
 
   @Expose()
   endsAt: string;
+
+  @Expose()
+  @Type(() => BasicConsultantResource)
+  presenter: BasicConsultantResource;
+
+  @Expose()
+  @Type(() => BasicTrainingResource)
+  training: BasicTrainingResource | null;
 
   static make = async (
     appointment: Appointment,
