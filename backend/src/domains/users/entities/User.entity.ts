@@ -30,7 +30,7 @@ export class User extends BaseEntity {
   @Column({ type: 'character varying', nullable: true })
   password: string | null;
 
-  @Column({ type: 'character varying', nullable: true })
+  @Column({ type: 'character varying', nullable: true, unique: true })
   verificationToken: string | null;
 
   // todo: set ON UPDATE CASCADE in SQL, see https://github.com/typeorm/typeorm/issues/4980

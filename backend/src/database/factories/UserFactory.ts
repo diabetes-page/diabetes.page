@@ -63,7 +63,8 @@ export class UserFactory {
   };
 
   public addVerificationToken = async (user: User): Promise<User> => {
-    user.verificationToken = crypto.randomInt(1, 10).toString();
+    // @ts-ignore
+    user.verificationToken = crypto.randomUUID();
     return await user.save();
   };
 }
