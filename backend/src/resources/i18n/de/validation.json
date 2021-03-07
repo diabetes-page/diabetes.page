@@ -1,3 +1,4 @@
 {
-  "UNIQUE_ERROR_MESSAGE": "{entity} mit diesem Wert für \"{property}\" existiert bereits"
+  "UNIQUE_ERROR_MESSAGE": "{entityClass} mit diesem Wert für {property} existiert bereits",
+  "PASSWORD_ERROR_MESSAGE": "Passwort muss mindestens {minPasswordLength} Zeichen haben"
 }

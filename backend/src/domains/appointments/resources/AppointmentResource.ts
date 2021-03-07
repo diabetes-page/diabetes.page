@@ -15,6 +15,12 @@ export class AppointmentResource {
   @Type(() => BasicTrainingResource)
   training: BasicTrainingResource | null;
 
+  @Expose()
+  startsAt: Date;
+
+  @Expose()
+  endsAt: Date;
+
   static make = async (
     appointment: Appointment,
   ): Promise<AppointmentResource> => {
