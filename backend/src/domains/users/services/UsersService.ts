@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { hash } from 'bcrypt';
-import * as crypto from 'crypto';
+import { randomUUID } from 'crypto';
 import { User } from '../entities/User.entity';
 
 @Injectable()
@@ -36,8 +36,7 @@ export class UsersService {
         )
       : cleartextPassword;
 
-    // @ts-ignore
-    const verificationToken = crypto.randomUUID();
+    const verificationToken = randomUUID();
 
     return await User.create({
       name,
