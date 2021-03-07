@@ -20,9 +20,12 @@ export function AppointmentListItem({
     <Card
       style={styles.card}
       onPress={() =>
-        void nav.navigate(stacks.appointments.screens.conference.name, {
-          id: appointmentInGroup.appointment.id,
-        })
+        void nav.navigate(
+          stacks.appointments.screens.conference.name,
+          stacks.appointments.screens.conference.makeParams(
+            appointmentInGroup.appointment.id,
+          ),
+        )
       }
     >
       <Card.Title

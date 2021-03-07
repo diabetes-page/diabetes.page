@@ -10,22 +10,33 @@ import { requests } from '../../../utilities/requests/requests';
 import { useCreateWebSocket } from './hooks/useCreateWebSocket';
 import { ConferenceWrapper } from './wrapper/ConferenceWrapper';
 
-type ShowConferenceParams = {
+const paramKeys = ['appointmentId'] as const;
+
+export const ShowConferenceScreen = {
+  name: 'showConference',
+  url: `/appointments/:${paramKeys[0]}/conference`,
+  component: ShowConference,
+  makeParams: (appointmentId: string): Params => ({
+    appointmentId,
+  }),
+};
+
+type Params = Record<typeof paramKeys[number], string>;
+
+type Props = {
   route: {
-    params: {
-      id: string;
-    };
+    params: Params;
   };
 };
 
-export function ShowConference({ route }: ShowConferenceParams): JSX.Element {
+function ShowConference({ route }: Props): JSX.Element {
   const isLoading = useSelector(
     (state) =>
       !state.live.conferenceToken ||
       !state.live.conference ||
       !state.live.appointment,
   );
-  useLive(route.params.id);
+  useLive(route.params.appointmentId);
 
   if (isLoading) {
     return (

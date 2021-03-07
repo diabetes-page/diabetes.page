@@ -9,7 +9,13 @@ import {
 } from '../../../utilities/requests/requests';
 import { AppointmentListItem } from './AppointmentListItem';
 
-export function IndexAppointments(): JSX.Element {
+export const IndexAppointmentsScreen = {
+  name: 'indexAppointments',
+  url: '/appointments',
+  component: IndexAppointments,
+};
+
+function IndexAppointments(): JSX.Element {
   const [appointments, setAppointments] = useState<
     AppointmentInWorkingGroupResource[]
   >([]);
