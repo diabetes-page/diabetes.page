@@ -1,0 +1,6 @@
+{
+  "USER_VERIFICATION_EMAIL": {
+    "HEADER": "Hi {name}",
+    "BODY": "Please click <a href=\"diabetes.page/{verificationToken}\">here</a> to verify your account for diabetes.page"
+  }
+}

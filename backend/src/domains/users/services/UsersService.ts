@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { hash } from 'bcrypt';
 import * as crypto from 'crypto';
+import { I18nService } from 'nestjs-i18n';
 import { User } from '../entities/User.entity';
 
 @Injectable()
@@ -10,6 +11,7 @@ export class UsersService {
   constructor(
     private configService: ConfigService,
     private readonly mailerService: MailerService,
+    protected i18n: I18nService,
   ) {}
 
   async get(id: string): Promise<User | undefined> {
@@ -49,11 +51,20 @@ export class UsersService {
       verificationToken: verificationToken.toString(),
     }).save();
 
-    this.sendVerificationEmail(user);
+    await this.sendVerificationEmail(user);
     return user;
   }
 
-  private sendVerificationEmail(user: User): void {
+  private async sendVerificationEmail(user: User): Promise<void> {
+    const header = await this.translate(
+      'users.USER_VERIFICATION_EMAIL.HEADER',
+      { name: user.name },
+    );
+
+    const body = await this.translate('users.USER_VERIFICATION_EMAIL.BODY', {
+      verificationToken: user.verificationToken,
+    });
+
     this.mailerService
       .sendMail({
         to: user.email,
@@ -61,10 +72,17 @@ export class UsersService {
         subject: user.name,
         template: __dirname + '/../templates/userVerificationEmail',
         context: {
-          user: user,
+          header: header,
+          body: body,
         },
       })
       .then((success) => console.log(success))
       .catch((err) => console.log(err));
+  }
+
+  private async translate(key: string, args: any): Promise<string> {
+    return await this.i18n.translate(key, {
+      args: args,
+    });
   }
 }

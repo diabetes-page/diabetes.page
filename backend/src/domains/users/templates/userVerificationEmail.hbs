@@ -1,5 +1,7 @@
-<h4>
-  Hi {{ user.name }}
-</h4>
+{{> emailStyle }}
 
-Please click <a href='diabetes.page/{{ user.verificationToken }}'>here</a> to register your account
+<p class="email-header">
+  {{ header }}
+</p>
+
+<p class="email-body"> {{{ body }}} </p>

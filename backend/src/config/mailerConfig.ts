@@ -2,30 +2,30 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 
 export const mailerConfig = {
   transport: {
-    host: 'localhost',
+    host: process.env.MAILER_CONFIG_HOST,
     port: 1025,
+    auth: {
+      user: process.env.MAILER_CONFIG_USERNAME,
+      pass: process.env.MAILER_CONFIG_PASSWORD,
+    },
     secure: false, // upgrade later with STARTTLS
-    // auth: {
-    //   user: 'username',
-    //   pass: 'password',
-    // },
   },
   template: {
-    dir: __dirname,
+    dir: __dirname + '/../blueprints/templates',
     adapter: new HandlebarsAdapter(),
     options: {
       strict: true,
     },
   },
-  // options: {
-  //   partials: {
-  //     dir: path.join(process.env.PWD, 'templates/partials'),
-  //     options: {
-  //       strict: true,
-  //     },
-  //   },
-  // },
+  options: {
+    partials: {
+      dir: __dirname + '/../blueprints/templates',
+      options: {
+        strict: true,
+      },
+    },
+  },
   defaults: {
-    from: '"nest-modules" <modules@nestjs.com>',
+    from: 'no-reply@diabetes.page',
   },
 };
