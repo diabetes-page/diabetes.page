@@ -194,3 +194,7 @@ Given(
     });
   },
 );
+
+Then(/^the response is empty$/, function () {
+  expect(this.response.body).to.deep.equal({});
+});
