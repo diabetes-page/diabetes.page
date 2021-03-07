@@ -24,10 +24,11 @@ Feature: Show appointment
     When I request the appointment for the training "Turing Machines by Walter White" presented by "Walter White"
     Then the request is successful
     And the response contains an appointment with the following attributes:
-      | Training      | Turing Machines by Walter White |
-      | Presenter     | Walter White                    |
-      | Start time    | 2020-11-10T08:00:00.000Z        |
-      | End time      | 2020-11-10T14:30:00.000Z        |
+      | Training    | Turing Machines by Walter White |
+      | Presenter   | Walter White                    |
+      | Start time  | 2020-11-10T08:00:00.000Z        |
+      | End time    | 2020-11-10T14:30:00.000Z        |
+      | Is running? | No                              |
 
   Scenario: As a participant, I cannot display an appointment if I am not assigned to the correct working group
     Given I am a user with name "Jesse Pinkman", e-mail "test@example.com" and password "12345678"
@@ -46,11 +47,13 @@ Feature: Show appointment
   Scenario: As a consultant, I can display any appointment
     Given I am a user with name "Jesse Pinkman", e-mail "test@example.com" and password "12345678"
     And the user "Jesse Pinkman" is a consultant
+    And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is running
     And I am logged in
     When I request the appointment for the training "Turing Machines by Walter White" presented by "Walter White"
     Then the request is successful
     And the response contains an appointment with the following attributes:
-      | Training      | Turing Machines by Walter White |
-      | Presenter     | Walter White                    |
-      | Start time    | 2020-11-10T08:00:00.000Z        |
-      | End time      | 2020-11-10T14:30:00.000Z        |
+      | Training    | Turing Machines by Walter White |
+      | Presenter   | Walter White                    |
+      | Start time  | 2020-11-10T08:00:00.000Z        |
+      | End time    | 2020-11-10T14:30:00.000Z        |
+      | Is running? | Yes                             |
