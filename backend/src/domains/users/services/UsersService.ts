@@ -57,9 +57,12 @@ export class UsersService {
     this.mailerService
       .sendMail({
         to: user.email,
-        from: 'test@somemail.com',
+        from: 'no-reply@diabetes.page',
         subject: user.name,
-        text: 'hello world',
+        template: __dirname + '/../templates/userVerificationEmail',
+        context: {
+          user: user,
+        },
       })
       .then((success) => console.log(success))
       .catch((err) => console.log(err));
