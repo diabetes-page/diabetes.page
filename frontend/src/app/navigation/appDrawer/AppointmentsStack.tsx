@@ -1,6 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { IndexAppointmentsScreen } from '../../screens/indexAppointments/IndexAppointments';
+import { ShowAppointmentScreen } from '../../screens/showAppointment/ShowAppointment';
 import { ShowConferenceScreen } from '../../screens/showConference/ShowConference';
 
 export const AppointmentsStack = {
@@ -9,6 +10,7 @@ export const AppointmentsStack = {
   component: Appointments,
   screens: {
     index: IndexAppointmentsScreen,
+    show: ShowAppointmentScreen,
     conference: ShowConferenceScreen,
   },
 };
