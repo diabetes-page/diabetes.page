@@ -1,4 +1,5 @@
 import { Expose, Type } from 'class-transformer';
+import { formatISO } from 'date-fns';
 import { BasicTrainingResource } from '../../trainings/resources/BasicTrainingResource';
 import { BasicConsultantResource } from '../../users/resources/BasicConsultantResource';
 import { Appointment } from '../entities/Appointment.entity';
@@ -16,10 +17,10 @@ export class AppointmentResource {
   training: BasicTrainingResource | null;
 
   @Expose()
-  startsAt: Date;
+  startsAt: string;
 
   @Expose()
-  endsAt: Date;
+  endsAt: string;
 
   static make = async (
     appointment: Appointment,
@@ -29,6 +30,8 @@ export class AppointmentResource {
 
     return {
       ...appointment,
+      startsAt: formatISO(appointment.startsAt),
+      endsAt: formatISO(appointment.endsAt),
       presenter: await BasicConsultantResource.make(appointment.presenter),
       training:
         appointment.training &&

@@ -1,14 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
-import { formatRFC7231 } from 'date-fns';
+import { formatRFC7231, parseISO } from 'date-fns';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Card, Paragraph } from 'react-native-paper';
 import { UNIT } from '../../../config/style';
 import { AppointmentInWorkingGroupResource } from '../../../utilities/requests/requests';
 import { stacks } from '../../navigation/config';
+
 type AppointmentListItemProps = {
   appointmentInGroup: AppointmentInWorkingGroupResource;
 };
+
 export function AppointmentListItem({
   appointmentInGroup,
 }: AppointmentListItemProps): JSX.Element {
@@ -26,10 +28,7 @@ export function AppointmentListItem({
       <Card.Title
         title={
           <span>
-            {formatRFC7231(
-              // todo: i18n
-              appointmentInGroup.appointment.startsAt,
-            )}
+            {formatRFC7231(parseISO(appointmentInGroup.appointment.startsAt))}
           </span>
         }
         subtitle={appointmentInGroup.appointment.presenter.user.name}
