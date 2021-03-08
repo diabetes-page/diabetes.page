@@ -65,18 +65,15 @@ export class UsersService {
       verificationToken: user.verificationToken,
     });
 
-    this.mailerService
-      .sendMail({
-        to: user.email,
-        subject: user.name,
-        template: __dirname + '/../templates/userVerificationEmail',
-        context: {
-          header: header,
-          body: body,
-        },
-      })
-      .then((success) => console.log(success))
-      .catch((err) => console.log(err));
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: user.name,
+      template: __dirname + '/../templates/userVerificationEmail',
+      context: {
+        header: header,
+        body: body,
+      },
+    });
   }
 
   private async translate(key: string, args: any): Promise<string> {
