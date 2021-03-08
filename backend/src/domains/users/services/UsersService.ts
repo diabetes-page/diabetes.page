@@ -68,7 +68,6 @@ export class UsersService {
     this.mailerService
       .sendMail({
         to: user.email,
-        from: 'no-reply@diabetes.page',
         subject: user.name,
         template: __dirname + '/../templates/userVerificationEmail',
         context: {
