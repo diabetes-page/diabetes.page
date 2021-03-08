@@ -2,7 +2,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { hash } from 'bcrypt';
-import * as crypto from 'crypto';
+import { randomUUID } from 'crypto';
 import { I18nService } from 'nestjs-i18n';
 import { User } from '../entities/User.entity';
 
@@ -42,7 +42,7 @@ export class UsersService {
         )
       : cleartextPassword;
 
-    const verificationToken = crypto.randomInt(1000);
+    const verificationToken = randomUUID();
 
     const user = await User.create({
       name,
