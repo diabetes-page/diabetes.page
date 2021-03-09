@@ -7,7 +7,6 @@ import { Resource as BackendCreateAppointmentResource } from '../../../../backen
 import { Resource as BackendIndexAppointmentsForUserResource } from '../../../../backend/src/domains/appointments/routes/indexAppointmentsForUser/Resource';
 import { Resource as BackendCheckAuthStatusResource } from '../../../../backend/src/domains/auth/routes/checkAuthStatus/Resource';
 import { Resource as BackendLoginResource } from '../../../../backend/src/domains/auth/routes/login/Resource';
-import { Resource as BackendRegisterResource } from '../../../../backend/src/domains/auth/routes/register/Resource';
 import { ConferenceResource as BackendConferenceResource } from '../../../../backend/src/domains/conferences/resources/ConferenceResource';
 import { Resource as BackendShowConferenceTokenResource } from '../../../../backend/src/domains/conferences/routes/showConferenceToken/Resource';
 import { TeachingBaseDocumentResource as BackendTeachingBaseDocumentResource } from '../../../../backend/src/domains/teachingBases/resources/TeachingBaseDocumentResource';
@@ -29,12 +28,6 @@ export type LoginParameters = {
   email: string;
   password: string;
 };
-export type RegisterResource = BackendRegisterResource;
-export type RegisterParameters = {
-  email: string;
-  password: string;
-  name: string;
-};
 export type ConferenceResource = BackendConferenceResource;
 export type ShowConferenceTokenResource = BackendShowConferenceTokenResource;
 export type TeachingBaseDocumentResource = BackendTeachingBaseDocumentResource;
@@ -44,6 +37,10 @@ export type FullTrainingResource = BackendFullTrainingResource;
 export type BasicConsultantResource = BackendBasicConsultantResource;
 export type BasicUserResource = BackendBasicUserResource;
 export type SensitiveDataUserResource = BackendSensitiveDataUserResource;
+export type CreateUserParameters = {
+  email: string;
+  name: string;
+};
 export type IndexUsersResource = BackendIndexUsersResource;
 
 export const requests = {
@@ -67,11 +64,6 @@ export const requests = {
   login: async (data: LoginParameters): Promise<AxiosResponse<LoginResource>> =>
     Post(`/auth/login`, data, await withAuth()),
 
-  register: async (
-    data: RegisterParameters,
-  ): Promise<AxiosResponse<RegisterResource>> =>
-    Post(`/auth/register`, data, await withAuth()),
-
   showConferenceToken: async (
     appointmentId: string,
   ): Promise<AxiosResponse<ShowConferenceTokenResource>> =>
@@ -81,6 +73,11 @@ export const requests = {
     appointmentId: string,
   ): Promise<AxiosResponse<FullTrainingResource>> =>
     Get(`/appointments/${appointmentId}/training`, await withAuth()),
+
+  createUser: async (
+    data: CreateUserParameters,
+  ): Promise<AxiosResponse<SensitiveDataUserResource>> =>
+    Post(`/users`, data, await withAuth()),
 
   indexUsers: async (): Promise<AxiosResponse<IndexUsersResource>> =>
     Get(`/users`, await withAuth()),
