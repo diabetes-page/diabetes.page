@@ -10,18 +10,23 @@ import { requests } from '../../../utilities/requests/requests';
 import { useCreateWebSocket } from './hooks/useCreateWebSocket';
 import { ConferenceWrapper } from './wrapper/ConferenceWrapper';
 
+const name = 'showConference';
 const paramKeys = ['appointmentId'] as const;
+type Params = Record<typeof paramKeys[number], string>;
 
 export const ShowConferenceScreen = {
-  name: 'showConference',
+  name,
   url: `/appointments/:${paramKeys[0]}/conference`,
   component: ShowConference,
-  makeParams: (appointmentId: string): Params => ({
-    appointmentId,
-  }),
+  getNavigationData: (
+    appointmentId: string,
+  ): [name: string, params: Params] => [
+    name,
+    {
+      appointmentId,
+    },
+  ],
 };
-
-type Params = Record<typeof paramKeys[number], string>;
 
 type Props = {
   route: {

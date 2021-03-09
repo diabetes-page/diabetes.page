@@ -19,8 +19,9 @@ function useJoinConference(appointment: AppointmentResource): () => void {
 
   return (): void => {
     nav.navigate(
-      stacks.appointments.screens.conference.name,
-      stacks.appointments.screens.conference.makeParams(appointment.id),
+      ...stacks.appointments.screens.conference.getNavigationData(
+        appointment.id,
+      ),
     );
   };
 }

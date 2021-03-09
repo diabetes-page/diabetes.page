@@ -21,8 +21,7 @@ export function AppointmentListItem({
       style={styles.card}
       onPress={() =>
         void nav.navigate(
-          stacks.appointments.screens.show.name,
-          stacks.appointments.screens.show.makeParams(
+          ...stacks.appointments.screens.show.getNavigationData(
             appointmentInGroup.appointment.id,
           ),
         )

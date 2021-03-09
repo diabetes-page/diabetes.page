@@ -25,8 +25,9 @@ function useStartConference(appointment: AppointmentResource): () => void {
       .startAppointment(appointment.id)
       .then(() =>
         nav.navigate(
-          stacks.appointments.screens.conference.name,
-          stacks.appointments.screens.conference.makeParams(appointment.id),
+          ...stacks.appointments.screens.conference.getNavigationData(
+            appointment.id,
+          ),
         ),
       ); // todo: deal with request errors
   };

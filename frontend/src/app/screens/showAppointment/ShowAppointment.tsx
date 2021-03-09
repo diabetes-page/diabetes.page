@@ -13,18 +13,23 @@ import {
 import { JoinConferenceButton } from './JoinConferenceButton';
 import { StartConferenceButton } from './StartConferenceButton';
 
+const name = 'showAppointment';
 const paramKeys = ['appointmentId'] as const;
+type Params = Record<typeof paramKeys[number], string>;
 
 export const ShowAppointmentScreen = {
-  name: 'showAppointment',
+  name,
   url: `/appointments/:${paramKeys[0]}`,
   component: ShowAppointment,
-  makeParams: (appointmentId: string): Params => ({
-    appointmentId,
-  }),
+  getNavigationData: (
+    appointmentId: string,
+  ): [name: string, params: Params] => [
+    name,
+    {
+      appointmentId,
+    },
+  ],
 };
-
-type Params = Record<typeof paramKeys[number], string>;
 
 type Props = {
   route: {
