@@ -5,52 +5,69 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { Connection, EntitySchema, FindConditions, ObjectType } from 'typeorm';
+import { I18nService } from 'nestjs-i18n';
+import { Connection, EntitySchema, ObjectType } from 'typeorm';
 
 // From https://gist.github.com/zarv1k/3ce359af1a3b2a7f1d99b4f66a17f1bc
 
+type EntityClass<E> = ObjectType<E> | EntitySchema<E> | string;
 interface UniqueValidationArguments<E> extends ValidationArguments {
-  constraints: [
-    ObjectType<E> | EntitySchema<E> | string,
-    ((validationArguments: ValidationArguments) => FindConditions<E>) | keyof E,
-  ];
+  constraints: [EntityClass<E>, keyof E];
 }
 
 abstract class UniqueValidator implements ValidatorConstraintInterface {
-  protected constructor(protected connection: Connection) {}
+  protected message: string;
+
+  protected constructor(
+    protected connection: Connection,
+    protected i18n: I18nService,
+  ) {}
 
   public async validate<E>(
     value: string,
     args: UniqueValidationArguments<E>,
   ): Promise<boolean> {
-    const [EntityClass, findCondition = args.property] = args.constraints;
-    const count = await this.connection.getRepository(EntityClass).count({
-      where:
-        typeof findCondition === 'function'
-          ? findCondition(args)
-          : {
-              [findCondition || args.property]: value,
-            },
+    const entityClass = args.constraints[0];
+    const property = args.constraints[1] ?? args.property;
+    const count = await this.connection.getRepository(entityClass).count({
+      where: {
+        [property]: value,
+      },
     });
+    await this.buildMessage(entityClass, property);
+
     return count <= 0;
   }
 
-  public defaultMessage(args: ValidationArguments): string {
-    const [EntityClass] = args.constraints;
-    const entity = EntityClass.name || 'Entity';
+  private async buildMessage<E>(
+    entityClass: EntityClass<E>,
+    property: keyof E,
+  ): Promise<void> {
+    const entityClassString =
+      typeof entityClass !== 'string' && 'name' in entityClass
+        ? entityClass.name
+        : entityClass.toString();
 
-    // todo: unclear how to do i18n support
-    // see https://github.com/typestack/class-validator/issues/169
-    // and https://github.com/ToonvanStrijp/nestjs-i18n/issues/97
-    // and the solution in https://github.com/typestack/class-validator/pull/238
-    return `${entity} with the same '${args.property}' already exist`;
+    this.message = await this.i18n.translate(
+      'validation.UNIQUE_ERROR_MESSAGE',
+      {
+        args: {
+          entityClass: entityClassString,
+          property,
+        },
+      },
+    );
+  }
+
+  public defaultMessage(): string {
+    return this.message;
   }
 }
 
 @ValidatorConstraint({ name: 'unique', async: true })
 @Injectable()
 export class Unique extends UniqueValidator {
-  constructor(@InjectConnection() protected connection: Connection) {
-    super(connection);
+  constructor(@InjectConnection() connection: Connection, i18n: I18nService) {
+    super(connection, i18n);
   }
 }

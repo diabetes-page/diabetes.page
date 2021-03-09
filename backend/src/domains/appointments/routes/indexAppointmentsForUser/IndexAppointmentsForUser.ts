@@ -19,8 +19,8 @@ export class IndexAppointmentsForUser extends ResourceController {
   async serve(
     @Param(new EntityById(User, 'userId')) user: User,
   ): Promise<Resource> {
-    const appointments = await this.appointmentsService.forUser(user);
+    const appointmentsInGroups = await this.appointmentsService.forUser(user);
 
-    return Resource.make(appointments);
+    return Resource.make(appointmentsInGroups);
   }
 }

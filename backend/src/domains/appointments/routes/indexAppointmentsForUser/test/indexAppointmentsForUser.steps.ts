@@ -27,15 +27,26 @@ Then(/^the amount of appointments is (\d+)$/, function (appointmentCount) {
 Then(
   /^the appointment at index (\d+) has presenter "([^"]*)"$/,
   function (index, name) {
-    expect(this.response.body.appointments[index].presenter.user.name).equals(
-      name,
-    );
+    expect(
+      this.response.body.appointments[index].appointment.presenter.user.name,
+    ).equals(name);
   },
 );
 
 Then(
   /^the appointment at index (\d+) has training "([^"]*)"$/,
   function (index, name) {
-    expect(this.response.body.appointments[index].training.name).equals(name);
+    expect(
+      this.response.body.appointments[index].appointment.training.name,
+    ).equals(name);
+  },
+);
+
+Then(
+  /^the appointment at index (\d+) is assigned through the working group "([^"]*)"$/,
+  function (index, name) {
+    expect(this.response.body.appointments[index].workingGroup.name).equals(
+      name,
+    );
   },
 );

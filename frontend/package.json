@@ -23,6 +23,7 @@
     "@types/react-pdf": "^5.0.0",
     "@types/strophe.js": "^1.2.2",
     "axios": "^0.21.0",
+    "date-fns": "^2.19.0",
     "expo": "~39.0.2",
     "expo-status-bar": "~1.0.2",
     "http-status-codes": "^2.1.4",
