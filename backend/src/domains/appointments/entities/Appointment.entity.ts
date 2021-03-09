@@ -47,6 +47,9 @@ export class Appointment extends BaseEntity {
     ));
   }
 
+  @Column({ default: false })
+  isRunning: boolean;
+
   @Column()
   startsAt: Date;
 

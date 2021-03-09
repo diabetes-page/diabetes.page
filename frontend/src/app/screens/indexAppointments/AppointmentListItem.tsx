@@ -1,14 +1,18 @@
 import { useNavigation } from '@react-navigation/native';
+import { formatRFC7231, parseISO } from 'date-fns';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Card } from 'react-native-paper';
+import { Card, Paragraph } from 'react-native-paper';
 import { UNIT } from '../../../config/style';
-import { AppointmentResource } from '../../../utilities/requests/requests';
+import { AppointmentInWorkingGroupResource } from '../../../utilities/requests/requests';
 import { stacks } from '../../navigation/config';
 
-type AppointmentListItemProps = { appointment: AppointmentResource };
+type AppointmentListItemProps = {
+  appointmentInGroup: AppointmentInWorkingGroupResource;
+};
+
 export function AppointmentListItem({
-  appointment,
+  appointmentInGroup,
 }: AppointmentListItemProps): JSX.Element {
   const nav = useNavigation();
 
@@ -16,15 +20,26 @@ export function AppointmentListItem({
     <Card
       style={styles.card}
       onPress={() =>
-        void nav.navigate(stacks.appointments.screens.conference.name, {
-          id: appointment.id,
-        })
+        void nav.navigate(
+          ...stacks.appointments.screens.show.getNavigationData(
+            appointmentInGroup.appointment.id,
+          ),
+        )
       }
     >
       <Card.Title
-        title={appointment.training?.name || 'No training'}
-        subtitle={appointment.presenter.user.name}
+        title={
+          <span>
+            {formatRFC7231(parseISO(appointmentInGroup.appointment.startsAt))}
+          </span>
+        }
+        subtitle={appointmentInGroup.appointment.presenter.user.name}
       />
+      <Card.Content>
+        <Paragraph>
+          {appointmentInGroup.appointment.training?.name || 'No training'}
+        </Paragraph>
+      </Card.Content>
     </Card>
   );
 }

@@ -7,6 +7,7 @@ import { TrainingsModule } from '../../../domains/trainings/TrainingsModule';
 import { UsersModule } from '../../../domains/users/UsersModule';
 import { WorkingGroupsModule } from '../../../domains/workingGroups/WorkingGroupsModule';
 import { ConfigModule } from '../config/ConfigModule';
+import { I18nModule } from '../i18n/I18nModule';
 import { TypeOrmModule } from '../typeOrm/TypeOrmModule';
 import { ValidationModule } from '../validation/ValidationModule';
 
@@ -14,6 +15,7 @@ import { ValidationModule } from '../validation/ValidationModule';
   imports: [
     ConfigModule,
     TypeOrmModule,
+    I18nModule,
     ValidationModule,
     AuthModule,
     UsersModule,

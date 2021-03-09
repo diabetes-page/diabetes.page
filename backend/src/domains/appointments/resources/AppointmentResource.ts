@@ -8,6 +8,15 @@ export class AppointmentResource {
   id: string;
 
   @Expose()
+  isRunning: boolean;
+
+  @Expose()
+  startsAt: string;
+
+  @Expose()
+  endsAt: string;
+
+  @Expose()
   @Type(() => BasicConsultantResource)
   presenter: BasicConsultantResource;
 
@@ -23,6 +32,8 @@ export class AppointmentResource {
 
     return {
       ...appointment,
+      startsAt: appointment.startsAt.toISOString(),
+      endsAt: appointment.endsAt.toISOString(),
       presenter: await BasicConsultantResource.make(appointment.presenter),
       training:
         appointment.training &&
