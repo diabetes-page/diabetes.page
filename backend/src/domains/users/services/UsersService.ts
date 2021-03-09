@@ -60,21 +60,22 @@ export class UsersService {
       'users.USER_VERIFICATION_EMAIL.HEADER',
       { name: user.name },
     );
-
     const body = await this.translate('users.USER_VERIFICATION_EMAIL.BODY', {
       verificationToken: user.verificationToken,
     });
 
-    await this.mailerService.sendMail({
-      to: user.email,
-      subject: user.name,
-      template: __dirname + '/../templates/userVerificationEmail',
-      context: {
-        header: header,
-        body: body,
-        translsate: () => console.log('test'),
-      },
-    });
+    const iso = 'en';
+    this.mailerService
+      .sendMail({
+        to: user.email,
+        subject: user.name,
+        template: __dirname + `/../templates/userVerificationEmail_${iso}`,
+        context: {
+          header: header,
+          body: body,
+        },
+      })
+      .catch((err) => console.log(err));
   }
   private async translate(key: string, args: any): Promise<string> {
     return await this.i18n.translate(key, {
