@@ -64,12 +64,11 @@ export class UsersService {
       verificationToken: user.verificationToken,
     });
 
-    const iso = 'en';
     this.mailerService
       .sendMail({
         to: user.email,
         subject: user.name,
-        template: __dirname + `/../templates/userVerificationEmail_${iso}`,
+        template: __dirname + `/../templates/userVerificationEmail`,
         context: {
           header: header,
           body: body,
