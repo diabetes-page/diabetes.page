@@ -72,10 +72,10 @@ export class UsersService {
       context: {
         header: header,
         body: body,
+        translsate: () => console.log('test'),
       },
     });
   }
-
   private async translate(key: string, args: any): Promise<string> {
     return await this.i18n.translate(key, {
       args: args,

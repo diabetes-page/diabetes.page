@@ -44,4 +44,10 @@ export class AppointmentsService {
       conferenceUpdateCounter: 0,
     }).save();
   }
+
+  async start(appointment: Appointment): Promise<void> {
+    return void (await Appointment.update(appointment.id, {
+      isRunning: true,
+    }));
+  }
 }

@@ -19,6 +19,7 @@ Feature: Create appointment
     And I am logged in
     When I create a new appointment for the training "Turing Machines by Walter White" with start time "2020-11-10T09:00" and end time "2020-11-10T15:00"
     Then the request is successful without response
+    And the response is empty
     And the training "Turing Machines by Walter White" has exactly 1 appointment
 
   Scenario: Participants cannot create appointments

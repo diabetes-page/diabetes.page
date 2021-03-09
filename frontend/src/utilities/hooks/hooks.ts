@@ -26,9 +26,9 @@ export function useLoading(): {
 }
 
 export function useLoadingState<T>(): [
-  T | undefined,
-  (newState: T) => void,
-  boolean,
+  state: T | undefined,
+  setState: (newState: T) => void,
+  isLoading: boolean,
 ] {
   const { loading, stopLoading } = useLoading();
   const [state, setState] = useState<T>();

@@ -171,12 +171,26 @@ class RequestFinder {
       requestArguments.push(`data: ${capitalize(route)}Parameters `);
     }
 
+    let callArguments;
+
+    if (requestDataParameters) {
+      if (requestType === 'Get') {
+        callArguments = 'await withAuth({ params: data })';
+      } else {
+        callArguments = 'data, await withAuth()';
+      }
+    } else {
+      if (requestType === 'Get') {
+        callArguments = 'await withAuth()';
+      } else {
+        callArguments = '{}, await withAuth()';
+      }
+    }
+
     this.requests.push(
       `  ${route}: async (${requestArguments.join(
         ', ',
-      )}): Promise<AxiosResponse<${resource}>> => ${requestType}(${routeUrl}${
-        requestDataParameters ? ', data' : ''
-      }, await withAuth())`,
+      )}): Promise<AxiosResponse<${resource}>> => ${requestType}(${routeUrl}, ${callArguments})`,
     );
   }
 }

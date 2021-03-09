@@ -8,18 +8,21 @@ export class AppointmentResource {
   id: string;
 
   @Expose()
+  isRunning: boolean;
+
+  @Expose()
+  startsAt: string;
+
+  @Expose()
+  endsAt: string;
+
+  @Expose()
   @Type(() => BasicConsultantResource)
   presenter: BasicConsultantResource;
 
   @Expose()
   @Type(() => BasicTrainingResource)
   training: BasicTrainingResource | null;
-
-  @Expose()
-  startsAt: Date;
-
-  @Expose()
-  endsAt: Date;
 
   static make = async (
     appointment: Appointment,
@@ -29,6 +32,8 @@ export class AppointmentResource {
 
     return {
       ...appointment,
+      startsAt: appointment.startsAt.toISOString(),
+      endsAt: appointment.endsAt.toISOString(),
       presenter: await BasicConsultantResource.make(appointment.presenter),
       training:
         appointment.training &&

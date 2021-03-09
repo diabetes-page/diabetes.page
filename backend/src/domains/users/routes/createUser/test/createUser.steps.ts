@@ -3,7 +3,7 @@ import { Then, When } from 'cucumber';
 import { testRequest } from '../../../../../test/setup.steps';
 
 When(
-  /^I create a new account with name "([^"]*)", E-Mail "([^"]*)"$/,
+  /^I create a new account with name "([^"]*)" and e-mail "([^"]*)"$/,
   async function (name: string, email: string) {
     this.response = await testRequest(
       'POST',

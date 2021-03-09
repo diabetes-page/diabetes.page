@@ -27,5 +27,8 @@ Then(
     );
     expect(this.response.body.startsAt).to.equal(expectation['Start time']);
     expect(this.response.body.endsAt).to.equal(expectation['End time']);
+    expect(this.response.body.isRunning).to.equal(
+      expectation['Is running?'] === 'Yes',
+    );
   },
 );
