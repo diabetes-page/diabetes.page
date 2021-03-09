@@ -7,11 +7,12 @@ Author: 'Vincent Rolfs'
 
 ## Introduction
 
-This is the repository for the diabetes.page software. It contains three main parts:
+This is the repository for the diabetes.page software. It contains two main parts:
 
 - The `backend`, which offers an API written using `nest.js`.
 - The `frontend`, which contains the code for the web version and mobile apps, written using `expo`.
-- The `jitsi` service, which handles videostreaming and is of course built with `jitsi`.
+
+There is also the `jitsi` service, which handles videostreaming and is of course built with `jitsi`. It is hosted in another repository.
 
 ## Installation
 
