@@ -6,6 +6,7 @@ import { AppointmentInWorkingGroupResource as BackendAppointmentInWorkingGroupRe
 import { AppointmentResource as BackendAppointmentResource } from '../../../../backend/src/domains/appointments/resources/AppointmentResource';
 import { Resource as BackendCreateAppointmentResource } from '../../../../backend/src/domains/appointments/routes/createAppointment/Resource';
 import { Resource as BackendIndexAppointmentsForUserResource } from '../../../../backend/src/domains/appointments/routes/indexAppointmentsForUser/Resource';
+import { Resource as BackendStartAppointmentResource } from '../../../../backend/src/domains/appointments/routes/startAppointment/Resource';
 import { Resource as BackendCheckAuthStatusResource } from '../../../../backend/src/domains/auth/routes/checkAuthStatus/Resource';
 import { Resource as BackendLoginResource } from '../../../../backend/src/domains/auth/routes/login/Resource';
 import { Resource as BackendRegisterResource } from '../../../../backend/src/domains/auth/routes/register/Resource';
@@ -30,6 +31,7 @@ export type CreateAppointmentParameters = {
   endsAt: string;
 };
 export type IndexAppointmentsForUserResource = BackendIndexAppointmentsForUserResource;
+export type StartAppointmentResource = BackendStartAppointmentResource;
 export type CheckAuthStatusResource = BackendCheckAuthStatusResource;
 export type LoginResource = BackendLoginResource;
 export type LoginParameters = {
@@ -70,6 +72,11 @@ export const requests = {
     appointmentId: string,
   ): Promise<AxiosResponse<AppointmentResource>> =>
     Get(`appointments/${appointmentId}`, await withAuth()),
+
+  startAppointment: async (
+    appointmentId: string,
+  ): Promise<AxiosResponse<StartAppointmentResource>> =>
+    Post(`appointments/${appointmentId}/start`, {}, await withAuth()),
 
   checkAuthStatus: async (): Promise<AxiosResponse<CheckAuthStatusResource>> =>
     Get(`/auth/status`, await withAuth()),
