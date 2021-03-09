@@ -1,16 +1,16 @@
-import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { hash } from 'bcrypt';
 import { randomUUID } from 'crypto';
 import { I18nService } from 'nestjs-i18n';
+import { MailTemplatesService } from '../../../bootstrap/modules/mailTemplates/MailTemplatesService';
 import { User } from '../entities/User.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     private configService: ConfigService,
-    private readonly mailerService: MailerService,
+    private readonly templatesService: MailTemplatesService,
     protected i18n: I18nService,
   ) {}
 
@@ -64,17 +64,16 @@ export class UsersService {
       verificationToken: user.verificationToken,
     });
 
-    this.mailerService
-      .sendMail({
-        to: user.email,
-        subject: user.name,
-        template: __dirname + `/../templates/userVerificationEmail`,
-        context: {
-          header: header,
-          body: body,
-        },
-      })
-      .catch((err) => console.log(err));
+    await this.templatesService.sendMail({
+      language: 'en', // todo: get language from user
+      to: user.email,
+      subject: user.name,
+      template: __dirname + `/../templates/userVerificationEmail`,
+      context: {
+        header: header,
+        body: body,
+      },
+    });
   }
   private async translate(key: string, args: any): Promise<string> {
     return await this.i18n.translate(key, {
