@@ -1,0 +1,19 @@
+{
+  "description": "The frontend of diabetes.page. It is built using Next.js.",
+  "author": "RMR Digital Ventures",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "watch": "next dev -p 19006",
+    "build": "next build",
+    "prod": "next start"
+  },
+  "dependencies": {
+    "next": "10.0.8",
+    "react": "17.0.1",
+    "react-dom": "17.0.1"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.3"
+  }
+}
