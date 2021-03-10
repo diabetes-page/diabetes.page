@@ -4,15 +4,15 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Card, Paragraph } from 'react-native-paper';
 import { UNIT } from '../../../config/style';
-import { AppointmentInWorkingGroupResource } from '../../../utilities/requests/requests';
+import { AppointmentWithWorkingGroupsResource } from '../../../utilities/requests/requests';
 import { stacks } from '../../navigation/config';
 
 type AppointmentListItemProps = {
-  appointmentInGroup: AppointmentInWorkingGroupResource;
+  appointmentWithGroups: AppointmentWithWorkingGroupsResource;
 };
 
 export function AppointmentListItem({
-  appointmentInGroup,
+  appointmentWithGroups,
 }: AppointmentListItemProps): JSX.Element {
   const nav = useNavigation();
 
@@ -22,7 +22,7 @@ export function AppointmentListItem({
       onPress={() =>
         void nav.navigate(
           ...stacks.appointments.screens.show.getNavigationData(
-            appointmentInGroup.appointment.id,
+            appointmentWithGroups.appointment.id,
           ),
         )
       }
@@ -30,14 +30,21 @@ export function AppointmentListItem({
       <Card.Title
         title={
           <span>
-            {formatRFC7231(parseISO(appointmentInGroup.appointment.startsAt))}
+            {formatRFC7231(
+              parseISO(appointmentWithGroups.appointment.startsAt),
+            )}
           </span>
         }
-        subtitle={appointmentInGroup.appointment.presenter.user.name}
+        subtitle={appointmentWithGroups.appointment.presenter.user.name}
       />
       <Card.Content>
         <Paragraph>
-          {appointmentInGroup.appointment.training?.name || 'No training'}
+          {appointmentWithGroups.appointment.training?.name || 'No training'}
+        </Paragraph>
+        <Paragraph>
+          {appointmentWithGroups.workingGroups
+            .map((group) => group.name)
+            .join(', ')}
         </Paragraph>
       </Card.Content>
     </Card>

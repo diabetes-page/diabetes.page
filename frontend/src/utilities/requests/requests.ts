@@ -3,9 +3,9 @@
  */
 import { AxiosResponse } from 'axios';
 import { AppointmentResource as BackendAppointmentResource } from '../../../../backend/src/domains/appointments/resources/AppointmentResource';
-import { AppointmentWithWorkingGroupsResource as BackendAppointmentInWorkingGroupResource } from '../../../../backend/src/domains/appointments/resources/AppointmentWithWorkingGroupsResource';
+import { AppointmentWithWorkingGroupsResource as BackendAppointmentWithWorkingGroupsResource } from '../../../../backend/src/domains/appointments/resources/AppointmentWithWorkingGroupsResource';
 import { Resource as BackendCreateAppointmentResource } from '../../../../backend/src/domains/appointments/routes/createAppointment/Resource';
-import { Resource as BackendIndexAppointmentsForUserResource } from '../../../../backend/src/domains/appointments/routes/indexParticipantAppointments/Resource';
+import { Resource as BackendIndexParticipantAppointmentsResource } from '../../../../backend/src/domains/appointments/routes/indexParticipantAppointments/Resource';
 import { Resource as BackendStartAppointmentResource } from '../../../../backend/src/domains/appointments/routes/startAppointment/Resource';
 import { Resource as BackendCheckAuthStatusResource } from '../../../../backend/src/domains/auth/routes/checkAuthStatus/Resource';
 import { Resource as BackendLoginResource } from '../../../../backend/src/domains/auth/routes/login/Resource';
@@ -22,14 +22,14 @@ import { Resource as BackendIndexUsersResource } from '../../../../backend/src/d
 import { BasicWorkingGroupResource as BackendBasicWorkingGroupResource } from '../../../../backend/src/domains/workingGroups/resources/BasicWorkingGroupResource';
 import { Get, Post, withAuth } from './axios';
 
-export type AppointmentInWorkingGroupResource = BackendAppointmentInWorkingGroupResource;
 export type AppointmentResource = BackendAppointmentResource;
+export type AppointmentWithWorkingGroupsResource = BackendAppointmentWithWorkingGroupsResource;
 export type CreateAppointmentResource = BackendCreateAppointmentResource;
 export type CreateAppointmentParameters = {
   startsAt: string;
   endsAt: string;
 };
-export type IndexAppointmentsForUserResource = BackendIndexAppointmentsForUserResource;
+export type IndexParticipantAppointmentsResource = BackendIndexParticipantAppointmentsResource;
 export type StartAppointmentResource = BackendStartAppointmentResource;
 export type CheckAuthStatusResource = BackendCheckAuthStatusResource;
 export type LoginResource = BackendLoginResource;
@@ -60,9 +60,9 @@ export const requests = {
   ): Promise<AxiosResponse<CreateAppointmentResource>> =>
     Post(`/trainings/${trainingId}/appointments`, data, await withAuth()),
 
-  indexAppointmentsForUser: async (
+  indexParticipantAppointments: async (
     userId: string,
-  ): Promise<AxiosResponse<IndexAppointmentsForUserResource>> =>
+  ): Promise<AxiosResponse<IndexParticipantAppointmentsResource>> =>
     Get(`/users/${userId}/appointments`, await withAuth()),
 
   showAppointment: async (

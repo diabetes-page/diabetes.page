@@ -4,7 +4,7 @@ import { StandardHeading } from '../../../components/StandardHeading';
 import { StandardScreen } from '../../../components/StandardScreen';
 import { useSelector } from '../../../redux/root/hooks';
 import {
-  AppointmentInWorkingGroupResource,
+  AppointmentWithWorkingGroupsResource,
   requests,
 } from '../../../utilities/requests/requests';
 import { AppointmentListItem } from './AppointmentListItem';
@@ -17,13 +17,13 @@ export const IndexAppointmentsScreen = {
 
 function IndexAppointments(): JSX.Element {
   const [appointments, setAppointments] = useState<
-    AppointmentInWorkingGroupResource[]
+    AppointmentWithWorkingGroupsResource[]
   >([]);
   const [isLoading, setIsLoading] = useState(true);
   const userId = useSelector((state) => state.user.id);
 
   useEffect(() => {
-    requests.indexAppointmentsForUser(userId).then((response) => {
+    requests.indexParticipantAppointments(userId).then((response) => {
       setAppointments(response.data.appointments);
       setIsLoading(false);
     });
@@ -40,10 +40,10 @@ function IndexAppointments(): JSX.Element {
   return (
     <StandardScreen>
       <StandardHeading>My appointments</StandardHeading>
-      {appointments.map((appointmentInGroup) => (
+      {appointments.map((appointmentWithGroups) => (
         <AppointmentListItem
-          appointmentInGroup={appointmentInGroup}
-          key={appointmentInGroup.appointment.id}
+          appointmentWithGroups={appointmentWithGroups}
+          key={appointmentWithGroups.appointment.id}
         />
       ))}
     </StandardScreen>
