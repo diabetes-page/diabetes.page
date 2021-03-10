@@ -7,7 +7,7 @@ import { AppointmentsService } from '../../services/AppointmentsService';
 import { Resource } from './Resource';
 
 @Controller()
-export class IndexAppointmentsForUser extends ResourceController {
+export class IndexParticipantAppointments extends ResourceController {
   public static Resource = Resource;
 
   constructor(private appointmentsService: AppointmentsService) {
