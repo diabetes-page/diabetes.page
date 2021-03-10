@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import { Then, When } from 'cucumber';
+import { TableDefinition, Then, When } from 'cucumber';
+import { flatten } from 'lodash';
 import { testRequest } from '../../../../../test/setup.steps';
 import { User } from '../../../../users/entities/User.entity';
 
@@ -43,10 +44,13 @@ Then(
 );
 
 Then(
-  /^the appointment at index (\d+) is assigned through the working group "([^"]*)"$/,
-  function (index, name) {
-    expect(this.response.body.appointments[index].workingGroup.name).equals(
-      name,
-    );
+  /^the appointment at index (\d+) is assigned through the following working groups:$/,
+  function (index, configuration: TableDefinition) {
+    const groupNames = flatten(configuration.raw());
+    expect(
+      this.response.body.appointments[index].workingGroups.map(
+        (group: any) => group.name,
+      ),
+    ).to.deep.equal(groupNames);
   },
 );

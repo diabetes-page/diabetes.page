@@ -31,4 +31,17 @@ export class AppointmentsRepository extends AbstractRepository<Appointment> {
 
     return !!(await query.getOne());
   }
+
+  async getParticipantAppointments(user: User): Promise<Appointment[]> {
+    const q = this.repository
+      .createQueryBuilder('appointment')
+      .innerJoinAndSelect('appointment.workingGroups', 'workingGroup')
+      .innerJoin('workingGroup.users', 'user')
+      .andWhere('user.id = :userId', {
+        userId: user.id,
+      })
+      .orderBy('appointment.startsAt, workingGroup.name');
+
+    return q.getMany();
+  }
 }

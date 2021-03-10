@@ -1,12 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { flatten } from 'lodash';
-import { mapPromises } from '../../../utilities/promises';
+import { getCustomRepository } from 'typeorm';
 import { Training } from '../../trainings/entities/Training.entity';
 import { Consultant } from '../../users/entities/Consultant.entity';
 import { User } from '../../users/entities/User.entity';
-import { WorkingGroup } from '../../workingGroups/entities/WorkingGroup.entity';
 import { Appointment } from '../entities/Appointment.entity';
-import { AppointmentInWorkingGroup } from '../types/AppointmentInWorkingGroup';
+import { AppointmentsRepository } from '../repositories/AppointmentsRepository';
 
 @Injectable()
 export class AppointmentsService {
@@ -14,19 +12,10 @@ export class AppointmentsService {
     return Appointment.findOne({ where: { id } });
   }
 
-  async forUser(user: User): Promise<AppointmentInWorkingGroup[]> {
-    const groups = await user.loadWorkingGroups();
-
-    const appointmentsDeep: AppointmentInWorkingGroup[][] = await mapPromises(
-      groups,
-      async (workingGroup: WorkingGroup) =>
-        (await workingGroup.loadAppointments()).map((appointment) => ({
-          workingGroup,
-          appointment,
-        })),
-    );
-
-    return flatten(appointmentsDeep);
+  async forParticipant(user: User): Promise<Appointment[]> {
+    return getCustomRepository(
+      AppointmentsRepository,
+    ).getParticipantAppointments(user);
   }
 
   async add(

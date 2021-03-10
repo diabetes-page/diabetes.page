@@ -1,21 +1,19 @@
 import { Expose, Type } from 'class-transformer';
 import { mapPromises } from '../../../../utilities/promises';
-import { AppointmentInWorkingGroupResource } from '../../resources/AppointmentInWorkingGroupResource';
-import { AppointmentInWorkingGroup } from '../../types/AppointmentInWorkingGroup';
+import { Appointment } from '../../entities/Appointment.entity';
+import { AppointmentWithWorkingGroupsResource } from '../../resources/AppointmentWithWorkingGroupsResource';
 
 export class Resource {
   @Expose()
-  @Type(() => AppointmentInWorkingGroupResource)
-  appointments: AppointmentInWorkingGroupResource[];
+  @Type(() => AppointmentWithWorkingGroupsResource)
+  appointments: AppointmentWithWorkingGroupsResource[];
 
-  static make = async (
-    appointmentsInGroups: AppointmentInWorkingGroup[],
-  ): Promise<Resource> => {
+  static make = async (appointments: Appointment[]): Promise<Resource> => {
     return {
       appointments: await mapPromises(
-        appointmentsInGroups,
-        async (appointmentInGroup: AppointmentInWorkingGroup) =>
-          AppointmentInWorkingGroupResource.make(appointmentInGroup),
+        appointments,
+        async (appointment: Appointment) =>
+          AppointmentWithWorkingGroupsResource.make(appointment),
       ),
     };
   };
