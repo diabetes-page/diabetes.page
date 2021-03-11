@@ -3,6 +3,8 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import React, { useEffect } from 'react';
+import { Provider } from 'react-redux';
+import { store } from '../redux/root/state';
 import { theme } from '../theme';
 
 function App({ Component, pageProps }: AppProps): JSX.Element {
@@ -22,10 +24,12 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </Provider>
     </>
   );
 }
