@@ -1,4 +1,17 @@
-import BaseDocument, { Head, Html, Main, NextScript } from 'next/document';
+import { ServerStyleSheets } from '@material-ui/core/styles';
+import { StylesProviderProps } from '@material-ui/styles/StylesProvider';
+import {
+  AppType,
+  DocumentInitialProps,
+  RenderPageResult,
+} from 'next/dist/next-server/lib/utils';
+import {
+  default as BaseDocument,
+  Head,
+  Html,
+  Main,
+  NextScript,
+} from 'next/document';
 import React from 'react';
 import { theme } from '../theme';
 
@@ -23,3 +36,31 @@ export default class Document extends BaseDocument {
     );
   }
 }
+
+const originalGetInitialProps = Document.getInitialProps;
+
+// See https://material-ui.com/guides/server-rendering/
+// And https://github.com/mui-org/material-ui/blob/master/examples/nextjs-with-typescript/
+Document.getInitialProps = async (ctx): Promise<DocumentInitialProps> => {
+  console.log('call');
+  const sheets = new ServerStyleSheets();
+  const originalRenderPage = ctx.renderPage;
+
+  ctx.renderPage = (): RenderPageResult | Promise<RenderPageResult> =>
+    originalRenderPage({
+      enhanceApp: (App: AppType): AppType => (
+        props,
+      ): React.ReactElement<StylesProviderProps> =>
+        sheets.collect(<App {...props} />),
+    });
+
+  const initialProps = await originalGetInitialProps(ctx);
+
+  return {
+    ...initialProps,
+    styles: [
+      ...React.Children.toArray(initialProps.styles),
+      sheets.getStyleElement(),
+    ],
+  };
+};
