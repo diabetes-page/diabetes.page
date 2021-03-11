@@ -51,7 +51,7 @@ export type LinkProps = LinkPropsBase &
 
 // A styled version of the Next.js Link component:
 // https://nextjs.org/docs/#with-link
-function Link(props: LinkProps): JSX.Element {
+function LinkImpl(props: LinkProps): JSX.Element {
   const {
     href,
     activeClassName = 'active',
@@ -89,6 +89,6 @@ function Link(props: LinkProps): JSX.Element {
   );
 }
 
-export default React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => (
-  <Link {...props} innerRef={ref} />
-));
+export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
+  (props, ref) => <LinkImpl {...props} innerRef={ref} />,
+);
