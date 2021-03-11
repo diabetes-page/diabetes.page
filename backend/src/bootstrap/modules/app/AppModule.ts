@@ -1,6 +1,4 @@
-import { MailerModule } from '@nestjs-modules/mailer';
 import { Module } from '@nestjs/common';
-import { mailerConfig } from '../../../config/mailerConfig';
 import { AppointmentsModule } from '../../../domains/appointments/AppointmentsModule';
 import { AuthModule } from '../../../domains/auth/AuthModule';
 import { ConferencesModule } from '../../../domains/conferences/ConferencesModule';
@@ -10,6 +8,7 @@ import { UsersModule } from '../../../domains/users/UsersModule';
 import { WorkingGroupsModule } from '../../../domains/workingGroups/WorkingGroupsModule';
 import { ConfigModule } from '../config/ConfigModule';
 import { I18nModule } from '../i18n/I18nModule';
+import { MailerModule } from '../mailer/MailerModule';
 import { TypeOrmModule } from '../typeOrm/TypeOrmModule';
 import { ValidationModule } from '../validation/ValidationModule';
 
@@ -18,6 +17,7 @@ import { ValidationModule } from '../validation/ValidationModule';
     ConfigModule,
     TypeOrmModule,
     I18nModule,
+    MailerModule,
     ValidationModule,
     AuthModule,
     UsersModule,
@@ -26,7 +26,6 @@ import { ValidationModule } from '../validation/ValidationModule';
     AppointmentsModule,
     ConferencesModule,
     WorkingGroupsModule,
-    MailerModule.forRoot(mailerConfig),
   ],
 })
 export class AppModule {}
