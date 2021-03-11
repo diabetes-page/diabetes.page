@@ -40,3 +40,9 @@ Feature: Login
     Given I am a user with name "X", e-mail "test@example.com" and password "12345678"
     When I login to the application with empty e-mail and password "12345678"
     Then the request is rejected
+
+  Scenario: I can't login if verification token is set
+    Given I am a user with name "X", e-mail "test@example.com" and password "12345678"
+    And I have a verification token set
+    When I login to the application with e-mail "test@example.com" and password "12345678"
+    Then the request is unauthenticated
