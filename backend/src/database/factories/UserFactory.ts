@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { hash } from 'bcrypt';
+import { randomUUID } from 'crypto';
 import * as Faker from 'faker';
 import { Consultant } from '../../domains/users/entities/Consultant.entity';
 import { User } from '../../domains/users/entities/User.entity';
@@ -59,5 +60,10 @@ export class UserFactory {
       password: passwordHash,
       ...props,
     }).save();
+  };
+
+  public addVerificationToken = async (user: User): Promise<User> => {
+    user.verificationToken = randomUUID();
+    return await user.save();
   };
 }

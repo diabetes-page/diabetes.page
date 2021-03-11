@@ -5,7 +5,7 @@ import { BaseEntity } from 'typeorm';
 export class EntityById<T extends typeof BaseEntity> implements PipeTransform {
   constructor(protected entityClass: T, protected param: string) {}
 
-  async transform(routeParams: Record<string, string>): Promise<any> {
+  async transform(routeParams: Record<string, string>): Promise<BaseEntity> {
     const id = routeParams[this.param];
     const entity = await this.entityClass.findOne(id);
 

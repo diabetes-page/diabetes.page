@@ -1,26 +1,8 @@
 import { transform } from 'lodash';
-import { IndexAppointments } from '../../screens/indexAppointments/IndexAppointments';
-import { ShowConference } from '../../screens/showConference/ShowConference';
 import { AppointmentsStack } from '../appDrawer/AppointmentsStack';
 
 export const stacks = {
-  appointments: {
-    name: 'appointmentsStack',
-    drawerLabel: 'Appointments' /* todo: i18n */,
-    component: AppointmentsStack,
-    screens: {
-      index: {
-        name: 'indexAppointments',
-        url: 'appointments',
-        component: IndexAppointments,
-      },
-      conference: {
-        name: 'showConference',
-        url: 'appointments/:id/conference', // Todo: can we get type checking for the params?
-        component: ShowConference,
-      },
-    },
-  },
+  appointments: AppointmentsStack,
 };
 
 const screensConfig = transform(

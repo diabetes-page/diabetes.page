@@ -1,6 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
 import { expect } from 'chai';
-import { Given, Then } from 'cucumber';
+import { Given, TableDefinition, Then } from 'cucumber';
+import { parseISO } from 'date-fns';
 import { TeachingBase } from '../domains/teachingBases/entities/TeachingBase.entity';
 import { TeachingBaseDocument } from '../domains/teachingBases/entities/TeachingBaseDocument.entity';
 import { Topic } from '../domains/teachingBases/entities/Topic.entity';
@@ -8,6 +9,7 @@ import { Training } from '../domains/trainings/entities/Training.entity';
 import { User } from '../domains/users/entities/User.entity';
 import { WorkingGroup } from '../domains/workingGroups/entities/WorkingGroup.entity';
 import { seeder, testRequest } from './setup.steps';
+import { getAppointment } from './testingUtilities';
 
 Then(/^the request is rejected$/, function () {
   expect(this.response.status).to.equal(HttpStatus.BAD_REQUEST);
@@ -15,6 +17,14 @@ Then(/^the request is rejected$/, function () {
 
 Then(/^the request is successful$/, function () {
   expect(this.response.status).to.equal(HttpStatus.OK);
+});
+
+Then(/^the request is successful without response$/, function () {
+  expect(this.response.status).to.equal(HttpStatus.NO_CONTENT);
+});
+
+Then(/^the request is successful and the resource created$/, function () {
+  expect(this.response.status).to.equal(HttpStatus.CREATED);
 });
 
 Then(/^the request is unauthenticated$/, function () {
@@ -28,7 +38,7 @@ Then(/^the request is unauthorized$/, function () {
 });
 
 Given(
-  /^there is a user with name "([^"]*)" and E-Mail "([^"]*)"$/,
+  /^there is a user with name "([^"]*)" and e-mail "([^"]*)"$/,
   async function (name, email) {
     await seeder.userFactory.createUser({
       name,
@@ -38,7 +48,7 @@ Given(
 );
 
 Given(
-  /^I am a user with name "([^"]*)", E-Mail "([^"]*)" and password "([^"]*)"$/,
+  /^I am a user with name "([^"]*)", e-mail "([^"]*)" and password "([^"]*)"$/,
   async function (name, email, password) {
     this.user = await seeder.userFactory.createUser(
       {
@@ -114,20 +124,32 @@ Given(
 );
 
 Given(
-  /^the appointment presented by "([^"]*)" is assigned to the working group "([^"]*)"$/,
-  async function (presenterName, workingGroupName) {
-    const appointments = await (await (await User.findOne({
-      name: presenterName,
-    }))!.loadAsConsultant())!.loadAppointments();
-    expect(appointments).to.have.length(1);
+  /^the training "([^"]*)" has an appointment with the following configuration:$/,
+  async function (trainingName, configuration: TableDefinition) {
+    const dataHash = configuration.rowsHash();
+    const training = (await Training.findOne({ name: trainingName }))!;
+    const presenter = (await (await User.findOne({
+      name: dataHash.Presenter,
+    }))!.loadAsConsultant())!;
 
+    await seeder.appointmentFactory.createAppointment(training, presenter, {
+      startsAt: parseISO(dataHash['Start time']),
+      endsAt: parseISO(dataHash['End time']),
+    });
+  },
+);
+
+Given(
+  /^the appointment for the training "([^"]*)" presented by "([^"]*)" is assigned to the working group "([^"]*)"$/,
+  async function (trainingName, presenterName, workingGroupName) {
+    const appointment = await getAppointment(trainingName, presenterName);
     const workingGroup = (await WorkingGroup.findOne({
       name: workingGroupName,
     }))!;
 
     workingGroup.appointments = [
       ...(await workingGroup.loadAppointments()),
-      appointments[0],
+      appointment,
     ];
     await workingGroup.save();
   },
@@ -162,6 +184,21 @@ Given(
     await user.save();
   },
 );
-Then(/^the request is successful and resource created$/, function() {
-  expect(this.response.status).to.equal(HttpStatus.CREATED)
+
+Given(
+  /^the training "([^"]*)" uses the following slides: "([^"]*)"$/,
+  async function (trainingName, slidesString) {
+    const training = (await Training.findOne({ name: trainingName }))!;
+    const slides = slidesString
+      .split(',')
+      .map((s: string) => parseInt(s.trim()));
+
+    await Training.update(training.id, {
+      slides: slides,
+    });
+  },
+);
+
+Then(/^the response is empty$/, function () {
+  expect(this.response.body).to.deep.equal({});
 });
