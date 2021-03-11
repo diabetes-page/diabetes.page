@@ -29,6 +29,10 @@ export const MailerModule = MailerModuleBase.forRootAsync({
           dir: __dirname + '/../../../blueprints/templates',
         },
       },
+      // preview: {
+      //   dir: '/home/tom/projects/diabetes.page/backend',
+      // },
+      preview: true,
     };
   },
 });

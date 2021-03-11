@@ -35,7 +35,6 @@ export class MailTemplatesService {
         ...sendMailOptions,
         template: languageTemplate,
       })
-      // .then((success) => console.log(success))
       .catch((err) => console.log(err)); // todo: proper logging
   }
 
