@@ -41,8 +41,9 @@ const originalGetInitialProps = Document.getInitialProps;
 
 // See https://material-ui.com/guides/server-rendering/
 // And https://github.com/mui-org/material-ui/blob/master/examples/nextjs-with-typescript/
+// Note that this works with static site generation (SSG)
+// For SSG, this function is only called during build time (when in production mode)
 Document.getInitialProps = async (ctx): Promise<DocumentInitialProps> => {
-  console.log('call');
   const sheets = new ServerStyleSheets();
   const originalRenderPage = ctx.renderPage;
 
