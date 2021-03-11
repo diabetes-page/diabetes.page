@@ -13,6 +13,7 @@
     ],
     "moduleResolution": "node",
     "noEmit": true,
+    "noImplicitThis": true,
     "resolveJsonModule": true,
     "skipLibCheck": true
   },
