@@ -26,10 +26,7 @@ export const MailerModule = MailerModuleBase.forRootAsync({
       },
       options: {
         partials: {
-          dir: __dirname + '../../../blueprints/templates',
-          // options: {
-          //   strict: true,
-          // },
+          dir: __dirname + '/../../../blueprints/templates',
         },
       },
     };
