@@ -1,10 +1,11 @@
 import { Typography, TypographyProps } from '@material-ui/core';
+import React from 'react';
 
-type Props = TypographyProps & {
+export type StandardHeadingProps = TypographyProps & {
   children: React.ReactNode;
 };
 
-export function StandardHeading(props: Props): JSX.Element {
+export function StandardHeading(props: StandardHeadingProps): JSX.Element {
   return (
     <Typography variant="h3" gutterBottom {...props}>
       {props.children}
