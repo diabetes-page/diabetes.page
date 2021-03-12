@@ -13,6 +13,7 @@ import {
   LOGO_PATH,
   LOGO_WIDTH,
 } from '../../../../config/style';
+import { UserMenu } from './UserMenu';
 
 export function AppBar(): JSX.Element {
   const classes = useStyles();
@@ -28,6 +29,7 @@ export function AppBar(): JSX.Element {
             height={LOGO_HEIGHT}
           />
         </Box>
+        <UserMenu />
       </Toolbar>
     </AppBarBase>
   );
