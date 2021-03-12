@@ -60,12 +60,12 @@ const saveResult = async (
   dispatch: SafeDispatch,
 ): Promise<void> => {
   dispatch({
-    type: DEREGISTER_LOADING_INITIAL,
-    action: SET_LOGGED_IN,
-  });
-  dispatch({
     type: SET_LOGGED_IN,
     loggedIn: result,
+  });
+  dispatch({
+    type: DEREGISTER_LOADING_INITIAL,
+    action: SET_LOGGED_IN,
   });
 
   if (!result) {
