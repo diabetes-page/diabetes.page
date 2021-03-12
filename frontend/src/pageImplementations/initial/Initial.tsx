@@ -5,6 +5,7 @@ import { Loader } from '../../components/Loader';
 import { SET_LOGGED_IN } from '../../redux/login/actions';
 import { RootState } from '../../redux/root/state';
 import { Auth } from './auth/Auth';
+import { Login } from './login/Login';
 
 export function Initial(): JSX.Element {
   const loginLoading = useSelector((state: RootState) =>
@@ -18,7 +19,7 @@ export function Initial(): JSX.Element {
   } else if (loggedIn) {
     content = <Loader />;
   } else {
-    content = <Loader />;
+    content = <Login />;
   }
 
   return (
