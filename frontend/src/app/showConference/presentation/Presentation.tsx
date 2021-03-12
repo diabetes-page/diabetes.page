@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import React, { useEffect } from 'react';
 import { Loader } from '../../../components/Loader';
 import { useSelector } from '../../../redux/root/hooks';
@@ -8,7 +9,9 @@ import {
   requests,
 } from '../../../utilities/requests/requests';
 import { Controls } from './Controls';
-import { Slide } from './Slide';
+
+// See https://nextjs.org/docs/advanced-features/dynamic-import#with-no-ssr
+const Slide = dynamic(() => import('./Slide'), { ssr: false });
 
 export const Presentation = (): JSX.Element => {
   const appointment = useSelector((state) => state.live.appointment!);

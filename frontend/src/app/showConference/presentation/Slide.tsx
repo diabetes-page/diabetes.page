@@ -8,7 +8,9 @@ import { FullTrainingResource } from '../../../utilities/requests/requests';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 type Props = { training: FullTrainingResource };
-export const Slide = ({ training }: Props): JSX.Element => {
+
+// This export must be default in order to work with next.js dynamic import
+export default function Slide({ training }: Props): JSX.Element {
   const conference = useSelector((state) => state.live.conference!);
   const pdfIndex = training.slides[conference.slideIndex] ?? 0;
 
@@ -23,4 +25,4 @@ export const Slide = ({ training }: Props): JSX.Element => {
       </Document>
     </>
   );
-};
+}
