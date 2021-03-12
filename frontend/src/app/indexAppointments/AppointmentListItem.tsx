@@ -1,7 +1,8 @@
 import { Card, CardContent, makeStyles, Typography } from '@material-ui/core';
-import { formatRFC7231, parseISO } from 'date-fns';
 import React from 'react';
+import { formatIsoDateString } from '../../utilities/misc/dates';
 import { AppointmentInWorkingGroupResource } from '../../utilities/requests/requests';
+
 type AppointmentListItemProps = {
   appointmentInGroup: AppointmentInWorkingGroupResource;
 };
@@ -12,14 +13,14 @@ export function AppointmentListItem({
   const classes = useStyles();
 
   return (
-    <Card onClick={() => void 0}>
+    <Card onClick={() => void 0} className={classes.card}>
       <CardContent>
         <Typography
           className={classes.title}
           color="textSecondary"
           gutterBottom
         >
-          {formatRFC7231(parseISO(appointmentInGroup.appointment.startsAt))}
+          {formatIsoDateString(appointmentInGroup.appointment.startsAt)}
         </Typography>
         <Typography variant="h5" component="h2">
           {appointmentInGroup.appointment.training?.name || 'No training'}
@@ -32,11 +33,14 @@ export function AppointmentListItem({
   );
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+  card: {
+    marginBottom: theme.spacing(2),
+  },
   title: {
     fontSize: 14,
   },
   pos: {
     marginBottom: 12,
   },
-});
+}));
