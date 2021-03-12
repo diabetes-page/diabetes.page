@@ -9,12 +9,12 @@ import {
 } from '@material-ui/core';
 import { AxiosResponse } from 'axios';
 import React, { useState } from 'react';
-import { StandardHeading } from '../../../components/StandardHeading';
-import { LOCAL_STORAGE_JWT_KEY } from '../../../config/security';
-import { SET_LOGGED_IN } from '../../../redux/login/actions';
-import { useSafeDispatch } from '../../../redux/root/hooks';
-import { SET_USER } from '../../../redux/user/actions';
-import { LoginResource, requests } from '../../../utilities/requests/requests';
+import { StandardHeading } from '../../components/StandardHeading';
+import { LOCAL_STORAGE_JWT_KEY } from '../../config/security';
+import { SET_LOGGED_IN } from '../../redux/login/actions';
+import { useSafeDispatch } from '../../redux/root/hooks';
+import { SET_USER } from '../../redux/user/actions';
+import { LoginResource, requests } from '../../utilities/requests/requests';
 
 export function Login(): JSX.Element {
   const [email, setEmail] = useState('');

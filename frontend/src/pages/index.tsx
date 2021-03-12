@@ -1,6 +1,15 @@
 import React from 'react';
-import { Initial } from '../app/initial/Initial';
+import { IndexAppointments } from '../app/indexAppointments/IndexAppointments';
+import { Main } from '../app/main/Main';
 
-export default function InitialPage(): JSX.Element {
-  return <Initial />;
+export function toHomePage(): string {
+  return '/';
+}
+
+export default function HomePage(): JSX.Element {
+  return (
+    <Main>
+      <IndexAppointments />
+    </Main>
+  );
 }

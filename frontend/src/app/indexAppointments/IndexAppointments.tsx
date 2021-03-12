@@ -10,13 +10,7 @@ import {
 } from '../../utilities/requests/requests';
 import { AppointmentListItem } from './AppointmentListItem';
 
-export const IndexAppointmentsScreen = {
-  name: 'indexAppointments',
-  url: '/appointments',
-  component: IndexAppointments,
-};
-
-function IndexAppointments(): JSX.Element {
+export function IndexAppointments(): JSX.Element {
   const [appointments, setAppointments, isLoading] = useLoadingState<
     AppointmentInWorkingGroupResource[]
   >();
