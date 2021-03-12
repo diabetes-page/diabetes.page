@@ -13,6 +13,11 @@ export const theme = createMuiTheme({
     },
     background: {
       default: '#EBFDFF',
+      paper: '#FFFFFF',
     },
+    text: {
+      primary: '#223B59',
+    },
+    divider: 'rgba(0, 0, 0, 0.12)',
   },
 });

@@ -6,6 +6,7 @@ import { RootState } from '../../redux/root/state';
 import { Auth } from './auth/Auth';
 import { Loading } from './loading/Loading';
 import { Login } from './login/Login';
+import { Navigation } from './navigation/Navigation';
 
 export function Initial(): JSX.Element {
   const loginLoading = useSelector((state: RootState) =>
@@ -17,7 +18,7 @@ export function Initial(): JSX.Element {
   if (loginLoading) {
     content = <Loading />;
   } else if (loggedIn) {
-    content = <Loading />;
+    content = <Navigation />;
   } else {
     content = <Login />;
   }

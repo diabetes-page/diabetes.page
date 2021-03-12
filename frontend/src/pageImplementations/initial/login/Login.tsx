@@ -24,7 +24,7 @@ export function Login(): JSX.Element {
   const classes = useStyles();
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" component="main">
       <Box display="flex" height="100vh" alignItems="center">
         <form onSubmit={login} action="javascript:void 0;">
           <Box
