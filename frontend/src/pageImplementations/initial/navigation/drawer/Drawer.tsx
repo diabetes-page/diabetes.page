@@ -1,5 +1,4 @@
 import {
-  Divider,
   Drawer as DrawerBase,
   List,
   ListItem,
@@ -9,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { Inbox } from '@material-ui/icons';
 import React from 'react';
-import { DRAWER_WIDTH } from '../../../../config/style';
+import { APP_BAR_HEIGHT, DRAWER_WIDTH } from '../../../../config/style';
 
 export function Drawer(): JSX.Element {
   const classes = useStyles();
@@ -23,8 +22,7 @@ export function Drawer(): JSX.Element {
       }}
       anchor="left"
     >
-      <div className={classes.toolbar} />
-      <Divider />
+      <div className={classes.appBarPusher} />
       <List>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text) => (
           <ListItem button key={text}>
@@ -39,8 +37,10 @@ export function Drawer(): JSX.Element {
   );
 }
 
-const useStyles = makeStyles((theme) => ({
-  toolbar: theme.mixins.toolbar,
+const useStyles = makeStyles(() => ({
+  appBarPusher: {
+    height: APP_BAR_HEIGHT,
+  },
   drawer: {
     width: DRAWER_WIDTH,
     flexShrink: 0,
