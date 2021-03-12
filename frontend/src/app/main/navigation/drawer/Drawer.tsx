@@ -8,7 +8,8 @@ import {
 } from '@material-ui/core';
 import { Inbox } from '@material-ui/icons';
 import React from 'react';
-import { APP_BAR_HEIGHT, DRAWER_WIDTH } from '../../../../config/style';
+import { AppBarPusher } from '../../../../components/AppBarPusher';
+import { DRAWER_WIDTH } from '../../../../config/style';
 
 export function Drawer(): JSX.Element {
   const classes = useStyles();
@@ -22,7 +23,7 @@ export function Drawer(): JSX.Element {
       }}
       anchor="left"
     >
-      <div className={classes.appBarPusher} />
+      <AppBarPusher />
       <List>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text) => (
           <ListItem button key={text}>
@@ -38,9 +39,6 @@ export function Drawer(): JSX.Element {
 }
 
 const useStyles = makeStyles(() => ({
-  appBarPusher: {
-    height: APP_BAR_HEIGHT,
-  },
   drawer: {
     width: DRAWER_WIDTH,
     flexShrink: 0,
