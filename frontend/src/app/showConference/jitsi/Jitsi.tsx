@@ -9,12 +9,13 @@ type Props = {
   onLoad: () => void;
 };
 
-export const Jitsi = ({ onLoad }: Props): JSX.Element => {
+// This export must be default in order to work with next.js dynamic import
+export default function Jitsi({ onLoad }: Props): JSX.Element {
   const parentNode = useRef<HTMLDivElement>(null);
   useJitsi(onLoad, parentNode);
 
   return <div ref={parentNode} />;
-};
+}
 
 const useJitsi = (
   onLoad: () => void,
