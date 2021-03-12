@@ -2,9 +2,9 @@ import { MutableRefObject, useCallback, useEffect, useRef } from 'react';
 import { Strophe } from 'strophe.js';
 import 'strophejs-plugin-muc';
 import {
-  JITSI_BOSH_URL,
   JITSI_JID,
   JITSI_ROOM_ADDRESS,
+  JITSI_WEBSOCKET_URL,
 } from '../../../config/jitsi';
 import { useConferenceRoomAndToken } from '../hooks/useConferenceRoomAndToken';
 
@@ -24,7 +24,7 @@ export const useChat = (
     connection.current?.reset();
 
     connection.current = new Strophe.Connection(
-      JITSI_BOSH_URL + conferenceToken,
+      `${JITSI_WEBSOCKET_URL}?room=${conferenceRoom}&token=${conferenceToken}`,
     );
 
     connection.current.connect(JITSI_JID, undefined, (status) => {
