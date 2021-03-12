@@ -44,6 +44,7 @@ export function Login(): JSX.Element {
             />
 
             <TextField
+              type="password"
               label="Password"
               value={password}
               onChange={(event) => void setPassword(event.currentTarget.value)}

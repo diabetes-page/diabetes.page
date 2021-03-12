@@ -22,10 +22,10 @@ export const Presentation = (): JSX.Element => {
   }
 
   return (
-    <>
+    <div>
       <Slide training={training} />
       <Controls training={training} />
-    </>
+    </div>
   );
 };
 
