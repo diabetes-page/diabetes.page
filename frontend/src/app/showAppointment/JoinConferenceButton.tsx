@@ -1,5 +1,7 @@
 import { Button } from '@material-ui/core';
+import { useRouter } from 'next/router';
 import React from 'react';
+import { toShowConferencePage } from '../../pages/appointments/[appointmentId]/conference';
 import { AppointmentResource } from '../../utilities/requests/requests';
 
 type Props = {
@@ -13,14 +15,13 @@ export function JoinConferenceButton({ appointment }: Props): JSX.Element {
 }
 
 function useJoinConference(appointment: AppointmentResource): () => void {
-  return () => void 0;
-  // const nav = useNavigation();
-  //
-  // return (): void => {
-  //   nav.navigate(
-  //     ...stacks.appointments.screens.conference.getNavigationData(
-  //       appointment.id,
-  //     ),
-  //   );
-  // };
+  const router = useRouter();
+
+  return (): void => {
+    router.push(
+      toShowConferencePage({
+        appointmentId: appointment.id,
+      }),
+    );
+  };
 }

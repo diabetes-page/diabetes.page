@@ -1,6 +1,11 @@
 import { Button } from '@material-ui/core';
+import { useRouter } from 'next/router';
 import React from 'react';
-import { AppointmentResource } from '../../utilities/requests/requests';
+import { toShowConferencePage } from '../../pages/appointments/[appointmentId]/conference';
+import {
+  AppointmentResource,
+  requests,
+} from '../../utilities/requests/requests';
 
 type Props = {
   appointment: AppointmentResource;
@@ -13,19 +18,15 @@ export function StartConferenceButton({ appointment }: Props): JSX.Element {
 }
 
 function useStartConference(appointment: AppointmentResource): () => void {
-  return () => void 0;
+  const router = useRouter();
 
-  // const nav = useNavigation();
-  //
-  // return (): void => {
-  //   requests
-  //     .startAppointment(appointment.id)
-  //     .then(() =>
-  //       nav.navigate(
-  //         ...stacks.appointments.screens.conference.getNavigationData(
-  //           appointment.id,
-  //         ),
-  //       ),
-  //     ); // todo: deal with request errors
-  // };
+  return (): void => {
+    requests.startAppointment(appointment.id).then(() =>
+      router.push(
+        toShowConferencePage({
+          appointmentId: appointment.id,
+        }),
+      ),
+    ); // todo: deal with request errors
+  };
 }

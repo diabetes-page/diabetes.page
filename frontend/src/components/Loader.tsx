@@ -1,3 +1,6 @@
 import { CircularProgress } from '@material-ui/core';
+import React from 'react';
 
-export const Loader = CircularProgress;
+export function Loader(): JSX.Element {
+  return <CircularProgress />;
+}
