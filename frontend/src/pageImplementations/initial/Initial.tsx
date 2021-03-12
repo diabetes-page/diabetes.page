@@ -1,10 +1,10 @@
 import { includes } from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Loader } from '../../components/Loader';
 import { SET_LOGGED_IN } from '../../redux/login/actions';
 import { RootState } from '../../redux/root/state';
 import { Auth } from './auth/Auth';
+import { Loading } from './loading/Loading';
 import { Login } from './login/Login';
 
 export function Initial(): JSX.Element {
@@ -15,9 +15,9 @@ export function Initial(): JSX.Element {
   let content: JSX.Element;
 
   if (loginLoading) {
-    content = <Loader />;
+    content = <Loading />;
   } else if (loggedIn) {
-    content = <Loader />;
+    content = <Loading />;
   } else {
     content = <Login />;
   }
