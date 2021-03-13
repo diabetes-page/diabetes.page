@@ -1,65 +1,76 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  Box,
+  Button,
+  Collapse,
+  Container,
+  makeStyles,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import { AxiosResponse } from 'axios';
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Button, Paragraph } from 'react-native-paper';
+import React, { useState } from 'react';
 import { StandardHeading } from '../../components/StandardHeading';
-import { StandardTextInput } from '../../components/StandardTextInput';
 import { LOCAL_STORAGE_JWT_KEY } from '../../config/security';
-import { UNIT } from '../../config/style';
 import { SET_LOGGED_IN } from '../../redux/login/actions';
 import { useSafeDispatch } from '../../redux/root/hooks';
 import { SET_USER } from '../../redux/user/actions';
-import { theme } from '../../theme';
-import { renderIf } from '../../utilities/misc/rendering';
 import { LoginResource, requests } from '../../utilities/requests/requests';
 
 export function Login(): JSX.Element {
-  const [email, onChangeEmail] = React.useState('');
-  const [password, onChangePassword] = React.useState('');
-  const [error, setError] = React.useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
   const login = useLogin(email, password, setError);
+  const classes = useStyles();
 
   return (
-    <View style={styles.centeringBox}>
-      <View style={styles.sizeBox}>
-        <StandardHeading>Login</StandardHeading>
-        <View>
-          <StandardTextInput
-            label="Email"
-            value={email}
-            onChangeText={onChangeEmail}
-            onSubmitEditing={login}
-            error={error}
-            autoCompleteType="email"
-            keyboardType="email-address"
-            textContentType="emailAddress"
-            style={styles.inputElement}
-          />
-          <StandardTextInput
-            label="Password"
-            value={password}
-            onChangeText={onChangePassword}
-            onSubmitEditing={login}
-            error={error}
-            autoCompleteType="password"
-            textContentType="password"
-            style={styles.inputElement}
-            secureTextEntry
-          />
+    <Container maxWidth="sm" component="main">
+      <Box display="flex" height="100vh" alignItems="center">
+        <form onSubmit={login} action="javascript:void 0;">
+          <Box
+            display="flex"
+            width="100%"
+            flexDirection="column"
+            justifyItems="center"
+          >
+            <StandardHeading>diabetes.page</StandardHeading>
 
-          {renderIf(error)(() => (
-            <Paragraph style={[styles.inputElement, styles.errorInfo]}>
-              The email and password you entered did not match our records.
-            </Paragraph>
-          ))}
+            <TextField
+              label="Email"
+              value={email}
+              onChange={(event) => void setEmail(event.currentTarget.value)}
+              error={error}
+              className={classes.inputField}
+            />
 
-          <Button onPress={login} mode="contained" style={styles.inputElement}>
-            Login
-          </Button>
-        </View>
-      </View>
-    </View>
+            <TextField
+              type="password"
+              label="Password"
+              value={password}
+              onChange={(event) => void setPassword(event.currentTarget.value)}
+              error={error}
+              className={classes.inputField}
+            />
+
+            <Collapse in={error}>
+              <Typography className={classes.marginTop}>
+                {/*Todo: i18n*/}
+                The email and password you entered did not match our records.
+              </Typography>
+            </Collapse>
+
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.marginTop}
+            >
+              Login
+            </Button>
+          </Box>
+        </form>
+      </Box>
+    </Container>
   );
 }
 
@@ -71,7 +82,7 @@ const useLogin = (
   const dispatch = useSafeDispatch();
 
   function onLogin(response: AxiosResponse<LoginResource>): void {
-    AsyncStorage.setItem(LOCAL_STORAGE_JWT_KEY, response.data.token);
+    localStorage.setItem(LOCAL_STORAGE_JWT_KEY, response.data.token);
     dispatch({
       type: SET_USER,
       user: response.data.user,
@@ -89,13 +100,11 @@ const useLogin = (
       .catch(() => setError(true)); // Todo: Deal with other types of errors
 };
 
-const styles = StyleSheet.create({
-  centeringBox: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%',
+const useStyles = makeStyles((theme) => ({
+  inputField: {
+    marginBottom: theme.spacing(1),
   },
-  sizeBox: { width: '75%', maxWidth: 600 },
-  inputElement: { marginBottom: UNIT * 2 },
-  errorInfo: { color: theme.colors.error },
-});
+  marginTop: {
+    marginTop: theme.spacing(2),
+  },
+}));
