@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { addDays } from 'date-fns';
 import { sample, times } from 'lodash';
 import { BaseEntity } from 'typeorm';
 import { Appointment } from '../../domains/appointments/entities/Appointment.entity';
@@ -115,6 +116,10 @@ export class MainSeeder {
           this.appointmentFactory.createAppointment(
             training,
             sample(consultants)!,
+            {
+              startsAt: new Date(),
+              endsAt: addDays(new Date(), 2),
+            },
           ),
         3,
       );

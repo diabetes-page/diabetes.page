@@ -174,7 +174,7 @@ declare module 'strophe.js' {
          *
          * @param room - The multi-user chat room name.
          * @param config- Form Object or an array of form elements used to configure the room.
-         * @param success_db - Optional function to handle success.
+         * @param success_cb - Optional function to handle success.
          * @param error_cb - Optional function to handle an error.
          * @return id - the unique id used to save the configuration.
          */
