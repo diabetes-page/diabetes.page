@@ -6,13 +6,16 @@ import {
   ListItemText,
   makeStyles,
 } from '@material-ui/core';
-import { Inbox } from '@material-ui/icons';
+import { Home } from '@material-ui/icons';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { AppBarPusher } from '../../../../components/AppBarPusher';
 import { DRAWER_WIDTH } from '../../../../config/style';
+import { toHomePage } from '../../../../pages';
 
 export function Drawer(): JSX.Element {
   const classes = useStyles();
+  const router = useRouter();
 
   return (
     <DrawerBase
@@ -25,14 +28,12 @@ export function Drawer(): JSX.Element {
     >
       <AppBarPusher />
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              <Inbox />
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem onClick={() => void router.push(toHomePage())} button>
+          <ListItemIcon>
+            <Home />
+          </ListItemIcon>
+          <ListItemText primary="Home" />
+        </ListItem>
       </List>
     </DrawerBase>
   );

@@ -1,18 +1,7 @@
-import {
-  AppBar as AppBarBase,
-  Box,
-  makeStyles,
-  Toolbar,
-} from '@material-ui/core';
-import Image from 'next/image';
+import { AppBar as AppBarBase, makeStyles, Toolbar } from '@material-ui/core';
 import React from 'react';
-import {
-  APP_BAR_HEIGHT,
-  LOGO_ALT_TEXT,
-  LOGO_HEIGHT,
-  LOGO_PATH,
-  LOGO_WIDTH,
-} from '../../../../config/style';
+import { APP_BAR_HEIGHT } from '../../../../config/style';
+import { Logo } from './Logo';
 import { UserMenu } from './UserMenu';
 
 export function AppBar(): JSX.Element {
@@ -21,14 +10,7 @@ export function AppBar(): JSX.Element {
   return (
     <AppBarBase position="fixed" className={classes.appBar}>
       <Toolbar>
-        <Box className={classes.logo}>
-          <Image
-            src={LOGO_PATH}
-            alt={LOGO_ALT_TEXT}
-            width={LOGO_WIDTH}
-            height={LOGO_HEIGHT}
-          />
-        </Box>
+        <Logo />
         <UserMenu />
       </Toolbar>
     </AppBarBase>
@@ -42,8 +24,5 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: 'none',
     borderBottom: `solid 1px ${theme.palette.divider}`,
     height: APP_BAR_HEIGHT,
-  },
-  logo: {
-    margin: theme.spacing(1),
   },
 }));
