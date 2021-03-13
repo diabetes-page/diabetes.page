@@ -24,7 +24,7 @@ export const useChat = (
     connection.current?.reset();
 
     connection.current = new Strophe.Connection(
-      `${JITSI_WEBSOCKET_URL}?room=${conferenceRoom}&token=${conferenceToken}`,
+      `${JITSI_WEBSOCKET_URL}?chat=true&room=${conferenceRoom}&token=${conferenceToken}`,
     );
 
     connection.current.connect(JITSI_JID, undefined, (status) => {
@@ -50,6 +50,10 @@ export const useChat = (
         () => false,
       );
     });
+
+    setInterval(() => {
+      connection.current?.send($pres());
+    }, 20 * 1000);
 
     function endConnection(): void {
       if (connection.current) {
