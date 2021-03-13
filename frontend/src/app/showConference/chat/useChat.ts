@@ -58,6 +58,7 @@ export const useChat = (
         connection.current.options.sync = true;
         connection.current.flush();
         connection.current.disconnect();
+        connection.current = undefined;
       }
     }
 
