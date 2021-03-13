@@ -2,6 +2,7 @@ import { MutableRefObject, useCallback, useEffect, useRef } from 'react';
 import { Strophe } from 'strophe.js';
 import 'strophejs-plugin-muc';
 import {
+  JITSI_CHAT_PRESENCE_INTERVAL,
   JITSI_JID,
   JITSI_ROOM_ADDRESS,
   JITSI_WEBSOCKET_URL,
@@ -31,6 +32,7 @@ export const useChat = (
       if (status !== Strophe.Status.CONNECTED) {
         return;
       }
+
       connection.current?.send($pres());
 
       connection.current?.muc.join(
@@ -51,10 +53,6 @@ export const useChat = (
       );
     });
 
-    setInterval(() => {
-      connection.current?.send($pres());
-    }, 20 * 1000);
-
     function endConnection(): void {
       if (connection.current) {
         connection.current.options.sync = true;
@@ -67,6 +65,10 @@ export const useChat = (
 
     return endConnection;
   }, [conferenceToken, conferenceRoom, processChatUpdates, connection]);
+
+  setInterval(() => {
+    connection.current?.send($pres());
+  }, JITSI_CHAT_PRESENCE_INTERVAL);
 
   return useCallback((msg: string): void => {
     stropheRoom.current?.groupchat(msg);
