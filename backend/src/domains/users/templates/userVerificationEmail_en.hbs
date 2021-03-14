@@ -1,6 +1,21 @@
 {{> emailStyle }}
 
-<p class="email-header">
+<p class="email-start">
   Hi {{ name }}
 </p>
-<p class="email-body">Please click <a href="diabetes.page/{{ verificationToken }}">here</a> to verify your account for diabetes.page</p>
+
+<p class="email-body">
+  Welcome to diabetes.page! We just have to check that this is really your email address.
+</p>
+
+<p class="email-body">
+  <a href="diabetes.page/{{ verificationToken }}">Click here to verify your email address.</a>
+</p>
+
+<p class="email-start">
+  Best wishes
+</p>
+
+<p class="email-end">
+  Your diabetes.page team
+</p>
