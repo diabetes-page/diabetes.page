@@ -1,5 +1,6 @@
 Feature: Show Trainings
-  In order to view the calendar as a consultant
+  In order to view the calendar
+  As a consultant
   I need to be able to load the trainings that I have written
 
   Scenario: If I am not a consultant I cannot load any trainings
@@ -20,5 +21,7 @@ Feature: Show Trainings
     And the training "Turing Machines by Jesse Pinkman" has an appointment with presenter "Jesse Pinkman"
     When I request for my trainings
     Then the request is successful
-    And the response contains an array of trainings
+    And the response contains the trainings in the following order:
+      | id                                   | name                             |
+      | 7b81fd3a-4a28-4ebd-85ed-4c650bd7f702 | Turing Machines by Jesse Pinkman |
 

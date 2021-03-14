@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Then, When } from 'cucumber';
+import { TableDefinition, Then, When } from 'cucumber';
 import { testRequest } from '../../../../../test/setup.steps';
 
 When(/^I request for my trainings$/, async function () {
@@ -11,3 +11,15 @@ Then(/^the response contains an array of trainings$/, function () {
     .to.have.property('name')
     .to.equal('Turing Machines by Jesse Pinkman');
 });
+
+Then(
+  /^the response contains the trainings in the following order:$/,
+  async function (configuration: TableDefinition) {
+    const expectedTrainings = configuration.hashes();
+    const trainings = this.response.body.trainings;
+    expect(trainings).to.have.length(expectedTrainings.length);
+    expectedTrainings.forEach((expectedTraining, index) => {
+      expect(trainings[index].name).to.equal(expectedTraining.name);
+    });
+  },
+);

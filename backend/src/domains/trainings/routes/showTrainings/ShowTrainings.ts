@@ -9,23 +9,24 @@ import { ResourceController } from '../../../../blueprints/controllers/ResourceC
 import { RequestUser } from '../../../../blueprints/decorators/RequestUser';
 import { Consultant } from '../../../../blueprints/guards/Consultant';
 import { User } from '../../../users/entities/User.entity';
-import { Training } from '../../entities/Training.entity';
+import { TrainingsService } from '../../services/TrainingsService';
 import { Resource } from './Resource';
 
 @Controller()
 export class ShowTrainings extends ResourceController {
   public static Resource = Resource;
 
+  constructor(private trainingsService: TrainingsService) {
+    super();
+  }
+
   @UseGuards(Consultant)
   @HttpCode(HttpStatus.OK)
   @Get('/trainings')
-  async serve(@RequestUser() user: User): Promise<Resource> {
+  async serve(@RequestUser() user: User): Promise<Resource | null> {
     const consultant = await user.loadAsConsultant();
-    const trainings = await Training.find({
-      where: {
-        creator: consultant,
-      },
-    });
-    return Resource.make(trainings);
+    return Resource.make(
+      await this.trainingsService.getTrainingsForConsultant(consultant!),
+    );
   }
 }
