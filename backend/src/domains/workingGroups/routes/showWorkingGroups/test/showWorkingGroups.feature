@@ -32,5 +32,8 @@ Feature: Show Working Groups
     Then the response contains the working groups in the following order:
       | name        |
       | Best Group2 |
+    And the response does not contain the following working groups:
+      | name       |
+      | Best Group |
 
 
