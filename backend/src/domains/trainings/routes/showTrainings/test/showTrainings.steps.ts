@@ -5,12 +5,6 @@ import { testRequest } from '../../../../../test/setup.steps';
 When(/^I request for my trainings$/, async function () {
   this.response = await testRequest('GET', '/trainings', {}, this.jwt);
 });
-Then(/^the response contains an array of trainings$/, function () {
-  expect(this.response.body.trainings).to.be.an('array');
-  expect(this.response.body.trainings[0])
-    .to.have.property('name')
-    .to.equal('Turing Machines by Jesse Pinkman');
-});
 
 Then(
   /^the response contains the trainings in the following order:$/,
