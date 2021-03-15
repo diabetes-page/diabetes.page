@@ -1,7 +1,7 @@
 // organize-imports-ignore
 import FullCalendar from '@fullcalendar/react';
-// import interactionPlugin from '@fullcalendar/interaction';
-// import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import { makeStyles } from '@material-ui/core';
 import React, { SetStateAction } from 'react';
 import { useSelector } from '../../redux/root/hooks';
@@ -25,7 +25,7 @@ export function Calendar({
   // This component doesn't get rendered until appointments has been loaded in the parent
   return (
     <FullCalendar
-      // plugins={[interactionPlugin, timeGridPlugin]}
+      plugins={[interactionPlugin, timeGridPlugin]}
       initialView="timeGridWeek"
       nowIndicator={true}
       editable={true}
