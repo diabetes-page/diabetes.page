@@ -32,7 +32,6 @@ export const MailerModule = MailerModuleBase.forRootAsync({
       // preview: {
       //   dir: '/home/tom/projects/diabetes.page/backend',
       // },
-      preview: true,
     };
   },
 });
