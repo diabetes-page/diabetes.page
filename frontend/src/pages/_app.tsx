@@ -1,6 +1,6 @@
-import '@fullcalendar/common/main.css'; // @fullcalendar/react imports @fullcalendar/common
-import '@fullcalendar/resource-timeline/main.css'; // @fullcalendar/resource-timeline is a direct import
-import '@fullcalendar/timeline/main.css'; // @fullcalendar/resource-timeline imports @fullcalendar/timeline
+// import '@fullcalendar/common/main.css'; // @fullcalendar/react imports @fullcalendar/common
+// import '@fullcalendar/resource-timeline/main.css'; // @fullcalendar/resource-timeline is a direct import
+// import '@fullcalendar/timeline/main.css'; // @fullcalendar/resource-timeline imports @fullcalendar/timeline
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { AppProps } from 'next/app';
