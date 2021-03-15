@@ -2,6 +2,7 @@
 import FullCalendar from '@fullcalendar/react';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import { makeStyles } from '@material-ui/core';
 import React, { SetStateAction } from 'react';
 import { useSelector } from '../../redux/root/hooks';
@@ -25,8 +26,8 @@ export function Calendar({
   // This component doesn't get rendered until appointments has been loaded in the parent
   return (
     <FullCalendar
-      plugins={[interactionPlugin, timeGridPlugin]}
-      initialView="timeGridWeek"
+      plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
+      initialView="dayGridMonth"
       nowIndicator={true}
       editable={true}
       initialEvents={[{ title: 'nice event', start: new Date() }]}
