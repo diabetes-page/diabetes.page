@@ -9,6 +9,7 @@ import {
   AppointmentInWorkingGroupResource,
   requests,
 } from '../../utilities/requests/requests';
+import { Calendar } from './Calendar';
 
 // TODO: Think about duplicate code here that we could reduce
 export function ShowCalendar(): JSX.Element {
@@ -31,6 +32,7 @@ export function ShowCalendar(): JSX.Element {
     <StandardPage>
       <StandardHeading>My Calendar</StandardHeading>
       <Typography>Testing</Typography>
+      <Calendar appointments={appointments} setAppointments={setAppointments} />
     </StandardPage>
   );
 }
