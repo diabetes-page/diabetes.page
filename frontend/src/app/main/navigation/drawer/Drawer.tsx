@@ -6,12 +6,13 @@ import {
   ListItemText,
   makeStyles,
 } from '@material-ui/core';
-import { Home } from '@material-ui/icons';
+import { Event, Home } from '@material-ui/icons';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { AppBarPusher } from '../../../../components/AppBarPusher';
 import { DRAWER_WIDTH } from '../../../../config/style';
 import { toHomePage } from '../../../../pages';
+import { toCalendarPage } from '../../../../pages/calendar';
 
 export function Drawer(): JSX.Element {
   const classes = useStyles();
@@ -28,11 +29,19 @@ export function Drawer(): JSX.Element {
     >
       <AppBarPusher />
       <List>
+        {/* Home */}
         <ListItem onClick={() => void router.push(toHomePage())} button>
           <ListItemIcon>
             <Home />
           </ListItemIcon>
           <ListItemText primary="Home" />
+        </ListItem>
+        {/* Calendar */}
+        <ListItem onClick={() => void router.push(toCalendarPage())} button>
+          <ListItemIcon>
+            <Event />
+          </ListItemIcon>
+          <ListItemText primary="Calendar" />
         </ListItem>
       </List>
     </DrawerBase>
