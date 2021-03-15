@@ -1,10 +1,11 @@
-// for transpiling all ESM @fullcalendar/* packages
-// also, for piping fullcalendar thru babel (to learn why, see babel.config.js)
+// For transpiling all ESM @fullcalendar/* packages
+// Also, for piping fullcalendar through babel (to learn why, see babel.config.js)
 const withTM = require('next-transpile-modules')([
   '@fullcalendar/core',
+  '@fullcalendar/common',
   '@fullcalendar/react',
 ]);
 
 module.exports = withTM({
-  // any other general next.js settings
+  // Any other general next.js settings
 });

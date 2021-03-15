@@ -1,5 +1,6 @@
 import React from 'react';
 import { Main } from '../app/main/Main';
+import { ShowCalendar } from '../app/showCalendar/ShowCalendar';
 
 export function toCalendarPage(): string {
   return '/calendar';
