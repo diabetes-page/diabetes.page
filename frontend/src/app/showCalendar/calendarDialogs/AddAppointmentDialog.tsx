@@ -13,7 +13,7 @@ import {
   TextField,
 } from '@material-ui/core';
 import React, { SetStateAction, useState } from 'react';
-import { FullTrainingResource } from '../../../utilities/requests/requests';
+import { BasicTrainingResource } from '../../../utilities/requests/requests';
 
 const initialFormState = {
   trainingName: '',
@@ -28,7 +28,7 @@ type AddAppointmentDialogProps = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
   selectedData: DateSelectArg;
-  trainings: FullTrainingResource[];
+  trainings: BasicTrainingResource[];
   groups: {
     id: string;
     name: string;
@@ -51,7 +51,7 @@ export function AddAppointmentDialog({
     const calendarApi = selectedData.view.calendar;
     calendarApi.unselect(); // clear date selection
 
-    // At the moment this sets the title to the group ID - we should title it something nice
+    // Add event to our calendar
     calendarApi.addEvent({
       title: `${formData.trainingName} with ${formData.groupName}`,
       start: formData.startDateTime,
@@ -86,7 +86,7 @@ export function AddAppointmentDialog({
     setFormData({
       ...formData,
       groupId: e.target.value,
-      // We store the trainingName as a data attribute of each MenuItem, so get it from dataset
+      // We store the groupName as a data attribute of each MenuItem, so get it from dataset
       groupName: e.currentTarget.dataset.groupName,
     });
   };

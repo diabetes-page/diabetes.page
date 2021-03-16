@@ -82,11 +82,6 @@ export function Calendar({
     setViewModalOpen(true);
   };
 
-  // Called after events are initialized/added/changed/removed, shows array of all events
-  const handleAppointmentsSet = (events: EventApi[]): void => {
-    console.log('Something just changed in the calendar events: ', events);
-  };
-
   // Called when an event has been added via the calendar
   const handleAppointmentAdded = (event: EventContentArg): void => {
     // TODO: Update database with new appointment
@@ -96,6 +91,7 @@ export function Calendar({
     console.log('training is: ', event.event.extendedProps.training);
     console.log('start time is: ', event.event.startStr);
     console.log('end time is: ', event.event.endStr);
+    // update calendar with new id
   };
 
   // Called when an event has been updated via the calendar
@@ -165,7 +161,6 @@ export function Calendar({
           ]}
           select={handleDateSelected}
           eventClick={handleAppointmentClicked}
-          eventsSet={handleAppointmentsSet}
           eventAdd={handleAppointmentAdded}
           eventChange={handleAppointmentUpdated}
           eventRemove={handleAppointmentRemoved}

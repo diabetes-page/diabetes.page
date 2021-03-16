@@ -43,7 +43,7 @@ export function ViewAppointmentDialog({
   selectedData,
   trainings,
   groups,
-}: ViewAppointmentDialogProps): JSX.Element {
+}: ViewAppointmentDialogProps): JSX.Element | null {
   const classes = useStyles();
   const [formData, setFormData] = useState(initialFormState);
 
@@ -105,7 +105,7 @@ export function ViewAppointmentDialog({
     appointment.setEnd(e.target.value);
   };
 
-  // Handler for when user cancels the event
+  // Handler for when user cancels the appointment
   const handleCancel = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ): void => {
@@ -115,6 +115,7 @@ export function ViewAppointmentDialog({
   };
 
   const closeDialog = (): void => {
+    setFormData(initialFormState);
     setIsOpen(false);
   };
 
@@ -146,10 +147,10 @@ export function ViewAppointmentDialog({
 
   // Hack to stop us accessing selectedData if it's undefined
   if (typeof selectedData == 'undefined') {
-    return <></>;
+    return null;
   }
   if (typeof selectedData.event == 'undefined') {
-    return <></>;
+    return null;
   }
 
   return (
