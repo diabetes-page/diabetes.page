@@ -1,16 +1,25 @@
-import { useCallback, useState } from 'react';
+import { MouseEventHandler, useCallback, useState } from 'react';
 
 export function useMenu(): {
-  visible: boolean;
-  openMenu: () => void;
-  closeMenu: () => void;
-  setVisible: (visibility: boolean) => void;
+  open: boolean;
+  anchorEl: Element | null;
+  onMenuOpen: MouseEventHandler;
+  onMenuClose: () => void;
 } {
-  const [visible, setVisible] = useState(false);
-  const openMenu = () => void setVisible(true);
-  const closeMenu = () => void setVisible(false);
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
-  return { visible, openMenu, closeMenu, setVisible };
+  const onMenuOpen = useCallback(
+    (event) => {
+      setAnchorEl(event.currentTarget);
+    },
+    [setAnchorEl],
+  );
+
+  const onMenuClose = useCallback(() => {
+    setAnchorEl(null);
+  }, [setAnchorEl]);
+
+  return { open: !!anchorEl, anchorEl, onMenuOpen, onMenuClose };
 }
 
 export function useLoading(): {

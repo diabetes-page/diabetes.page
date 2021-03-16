@@ -1,18 +1,27 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "jsx": "react-native",
-    "target": "esnext",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
     "lib": [
+      "dom",
+      "dom.iterable",
       "esnext"
     ],
-    "allowJs": true,
-    "skipLibCheck": true,
+    "moduleResolution": "node",
     "noEmit": true,
-    "allowSyntheticDefaultImports": true,
+    "noImplicitThis": true,
     "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "moduleResolution": "node"
+    "skipLibCheck": true
   },
-  "include": ["src"]
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "next-env.d.ts",
+    "src"
+  ]
 }
