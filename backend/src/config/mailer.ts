@@ -6,4 +6,5 @@ export const mailerConfig = (): Record<string, any> => ({
   port: parseIntEnv('MAILER_CONFIG_PORT') || 1025,
   username: findEnvOrFail('MAILER_CONFIG_USERNAME'),
   password: findEnvOrFail('MAILER_CONFIG_PASSWORD'),
+  mailFrom: findEnvOrFail('MAILER_MAIL_FROM'),
 });
