@@ -1,3 +1,4 @@
+import { ChangeEvent, DateSelectArg } from '@fullcalendar/react';
 import {
   Button,
   Dialog,
@@ -6,51 +7,88 @@ import {
   DialogContentText,
   DialogTitle,
   FormControl,
-  InputLabel,
   makeStyles,
   MenuItem,
-  Select,
   Slide,
   TextField,
 } from '@material-ui/core';
 import React, { SetStateAction, useState } from 'react';
+import { FullTrainingResource } from '../../../utilities/requests/requests';
 
 const initialFormState = {
-  training: '',
-  group: '',
+  trainingName: '',
+  trainingId: '',
+  groupName: '',
+  groupId: '',
   startDateTime: '',
   endDateTime: '',
 };
 
-type AppointmentDialogProps = {
+type AddAppointmentDialogProps = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
+  selectedData: DateSelectArg;
+  trainings: FullTrainingResource[];
+  groups: {
+    id: string;
+    name: string;
+  };
 };
+
 export function AddAppointmentDialog({
   isOpen,
   setIsOpen,
-}: AppointmentDialogProps): JSX.Element {
+  selectedData,
+  trainings,
+  groups,
+}: AddAppointmentDialogProps): JSX.Element {
   const classes = useStyles();
   const [formData, setFormData] = useState(initialFormState);
 
+  // Adds an appointment (called an "event") locally via the calendarApi
+  // This will get sent to the calendar and can be sent to backend in handleAppointmentAdded
   const addAppointment = (): void => {
-    //   if we can get selectInfo here, we can do this:
-    //   const calendarApi = selectInfo.view.calendar;
-    //
-    //   calendarApi.unselect() // clear date selection
-    //
-    //   calendarApi.addEvent({
-    //     id: some id (uuid)?
-    //     title: formData.title
-    //     start: formData.startStr
-    //     end: formData.endStr,
-    //   })
-    //   This can then be picked up and sent to the database in handleEventAdded
+    const calendarApi = selectedData.view.calendar;
+    calendarApi.unselect(); // clear date selection
 
-    // Reset the form data before we leave
+    // At the moment this sets the title to the group ID - we should title it something nice
+    calendarApi.addEvent({
+      title: `${formData.trainingName} with ${formData.groupName}`,
+      start: formData.startDateTime,
+      end: formData.endDateTime,
+      extendedProps: {
+        groupName: formData.groupName,
+        groupId: formData.groupId,
+        trainingName: formData.trainingName,
+        trainingId: formData.trainingId,
+      },
+    });
 
-    console.log('formData is: ', formData);
     closeDialog();
+  };
+
+  // When training select is changed, update the trainingId and trainingName in state to the new selected values
+  const handleChangeTraining = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ): void => {
+    setFormData({
+      ...formData,
+      trainingId: e.target.value,
+      // We store the trainingName as a data attribute of each MenuItem, so get it from dataset
+      trainingName: e.currentTarget.dataset.trainingName,
+    });
+  };
+
+  // When training select is changed, update the trainingId and trainingName in state to the new selected values
+  const handleChangeGroup = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ): void => {
+    setFormData({
+      ...formData,
+      groupId: e.target.value,
+      // We store the trainingName as a data attribute of each MenuItem, so get it from dataset
+      groupName: e.currentTarget.dataset.groupName,
+    });
   };
 
   const closeDialog = (): void => {
@@ -78,50 +116,50 @@ export function AddAppointmentDialog({
           {/* Appointment Training */}
           <div>
             <FormControl fullWidth className={classes.formControl}>
-              <InputLabel
-                className={classes.selectLabel}
-                id="training-select-label"
-              >
-                Training
-              </InputLabel>
-              <Select
+              <TextField
+                id="add-appointment-training-select"
+                select
                 fullWidth
+                label="Training"
+                value={formData.trainingId}
                 variant="outlined"
-                labelId="training-select-label"
-                id="training-select"
-                onChange={(e): void =>
-                  setFormData({ ...formData, training: e.target.value })
-                }
+                onChange={handleChangeTraining}
               >
-                <MenuItem value={11}>Training 1</MenuItem>
-                <MenuItem value={21}>Training 2</MenuItem>
-                <MenuItem value={31}>Training 3</MenuItem>
-              </Select>
+                {trainings.map((training) => (
+                  <MenuItem
+                    data-training-name={training.name}
+                    key={training.id}
+                    value={training.id}
+                  >
+                    {training.name}
+                  </MenuItem>
+                ))}
+              </TextField>
             </FormControl>
           </div>
 
           {/* Appointment workingGroup */}
           <div>
             <FormControl fullWidth className={classes.formControl}>
-              <InputLabel
-                className={classes.selectLabel}
-                id="group-select-label"
-              >
-                Group
-              </InputLabel>
-              <Select
+              <TextField
+                id="add-appointment-group-select"
+                select
                 fullWidth
+                label="Group"
+                value={formData.groupId}
                 variant="outlined"
-                labelId="group-select-label"
-                id="group-select"
-                onChange={(e): void =>
-                  setFormData({ ...formData, group: e.target.value })
-                }
+                onChange={handleChangeGroup}
               >
-                <MenuItem value={10}>Group 1</MenuItem>
-                <MenuItem value={20}>Group 2</MenuItem>
-                <MenuItem value={30}>Group 3</MenuItem>
-              </Select>
+                {groups.map((group) => (
+                  <MenuItem
+                    data-group-name={group.name}
+                    key={group.id}
+                    value={group.id}
+                  >
+                    {group.name}
+                  </MenuItem>
+                ))}
+              </TextField>
             </FormControl>
           </div>
 
