@@ -29,10 +29,7 @@ type AddAppointmentDialogProps = {
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
   selectedData: DateSelectArg;
   trainings: BasicTrainingResource[];
-  groups: {
-    id: string;
-    name: string;
-  };
+  groups: BasicWorkingGroupResource[];
 };
 
 export function AddAppointmentDialog({

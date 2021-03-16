@@ -1,4 +1,4 @@
-import { ChangeEvent, EventClickArg } from '@fullcalendar/react';
+import { EventClickArg } from '@fullcalendar/react';
 import {
   Button,
   Dialog,
@@ -15,7 +15,10 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import React, { SetStateAction, useEffect, useState } from 'react';
-import { FullTrainingResource } from '../../../utilities/requests/requests';
+import {
+  BasicTrainingResource,
+  BasicWorkingGroupResource,
+} from '../../../utilities/requests/requests';
 
 const initialFormState = {
   trainingId: '',
@@ -30,11 +33,8 @@ type ViewAppointmentDialogProps = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
   selectedData: EventClickArg;
-  trainings: FullTrainingResource[];
-  groups: {
-    id: string;
-    name: string;
-  };
+  trainings: BasicTrainingResource[];
+  groups: BasicWorkingGroupResource[];
 };
 
 export function ViewAppointmentDialog({
@@ -47,7 +47,6 @@ export function ViewAppointmentDialog({
   const classes = useStyles();
   const [formData, setFormData] = useState(initialFormState);
 
-  // Handler for when user selects a new training from the training select
   const handleUpdateTraining = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ): void => {
@@ -67,7 +66,6 @@ export function ViewAppointmentDialog({
     appointment.setExtendedProp('trainingId', e.target.value);
   };
 
-  // Handler for when user selects a new workingGroup from the group select
   const handleUpdateGroup = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ): void => {
@@ -87,7 +85,6 @@ export function ViewAppointmentDialog({
     appointment.setExtendedProp('groupName', groupName);
   };
 
-  // Handler for when user updates start time
   const handleUpdateStart = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ): void => {
@@ -96,7 +93,6 @@ export function ViewAppointmentDialog({
     appointment.setStart(e.target.value);
   };
 
-  // Handler for when user updates end time
   const handleUpdateEnd = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ): void => {
@@ -105,7 +101,6 @@ export function ViewAppointmentDialog({
     appointment.setEnd(e.target.value);
   };
 
-  // Handler for when user cancels the appointment
   const handleCancel = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ): void => {

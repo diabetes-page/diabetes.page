@@ -10,7 +10,6 @@ import {
 } from '../../utilities/requests/requests';
 import { Calendar } from './Calendar';
 
-// TODO: Think about duplicate code here that we could reduce
 export function ShowCalendar(): JSX.Element {
   const [appointments, setAppointments, isLoading] = useLoadingState<
     AppointmentInWorkingGroupResource[]
