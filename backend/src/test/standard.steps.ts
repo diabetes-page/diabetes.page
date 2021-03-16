@@ -8,8 +8,8 @@ import { Topic } from '../domains/teachingBases/entities/Topic.entity';
 import { Training } from '../domains/trainings/entities/Training.entity';
 import { User } from '../domains/users/entities/User.entity';
 import { WorkingGroup } from '../domains/workingGroups/entities/WorkingGroup.entity';
-import { seeder, testRequest } from './setup.steps';
-import { getAppointment } from './testingUtilities';
+import { mockMailer, seeder, testRequest } from './setup.steps';
+import { getAppointment } from './utilities/testingUtilities';
 
 Then(/^the request is rejected$/, function () {
   expect(this.response.status).to.equal(HttpStatus.BAD_REQUEST);
@@ -205,4 +205,39 @@ Given(
 
 Then(/^the response is empty$/, function () {
   expect(this.response.body).to.deep.equal({});
+});
+
+Then(
+  /^the following e-mails were sent:$/,
+  function (attributes: TableDefinition) {
+    const expectation = attributes.hashes();
+    const mails = mockMailer.getSentMails();
+
+    expect(mails).to.have.length(expectation.length);
+
+    mails.forEach((actualMail, i) => {
+      const expectedMail = expectation[i];
+
+      expect(actualMail.recipient).to.equal(expectedMail.Recipient);
+      expect(actualMail.subject).to.equal(expectedMail.Subject);
+      expect(actualMail.language).to.equal(expectedMail.Language);
+    });
+  },
+);
+
+Then(
+  /^e-mail number (\d+) had the following content:$/,
+  function (position: number, linesTable: TableDefinition) {
+    const expectation = linesTable
+      .raw()
+      .map((s) => s[0].trim())
+      .filter((s) => !!s);
+    const mails = mockMailer.getSentMails();
+
+    expect(mails[position - 1].paragraphs).to.deep.equal(expectation);
+  },
+);
+
+Then(/^no e-mails were sent$/, function () {
+  expect(mockMailer.getSentMails()).to.have.length(0);
 });

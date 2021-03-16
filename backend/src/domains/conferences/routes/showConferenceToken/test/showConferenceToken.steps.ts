@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { Given, Then, When } from 'cucumber';
 import { testRequest } from '../../../../../test/setup.steps';
-import { getAppointment } from '../../../../../test/testingUtilities';
+import { getAppointment } from '../../../../../test/utilities/testingUtilities';
 import { Appointment } from '../../../../appointments/entities/Appointment.entity';
 
 Then(/^the response contains a conference token$/, function () {

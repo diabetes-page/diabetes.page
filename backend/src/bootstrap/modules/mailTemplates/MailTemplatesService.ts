@@ -25,7 +25,6 @@ export class MailTemplatesService {
       sendMailOptions,
     ).catch((err) => console.log(err)); // todo: proper logging
 
-    console.log(languageTemplate);
     if (!languageTemplate) {
       return;
     }

@@ -52,6 +52,7 @@ export class UsersService {
     }).save();
 
     await this.sendVerificationEmail(user);
+
     return user;
   }
 

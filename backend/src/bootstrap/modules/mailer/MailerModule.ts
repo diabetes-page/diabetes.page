@@ -1,12 +1,17 @@
 import { MailerModule as MailerModuleBase } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { ConfigService } from '@nestjs/config';
+import { mockMailer } from '../../../test/setup.steps';
 
 export const MailerModule = MailerModuleBase.forRootAsync({
   // This must be an async module in order to load the env properly, especially when env is set during testing
   useFactory: async (configService: ConfigService) => {
+    const mockTransport =
+      configService.get<boolean>('environment.isTesting') &&
+      mockMailer.getNodemailerTransport();
+
     return {
-      transport: {
+      transport: mockTransport || {
         host: configService.get<string>('mailer.host'),
         port: configService.get<number>('mailer.port'),
         auth: {
