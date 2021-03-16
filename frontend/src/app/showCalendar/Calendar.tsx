@@ -9,11 +9,11 @@ import FullCalendar, {
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { makeStyles, Container } from '@material-ui/core';
+import { makeStyles, Box } from '@material-ui/core';
 import React, { SetStateAction, useEffect, useState } from 'react';
 import { useSelector } from '../../redux/root/hooks';
 import { AppointmentInWorkingGroupResource } from '../../utilities/requests/requests';
-import Modal from 'react-modal';
+import { AddAppointmentDialog } from './AddAppointmentDialog';
 
 type CalendarProps = {
   appointments: AppointmentInWorkingGroupResource[];
@@ -29,11 +29,14 @@ export function Calendar({
 }: CalendarProps): JSX.Element {
   const userId = useSelector((state) => state.user.id);
   const classes = useStyles();
-  const [addModalOpen, setAddModalOpen] = useState(false);
+  const [addDialogOpen, setAddModalOpen] = useState(false);
 
   // Show eventAdd popup when date is selected
   const handleDateSelected = (selectInfo: DateSelectArg): void => {
     console.log('Selected date: ', selectInfo);
+
+    // we need to pass selectInfo through to the modal so that it can add an event to calendarApi
+    setAddModalOpen(true);
   };
 
   // Show event edit popup when event is clicked
@@ -47,37 +50,33 @@ export function Calendar({
   };
 
   // Called when an event has been added via the calendar
-  const handleEventAdded = (event: EventApi): void => {
+  const handleEventAdded = (event: EventContentArg): void => {
     console.log('An event was added: ', event);
   };
 
   // Called when an event has been updated via the popup
-  const handleEventUpdated = (event: EventApi): void => {
+  const handleEventUpdated = (event: EventContentArg): void => {
     console.log('An event was updated: ', event);
   };
 
   // Called when an event has been successfully added to the EventApi
-  const handleEventRemoved = (event: EventApi): void => {
+  const handleEventRemoved = (event: EventContentArg): void => {
     console.log('An event was removed: ', event);
-  };
-
-  const openAddModal = (): void => {
-    setAddModalOpen(true);
-  };
-
-  const closeAddModal = (): void => {
-    setAddModalOpen(false);
   };
 
   useEffect(() => {
     console.log('Testing');
     console.log(appointments);
-  }, []);
+  }, [appointments]);
+
   // This component doesn't get rendered until appointments has been loaded in the parent
   return (
     <>
-      <Container className={classes.calenderContainer}>
-        <Modal isOpen={addModalOpen} onRequestClose={closeAddModal} />
+      <Box className={classes.calendarContainer}>
+        <AddAppointmentDialog
+          isOpen={addDialogOpen}
+          setIsOpen={setAddModalOpen}
+        />
         <FullCalendar
           plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
           initialView="dayGridMonth"
@@ -92,7 +91,7 @@ export function Calendar({
           eventUpdated={handleEventUpdated}
           eventRemove={handleEventRemoved}
         />
-      </Container>
+      </Box>
     </>
   );
 }
@@ -102,5 +101,17 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     minHeight: '100%',
     fontSize: 14,
+    borderRadius: 8,
+    backgroundColor: '#ffffff',
+    padding: theme.spacing(2),
+  },
+  addDialogContainer: {
+    minHeight: '100%',
+    fontSize: 14,
+    borderRadius: 8,
+    backgroundColor: 'red',
+    padding: theme.spacing(2),
+    maxWidth: '50%',
+    maxHeight: '50%',
   },
 }));

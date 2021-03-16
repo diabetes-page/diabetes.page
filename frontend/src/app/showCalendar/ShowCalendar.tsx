@@ -1,4 +1,3 @@
-import { Typography } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { StandardHeading } from '../../components/StandardHeading';
 import { StandardLoadingPage } from '../../components/StandardLoadingPage';
@@ -31,7 +30,6 @@ export function ShowCalendar(): JSX.Element {
   return (
     <StandardPage>
       <StandardHeading>My Calendar</StandardHeading>
-      <Typography>Testing</Typography>
       <Calendar appointments={appointments} setAppointments={setAppointments} />
     </StandardPage>
   );
