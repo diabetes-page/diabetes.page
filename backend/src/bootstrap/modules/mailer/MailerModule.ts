@@ -16,7 +16,7 @@ export const MailerModule = MailerModuleBase.forRootAsync({
         secure: false, // todo: upgrade later with STARTTLS
       },
       defaults: {
-        from: 'no-reply@diabetes.page',
+        from: configService.get<string>('mailer.mailFrom'),
       },
       template: {
         dir: __dirname + '../../../blueprints/templates',
