@@ -8,11 +8,13 @@ Feature: Show Working Groups
     And the user "Jesse Pinkman" is a consultant
     And I am logged in
     And there is a working group "Best Group" with description "Jesse" created by "Jesse Pinkman"
+    And there is a working group "A better group" with description "Xyz" created by "Jesse Pinkman"
     When I request for my working groups
     Then the request is successful
     And the response contains the working groups in the following order:
-      | name       |
-      | Best Group |
+      | Name           |
+      | A better group |
+      | Best Group     |
 
   Scenario: If I am not a consultant I cannot load any working groups
     Given I am a user with name "Jesse Pinkman", e-mail "test@example.com" and password "12345678"
@@ -30,10 +32,8 @@ Feature: Show Working Groups
     And I am logged in
     When I request for my working groups
     Then the response contains the working groups in the following order:
-      | name        |
+      | Name        |
       | Best Group2 |
     And the response does not contain the following working groups:
-      | name       |
+      | Name       |
       | Best Group |
-
-

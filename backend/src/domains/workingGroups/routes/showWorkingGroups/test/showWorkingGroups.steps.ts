@@ -10,7 +10,7 @@ Then(
     expect(workingGroups).to.have.length(expectedWorkingGroups.length);
 
     expectedWorkingGroups.forEach((expectedTraining, index) => {
-      expect(workingGroups[index].name).to.equal(expectedTraining.name);
+      expect(workingGroups[index].name).to.equal(expectedTraining.Name);
     });
   },
 );
@@ -26,7 +26,7 @@ Then(
 
     workingGroups.forEach((workingGroup: any) => {
       unexpectedWorkingGroups.forEach((unexpectedWorkingGroup) => {
-        expect(workingGroup.name).to.not.equal(unexpectedWorkingGroup.name);
+        expect(workingGroup.name).to.not.equal(unexpectedWorkingGroup.Name);
       });
     });
   },
