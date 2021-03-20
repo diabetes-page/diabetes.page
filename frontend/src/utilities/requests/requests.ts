@@ -21,6 +21,7 @@ import { BasicUserResource as BackendBasicUserResource } from '../../../../backe
 import { SensitiveDataUserResource as BackendSensitiveDataUserResource } from '../../../../backend/src/domains/users/resources/SensitiveDataUserResource';
 import { Resource as BackendIndexUsersResource } from '../../../../backend/src/domains/users/routes/indexUsers/Resource';
 import { BasicWorkingGroupResource as BackendBasicWorkingGroupResource } from '../../../../backend/src/domains/workingGroups/resources/BasicWorkingGroupResource';
+import { Resource as BackendShowWorkingGroupsResource } from '../../../../backend/src/domains/workingGroups/routes/showWorkingGroups/Resource';
 import { Get, Post, withAuth } from './axios';
 
 export type AppointmentInWorkingGroupResource = BackendAppointmentInWorkingGroupResource;
@@ -54,6 +55,7 @@ export type CreateUserParameters = {
 };
 export type IndexUsersResource = BackendIndexUsersResource;
 export type BasicWorkingGroupResource = BackendBasicWorkingGroupResource;
+export type ShowWorkingGroupsResource = BackendShowWorkingGroupsResource;
 
 export const requests = {
   createAppointment: async (
@@ -108,4 +110,8 @@ export const requests = {
     userId: string,
   ): Promise<AxiosResponse<SensitiveDataUserResource>> =>
     Get(`/users/${userId}`, await withAuth()),
+
+  showWorkingGroups: async (): Promise<
+    AxiosResponse<ShowWorkingGroupsResource>
+  > => Get(`/working-groups`, await withAuth()),
 };
