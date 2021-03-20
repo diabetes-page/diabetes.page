@@ -5,12 +5,11 @@ import { Connection } from 'typeorm';
 import { bootstrap } from '../bootstrap/bootstrap';
 import { findEnvOrFail } from '../config/utilities/findEnvOrFail';
 import { MainSeeder } from '../database/seeding/MainSeeder';
-import { MockMailer } from './utilities/MockMailer';
+import { mockMailer } from './utilities/MockMailer';
 import superagent = require('superagent');
 
 let app: INestApplication, server: any, connection: Connection;
 export let seeder: MainSeeder;
-export const mockMailer = new MockMailer();
 
 const getFullPath = (path: string): string => {
   const port = server.address().port;

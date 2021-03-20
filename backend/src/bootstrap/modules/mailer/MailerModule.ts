@@ -1,7 +1,7 @@
 import { MailerModule as MailerModuleBase } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { ConfigService } from '@nestjs/config';
-import { mockMailer } from '../../../test/setup.steps';
+import { mockMailer } from '../../../test/utilities/MockMailer';
 
 export const MailerModule = MailerModuleBase.forRootAsync({
   // This must be an async module in order to load the env properly, especially when env is set during testing

@@ -14,7 +14,7 @@ export type MockMail = {
   raw: MailMessage;
 };
 
-export class MockMailer {
+class MockMailer {
   private mails: MockMail[] = [];
 
   reset(): void {
@@ -60,3 +60,5 @@ export class MockMailer {
       .filter((line) => !!line);
   }
 }
+
+export const mockMailer = new MockMailer();

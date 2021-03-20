@@ -8,7 +8,8 @@ import { Topic } from '../domains/teachingBases/entities/Topic.entity';
 import { Training } from '../domains/trainings/entities/Training.entity';
 import { User } from '../domains/users/entities/User.entity';
 import { WorkingGroup } from '../domains/workingGroups/entities/WorkingGroup.entity';
-import { mockMailer, seeder, testRequest } from './setup.steps';
+import { seeder, testRequest } from './setup.steps';
+import { mockMailer } from './utilities/MockMailer';
 import { getAppointment } from './utilities/testingUtilities';
 
 Then(/^the request is rejected$/, function () {
