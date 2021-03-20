@@ -2,6 +2,8 @@ import { HttpStatus } from '@nestjs/common';
 import { expect } from 'chai';
 import { Given, TableDefinition, Then } from 'cucumber';
 import { parseISO } from 'date-fns';
+import { Appointment } from '../domains/appointments/entities/Appointment.entity';
+import { AppointmentWithWorkingGroupsResource } from '../domains/appointments/resources/AppointmentWithWorkingGroupsResource';
 import { TeachingBase } from '../domains/teachingBases/entities/TeachingBase.entity';
 import { TeachingBaseDocument } from '../domains/teachingBases/entities/TeachingBaseDocument.entity';
 import { Topic } from '../domains/teachingBases/entities/Topic.entity';
@@ -10,7 +12,7 @@ import { User } from '../domains/users/entities/User.entity';
 import { WorkingGroup } from '../domains/workingGroups/entities/WorkingGroup.entity';
 import { seeder, testRequest } from './setup.steps';
 import { mockMailer } from './utilities/MockMailer';
-import { getAppointment } from './utilities/testingUtilities';
+import { compareToTable, getAppointment } from './utilities/testingUtilities';
 
 Then(/^the request is rejected$/, function () {
   expect(this.response.status).to.equal(HttpStatus.BAD_REQUEST);
@@ -242,3 +244,37 @@ Then(
 Then(/^no e-mails were sent$/, function () {
   expect(mockMailer.getSentMails()).to.have.length(0);
 });
+
+Then(
+  /^the response contains the following appointments in order:$/,
+  function (table: TableDefinition) {
+    compareToTable(
+      this.response.body.appointments,
+      table,
+      (
+        { appointment, workingGroups }: AppointmentWithWorkingGroupsResource,
+        expectation: Record<string, string>,
+      ): void => {
+        expect(appointment.presenter.user.name).to.equal(expectation.Presenter);
+
+        expect(appointment.training!.name).to.equal(expectation.Training);
+
+        expect(workingGroups.map((g) => g.name).join(', ')).to.equal(
+          expectation['Working groups'],
+        );
+      },
+    );
+  },
+);
+
+Given(
+  /^the appointment for the training "([^"]*)" presented by "([^"]*)" is( not | )running$/,
+  async function (trainingName, presenterName, truthString: string) {
+    const isRunning = truthString.trim() !== 'not';
+    const appointment = await getAppointment(trainingName, presenterName);
+
+    await Appointment.update(appointment.id, {
+      isRunning,
+    });
+  },
+);

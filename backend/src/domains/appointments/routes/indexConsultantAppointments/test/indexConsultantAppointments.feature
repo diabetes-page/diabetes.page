@@ -20,12 +20,9 @@ Feature: Get appointments for consultant
     And the appointment for the training "Turing Machines by Walter White" presented by "Jesse Pinkman" is assigned to the working group "Best group"
     When I request the appointments of the consultant "Jesse Pinkman"
     Then the request is successful
-    And the response contains an array of appointments
-    And the amount of appointments is 1
-    And the appointment at index 0 has presenter "Jesse Pinkman"
-    And the appointment at index 0 has training "Turing Machines by Walter White"
-    And the appointment at index 0 is assigned through the following working groups:
-      | Best group |
+    And the response contains the following appointments in order:
+      | Presenter     | Training                        | Working groups |
+      | Jesse Pinkman | Turing Machines by Walter White | Best group     |
 
   Scenario: As a consultant, I can get a list of my own appointments if it's empty
     Given I am a user with name "Jesse Pinkman", e-mail "test@example.com" and password "12345678"
@@ -33,8 +30,8 @@ Feature: Get appointments for consultant
     And the user "Jesse Pinkman" is a consultant
     When I request the appointments of the consultant "Jesse Pinkman"
     Then the request is successful
-    And the response contains an array of appointments
-    And the amount of appointments is 0
+    And the response contains the following appointments in order:
+      | Presenter | Training | Working groups |
 
   Scenario: As a consultant, I can get a list of another consultant's appointments
     Given I am a user with name "Jesse Pinkman", e-mail "test@example.com" and password "12345678"
@@ -44,12 +41,9 @@ Feature: Get appointments for consultant
     And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is assigned to the working group "Best group"
     When I request the appointments of the consultant "Walter White"
     Then the request is successful
-    And the response contains an array of appointments
-    And the amount of appointments is 1
-    And the appointment at index 0 has presenter "Walter White"
-    And the appointment at index 0 has training "Turing Machines by Walter White"
-    And the appointment at index 0 is assigned through the following working groups:
-      | Best group |
+    And the response contains the following appointments in order:
+      | Presenter     | Training                        | Working groups |
+      | Walter White | Turing Machines by Walter White | Best group     |
 
   Scenario: As a participant, I cannot get a list of a consultant's appointments
     Given I am a user with name "Jesse Pinkman", e-mail "test@example.com" and password "12345678"

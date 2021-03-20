@@ -20,12 +20,9 @@ Feature: Get appointments for user
     And the appointment for the training "Turing Machines by Walter White" presented by "Walter White" is assigned to the working group "Best group"
     When I request the appointments of the participant "Jesse Pinkman"
     Then the request is successful
-    And the response contains an array of appointments
-    And the amount of appointments is 1
-    And the appointment at index 0 has presenter "Walter White"
-    And the appointment at index 0 has training "Turing Machines by Walter White"
-    And the appointment at index 0 is assigned through the following working groups:
-      | Best group |
+    And the response contains the following appointments in order:
+      | Presenter    | Training                        | Working groups |
+      | Walter White | Turing Machines by Walter White | Best group     |
 
   Scenario: I cannot get a list of other people's appointments
     Given there is a user with name "Some guy" and e-mail "a@b.com"
@@ -45,9 +42,6 @@ Feature: Get appointments for user
     And I am logged in
     When I request the appointments of the participant "Some guy"
     Then the request is successful
-    And the response contains an array of appointments
-    And the amount of appointments is 1
-    And the appointment at index 0 has presenter "Walter White"
-    And the appointment at index 0 has training "Turing Machines by Walter White"
-    And the appointment at index 0 is assigned through the following working groups:
-      | Best group |
+    And the response contains the following appointments in order:
+      | Presenter    | Training                        | Working groups |
+      | Walter White | Turing Machines by Walter White | Best group     |
