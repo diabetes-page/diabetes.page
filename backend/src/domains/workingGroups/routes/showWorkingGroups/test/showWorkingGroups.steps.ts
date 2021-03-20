@@ -1,17 +1,22 @@
 import { expect } from 'chai';
 import { TableDefinition, Then, When } from 'cucumber';
 import { testRequest } from '../../../../../test/setup.steps';
+import { compareToTable } from '../../../../../test/utilities/testingUtilities';
+import { BasicWorkingGroupResource } from '../../../resources/BasicWorkingGroupResource';
 
 Then(
   /^the response contains the working groups in the following order:$/,
-  async function (configuration: TableDefinition) {
-    const expectedWorkingGroups = configuration.hashes();
-    const workingGroups = this.response.body.workingGroups;
-    expect(workingGroups).to.have.length(expectedWorkingGroups.length);
-
-    expectedWorkingGroups.forEach((expectedTraining, index) => {
-      expect(workingGroups[index].name).to.equal(expectedTraining.Name);
-    });
+  async function (table: TableDefinition) {
+    compareToTable(
+      this.response.body.workingGroups,
+      table,
+      (
+        workingGroup: BasicWorkingGroupResource,
+        expectation: Record<string, string>,
+      ): void => {
+        expect(workingGroup.name).to.equal(expectation.Name);
+      },
+    );
   },
 );
 
