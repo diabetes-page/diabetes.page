@@ -13,7 +13,7 @@ Then(
     const trainings = this.response.body.trainings;
     expect(trainings).to.have.length(expectedTrainings.length);
     expectedTrainings.forEach((expectedTraining, index) => {
-      expect(trainings[index].name).to.equal(expectedTraining.name);
+      expect(trainings[index].name).to.equal(expectedTraining.Name);
     });
   },
 );

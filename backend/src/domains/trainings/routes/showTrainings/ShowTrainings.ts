@@ -23,7 +23,7 @@ export class ShowTrainings extends ResourceController {
   @UseGuards(Consultant)
   @HttpCode(HttpStatus.OK)
   @Get('/trainings')
-  async serve(@RequestUser() user: User): Promise<Resource | null> {
+  async serve(@RequestUser() user: User): Promise<Resource> {
     const consultant = await user.loadAsConsultant();
     return Resource.make(
       await this.trainingsService.getTrainingsForConsultant(consultant!),
