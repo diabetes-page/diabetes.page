@@ -9,24 +9,27 @@ import { ResourceController } from '../../../../blueprints/controllers/ResourceC
 import { RequestUser } from '../../../../blueprints/decorators/RequestUser';
 import { Consultant } from '../../../../blueprints/guards/Consultant';
 import { User } from '../../../users/entities/User.entity';
-import { TrainingsService } from '../../services/TrainingsService';
+import { WorkingGroupsService } from '../../services/WorkingGroupsService';
 import { Resource } from './Resource';
 
 @Controller()
-export class ShowTrainings extends ResourceController {
+export class IndexWorkingGroups extends ResourceController {
   public static Resource = Resource;
 
-  constructor(private trainingsService: TrainingsService) {
+  constructor(private workingGroupsService: WorkingGroupsService) {
     super();
   }
 
   @UseGuards(Consultant)
   @HttpCode(HttpStatus.OK)
-  @Get('/trainings')
+  @Get('/working-groups')
   async serve(@RequestUser() user: User): Promise<Resource> {
     const consultant = await user.loadAsConsultant();
+
     return Resource.make(
-      await this.trainingsService.getTrainingsForConsultant(consultant!),
+      await this.workingGroupsService.getWorkingGroupsForConsultant(
+        consultant!,
+      ),
     );
   }
 }

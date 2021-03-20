@@ -3,17 +3,19 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { toShowAppointmentPage } from '../../pages/appointments/[appointmentId]';
 import { formatIsoDateString } from '../../utilities/misc/dates';
-import { AppointmentInWorkingGroupResource } from '../../utilities/requests/requests';
+import { renderIf } from '../../utilities/misc/rendering';
+import { AppointmentWithWorkingGroupsResource } from '../../utilities/requests/requests';
 
 type AppointmentListItemProps = {
-  appointmentInGroup: AppointmentInWorkingGroupResource;
+  appointmentWithGroups: AppointmentWithWorkingGroupsResource;
 };
 
 export function AppointmentListItem({
-  appointmentInGroup,
+  appointmentWithGroups,
 }: AppointmentListItemProps): JSX.Element {
-  const openAppointment = useOpenAppointment(appointmentInGroup);
+  const openAppointment = useOpenAppointment(appointmentWithGroups);
   const classes = useStyles();
+  const training = appointmentWithGroups.appointment.training?.name;
 
   return (
     <Card onClick={openAppointment} className={classes.card}>
@@ -23,13 +25,16 @@ export function AppointmentListItem({
           color="textSecondary"
           gutterBottom
         >
-          {formatIsoDateString(appointmentInGroup.appointment.startsAt)}
+          {formatIsoDateString(appointmentWithGroups.appointment.startsAt)}
         </Typography>
-        <Typography variant="h5" component="h2">
-          {appointmentInGroup.appointment.training?.name ?? 'Appointment'}
+        <Typography variant="h5" component="h2" gutterBottom>
+          {appointmentWithGroups.workingGroups[0].name}
         </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          {appointmentInGroup.appointment.presenter.user.name}
+        {renderIf(!!training)(
+          <Typography color="textSecondary">{training}</Typography>,
+        )}
+        <Typography color="textSecondary">
+          {appointmentWithGroups.appointment.presenter.user.name}
         </Typography>
       </CardContent>
     </Card>
@@ -37,14 +42,14 @@ export function AppointmentListItem({
 }
 
 function useOpenAppointment(
-  appointmentInGroup: AppointmentInWorkingGroupResource,
+  appointmentWithGroups: AppointmentWithWorkingGroupsResource,
 ): () => void {
   const router = useRouter();
 
   return () =>
     void router.push(
       toShowAppointmentPage({
-        appointmentId: appointmentInGroup.appointment.id,
+        appointmentId: appointmentWithGroups.appointment.id,
       }),
     );
 }
@@ -56,8 +61,5 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
   },
 }));
