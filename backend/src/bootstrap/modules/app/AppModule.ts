@@ -8,6 +8,7 @@ import { UsersModule } from '../../../domains/users/UsersModule';
 import { WorkingGroupsModule } from '../../../domains/workingGroups/WorkingGroupsModule';
 import { ConfigModule } from '../config/ConfigModule';
 import { I18nModule } from '../i18n/I18nModule';
+import { MailerModule } from '../mailer/MailerModule';
 import { TypeOrmModule } from '../typeOrm/TypeOrmModule';
 import { ValidationModule } from '../validation/ValidationModule';
 
@@ -16,6 +17,7 @@ import { ValidationModule } from '../validation/ValidationModule';
     ConfigModule,
     TypeOrmModule,
     I18nModule,
+    MailerModule,
     ValidationModule,
     AuthModule,
     UsersModule,

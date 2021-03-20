@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { Appointment } from '../domains/appointments/entities/Appointment.entity';
-import { Training } from '../domains/trainings/entities/Training.entity';
-import { eachPromise } from '../utilities/promises';
+import { Appointment } from '../../domains/appointments/entities/Appointment.entity';
+import { Training } from '../../domains/trainings/entities/Training.entity';
+import { eachPromise } from '../../utilities/promises';
 
 export async function getAppointment(
   trainingName: string,
