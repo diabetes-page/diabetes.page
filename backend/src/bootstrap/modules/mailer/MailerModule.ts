@@ -18,7 +18,7 @@ export const MailerModule = MailerModuleBase.forRootAsync({
           user: configService.get<string>('mailer.username'),
           pass: configService.get<string>('mailer.password'),
         },
-        secure: false, // todo: upgrade later with STARTTLS
+        secure: true,
       },
       defaults: {
         from: configService.get<string>('mailer.mailFrom'),
@@ -35,9 +35,6 @@ export const MailerModule = MailerModuleBase.forRootAsync({
           dir: __dirname + '/../../../blueprints/templates',
         },
       },
-      // preview: {
-      //   dir: '/home/tom/projects/diabetes.page/backend',
-      // },
     };
   },
   inject: [ConfigService],
