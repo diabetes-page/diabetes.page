@@ -3,7 +3,7 @@
   "env": {
     "node": true
   },
-  "ignorePatterns": ["node_modules", "/backend/dist/*", "/jitsi/*"],
+  "ignorePatterns": ["node_modules", "/backend/dist/*", "/frontend/.next/*", "/frontend/src/app/showConference/jitsi/JitsiApi.js"],
   "overrides": [
     {
       "files": ["**/*.ts", "**/*.tsx"],

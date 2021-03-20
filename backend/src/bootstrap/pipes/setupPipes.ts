@@ -13,5 +13,7 @@ const setupValidationPipe = (app: INestApplication): void => {
 
   // This is needed in order to do dependency injection for custom validators
   // see https://github.com/nestjs/nest/issues/528
+  // Also, this is not a react hook, just the name sounds like it, hence the next line
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 };

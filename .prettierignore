@@ -11,6 +11,4 @@ node_modules
 backend/dist
 backend/**/*.feature
 
-frontend/.expo*
-
-jitsi
+frontend/.next*
