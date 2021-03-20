@@ -24,7 +24,6 @@ export const MailerModule = MailerModuleBase.forRootAsync({
         from: configService.get<string>('mailer.mailFrom'),
       },
       template: {
-        dir: __dirname + '../../../blueprints/templates',
         adapter: new HandlebarsAdapter(),
         options: {
           strict: true,
