@@ -15,6 +15,7 @@ import { TeachingBaseDocumentResource as BackendTeachingBaseDocumentResource } f
 import { TopicResource as BackendTopicResource } from '../../../../backend/src/domains/teachingBases/resources/TopicResource';
 import { BasicTrainingResource as BackendBasicTrainingResource } from '../../../../backend/src/domains/trainings/resources/BasicTrainingResource';
 import { FullTrainingResource as BackendFullTrainingResource } from '../../../../backend/src/domains/trainings/resources/FullTrainingResource';
+import { Resource as BackendShowTrainingsResource } from '../../../../backend/src/domains/trainings/routes/showTrainings/Resource';
 import { BasicConsultantResource as BackendBasicConsultantResource } from '../../../../backend/src/domains/users/resources/BasicConsultantResource';
 import { BasicUserResource as BackendBasicUserResource } from '../../../../backend/src/domains/users/resources/BasicUserResource';
 import { SensitiveDataUserResource as BackendSensitiveDataUserResource } from '../../../../backend/src/domains/users/resources/SensitiveDataUserResource';
@@ -44,6 +45,7 @@ export type TeachingBaseDocumentResource = BackendTeachingBaseDocumentResource;
 export type TopicResource = BackendTopicResource;
 export type BasicTrainingResource = BackendBasicTrainingResource;
 export type FullTrainingResource = BackendFullTrainingResource;
+export type ShowTrainingsResource = BackendShowTrainingsResource;
 export type BasicConsultantResource = BackendBasicConsultantResource;
 export type BasicUserResource = BackendBasicUserResource;
 export type SensitiveDataUserResource = BackendSensitiveDataUserResource;
@@ -92,6 +94,9 @@ export const requests = {
     appointmentId: string,
   ): Promise<AxiosResponse<FullTrainingResource>> =>
     Get(`/appointments/${appointmentId}/training`, await withAuth()),
+
+  showTrainings: async (): Promise<AxiosResponse<ShowTrainingsResource>> =>
+    Get(`/trainings`, await withAuth()),
 
   createUser: async (
     data: CreateUserParameters,
