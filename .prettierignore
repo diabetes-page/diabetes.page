@@ -7,6 +7,9 @@ node_modules
 *.example
 *.png
 *.pdf
+*.ico
+*.svg
+*.hbs
 
 backend/dist
 backend/**/*.feature
