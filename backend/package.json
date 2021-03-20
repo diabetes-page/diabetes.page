@@ -20,6 +20,7 @@
     "make:requests": "ts-node scripts/generateRequestFunctions.ts"
   },
   "dependencies": {
+    "@nestjs-modules/mailer": "^1.5.1",
     "@nestjs/common": "^7.4.4",
     "@nestjs/config": "^0.5.0",
     "@nestjs/core": "^7.4.4",
@@ -39,8 +40,10 @@
     "class-transformer": "^0.3.1",
     "class-validator": "^0.12.2",
     "date-fns": "^2.16.1",
+    "handlebars": "^4.7.7",
     "lodash": "^4.17.20",
     "nestjs-i18n": "^8.0.10",
+    "nodemailer": "^6.5.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
@@ -60,6 +63,7 @@
     "@types/express": "^4.17.8",
     "@types/faker": "^5.1.5",
     "@types/node": "^14.11.2",
+    "@types/nodemailer": "^6.4.1",
     "@types/superagent": "^4.1.10",
     "@types/ws": "^7.4.0",
     "chai": "^4.2.0",

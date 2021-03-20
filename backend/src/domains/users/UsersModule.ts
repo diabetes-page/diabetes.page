@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MailTemplatesService } from '../../bootstrap/modules/mailTemplates/MailTemplatesService';
 import { Consultant } from './entities/Consultant.entity';
 import { Manager } from './entities/Manager.entity';
 import { User } from './entities/User.entity';
@@ -11,7 +12,7 @@ import { UsersService } from './services/UsersService';
 @Module({
   imports: [TypeOrmModule.forFeature([User, Consultant, Manager])],
   controllers: [IndexUsers, ShowUser, CreateUser],
-  providers: [UsersService],
+  providers: [UsersService, MailTemplatesService],
   exports: [UsersService],
 })
 export class UsersModule {}

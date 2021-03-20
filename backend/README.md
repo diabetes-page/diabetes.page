@@ -65,7 +65,7 @@ Run all database migrations to set up the database.
 # Delete all tables and run migrations
 npm run db:fresh
 
-# Run seeder 
+# Run seeder
 npm run db:seed
 
 # Or just use this command to do both in one run:

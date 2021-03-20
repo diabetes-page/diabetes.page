@@ -2,6 +2,6 @@
   "__schema_see": "https://json.schemastore.org/nest-cli",
   "sourceRoot": "src",
   "compilerOptions": {
-    "assets": ["resources/**/*"]
+    "assets": ["resources/**/*", "**/*.hbs"]
   }
 }
