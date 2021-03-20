@@ -1,0 +1,1 @@
+npm run test -- $TEST_DOMAIN
