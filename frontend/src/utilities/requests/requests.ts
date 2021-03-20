@@ -15,13 +15,13 @@ import { TeachingBaseDocumentResource as BackendTeachingBaseDocumentResource } f
 import { TopicResource as BackendTopicResource } from '../../../../backend/src/domains/teachingBases/resources/TopicResource';
 import { BasicTrainingResource as BackendBasicTrainingResource } from '../../../../backend/src/domains/trainings/resources/BasicTrainingResource';
 import { FullTrainingResource as BackendFullTrainingResource } from '../../../../backend/src/domains/trainings/resources/FullTrainingResource';
-import { Resource as BackendShowTrainingsResource } from '../../../../backend/src/domains/trainings/routes/showTrainings/Resource';
+import { Resource as BackendIndexTrainingsResource } from '../../../../backend/src/domains/trainings/routes/indexTrainings/Resource';
 import { BasicConsultantResource as BackendBasicConsultantResource } from '../../../../backend/src/domains/users/resources/BasicConsultantResource';
 import { BasicUserResource as BackendBasicUserResource } from '../../../../backend/src/domains/users/resources/BasicUserResource';
 import { SensitiveDataUserResource as BackendSensitiveDataUserResource } from '../../../../backend/src/domains/users/resources/SensitiveDataUserResource';
 import { Resource as BackendIndexUsersResource } from '../../../../backend/src/domains/users/routes/indexUsers/Resource';
 import { BasicWorkingGroupResource as BackendBasicWorkingGroupResource } from '../../../../backend/src/domains/workingGroups/resources/BasicWorkingGroupResource';
-import { Resource as BackendShowWorkingGroupsResource } from '../../../../backend/src/domains/workingGroups/routes/showWorkingGroups/Resource';
+import { Resource as BackendIndexWorkingGroupsResource } from '../../../../backend/src/domains/workingGroups/routes/indexWorkingGroups/Resource';
 import { Get, Post, withAuth } from './axios';
 
 export type AppointmentResource = BackendAppointmentResource;
@@ -45,7 +45,7 @@ export type TeachingBaseDocumentResource = BackendTeachingBaseDocumentResource;
 export type TopicResource = BackendTopicResource;
 export type BasicTrainingResource = BackendBasicTrainingResource;
 export type FullTrainingResource = BackendFullTrainingResource;
-export type ShowTrainingsResource = BackendShowTrainingsResource;
+export type IndexTrainingsResource = BackendIndexTrainingsResource;
 export type BasicConsultantResource = BackendBasicConsultantResource;
 export type BasicUserResource = BackendBasicUserResource;
 export type SensitiveDataUserResource = BackendSensitiveDataUserResource;
@@ -55,7 +55,7 @@ export type CreateUserParameters = {
 };
 export type IndexUsersResource = BackendIndexUsersResource;
 export type BasicWorkingGroupResource = BackendBasicWorkingGroupResource;
-export type ShowWorkingGroupsResource = BackendShowWorkingGroupsResource;
+export type IndexWorkingGroupsResource = BackendIndexWorkingGroupsResource;
 
 export const requests = {
   createAppointment: async (
@@ -95,13 +95,13 @@ export const requests = {
   ): Promise<AxiosResponse<ShowConferenceTokenResource>> =>
     Get(`/appointments/${appointmentId}/conference/token`, await withAuth()),
 
+  indexTrainings: async (): Promise<AxiosResponse<IndexTrainingsResource>> =>
+    Get(`/trainings`, await withAuth()),
+
   showAppointmentTraining: async (
     appointmentId: string,
   ): Promise<AxiosResponse<FullTrainingResource>> =>
     Get(`/appointments/${appointmentId}/training`, await withAuth()),
-
-  showTrainings: async (): Promise<AxiosResponse<ShowTrainingsResource>> =>
-    Get(`/trainings`, await withAuth()),
 
   createUser: async (
     data: CreateUserParameters,
@@ -116,7 +116,7 @@ export const requests = {
   ): Promise<AxiosResponse<SensitiveDataUserResource>> =>
     Get(`/users/${userId}`, await withAuth()),
 
-  showWorkingGroups: async (): Promise<
-    AxiosResponse<ShowWorkingGroupsResource>
+  indexWorkingGroups: async (): Promise<
+    AxiosResponse<IndexWorkingGroupsResource>
   > => Get(`/working-groups`, await withAuth()),
 };
