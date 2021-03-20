@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { TableDefinition, Then, When } from 'cucumber';
 import { testRequest } from '../../../../../test/setup.steps';
-import { getAppointment } from '../../../../../test/testingUtilities';
+import { getAppointment } from '../../../../../test/utilities/testingUtilities';
 
 When(
   /^I request the appointment for the training "([^"]*)" presented by "([^"]*)"$/,
