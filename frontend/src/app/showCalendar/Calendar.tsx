@@ -1,6 +1,5 @@
 // organize-imports-ignore
 import FullCalendar, {
-  EventApi,
   DateSelectArg,
   EventClickArg,
   EventContentArg,
@@ -8,17 +7,17 @@ import FullCalendar, {
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { makeStyles, Box } from '@material-ui/core';
+import { Box, makeStyles } from '@material-ui/core';
 import React, { SetStateAction, useState } from 'react';
 import { useSelector } from '../../redux/root/hooks';
-import { AppointmentInWorkingGroupResource } from '../../utilities/requests/requests';
-import { AddAppointmentDialog } from './calendarDialogs/AddAppointmentDialog';
-import { ViewAppointmentDialog } from './calendarDialogs/ViewAppointmentDialog';
+import { AppointmentWithWorkingGroupsResource } from '../../utilities/requests/requests';
+import { AddAppointmentDialog } from './dialogs/AddAppointmentDialog';
+import { ViewAppointmentDialog } from './dialogs/ViewAppointmentDialog';
 
 type CalendarProps = {
-  appointments: AppointmentInWorkingGroupResource[];
+  appointments: AppointmentWithWorkingGroupsResource[];
   setAppointments: React.Dispatch<
-    SetStateAction<AppointmentInWorkingGroupResource[]>
+    SetStateAction<AppointmentWithWorkingGroupsResource[]>
   >;
 };
 

@@ -5,22 +5,26 @@ import { StandardPage } from '../../components/StandardPage';
 import { useSelector } from '../../redux/root/hooks';
 import { useLoadingState } from '../../utilities/hooks/hooks';
 import {
-  AppointmentInWorkingGroupResource,
+  AppointmentWithWorkingGroupsResource,
   requests,
 } from '../../utilities/requests/requests';
 import { Calendar } from './Calendar';
 
 export function ShowCalendar(): JSX.Element {
   const [appointments, setAppointments, isLoading] = useLoadingState<
-    AppointmentInWorkingGroupResource[]
+    AppointmentWithWorkingGroupsResource[]
   >();
-  const userId = useSelector((state) => state.user.id);
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    requests.indexAppointmentsForUser(userId).then((response) => {
+    if (!user.consultantId) {
+      return;
+    }
+
+    requests.indexConsultantAppointments(user.consultantId).then((response) => {
       setAppointments(response.data.appointments);
     });
-  }, [setAppointments, userId]);
+  }, [setAppointments, user]);
 
   if (isLoading || !appointments) {
     return <StandardLoadingPage />;
@@ -28,7 +32,7 @@ export function ShowCalendar(): JSX.Element {
 
   return (
     <StandardPage>
-      <StandardHeading>My Calendar</StandardHeading>
+      <StandardHeading>Calendar</StandardHeading>
       <Calendar appointments={appointments} setAppointments={setAppointments} />
     </StandardPage>
   );
