@@ -9,7 +9,7 @@ export class WorkingGroupFactory {
     creator: Consultant,
     props: Partial<WorkingGroup> = {},
   ): Promise<WorkingGroup> => {
-    const name = Faker.commerce.productName();
+    const name = Faker.commerce.productName() + ' group';
     const description = Faker.commerce.productDescription();
 
     return WorkingGroup.create({

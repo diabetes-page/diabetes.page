@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { addDays, subDays } from 'date-fns';
+import { addDays, addHours, subDays } from 'date-fns';
 import * as Faker from 'faker';
 import { Appointment } from '../../domains/appointments/entities/Appointment.entity';
 import { Training } from '../../domains/trainings/entities/Training.entity';
@@ -16,7 +16,7 @@ export class AppointmentFactory {
       subDays(new Date(), 3),
       addDays(new Date(), 3),
     );
-    const endsAt = addDays(startsAt, 1);
+    const endsAt = addHours(startsAt, 8);
 
     return Appointment.create({
       training,
