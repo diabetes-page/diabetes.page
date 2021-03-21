@@ -8,7 +8,7 @@ import FullCalendar, {
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { Box, makeStyles, Paper } from '@material-ui/core';
+import { Box, makeStyles, Paper, useTheme } from '@material-ui/core';
 import React, { SetStateAction, useMemo, useState } from 'react';
 import { useSelector } from '../../redux/root/hooks';
 import { AppointmentWithWorkingGroupsResource } from '../../utilities/requests/requests';
@@ -32,19 +32,26 @@ function computeInitialEvents(
 }
 
 export function Calendar({ initialAppointments }: CalendarProps): JSX.Element {
-  const classes = useStyles();
   const initialEvents: EventInput[] = useMemo(
     () => computeInitialEvents(initialAppointments),
     [initialAppointments],
   );
+  const classes = useStyles();
+  const theme = useTheme();
   const handleAppointmentClicked = (clickInfo: EventClickArg): void => {};
   const handleAppointmentAdded = (event: EventAddArg): void => {};
   const handleAppointmentUpdated = (event: EventChangeArg): void => {};
 
+  // Todo: Localization
   return (
     <Paper className={classes.calendarContainer}>
       <FullCalendar
         plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
+        headerToolbar={{
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay',
+        }}
         initialView="dayGridMonth"
         nowIndicator={true}
         editable={true}
@@ -53,6 +60,7 @@ export function Calendar({ initialAppointments }: CalendarProps): JSX.Element {
         eventClick={handleAppointmentClicked}
         eventAdd={handleAppointmentAdded}
         eventChange={handleAppointmentUpdated}
+        eventColor={theme.palette.primary.main}
       />
     </Paper>
   );
