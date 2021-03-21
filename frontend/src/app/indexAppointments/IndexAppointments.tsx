@@ -14,13 +14,21 @@ export function IndexAppointments(): JSX.Element {
   const [appointments, setAppointments, isLoading] = useLoadingState<
     AppointmentWithWorkingGroupsResource[]
   >();
-  const userId = useSelector((state) => state.user.id);
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    requests.indexParticipantAppointments(userId).then((response) => {
-      setAppointments(response.data.appointments);
-    });
-  }, [setAppointments, userId]);
+    if (user.consultantId) {
+      requests
+        .indexConsultantAppointments(user.consultantId)
+        .then((response) => {
+          setAppointments(response.data.appointments);
+        });
+    } else {
+      requests.indexParticipantAppointments(user.id).then((response) => {
+        setAppointments(response.data.appointments);
+      });
+    }
+  }, [setAppointments, user]);
 
   if (isLoading || !appointments) {
     return <StandardLoadingPage />;
