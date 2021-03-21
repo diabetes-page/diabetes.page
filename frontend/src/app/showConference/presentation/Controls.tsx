@@ -17,7 +17,7 @@ export const Controls = ({ training }: Props): JSX.Element => {
       },
     });
 
-  if (!user.isConsultant) {
+  if (!user.consultantId) {
     return <></>;
   }
 
