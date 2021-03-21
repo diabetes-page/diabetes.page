@@ -33,7 +33,7 @@ export function ShowCalendar(): JSX.Element {
   return (
     <StandardPage>
       <StandardHeading>Calendar</StandardHeading>
-      <Calendar appointments={appointments} setAppointments={setAppointments} />
+      <Calendar initialAppointments={appointments} />
     </StandardPage>
   );
 }

@@ -1,4 +1,4 @@
-import { ChangeEvent, DateSelectArg } from '@fullcalendar/react';
+import { DateSelectArg } from '@fullcalendar/react';
 import {
   Button,
   Dialog,
@@ -13,7 +13,10 @@ import {
   TextField,
 } from '@material-ui/core';
 import React, { SetStateAction, useState } from 'react';
-import { BasicTrainingResource } from '../../../utilities/requests/requests';
+import {
+  BasicTrainingResource,
+  BasicWorkingGroupResource,
+} from '../../../utilities/requests/requests';
 
 const initialFormState = {
   trainingName: '',
@@ -237,3 +240,40 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
   },
 }));
+
+const trainings = [
+  {
+    id: 123,
+    name: 'Training 1',
+  },
+  {
+    id: 124,
+    name: 'Training 2',
+  },
+  {
+    id: 125,
+    name: 'Training 3',
+  },
+  {
+    id: 126,
+    name: 'Training 4',
+  },
+];
+const groups = [
+  {
+    id: 123,
+    name: 'Group 1',
+  },
+  {
+    id: 124,
+    name: 'Group 2',
+  },
+  {
+    id: 125,
+    name: 'Group 3',
+  },
+  {
+    id: 126,
+    name: 'Group 4',
+  },
+];
