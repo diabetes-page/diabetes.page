@@ -7,10 +7,12 @@ node_modules
 *.example
 *.png
 *.pdf
+*.ico
+*.svg
+*.hbs
+*.sh
 
 backend/dist
 backend/**/*.feature
 
-frontend/.expo*
-
-jitsi
+frontend/.next*

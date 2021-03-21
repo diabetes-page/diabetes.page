@@ -5,19 +5,19 @@ import { StandardPage } from '../../components/StandardPage';
 import { useSelector } from '../../redux/root/hooks';
 import { useLoadingState } from '../../utilities/hooks/hooks';
 import {
-  AppointmentInWorkingGroupResource,
+  AppointmentWithWorkingGroupsResource,
   requests,
 } from '../../utilities/requests/requests';
 import { AppointmentListItem } from './AppointmentListItem';
 
 export function IndexAppointments(): JSX.Element {
   const [appointments, setAppointments, isLoading] = useLoadingState<
-    AppointmentInWorkingGroupResource[]
+    AppointmentWithWorkingGroupsResource[]
   >();
   const userId = useSelector((state) => state.user.id);
 
   useEffect(() => {
-    requests.indexAppointmentsForUser(userId).then((response) => {
+    requests.indexParticipantAppointments(userId).then((response) => {
       setAppointments(response.data.appointments);
     });
   }, [setAppointments, userId]);
@@ -29,10 +29,10 @@ export function IndexAppointments(): JSX.Element {
   return (
     <StandardPage>
       <StandardHeading>My appointments</StandardHeading>
-      {appointments.map((appointmentInGroup) => (
+      {appointments.map((appointmentWithGroups) => (
         <AppointmentListItem
-          appointmentInGroup={appointmentInGroup}
-          key={appointmentInGroup.appointment.id}
+          appointmentWithGroups={appointmentWithGroups}
+          key={appointmentWithGroups.appointment.id}
         />
       ))}
     </StandardPage>

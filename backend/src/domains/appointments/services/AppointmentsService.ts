@@ -1,32 +1,27 @@
 import { Injectable } from '@nestjs/common';
-import { flatten } from 'lodash';
-import { mapPromises } from '../../../utilities/promises';
+import { getCustomRepository } from 'typeorm';
 import { Training } from '../../trainings/entities/Training.entity';
 import { Consultant } from '../../users/entities/Consultant.entity';
 import { User } from '../../users/entities/User.entity';
-import { WorkingGroup } from '../../workingGroups/entities/WorkingGroup.entity';
 import { Appointment } from '../entities/Appointment.entity';
-import { AppointmentInWorkingGroup } from '../types/AppointmentInWorkingGroup';
+import { AppointmentsRepository } from '../repositories/AppointmentsRepository';
 
 @Injectable()
 export class AppointmentsService {
-  async get(id: string): Promise<Appointment | undefined> {
-    return Appointment.findOne({ where: { id } });
+  async get(appointmentId: string): Promise<Appointment | undefined> {
+    return Appointment.findOne({ where: { id: appointmentId } });
   }
 
-  async forUser(user: User): Promise<AppointmentInWorkingGroup[]> {
-    const groups = await user.loadWorkingGroups();
+  async forParticipant(user: User): Promise<Appointment[]> {
+    return getCustomRepository(
+      AppointmentsRepository,
+    ).getParticipantAppointments(user);
+  }
 
-    const appointmentsDeep: AppointmentInWorkingGroup[][] = await mapPromises(
-      groups,
-      async (workingGroup: WorkingGroup) =>
-        (await workingGroup.loadAppointments()).map((appointment) => ({
-          workingGroup,
-          appointment,
-        })),
-    );
-
-    return flatten(appointmentsDeep);
+  async forConsultant(consultant: Consultant): Promise<Appointment[]> {
+    return getCustomRepository(
+      AppointmentsRepository,
+    ).getConsultantAppointments(consultant);
   }
 
   async add(

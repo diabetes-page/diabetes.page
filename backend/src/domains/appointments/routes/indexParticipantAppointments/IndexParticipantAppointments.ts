@@ -3,12 +3,12 @@ import { ResourceController } from '../../../../blueprints/controllers/ResourceC
 import { ConsultantOrTargetsSelf } from '../../../../blueprints/guards/ConsultantOrTargetsSelf';
 import { EntityById } from '../../../../blueprints/pipes/EntityById';
 import { User } from '../../../users/entities/User.entity';
+import { AppointmentsWithWorkingGroupsResource } from '../../resources/AppointmentsWithWorkingGroupsResource';
 import { AppointmentsService } from '../../services/AppointmentsService';
-import { Resource } from './Resource';
 
 @Controller()
-export class IndexAppointmentsForUser extends ResourceController {
-  public static Resource = Resource;
+export class IndexParticipantAppointments extends ResourceController {
+  public static Resource = AppointmentsWithWorkingGroupsResource;
 
   constructor(private appointmentsService: AppointmentsService) {
     super();
@@ -18,9 +18,9 @@ export class IndexAppointmentsForUser extends ResourceController {
   @Get('/users/:userId/appointments')
   async serve(
     @Param(new EntityById(User, 'userId')) user: User,
-  ): Promise<Resource> {
-    const appointmentsInGroups = await this.appointmentsService.forUser(user);
+  ): Promise<AppointmentsWithWorkingGroupsResource> {
+    const appointments = await this.appointmentsService.forParticipant(user);
 
-    return Resource.make(appointmentsInGroups);
+    return AppointmentsWithWorkingGroupsResource.make(appointments);
   }
 }

@@ -2,6 +2,8 @@ import { HttpStatus } from '@nestjs/common';
 import { expect } from 'chai';
 import { Given, TableDefinition, Then } from 'cucumber';
 import { parseISO } from 'date-fns';
+import { Appointment } from '../domains/appointments/entities/Appointment.entity';
+import { AppointmentWithWorkingGroupsResource } from '../domains/appointments/resources/AppointmentWithWorkingGroupsResource';
 import { TeachingBase } from '../domains/teachingBases/entities/TeachingBase.entity';
 import { TeachingBaseDocument } from '../domains/teachingBases/entities/TeachingBaseDocument.entity';
 import { Topic } from '../domains/teachingBases/entities/Topic.entity';
@@ -9,7 +11,8 @@ import { Training } from '../domains/trainings/entities/Training.entity';
 import { User } from '../domains/users/entities/User.entity';
 import { WorkingGroup } from '../domains/workingGroups/entities/WorkingGroup.entity';
 import { seeder, testRequest } from './setup.steps';
-import { getAppointment } from './testingUtilities';
+import { MockMail, mockMailer } from './utilities/MockMailer';
+import { compareToTable, getAppointment } from './utilities/testingUtilities';
 
 Then(/^the request is rejected$/, function () {
   expect(this.response.status).to.equal(HttpStatus.BAD_REQUEST);
@@ -185,6 +188,10 @@ Given(
   },
 );
 
+Then(/^the request is successful and resource created$/, function () {
+  expect(this.response.status).to.equal(HttpStatus.CREATED);
+});
+
 Given(
   /^the training "([^"]*)" uses the following slides: "([^"]*)"$/,
   async function (trainingName, slidesString) {
@@ -202,3 +209,66 @@ Given(
 Then(/^the response is empty$/, function () {
   expect(this.response.body).to.deep.equal({});
 });
+
+Then(/^the following e-mails were sent:$/, function (table: TableDefinition) {
+  compareToTable(
+    mockMailer.getSentMails(),
+    table,
+    (mail: MockMail, expectedMail: Record<string, string>): void => {
+      expect(mail.recipient).to.equal(expectedMail.Recipient);
+      expect(mail.subject).to.equal(expectedMail.Subject);
+      expect(mail.language).to.equal(expectedMail.Language);
+    },
+  );
+});
+
+Then(
+  /^e-mail number (\d+) had the following content:$/,
+  function (position: number, linesTable: TableDefinition) {
+    const expectation = linesTable
+      .raw()
+      .map((s) => s[0].trim())
+      .filter((s) => !!s);
+    const mails = mockMailer.getSentMails();
+
+    expect(mails[position - 1].paragraphs).to.deep.equal(expectation);
+  },
+);
+
+Then(/^no e-mails were sent$/, function () {
+  expect(mockMailer.getSentMails()).to.have.length(0);
+});
+
+Then(
+  /^the response contains the following appointments in order:$/,
+  function (table: TableDefinition) {
+    compareToTable(
+      this.response.body.appointments,
+      table,
+      (
+        { appointment, workingGroups }: AppointmentWithWorkingGroupsResource,
+        expectation: Record<string, string>,
+      ): void => {
+        expect(appointment.presenter.user.name).to.equal(expectation.Presenter);
+
+        expect(appointment.training!.name).to.equal(expectation.Training);
+
+        expect(workingGroups.map((g) => g.name).join(', ')).to.equal(
+          expectation['Working groups'],
+        );
+      },
+    );
+  },
+);
+
+Given(
+  /^the appointment for the training "([^"]*)" presented by "([^"]*)" is( not | )running$/,
+  async function (trainingName, presenterName, truthString: string) {
+    const isRunning = truthString.trim() !== 'not';
+    const appointment = await getAppointment(trainingName, presenterName);
+
+    await Appointment.update(appointment.id, {
+      isRunning,
+    });
+  },
+);
