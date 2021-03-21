@@ -1,242 +1,97 @@
-import { EventClickArg } from '@fullcalendar/react';
+import { EventApi } from '@fullcalendar/react';
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
-  Grid,
   makeStyles,
-  MenuItem,
   Slide,
-  TextField,
-  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
 } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import React, { SetStateAction, useEffect, useState } from 'react';
-import {
-  BasicTrainingResource,
-  BasicWorkingGroupResource,
-} from '../../../utilities/requests/requests';
-
-const initialFormState = {
-  trainingId: '',
-  trainingName: '',
-  groupId: '',
-  groupName: '',
-  startDateTime: '',
-  endDateTime: '',
-};
+import React from 'react';
+import { formatIsoDateString } from '../../../utilities/misc/dates';
+import { AppointmentWithWorkingGroupsResource } from '../../../utilities/requests/requests';
 
 type ViewAppointmentDialogProps = {
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<SetStateAction<boolean>>;
-  selectedData: EventClickArg;
-  trainings: BasicTrainingResource[];
-  groups: BasicWorkingGroupResource[];
+  event: EventApi | null;
+  closeDialog: () => void;
 };
 
 export function ViewAppointmentDialog({
-  isOpen,
-  setIsOpen,
-  selectedData,
-  trainings,
-  groups,
+  event,
+  closeDialog,
 }: ViewAppointmentDialogProps): JSX.Element | null {
   const classes = useStyles();
-  const [formData, setFormData] = useState(initialFormState);
-
-  const handleUpdateTraining = (
-    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ): void => {
-    const appointment = selectedData.event;
-    const trainingName = e.currentTarget.dataset.trainingName;
-
-    // Update our form state with our new training information
-    setFormData({
-      ...formData,
-      trainingId: e.target.value,
-      trainingName: trainingName,
-    });
-
-    // Update the calendar with our new training changes
-    appointment.setProp('title', `${trainingName} with ${formData.groupName}`);
-    appointment.setExtendedProp('trainingName', trainingName);
-    appointment.setExtendedProp('trainingId', e.target.value);
-  };
-
-  const handleUpdateGroup = (
-    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ): void => {
-    const appointment = selectedData.event;
-    const groupName = e.currentTarget.dataset.groupName;
-
-    // Update our form state with the new group information
-    setFormData({
-      ...formData,
-      groupId: e.target.value,
-      groupName: groupName,
-    });
-
-    // Update the calendar with our new group changes
-    appointment.setProp('title', `${formData.trainingName} with ${groupName}`);
-    appointment.setExtendedProp('groupId', e.target.value);
-    appointment.setExtendedProp('groupName', groupName);
-  };
-
-  const handleUpdateStart = (
-    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ): void => {
-    const appointment = selectedData.event;
-    setFormData({ ...formData, startDateTime: e.target.value });
-    appointment.setStart(e.target.value);
-  };
-
-  const handleUpdateEnd = (
-    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ): void => {
-    const appointment = selectedData.event;
-    setFormData({ ...formData, endDateTime: e.target.value });
-    appointment.setEnd(e.target.value);
-  };
-
-  const handleCancel = (
-    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ): void => {
-    const appointment = selectedData.event;
-    appointment.remove();
-    closeDialog();
-  };
-
-  const closeDialog = (): void => {
-    setFormData(initialFormState);
-    setIsOpen(false);
-  };
-
-  // When we get selectedData, put it into our formData state to populate our form
-  const loadEventData = (): void => {
-    // Sanity check to make sure we actually have a selected event to display
-    if (
-      !(typeof selectedData == 'undefined') &&
-      !(typeof selectedData.event == 'undefined')
-    ) {
-      // Put our event data into state
-      const eventData = {
-        title: selectedData.event.title,
-        startDateTime: selectedData.event.startStr,
-        endDateTime: selectedData.event.endStr,
-        groupId: selectedData.event.extendedProps.groupId,
-        groupName: selectedData.event.extendedProps.groupName,
-        trainingId: selectedData.event.extendedProps.trainingId,
-        trainingName: selectedData.event.extendedProps.trainingName,
-      };
-      console.log('eventData is: ', eventData);
-      setFormData(eventData);
-    }
-  };
-
-  useEffect(() => {
-    loadEventData();
-  }, [selectedData]);
-
-  // Hack to stop us accessing selectedData if it's undefined
-  if (typeof selectedData == 'undefined') {
-    return null;
-  }
-  if (typeof selectedData.event == 'undefined') {
-    return null;
-  }
+  const appointmentWithGroups: AppointmentWithWorkingGroupsResource =
+    event?.extendedProps?.appointmentWithGroups;
 
   return (
     <Dialog
       fullWidth
-      maxWidth="md"
-      open={isOpen}
+      maxWidth="sm"
+      open={!!event}
       TransitionComponent={Transition}
       keepMounted
       onClose={closeDialog}
-      aria-labelledby="alert-dialog-slide-title"
-      aria-describedby="alert-dialog-slide-description"
+      aria-labelledby="view-appointment-dialog-title"
     >
-      <DialogTitle id="alert-dialog-slide-title">
-        <Grid container justify="space-between">
-          <Typography variant="h6">Your appointment details</Typography>
-          <Button
-            onClick={handleCancel}
-            variant="contained"
-            size="small"
-            className={classes.deleteButton}
-            startIcon={<DeleteIcon />}
-          >
-            Cancel Appointment
-          </Button>
-        </Grid>
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          Here are the details for your {formData.trainingName} appointment with{' '}
-          {formData.groupName}
-        </DialogContentText>
+      {appointmentWithGroups && (
+        <>
+          <DialogTitle id="view-appointment-dialog-title">
+            {appointmentWithGroups?.workingGroups[0].name}
+          </DialogTitle>
 
-        {/* Grid that splits the dialog into 2 columns on md screens and up */}
-        <Grid container className={classes.grid}>
-          <Grid item xs={12} md={6} className={classes.gridColumn}>
-            <TextField
-              id="training-select"
-              select
-              fullWidth
-              label="Appointment Training"
-              value={formData.trainingId}
-              onChange={handleUpdateTraining}
-              variant="outlined"
-            >
-              {trainings.map((training) => (
-                <MenuItem
-                  data-training-name={training.name}
-                  key={training.id}
-                  value={training.id}
-                >
-                  {training.name}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
+          <DialogContent>
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TableCell variant="head">Start</TableCell>
+                  <TableCell>
+                    {formatIsoDateString(
+                      appointmentWithGroups.appointment.startsAt,
+                    )}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell variant="head">End</TableCell>
+                  <TableCell>
+                    {formatIsoDateString(
+                      appointmentWithGroups.appointment.endsAt,
+                    )}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell variant="head">Presenter</TableCell>
+                  <TableCell>
+                    {appointmentWithGroups.appointment.presenter.user.name}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell variant="head">Planned training</TableCell>
+                  <TableCell>
+                    {appointmentWithGroups.appointment.training?.name ||
+                      'No training planned'}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </DialogContent>
 
-          <Grid item xs={12} md={6} className={classes.gridColumn}>
-            <TextField
-              id="group-select"
-              select
-              fullWidth
-              label="Appointment Group"
-              value={formData.groupId}
-              onChange={handleUpdateGroup}
-              variant="outlined"
-            >
-              {groups.map((group) => (
-                <MenuItem
-                  data-group-name={group.name}
-                  key={group.id}
-                  value={group.id}
-                >
-                  {group.name}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-        </Grid>
-      </DialogContent>
-      {/* Ok Button */}
-      <DialogActions>
-        <Button onClick={closeDialog} color="primary">
-          Ok
-        </Button>
-      </DialogActions>
+          <DialogActions>
+            <Button onClick={closeDialog} color="primary">
+              Ok
+            </Button>
+          </DialogActions>
+        </>
+      )}
     </Dialog>
   );
 }
 
-// Slide transition for add/update modals
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -270,3 +125,40 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'red',
   },
 }));
+
+const trainings = [
+  {
+    id: 123,
+    name: 'Training 1',
+  },
+  {
+    id: 124,
+    name: 'Training 2',
+  },
+  {
+    id: 125,
+    name: 'Training 3',
+  },
+  {
+    id: 126,
+    name: 'Training 4',
+  },
+];
+const groups = [
+  {
+    id: 123,
+    name: 'Group 1',
+  },
+  {
+    id: 124,
+    name: 'Group 2',
+  },
+  {
+    id: 125,
+    name: 'Group 3',
+  },
+  {
+    id: 126,
+    name: 'Group 4',
+  },
+];

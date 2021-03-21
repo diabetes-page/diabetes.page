@@ -4,15 +4,16 @@ import FullCalendar, {
   EventChangeArg,
   EventAddArg,
   EventInput,
+  EventApi,
 } from '@fullcalendar/react';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { Box, makeStyles, Paper, useTheme } from '@material-ui/core';
-import React, { SetStateAction, useMemo, useState } from 'react';
-import { useSelector } from '../../redux/root/hooks';
-import { AppointmentWithWorkingGroupsResource } from '../../utilities/requests/requests';
+import { makeStyles, Paper, useTheme } from '@material-ui/core';
 import { parseISO } from 'date-fns';
+import React, { useMemo, useState } from 'react';
+import { AppointmentWithWorkingGroupsResource } from '../../utilities/requests/requests';
+import { ViewAppointmentDialog } from './dialogs/ViewAppointmentDialog';
 
 type CalendarProps = {
   initialAppointments: AppointmentWithWorkingGroupsResource[];
@@ -38,31 +39,33 @@ export function Calendar({ initialAppointments }: CalendarProps): JSX.Element {
   );
   const classes = useStyles();
   const theme = useTheme();
-  const handleAppointmentClicked = (clickInfo: EventClickArg): void => {};
-  const handleAppointmentAdded = (event: EventAddArg): void => {};
-  const handleAppointmentUpdated = (event: EventChangeArg): void => {};
+  const [editedEvent, setEditedEvent] = useState<EventApi | null>(null);
 
   // Todo: Localization
   return (
-    <Paper className={classes.calendarContainer}>
-      <FullCalendar
-        plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
-        headerToolbar={{
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay',
-        }}
-        initialView="dayGridMonth"
-        nowIndicator={true}
-        editable={true}
-        selectable={true}
-        initialEvents={initialEvents}
-        eventClick={handleAppointmentClicked}
-        eventAdd={handleAppointmentAdded}
-        eventChange={handleAppointmentUpdated}
-        eventColor={theme.palette.primary.main}
+    <>
+      <ViewAppointmentDialog
+        event={editedEvent}
+        closeDialog={() => void setEditedEvent(null)}
       />
-    </Paper>
+      <Paper className={classes.calendarContainer}>
+        <FullCalendar
+          plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
+          headerToolbar={{
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay',
+          }}
+          initialView="dayGridMonth"
+          initialEvents={initialEvents}
+          eventClick={(clickInfo: EventClickArg) =>
+            void setEditedEvent(clickInfo.event)
+          }
+          eventColor={theme.palette.primary.main}
+          editable
+        />
+      </Paper>
+    </>
   );
 }
 
