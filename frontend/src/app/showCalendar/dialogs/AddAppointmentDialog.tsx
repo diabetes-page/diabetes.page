@@ -53,97 +53,86 @@ export function AddAppointmentDialog({
 
   return (
     <Dialog
+      maxWidth="sm"
       open={open && !!calendarApi}
       TransitionComponent={Transition}
-      keepMounted
       onClose={onClose}
-      aria-labelledby="alert-dialog-slide-title"
-      aria-describedby="alert-dialog-slide-description"
+      aria-labelledby="add-appointment-dialog-title"
+      fullWidth
+      keepMounted
     >
-      <DialogTitle id="alert-dialog-slide-title">New appointment</DialogTitle>
+      <DialogTitle id="add-appointment-dialog-title">
+        New appointment
+      </DialogTitle>
       <DialogContent>
         <form>
-          {/* Appointment Training */}
-          <div>
-            <FormControl fullWidth className={classes.formControl}>
-              <TextField
-                id="add-appointment-training-select"
-                select
-                fullWidth
-                label="Training"
-                value={trainingId}
-                variant="outlined"
-                onChange={(event) =>
-                  void setTrainingId(event.currentTarget.value)
-                }
-              >
-                {trainings.map((training) => (
-                  <MenuItem key={training.id} value={training.id}>
-                    {training.name}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </FormControl>
-          </div>
-
-          {/* Appointment workingGroup */}
-          <div>
-            <FormControl fullWidth className={classes.formControl}>
-              <TextField
-                id="add-appointment-group-select"
-                select
-                fullWidth
-                label="Group"
-                value={groupId}
-                variant="outlined"
-                onChange={(event) => void setGroupId(event.currentTarget.value)}
-              >
-                {groups.map((group) => (
-                  <MenuItem key={group.id} value={group.id}>
-                    {group.name}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </FormControl>
-          </div>
-
-          {/* Appointment Start */}
-          <div>
+          <FormControl fullWidth>
             <TextField
-              className={classes.textField}
-              variant="outlined"
-              fullWidth
-              onChange={(event) => void setStartsAt(event.currentTarget.value)}
+              label="Start time"
+              type="datetime-local"
               value={startsAt}
-              id="datetime-start"
-              label="Appointment's starting Date and Time"
-              type="datetime-local"
+              onChange={(event) => void setStartsAt(event.currentTarget.value)}
               InputLabelProps={{
                 shrink: true,
               }}
-            />
-          </div>
-
-          {/* Appointment End */}
-          <div>
-            <TextField
-              className={classes.textField}
+              id="add-appointment-startsAt"
               variant="outlined"
               fullWidth
-              onChange={(event) => void setEndsAt(event.currentTarget.value)}
-              value={endsAt}
-              id="datetime-end"
-              label="Appointment's ending Date and Time"
+            />
+          </FormControl>
+
+          <FormControl fullWidth className={classes.margin}>
+            <TextField
+              label="End time"
               type="datetime-local"
+              value={endsAt}
+              onChange={(event) => void setEndsAt(event.currentTarget.value)}
               InputLabelProps={{
                 shrink: true,
               }}
+              id="add-appointment-endsAt"
+              variant="outlined"
+              fullWidth
             />
-          </div>
+          </FormControl>
+
+          <FormControl className={classes.margin} fullWidth>
+            <TextField
+              label="Group"
+              value={groupId}
+              onChange={(event) => void setGroupId(event.target.value)}
+              id="add-appointment-group"
+              variant="outlined"
+              select
+              fullWidth
+            >
+              {groups.map((group) => (
+                <MenuItem key={group.id} value={group.id}>
+                  {group.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </FormControl>
+
+          <FormControl className={classes.margin} fullWidth>
+            <TextField
+              label="Training"
+              value={trainingId}
+              onChange={(event) => void setTrainingId(event.target.value)}
+              id="add-appointment-training"
+              variant="outlined"
+              select
+              fullWidth
+            >
+              {trainings.map((training) => (
+                <MenuItem key={training.id} value={training.id}>
+                  {training.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </FormControl>
         </form>
       </DialogContent>
-
-      {/* Cancel / Add Appointment Button */}
       <DialogActions>
         <Button onClick={onClose} color="primary">
           Cancel
@@ -165,22 +154,8 @@ const Transition = React.forwardRef(function Transition(
 });
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    margin: theme.spacing(1),
-  },
-  textField: {
+  margin: {
     marginTop: theme.spacing(3),
-    minWidth: 150,
-  },
-  formControl: {
-    marginTop: theme.spacing(3),
-    minWidth: 150,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-  selectLabel: {
-    marginLeft: theme.spacing(1),
   },
 }));
 
