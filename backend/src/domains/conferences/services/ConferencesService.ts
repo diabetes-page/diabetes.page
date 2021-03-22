@@ -17,11 +17,11 @@ export class ConferencesService {
     appointment: Appointment,
     slideIndex: number,
   ): Promise<void> {
-    // Make sure slideIndex is always a valid index in training.slide
     const training = await appointment.loadTraining();
-    const mod = training ? training.slides.length : 1;
-    // Same as regular modulo, but guarantees non-negative result
-    appointment.slideIndex = (mod + (slideIndex % mod)) % mod;
+    const lastIndex = training ? training.slides.length - 1 : 0;
+
+    // Ensure 0 <= slideIndex <= lastIndex
+    appointment.slideIndex = Math.min(Math.max(0, slideIndex), lastIndex);
 
     await appointment.save();
   }
