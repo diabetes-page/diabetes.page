@@ -1,117 +1,67 @@
-import { DateSelectArg } from '@fullcalendar/react';
+import { CalendarApi } from '@fullcalendar/common';
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   FormControl,
   makeStyles,
   MenuItem,
   Slide,
+  SlideProps,
   TextField,
 } from '@material-ui/core';
-import React, { SetStateAction, useState } from 'react';
-import {
-  BasicTrainingResource,
-  BasicWorkingGroupResource,
-} from '../../../utilities/requests/requests';
-
-const initialFormState = {
-  trainingName: '',
-  trainingId: '',
-  groupName: '',
-  groupId: '',
-  startDateTime: '',
-  endDateTime: '',
-};
+import React, { useState } from 'react';
 
 type AddAppointmentDialogProps = {
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<SetStateAction<boolean>>;
-  selectedData: DateSelectArg;
-  trainings: BasicTrainingResource[];
-  groups: BasicWorkingGroupResource[];
+  open: boolean;
+  onClose: () => void;
+  calendarApi: CalendarApi | undefined;
 };
 
 export function AddAppointmentDialog({
-  isOpen,
-  setIsOpen,
-  selectedData,
-  trainings,
-  groups,
+  open,
+  onClose,
+  calendarApi,
 }: AddAppointmentDialogProps): JSX.Element {
+  const [trainingId, setTrainingId] = useState('');
+  const [groupId, setGroupId] = useState('');
+  const [startsAt, setStartsAt] = useState('');
+  const [endsAt, setEndsAt] = useState('');
   const classes = useStyles();
-  const [formData, setFormData] = useState(initialFormState);
 
-  // Adds an appointment (called an "event") locally via the calendarApi
-  // This will get sent to the calendar and can be sent to backend in handleAppointmentAdded
   const addAppointment = (): void => {
-    const calendarApi = selectedData.view.calendar;
-    calendarApi.unselect(); // clear date selection
+    if (!calendarApi) {
+      return;
+    }
 
-    // Add event to our calendar
-    calendarApi.addEvent({
-      title: `${formData.trainingName} with ${formData.groupName}`,
-      start: formData.startDateTime,
-      end: formData.endDateTime,
-      extendedProps: {
-        groupName: formData.groupName,
-        groupId: formData.groupId,
-        trainingName: formData.trainingName,
-        trainingId: formData.trainingId,
-      },
-    });
+    onClose();
 
-    closeDialog();
-  };
-
-  // When training select is changed, update the trainingId and trainingName in state to the new selected values
-  const handleChangeTraining = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ): void => {
-    setFormData({
-      ...formData,
-      trainingId: e.target.value,
-      // We store the trainingName as a data attribute of each MenuItem, so get it from dataset
-      trainingName: e.currentTarget.dataset.trainingName,
-    });
-  };
-
-  // When training select is changed, update the trainingId and trainingName in state to the new selected values
-  const handleChangeGroup = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ): void => {
-    setFormData({
-      ...formData,
-      groupId: e.target.value,
-      // We store the groupName as a data attribute of each MenuItem, so get it from dataset
-      groupName: e.currentTarget.dataset.groupName,
-    });
-  };
-
-  const closeDialog = (): void => {
-    setFormData(initialFormState);
-    setIsOpen(false);
+    // calendarApi.addEvent({
+    //   title: `${formData.trainingName} with ${formData.groupName}`,
+    //   start: formData.startDateTime,
+    //   end: formData.endDateTime,
+    //   extendedProps: {
+    //     groupName: formData.groupName,
+    //     groupId: formData.groupId,
+    //     trainingName: formData.trainingName,
+    //     trainingId: formData.trainingId,
+    //   },
+    // });
   };
 
   return (
     <Dialog
-      open={isOpen}
+      open={open && !!calendarApi}
       TransitionComponent={Transition}
       keepMounted
-      onClose={closeDialog}
+      onClose={onClose}
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
-      <DialogTitle id="alert-dialog-slide-title">
-        Add new appointment
-      </DialogTitle>
+      <DialogTitle id="alert-dialog-slide-title">New appointment</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          Fill in the information for your new appointment
-        </DialogContentText>
         <form>
           {/* Appointment Training */}
           <div>
@@ -121,16 +71,14 @@ export function AddAppointmentDialog({
                 select
                 fullWidth
                 label="Training"
-                value={formData.trainingId}
+                value={trainingId}
                 variant="outlined"
-                onChange={handleChangeTraining}
+                onChange={(event) =>
+                  void setTrainingId(event.currentTarget.value)
+                }
               >
                 {trainings.map((training) => (
-                  <MenuItem
-                    data-training-name={training.name}
-                    key={training.id}
-                    value={training.id}
-                  >
+                  <MenuItem key={training.id} value={training.id}>
                     {training.name}
                   </MenuItem>
                 ))}
@@ -146,16 +94,12 @@ export function AddAppointmentDialog({
                 select
                 fullWidth
                 label="Group"
-                value={formData.groupId}
+                value={groupId}
                 variant="outlined"
-                onChange={handleChangeGroup}
+                onChange={(event) => void setGroupId(event.currentTarget.value)}
               >
                 {groups.map((group) => (
-                  <MenuItem
-                    data-group-name={group.name}
-                    key={group.id}
-                    value={group.id}
-                  >
+                  <MenuItem key={group.id} value={group.id}>
                     {group.name}
                   </MenuItem>
                 ))}
@@ -169,10 +113,8 @@ export function AddAppointmentDialog({
               className={classes.textField}
               variant="outlined"
               fullWidth
-              onChange={(e): void =>
-                setFormData({ ...formData, startDateTime: e.target.value })
-              }
-              value={formData.startDateTime}
+              onChange={(event) => void setStartsAt(event.currentTarget.value)}
+              value={startsAt}
               id="datetime-start"
               label="Appointment's starting Date and Time"
               type="datetime-local"
@@ -188,10 +130,8 @@ export function AddAppointmentDialog({
               className={classes.textField}
               variant="outlined"
               fullWidth
-              onChange={(e): void =>
-                setFormData({ ...formData, endDateTime: e.target.value })
-              }
-              value={formData.endDateTime}
+              onChange={(event) => void setEndsAt(event.currentTarget.value)}
+              value={endsAt}
               id="datetime-end"
               label="Appointment's ending Date and Time"
               type="datetime-local"
@@ -205,11 +145,11 @@ export function AddAppointmentDialog({
 
       {/* Cancel / Add Appointment Button */}
       <DialogActions>
-        <Button onClick={closeDialog} color="primary">
+        <Button onClick={onClose} color="primary">
           Cancel
         </Button>
         <Button onClick={addAppointment} color="primary">
-          Add Appointment
+          Add appointment
         </Button>
       </DialogActions>
     </Dialog>
@@ -217,7 +157,10 @@ export function AddAppointmentDialog({
 }
 
 // Slide transition for add/update modals
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = React.forwardRef(function Transition(
+  props: SlideProps,
+  ref,
+) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 

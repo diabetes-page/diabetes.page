@@ -1,8 +1,6 @@
 // organize-imports-ignore
 import FullCalendar, {
   EventClickArg,
-  EventChangeArg,
-  EventAddArg,
   EventInput,
   EventApi,
 } from '@fullcalendar/react';
@@ -11,9 +9,10 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { makeStyles, Paper, useTheme } from '@material-ui/core';
 import { parseISO } from 'date-fns';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { AppointmentWithWorkingGroupsResource } from '../../utilities/requests/requests';
 import { ViewAppointmentDialog } from './dialogs/ViewAppointmentDialog';
+import { AddAppointmentDialog } from './dialogs/AddAppointmentDialog';
 
 type CalendarProps = {
   initialAppointments: AppointmentWithWorkingGroupsResource[];
@@ -37,24 +36,44 @@ export function Calendar({ initialAppointments }: CalendarProps): JSX.Element {
     () => computeInitialEvents(initialAppointments),
     [initialAppointments],
   );
+  const [editedEvent, setEditedEvent] = useState<EventApi | null>(null);
+  const [newAppointmentDialogOpen, setNewAppointmentDialogOpen] = useState(
+    false,
+  );
+  const calendarRef = useRef<FullCalendar | null>(null);
+  const calenderApi = calendarRef.current?.getApi();
   const classes = useStyles();
   const theme = useTheme();
-  const [editedEvent, setEditedEvent] = useState<EventApi | null>(null);
 
   // Todo: Localization
   return (
     <>
+      <AddAppointmentDialog
+        open={newAppointmentDialogOpen}
+        onClose={() => void setNewAppointmentDialogOpen(false)}
+        calendarApi={calenderApi}
+      />
       <ViewAppointmentDialog
         event={editedEvent}
         closeDialog={() => void setEditedEvent(null)}
       />
       <Paper className={classes.calendarContainer}>
         <FullCalendar
+          ref={calendarRef}
           plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
           headerToolbar={{
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay',
+            right: 'addEvent dayGridMonth,timeGridWeek,timeGridDay',
+          }}
+          customButtons={{
+            addEvent: {
+              text: 'New appointment',
+              click: (...rest): void => {
+                console.log(rest);
+                setNewAppointmentDialogOpen(true);
+              },
+            },
           }}
           initialView="dayGridMonth"
           initialEvents={initialEvents}
@@ -73,5 +92,13 @@ const useStyles = makeStyles((theme) => ({
   calendarContainer: {
     flex: 1,
     padding: theme.spacing(2),
+  },
+  '@global': {
+    '.fc .fc-button-primary': {
+      backgroundColor: theme.palette.primary.main,
+    },
+    '.fc .fc-button-primary:not(:disabled):active, .fc .fc-button-primary:not(:disabled).fc-button-active': {
+      backgroundColor: theme.palette.text.primary,
+    },
   },
 }));

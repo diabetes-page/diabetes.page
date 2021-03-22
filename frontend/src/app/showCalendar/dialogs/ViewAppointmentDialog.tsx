@@ -5,8 +5,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  makeStyles,
   Slide,
+  SlideProps,
   Table,
   TableBody,
   TableCell,
@@ -25,7 +25,6 @@ export function ViewAppointmentDialog({
   event,
   closeDialog,
 }: ViewAppointmentDialogProps): JSX.Element | null {
-  const classes = useStyles();
   const appointmentWithGroups: AppointmentWithWorkingGroupsResource =
     event?.extendedProps?.appointmentWithGroups;
 
@@ -92,73 +91,9 @@ export function ViewAppointmentDialog({
   );
 }
 
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = React.forwardRef(function Transition(
+  props: SlideProps,
+  ref,
+): JSX.Element {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    margin: theme.spacing(1),
-  },
-  textField: {
-    marginTop: theme.spacing(3),
-    minWidth: 150,
-  },
-  formControl: {
-    marginTop: theme.spacing(3),
-    minWidth: 150,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-  selectLabel: {
-    marginLeft: theme.spacing(1),
-  },
-  grid: {
-    marginTop: theme.spacing(3),
-  },
-  gridColumn: {
-    paddingRight: theme.spacing(2),
-  },
-  deleteButton: {
-    color: '#ffffff',
-    backgroundColor: 'red',
-  },
-}));
-
-const trainings = [
-  {
-    id: 123,
-    name: 'Training 1',
-  },
-  {
-    id: 124,
-    name: 'Training 2',
-  },
-  {
-    id: 125,
-    name: 'Training 3',
-  },
-  {
-    id: 126,
-    name: 'Training 4',
-  },
-];
-const groups = [
-  {
-    id: 123,
-    name: 'Group 1',
-  },
-  {
-    id: 124,
-    name: 'Group 2',
-  },
-  {
-    id: 125,
-    name: 'Group 3',
-  },
-  {
-    id: 126,
-    name: 'Group 4',
-  },
-];
