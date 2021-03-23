@@ -57,7 +57,9 @@ export function AddAppointmentDialog({
       onOk={addAppointment}
       okButtonText="Add appointment"
       id="add-appointment-dialog"
-      okDisabled={loading || !trainings || !groups || groups.length === 0}
+      okDisabled={
+        loading || !trainings || !groups || groups.length === 0 || !groupId
+      }
     >
       {loading || !trainings || !groups ? (
         <Loader />
@@ -112,7 +114,14 @@ export function AddAppointmentDialog({
                 onChange={(event) => void setTrainingId(event.target.value)}
                 id="add-appointment-training"
                 select
+                SelectProps={{
+                  displayEmpty: true,
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
               >
+                <MenuItem value="">No training selected</MenuItem>
                 {trainings.map((training) => (
                   <MenuItem key={training.id} value={training.id}>
                     {training.name}
