@@ -10,32 +10,32 @@ import { ResourceController } from '../../../../blueprints/controllers/ResourceC
 import { RequestUser } from '../../../../blueprints/decorators/RequestUser';
 import { Consultant } from '../../../../blueprints/guards/Consultant';
 import { User } from '../../../users/entities/User.entity';
+import { AppointmentResource } from '../../resources/AppointmentResource';
 import { AppointmentsService } from '../../services/AppointmentsService';
 import {
   CreateAppointmentData,
   CreateAppointmentPipe,
 } from './CreateAppointmentPipe';
 import { Parameters } from './Parameters';
-import { Resource } from './Resource';
 
 @Controller()
 export class CreateAppointment extends ResourceController {
-  public static Resource = Resource;
+  public static Resource = AppointmentResource;
 
   constructor(private appointmentsService: AppointmentsService) {
     super();
   }
 
   @UseGuards(Consultant)
-  @HttpCode(HttpStatus.NO_CONTENT)
+  @HttpCode(HttpStatus.OK)
   @Post('/appointments')
   async serve(
     @RequestUser() user: User,
     @Body() params: Parameters,
     @Body(CreateAppointmentPipe) data: CreateAppointmentData,
-  ): Promise<Resource> {
+  ): Promise<AppointmentResource> {
     await user.loadAsConsultant();
-    await this.appointmentsService.add(
+    const appointment = await this.appointmentsService.add(
       user.asConsultant!,
       data.startsAt,
       data.endsAt,
@@ -43,6 +43,6 @@ export class CreateAppointment extends ResourceController {
       data.training,
     );
 
-    return Resource.make();
+    return AppointmentResource.make(appointment);
   }
 }

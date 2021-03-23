@@ -18,19 +18,24 @@ Feature: Create appointment
     Given the user "Jesse Pinkman" is a consultant
     And I am logged in
     When I create a new appointment with the following data:
-      | Start         | 2020-11-10T09:00                |
-      | End           | 2020-11-10T15:00                |
+      | Start         | 2020-11-10T09:00:00.000Z        |
+      | End           | 2020-11-10T15:00:00.000Z        |
       | Training      | Turing Machines by Walter White |
       | Working group | A group                         |
-    Then the request is successful without response
-    And the response is empty
+    Then the request is successful
+    And the response contains an appointment with the following attributes:
+      | Training    | Turing Machines by Walter White |
+      | Presenter   | Jesse Pinkman                   |
+      | Start time  | 2020-11-10T09:00:00.000Z        |
+      | End time    | 2020-11-10T15:00:00.000Z        |
+      | Is running? | No                              |
     And the training "Turing Machines by Walter White" has exactly 1 appointment
 
   Scenario: Participants cannot create appointments
     Given I am logged in
     When I create a new appointment with the following data:
-      | Start         | 2020-11-10T09:00                |
-      | End           | 2020-11-10T15:00                |
+      | Start         | 2020-11-10T09:00:00.000Z        |
+      | End           | 2020-11-10T15:00:00.000Z        |
       | Training      | Turing Machines by Walter White |
       | Working group | A group                         |
     Then the request is unauthorized
@@ -38,8 +43,8 @@ Feature: Create appointment
 
   Scenario: Login is required
     When I create a new appointment with the following data:
-      | Start         | 2020-11-10T09:00                |
-      | End           | 2020-11-10T15:00                |
+      | Start         | 2020-11-10T09:00:00.000Z        |
+      | End           | 2020-11-10T15:00:00.000Z        |
       | Training      | Turing Machines by Walter White |
       | Working group | A group                         |
     Then the request is unauthenticated
@@ -49,21 +54,26 @@ Feature: Create appointment
     Given the user "Jesse Pinkman" is a consultant
     And I am logged in
     When I create a new appointment with the following data:
-      | Start         | 2020-11-10T09:00 |
-      | End           | 2020-11-10T15:00 |
-      | Training      |                  |
-      | Working group | A group          |
-    Then the request is successful without response
-    And the response is empty
+      | Start         | 2020-11-10T09:00:00.000Z |
+      | End           | 2020-11-10T15:00:00.000Z |
+      | Training      |                          |
+      | Working group | A group                  |
+    Then the request is successful
+    And the response contains an appointment with the following attributes:
+      | Training    |                          |
+      | Presenter   | Jesse Pinkman            |
+      | Start time  | 2020-11-10T09:00:00.000Z |
+      | End time    | 2020-11-10T15:00:00.000Z |
+      | Is running? | No                       |
     And the training "Turing Machines by Walter White" has exactly 0 appointments
 
   Scenario: End date must be after start date
     Given the user "Jesse Pinkman" is a consultant
     And I am logged in
     When I create a new appointment with the following data:
-      | Start         | 2020-11-10T09:00 |
-      | End           | 2020-11-10T08:00 |
-      | Working group | A group          |
+      | Start         | 2020-11-10T09:00:00.000Z |
+      | End           | 2020-11-10T08:00         |
+      | Working group | A group                  |
     Then the request is rejected
     And the reason for the rejection is that the start date must be before the end date
     And the training "Turing Machines by Walter White" has exactly 0 appointments
@@ -72,8 +82,8 @@ Feature: Create appointment
     Given the user "Jesse Pinkman" is a consultant
     And I am logged in
     When I create a new appointment with the following data:
-      | Start         | 2020-11-10T09:00                |
-      | End           | 2020-11-10T15:00                |
+      | Start         | 2020-11-10T09:00:00.000Z        |
+      | End           | 2020-11-10T15:00:00.000Z        |
       | Training      | Turing Machines by Walter White |
       | Working group |                                 |
     Then the request is rejected
