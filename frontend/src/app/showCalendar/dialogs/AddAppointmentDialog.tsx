@@ -1,6 +1,7 @@
 import { CalendarApi } from '@fullcalendar/common';
 import { makeStyles, MenuItem, Typography } from '@material-ui/core';
 import { DateTimePicker } from '@material-ui/pickers';
+import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { BasicWorkingGroupResource } from '../../../../../backend/src/domains/workingGroups/resources/BasicWorkingGroupResource';
 import { Loader } from '../../../components/Loader';
@@ -91,7 +92,7 @@ export function AddAppointmentDialog({
                 onChange={setStartsAt}
                 id="add-appointment-startsAt"
                 inputVariant="outlined"
-                className={classes.margin}
+                className={clsx(classes.margin, classes.dateTimePicker)}
                 fullWidth
               />
 
@@ -99,9 +100,9 @@ export function AddAppointmentDialog({
                 label="End time"
                 value={endsAt}
                 onChange={setEndsAt}
-                id="add-appointment-startsAt"
+                id="add-appointment-endsAt"
                 inputVariant="outlined"
-                className={classes.margin}
+                className={clsx(classes.margin, classes.dateTimePicker)}
                 fullWidth
               />
 
@@ -155,5 +156,8 @@ function useTrainingsAndGroups(): [
 const useStyles = makeStyles((theme) => ({
   margin: {
     marginBottom: theme.spacing(2),
+  },
+  dateTimePicker: {
+    cursor: 'pointer',
   },
 }));

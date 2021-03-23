@@ -13,10 +13,14 @@ import { AppBarPusher } from '../../../../components/AppBarPusher';
 import { DRAWER_WIDTH } from '../../../../config/style';
 import { toHomePage } from '../../../../pages';
 import { toCalendarPage } from '../../../../pages/calendar';
+import { useSelector } from '../../../../redux/root/hooks';
 
 export function Drawer(): JSX.Element {
   const classes = useStyles();
   const router = useRouter();
+  const isConsultant = useSelector(
+    (state) => state.user!.consultantId !== null,
+  );
 
   return (
     <DrawerBase
@@ -30,19 +34,30 @@ export function Drawer(): JSX.Element {
       <AppBarPusher />
       <List>
         {/* Home */}
-        <ListItem onClick={() => void router.push(toHomePage())} button>
+        <ListItem
+          onClick={() => void router.push(toHomePage())}
+          selected={router.pathname === toHomePage()}
+          button
+        >
           <ListItemIcon>
             <Home />
           </ListItemIcon>
           <ListItemText primary="Home" />
         </ListItem>
+
         {/* Calendar */}
-        <ListItem onClick={() => void router.push(toCalendarPage())} button>
-          <ListItemIcon>
-            <Event />
-          </ListItemIcon>
-          <ListItemText primary="Calendar" />
-        </ListItem>
+        {isConsultant && (
+          <ListItem
+            onClick={() => void router.push(toCalendarPage())}
+            selected={router.pathname === toCalendarPage()}
+            button
+          >
+            <ListItemIcon>
+              <Event />
+            </ListItemIcon>
+            <ListItemText primary="Calendar" />
+          </ListItem>
+        )}
       </List>
     </DrawerBase>
   );
