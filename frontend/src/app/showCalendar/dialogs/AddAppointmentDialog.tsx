@@ -12,7 +12,13 @@ import {
   SlideProps,
   TextField,
 } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { BasicWorkingGroupResource } from '../../../../../backend/src/domains/workingGroups/resources/BasicWorkingGroupResource';
+import { useLoadingState } from '../../../utilities/hooks/hooks';
+import {
+  BasicTrainingResource,
+  requests,
+} from '../../../utilities/requests/requests';
 
 type AddAppointmentDialogProps = {
   open: boolean;
@@ -25,6 +31,7 @@ export function AddAppointmentDialog({
   onClose,
   calendarApi,
 }: AddAppointmentDialogProps): JSX.Element {
+  const [trainings, groups, loading] = useTrainingsAndGroups();
   const [trainingId, setTrainingId] = useState('');
   const [groupId, setGroupId] = useState('');
   const [startsAt, setStartsAt] = useState('');
@@ -153,45 +160,34 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+function useTrainingsAndGroups(): [
+  trainings: BasicTrainingResource[] | undefined,
+  groups: BasicWorkingGroupResource[] | undefined,
+  loading: boolean,
+] {
+  const [trainings, setTrainings, loadingTrainings] = useLoadingState<
+    BasicTrainingResource[]
+  >();
+  const [groups, setGroups, loadingGroups] = useLoadingState<
+    BasicWorkingGroupResource[]
+  >();
+
+  useEffect(() => {
+    // todo: error handling
+    requests
+      .indexTrainings()
+      .then((response) => setTrainings(response.data.trainings));
+
+    requests
+      .indexWorkingGroups()
+      .then((response) => setGroups(response.data.workingGroups));
+  }, [setTrainings, setGroups]);
+
+  return [trainings, groups, loadingTrainings || loadingGroups];
+}
+
 const useStyles = makeStyles((theme) => ({
   margin: {
     marginTop: theme.spacing(3),
   },
 }));
-
-const trainings = [
-  {
-    id: 123,
-    name: 'Training 1',
-  },
-  {
-    id: 124,
-    name: 'Training 2',
-  },
-  {
-    id: 125,
-    name: 'Training 3',
-  },
-  {
-    id: 126,
-    name: 'Training 4',
-  },
-];
-const groups = [
-  {
-    id: 123,
-    name: 'Group 1',
-  },
-  {
-    id: 124,
-    name: 'Group 2',
-  },
-  {
-    id: 125,
-    name: 'Group 3',
-  },
-  {
-    id: 126,
-    name: 'Group 4',
-  },
-];
