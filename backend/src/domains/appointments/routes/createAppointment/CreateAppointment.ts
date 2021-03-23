@@ -10,7 +10,7 @@ import { ResourceController } from '../../../../blueprints/controllers/ResourceC
 import { RequestUser } from '../../../../blueprints/decorators/RequestUser';
 import { Consultant } from '../../../../blueprints/guards/Consultant';
 import { User } from '../../../users/entities/User.entity';
-import { AppointmentResource } from '../../resources/AppointmentResource';
+import { AppointmentWithWorkingGroupsResource } from '../../resources/AppointmentWithWorkingGroupsResource';
 import { AppointmentsService } from '../../services/AppointmentsService';
 import {
   CreateAppointmentData,
@@ -20,7 +20,7 @@ import { Parameters } from './Parameters';
 
 @Controller()
 export class CreateAppointment extends ResourceController {
-  public static Resource = AppointmentResource;
+  public static Resource = AppointmentWithWorkingGroupsResource;
 
   constructor(private appointmentsService: AppointmentsService) {
     super();
@@ -33,7 +33,7 @@ export class CreateAppointment extends ResourceController {
     @RequestUser() user: User,
     @Body() params: Parameters,
     @Body(CreateAppointmentPipe) data: CreateAppointmentData,
-  ): Promise<AppointmentResource> {
+  ): Promise<AppointmentWithWorkingGroupsResource> {
     await user.loadAsConsultant();
     const appointment = await this.appointmentsService.add(
       user.asConsultant!,
@@ -43,6 +43,6 @@ export class CreateAppointment extends ResourceController {
       data.training,
     );
 
-    return AppointmentResource.make(appointment);
+    return AppointmentWithWorkingGroupsResource.make(appointment);
   }
 }

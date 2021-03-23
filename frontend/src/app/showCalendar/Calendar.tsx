@@ -18,22 +18,9 @@ type CalendarProps = {
   initialAppointments: AppointmentWithWorkingGroupsResource[];
 };
 
-function computeInitialEvents(
-  initialAppointments: AppointmentWithWorkingGroupsResource[],
-): EventInput[] {
-  return initialAppointments.map((appointmentWithGroups) => ({
-    title: appointmentWithGroups.workingGroups[0].name,
-    start: parseISO(appointmentWithGroups.appointment.startsAt),
-    end: parseISO(appointmentWithGroups.appointment.endsAt),
-    extendedProps: {
-      appointmentWithGroups,
-    },
-  }));
-}
-
 export function Calendar({ initialAppointments }: CalendarProps): JSX.Element {
   const initialEvents: EventInput[] = useMemo(
-    () => computeInitialEvents(initialAppointments),
+    () => initialAppointments.map(appointmentToEvent),
     [initialAppointments],
   );
   const [editedEvent, setEditedEvent] = useState<EventApi | null>(null);
@@ -83,6 +70,19 @@ export function Calendar({ initialAppointments }: CalendarProps): JSX.Element {
       </Paper>
     </>
   );
+}
+
+export function appointmentToEvent(
+  appointmentWithGroups: AppointmentWithWorkingGroupsResource,
+): EventInput {
+  return {
+    title: appointmentWithGroups.workingGroups[0].name,
+    start: parseISO(appointmentWithGroups.appointment.startsAt),
+    end: parseISO(appointmentWithGroups.appointment.endsAt),
+    extendedProps: {
+      appointmentWithGroups,
+    },
+  };
 }
 
 const useStyles = makeStyles((theme) => ({

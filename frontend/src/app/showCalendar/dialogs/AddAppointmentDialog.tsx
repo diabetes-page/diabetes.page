@@ -2,6 +2,7 @@ import { CalendarApi } from '@fullcalendar/common';
 import { makeStyles, MenuItem, Typography } from '@material-ui/core';
 import { DateTimePicker } from '@material-ui/pickers';
 import clsx from 'clsx';
+import { formatISO } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { BasicWorkingGroupResource } from '../../../../../backend/src/domains/workingGroups/resources/BasicWorkingGroupResource';
 import { Loader } from '../../../components/Loader';
@@ -12,6 +13,7 @@ import {
   BasicTrainingResource,
   requests,
 } from '../../../utilities/requests/requests';
+import { appointmentToEvent } from '../Calendar';
 
 type AddAppointmentDialogProps = {
   open: boolean;
@@ -36,6 +38,7 @@ export function AddAppointmentDialog({
     startsAt,
     endsAt,
     trainingId,
+    onClose,
     calendarApi,
   );
 
@@ -153,10 +156,11 @@ function useTrainingsAndGroups(): [
 }
 
 function useAddAppointment(
-  groupId: string,
+  workingGroupId: string,
   startsAt: Date | null,
   endsAt: Date | null,
   trainingId: string,
+  onClose: () => void,
   calendarApi: CalendarApi | undefined,
 ): () => void {
   return (): void => {
@@ -164,17 +168,17 @@ function useAddAppointment(
       return;
     }
 
-    // calendarApi.addEvent({
-    //   title: `${formData.trainingName} with ${formData.groupName}`,
-    //   start: formData.startDateTime,
-    //   end: formData.endDateTime,
-    //   extendedProps: {
-    //     groupName: formData.groupName,
-    //     groupId: formData.groupId,
-    //     trainingName: formData.trainingName,
-    //     trainingId: formData.trainingId,
-    //   },
-    // });
+    requests
+      .createAppointment({
+        startsAt: formatISO(startsAt),
+        endsAt: formatISO(endsAt),
+        workingGroupId,
+        trainingId: trainingId || null,
+      })
+      .then((response) => {
+        onClose();
+        calendarApi.addEvent(appointmentToEvent(response.data));
+      }); // todo: request errors
   };
 }
 

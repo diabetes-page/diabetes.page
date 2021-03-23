@@ -5,7 +5,6 @@ import { AxiosResponse } from 'axios';
 import { AppointmentResource as BackendAppointmentResource } from '../../../../backend/src/domains/appointments/resources/AppointmentResource';
 import { AppointmentsWithWorkingGroupsResource as BackendAppointmentsWithWorkingGroupsResource } from '../../../../backend/src/domains/appointments/resources/AppointmentsWithWorkingGroupsResource';
 import { AppointmentWithWorkingGroupsResource as BackendAppointmentWithWorkingGroupsResource } from '../../../../backend/src/domains/appointments/resources/AppointmentWithWorkingGroupsResource';
-import { Resource as BackendCreateAppointmentResource } from '../../../../backend/src/domains/appointments/routes/createAppointment/Resource';
 import { Resource as BackendStartAppointmentResource } from '../../../../backend/src/domains/appointments/routes/startAppointment/Resource';
 import { Resource as BackendCheckAuthStatusResource } from '../../../../backend/src/domains/auth/routes/checkAuthStatus/Resource';
 import { Resource as BackendLoginResource } from '../../../../backend/src/domains/auth/routes/login/Resource';
@@ -27,10 +26,11 @@ import { Get, Post, withAuth } from './axios';
 export type AppointmentResource = BackendAppointmentResource;
 export type AppointmentWithWorkingGroupsResource = BackendAppointmentWithWorkingGroupsResource;
 export type AppointmentsWithWorkingGroupsResource = BackendAppointmentsWithWorkingGroupsResource;
-export type CreateAppointmentResource = BackendCreateAppointmentResource;
 export type CreateAppointmentParameters = {
   startsAt: string;
   endsAt: string;
+  trainingId: string | null;
+  workingGroupId: string;
 };
 export type StartAppointmentResource = BackendStartAppointmentResource;
 export type CheckAuthStatusResource = BackendCheckAuthStatusResource;
@@ -59,10 +59,9 @@ export type IndexWorkingGroupsResource = BackendIndexWorkingGroupsResource;
 
 export const requests = {
   createAppointment: async (
-    trainingId: string,
     data: CreateAppointmentParameters,
-  ): Promise<AxiosResponse<CreateAppointmentResource>> =>
-    Post(`/trainings/${trainingId}/appointments`, data, await withAuth()),
+  ): Promise<AxiosResponse<AppointmentWithWorkingGroupsResource>> =>
+    Post(`/appointments`, data, await withAuth()),
 
   indexConsultantAppointments: async (
     consultantId: string,

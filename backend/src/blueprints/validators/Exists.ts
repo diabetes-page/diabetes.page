@@ -27,12 +27,16 @@ abstract class ExistsValidator implements ValidatorConstraintInterface {
   ): Promise<boolean> {
     const entityClass = args.constraints[0];
     const property = args.constraints[1] ?? args.property;
-    const count = await this.connection.getRepository(entityClass).count({
-      where: {
-        [property]: value,
-      },
-    });
-    const success = count > 0;
+    let success = false;
+
+    try {
+      const count = await this.connection.getRepository(entityClass).count({
+        where: {
+          [property]: value,
+        },
+      });
+      success = count > 0;
+    } catch {}
 
     if (!success) {
       await this.buildMessage(entityClass, property);
