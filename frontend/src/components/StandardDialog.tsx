@@ -7,7 +7,7 @@ import {
   Slide,
   SlideProps,
 } from '@material-ui/core';
-import React, { useCallback } from 'react';
+import React from 'react';
 
 export type StandardDialogProps = {
   title: string;
@@ -30,11 +30,6 @@ export function StandardDialog({
   id,
   children,
 }: StandardDialogProps): JSX.Element {
-  const reactToOk = useCallback(() => {
-    onOk();
-    onClose();
-  }, [onOk, onClose]);
-
   return (
     <Dialog
       open={open}
@@ -51,7 +46,7 @@ export function StandardDialog({
         <Button onClick={onClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={reactToOk} disabled={okDisabled} color="primary">
+        <Button onClick={onOk} disabled={okDisabled} color="primary">
           {okButtonText}
         </Button>
       </DialogActions>
