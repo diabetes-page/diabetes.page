@@ -1,14 +1,10 @@
 import { CalendarApi } from '@fullcalendar/common';
-import {
-  FormControl,
-  makeStyles,
-  MenuItem,
-  TextField,
-} from '@material-ui/core';
+import { MenuItem } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { BasicWorkingGroupResource } from '../../../../../backend/src/domains/workingGroups/resources/BasicWorkingGroupResource';
 import { Loader } from '../../../components/Loader';
 import { StandardDialog } from '../../../components/StandardDialog';
+import { StandardTextField } from '../../../components/StandardTextField';
 import { useLoadingState } from '../../../utilities/hooks/hooks';
 import {
   BasicTrainingResource,
@@ -31,7 +27,6 @@ export function AddAppointmentDialog({
   const [groupId, setGroupId] = useState('');
   const [startsAt, setStartsAt] = useState('');
   const [endsAt, setEndsAt] = useState('');
-  const classes = useStyles();
 
   const addAppointment = (): void => {
     if (!calendarApi) {
@@ -64,71 +59,58 @@ export function AddAppointmentDialog({
         <Loader />
       ) : (
         <>
-          <FormControl fullWidth>
-            <TextField
-              label="Start time"
-              type="datetime-local"
-              value={startsAt}
-              onChange={(event) => void setStartsAt(event.currentTarget.value)}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              id="add-appointment-startsAt"
-              variant="outlined"
-              fullWidth
-            />
-          </FormControl>
+          <StandardTextField
+            label="Start time"
+            type="datetime-local"
+            value={startsAt}
+            onChange={(event) => void setStartsAt(event.currentTarget.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            id="add-appointment-startsAt"
+            withMargin
+          />
 
-          <FormControl fullWidth className={classes.margin}>
-            <TextField
-              label="End time"
-              type="datetime-local"
-              value={endsAt}
-              onChange={(event) => void setEndsAt(event.currentTarget.value)}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              id="add-appointment-endsAt"
-              variant="outlined"
-              fullWidth
-            />
-          </FormControl>
+          <StandardTextField
+            label="End time"
+            type="datetime-local"
+            value={endsAt}
+            onChange={(event) => void setEndsAt(event.currentTarget.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            id="add-appointment-endsAt"
+            withMargin
+          />
 
-          <FormControl className={classes.margin} fullWidth>
-            <TextField
-              label="Group"
-              value={groupId}
-              onChange={(event) => void setGroupId(event.target.value)}
-              id="add-appointment-group"
-              variant="outlined"
-              select
-              fullWidth
-            >
-              {groups.map((group) => (
-                <MenuItem key={group.id} value={group.id}>
-                  {group.name}
-                </MenuItem>
-              ))}
-            </TextField>
-          </FormControl>
+          <StandardTextField
+            label="Group"
+            value={groupId}
+            onChange={(event) => void setGroupId(event.target.value)}
+            id="add-appointment-group"
+            variant="outlined"
+            withMargin
+          >
+            {groups.map((group) => (
+              <MenuItem key={group.id} value={group.id}>
+                {group.name}
+              </MenuItem>
+            ))}
+          </StandardTextField>
 
-          <FormControl className={classes.margin} fullWidth>
-            <TextField
-              label="Training"
-              value={trainingId}
-              onChange={(event) => void setTrainingId(event.target.value)}
-              id="add-appointment-training"
-              variant="outlined"
-              select
-              fullWidth
-            >
-              {trainings.map((training) => (
-                <MenuItem key={training.id} value={training.id}>
-                  {training.name}
-                </MenuItem>
-              ))}
-            </TextField>
-          </FormControl>
+          <StandardTextField
+            label="Training"
+            value={trainingId}
+            onChange={(event) => void setTrainingId(event.target.value)}
+            id="add-appointment-training"
+            select
+          >
+            {trainings.map((training) => (
+              <MenuItem key={training.id} value={training.id}>
+                {training.name}
+              </MenuItem>
+            ))}
+          </StandardTextField>
         </>
       )}
     </StandardDialog>
@@ -160,9 +142,3 @@ function useTrainingsAndGroups(): [
 
   return [trainings, groups, loadingTrainings || loadingGroups];
 }
-
-const useStyles = makeStyles((theme) => ({
-  margin: {
-    marginTop: theme.spacing(3),
-  },
-}));
