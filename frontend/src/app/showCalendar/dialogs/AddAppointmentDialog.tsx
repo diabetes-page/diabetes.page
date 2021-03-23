@@ -1,19 +1,14 @@
 import { CalendarApi } from '@fullcalendar/common';
 import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   FormControl,
   makeStyles,
   MenuItem,
-  Slide,
-  SlideProps,
   TextField,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { BasicWorkingGroupResource } from '../../../../../backend/src/domains/workingGroups/resources/BasicWorkingGroupResource';
+import { Loader } from '../../../components/Loader';
+import { StandardDialog } from '../../../components/StandardDialog';
 import { useLoadingState } from '../../../utilities/hooks/hooks';
 import {
   BasicTrainingResource,
@@ -43,8 +38,6 @@ export function AddAppointmentDialog({
       return;
     }
 
-    onClose();
-
     // calendarApi.addEvent({
     //   title: `${formData.trainingName} with ${formData.groupName}`,
     //   start: formData.startDateTime,
@@ -59,20 +52,18 @@ export function AddAppointmentDialog({
   };
 
   return (
-    <Dialog
-      maxWidth="sm"
+    <StandardDialog
+      title="New appointment"
       open={open && !!calendarApi}
-      TransitionComponent={Transition}
       onClose={onClose}
-      aria-labelledby="add-appointment-dialog-title"
-      fullWidth
-      keepMounted
+      onOk={addAppointment}
+      okButtonText="Add appointment"
+      id="add-appointment-dialog"
     >
-      <DialogTitle id="add-appointment-dialog-title">
-        New appointment
-      </DialogTitle>
-      <DialogContent>
-        <form>
+      {loading || !trainings || !groups ? (
+        <Loader />
+      ) : (
+        <>
           <FormControl fullWidth>
             <TextField
               label="Start time"
@@ -138,27 +129,11 @@ export function AddAppointmentDialog({
               ))}
             </TextField>
           </FormControl>
-        </form>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={addAppointment} color="primary">
-          Add appointment
-        </Button>
-      </DialogActions>
-    </Dialog>
+        </>
+      )}
+    </StandardDialog>
   );
 }
-
-// Slide transition for add/update modals
-const Transition = React.forwardRef(function Transition(
-  props: SlideProps,
-  ref,
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 
 function useTrainingsAndGroups(): [
   trainings: BasicTrainingResource[] | undefined,
