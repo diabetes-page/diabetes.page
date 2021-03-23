@@ -15,8 +15,8 @@ export function StandardTextField(props: StandardTextFieldProps): JSX.Element {
   );
   const materialProps = {
     ...props,
-    withMargin: undefined,
   };
+  delete materialProps.withMargin;
 
   return (
     <TextField

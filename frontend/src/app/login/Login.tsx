@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { AxiosResponse } from 'axios';
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { StandardHeading } from '../../components/StandardHeading';
 import { StandardTextField } from '../../components/StandardTextField';
 import { LOCAL_STORAGE_JWT_KEY } from '../../config/security';
@@ -26,7 +26,7 @@ export function Login(): JSX.Element {
   return (
     <Container maxWidth="sm" component="main">
       <Box display="flex" height="100vh" alignItems="center">
-        <form onSubmit={login} action="javascript:void 0;">
+        <form onSubmit={login}>
           <Box
             display="flex"
             width="100%"
@@ -74,7 +74,7 @@ const useLogin = (
   email: string,
   password: string,
   setError: (v: boolean) => void,
-): (() => void) => {
+): ((event: FormEvent) => void) => {
   const dispatch = useSafeDispatch();
 
   function onLogin(response: AxiosResponse<LoginResource>): void {
@@ -89,11 +89,14 @@ const useLogin = (
     });
   }
 
-  return () =>
-    void requests
+  return (event: FormEvent): void => {
+    event.preventDefault();
+
+    requests
       .login({ email, password })
       .then(onLogin)
       .catch(() => setError(true)); // Todo: Deal with other types of errors
+  };
 };
 
 const useStyles = makeStyles((theme) => ({
