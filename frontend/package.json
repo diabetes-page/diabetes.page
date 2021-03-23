@@ -6,7 +6,8 @@
   "scripts": {
     "watch": "next dev -p 19006",
     "build": "next build",
-    "prod": "next start"
+    "prod": "next start",
+    "check-ts": "../node_modules/.bin/tsc --noEmit --p tsconfig.json"
   },
   "dependencies": {
     "@babel/runtime": "^7.12.5",
