@@ -1,5 +1,5 @@
 import { CalendarApi } from '@fullcalendar/common';
-import { makeStyles, MenuItem } from '@material-ui/core';
+import { makeStyles, MenuItem, Typography } from '@material-ui/core';
 import { DateTimePicker } from '@material-ui/pickers';
 import React, { useEffect, useState } from 'react';
 import { BasicWorkingGroupResource } from '../../../../../backend/src/domains/workingGroups/resources/BasicWorkingGroupResource';
@@ -56,60 +56,70 @@ export function AddAppointmentDialog({
       onOk={addAppointment}
       okButtonText="Add appointment"
       id="add-appointment-dialog"
+      okDisabled={loading || !trainings || !groups || groups.length === 0}
     >
       {loading || !trainings || !groups ? (
         <Loader />
       ) : (
         <>
-          <StandardTextField
-            label="Group"
-            value={groupId}
-            onChange={(event) => void setGroupId(event.target.value)}
-            id="add-appointment-group"
-            select
-            withMargin
-          >
-            {groups.map((group) => (
-              <MenuItem key={group.id} value={group.id}>
-                {group.name}
-              </MenuItem>
-            ))}
-          </StandardTextField>
+          {groups.length === 0 ? (
+            <Typography color="textSecondary" className={classes.margin}>
+              You need to create a group before you can create appointments.
+              {/*Todo: refer to groups page*/}
+            </Typography>
+          ) : (
+            <>
+              <StandardTextField
+                label="Group"
+                value={groupId}
+                onChange={(event) => void setGroupId(event.target.value)}
+                id="add-appointment-group"
+                select
+                withMargin
+              >
+                {groups.map((group) => (
+                  <MenuItem key={group.id} value={group.id}>
+                    {group.name}
+                  </MenuItem>
+                ))}
+              </StandardTextField>
 
-          {/*Todo: localization*/}
-          <DateTimePicker
-            label="Start time"
-            value={startsAt}
-            onChange={setStartsAt}
-            id="add-appointment-startsAt"
-            inputVariant="outlined"
-            className={classes.margin}
-            fullWidth
-          />
+              {/*Todo: localization*/}
+              <DateTimePicker
+                label="Start time"
+                value={startsAt}
+                onChange={setStartsAt}
+                id="add-appointment-startsAt"
+                inputVariant="outlined"
+                className={classes.margin}
+                fullWidth
+              />
 
-          <DateTimePicker
-            label="End time"
-            value={endsAt}
-            onChange={setEndsAt}
-            id="add-appointment-startsAt"
-            inputVariant="outlined"
-            className={classes.margin}
-            fullWidth
-          />
+              <DateTimePicker
+                label="End time"
+                value={endsAt}
+                onChange={setEndsAt}
+                id="add-appointment-startsAt"
+                inputVariant="outlined"
+                className={classes.margin}
+                fullWidth
+              />
 
-          <StandardTextField
-            label="Training"
-            value={trainingId}
-            onChange={(event) => void setTrainingId(event.target.value)}
-            id="add-appointment-training"
-            select
-          >
-            {trainings.map((training) => (
-              <MenuItem key={training.id} value={training.id}>
-                {training.name}
-              </MenuItem>
-            ))}
-          </StandardTextField>
+              <StandardTextField
+                label="Training"
+                value={trainingId}
+                onChange={(event) => void setTrainingId(event.target.value)}
+                id="add-appointment-training"
+                select
+              >
+                {trainings.map((training) => (
+                  <MenuItem key={training.id} value={training.id}>
+                    {training.name}
+                  </MenuItem>
+                ))}
+              </StandardTextField>
+            </>
+          )}
         </>
       )}
     </StandardDialog>

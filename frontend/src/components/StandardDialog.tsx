@@ -16,6 +16,7 @@ export type StandardDialogProps = {
   onOk: () => void;
   okButtonText: string;
   id: string;
+  okDisabled?: boolean;
   children: React.ReactNode;
 };
 
@@ -25,6 +26,7 @@ export function StandardDialog({
   onClose,
   onOk,
   okButtonText,
+  okDisabled = false,
   id,
   children,
 }: StandardDialogProps): JSX.Element {
@@ -49,7 +51,7 @@ export function StandardDialog({
         <Button onClick={onClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={reactToOk} color="primary">
+        <Button onClick={reactToOk} disabled={okDisabled} color="primary">
           {okButtonText}
         </Button>
       </DialogActions>
