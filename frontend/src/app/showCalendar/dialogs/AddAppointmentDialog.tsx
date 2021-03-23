@@ -1,5 +1,6 @@
 import { CalendarApi } from '@fullcalendar/common';
-import { MenuItem } from '@material-ui/core';
+import { makeStyles, MenuItem } from '@material-ui/core';
+import { DateTimePicker } from '@material-ui/pickers';
 import React, { useEffect, useState } from 'react';
 import { BasicWorkingGroupResource } from '../../../../../backend/src/domains/workingGroups/resources/BasicWorkingGroupResource';
 import { Loader } from '../../../components/Loader';
@@ -25,8 +26,9 @@ export function AddAppointmentDialog({
   const [trainings, groups, loading] = useTrainingsAndGroups();
   const [trainingId, setTrainingId] = useState('');
   const [groupId, setGroupId] = useState('');
-  const [startsAt, setStartsAt] = useState('');
-  const [endsAt, setEndsAt] = useState('');
+  const [startsAt, setStartsAt] = useState<Date | null>(new Date());
+  const [endsAt, setEndsAt] = useState<Date | null>(new Date());
+  const classes = useStyles();
 
   const addAppointment = (): void => {
     if (!calendarApi) {
@@ -60,35 +62,11 @@ export function AddAppointmentDialog({
       ) : (
         <>
           <StandardTextField
-            label="Start time"
-            type="datetime-local"
-            value={startsAt}
-            onChange={(event) => void setStartsAt(event.currentTarget.value)}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            id="add-appointment-startsAt"
-            withMargin
-          />
-
-          <StandardTextField
-            label="End time"
-            type="datetime-local"
-            value={endsAt}
-            onChange={(event) => void setEndsAt(event.currentTarget.value)}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            id="add-appointment-endsAt"
-            withMargin
-          />
-
-          <StandardTextField
             label="Group"
             value={groupId}
             onChange={(event) => void setGroupId(event.target.value)}
             id="add-appointment-group"
-            variant="outlined"
+            select
             withMargin
           >
             {groups.map((group) => (
@@ -97,6 +75,27 @@ export function AddAppointmentDialog({
               </MenuItem>
             ))}
           </StandardTextField>
+
+          {/*Todo: localization*/}
+          <DateTimePicker
+            label="Start time"
+            value={startsAt}
+            onChange={setStartsAt}
+            id="add-appointment-startsAt"
+            inputVariant="outlined"
+            className={classes.margin}
+            fullWidth
+          />
+
+          <DateTimePicker
+            label="End time"
+            value={endsAt}
+            onChange={setEndsAt}
+            id="add-appointment-startsAt"
+            inputVariant="outlined"
+            className={classes.margin}
+            fullWidth
+          />
 
           <StandardTextField
             label="Training"
@@ -142,3 +141,9 @@ function useTrainingsAndGroups(): [
 
   return [trainings, groups, loadingTrainings || loadingGroups];
 }
+
+const useStyles = makeStyles((theme) => ({
+  margin: {
+    marginBottom: theme.spacing(2),
+  },
+}));
