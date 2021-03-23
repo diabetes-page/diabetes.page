@@ -10,7 +10,7 @@ import { useMenu } from '../../../../utilities/hooks/hooks';
 export function UserMenu(): JSX.Element {
   const classes = useStyles();
   const { open, anchorEl, onMenuOpen, onMenuClose } = useMenu();
-  const name = useSelector((state) => state.user.name);
+  const name = useSelector((state) => state.user!.name);
   const logout = useLogout();
 
   return (

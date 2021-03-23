@@ -22,7 +22,7 @@ export function Main({
   const authLoading = useSelector((state: RootState) =>
     includes(state.loading.initial, SET_LOGGED_IN),
   );
-  const hasAuth = useSelector((state: RootState) => !!state.login.loggedIn);
+  const hasAuth = useSelector((state: RootState) => !!state.login?.loggedIn);
   const content = useContent(authLoading, hasAuth, requiresAuth, children);
 
   return (

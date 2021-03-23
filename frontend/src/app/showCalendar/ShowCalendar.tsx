@@ -14,7 +14,7 @@ export function ShowCalendar(): JSX.Element {
   const [appointments, setAppointments, isLoading] = useLoadingState<
     AppointmentWithWorkingGroupsResource[]
   >();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user!);
 
   useEffect(() => {
     if (!user.consultantId) {

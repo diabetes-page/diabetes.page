@@ -31,7 +31,7 @@ const useEstablishConnection = (): void => {
   const loadingRefreshing = useSelector((state) =>
     includes(state.loading.refreshing, SET_LOGGED_IN),
   );
-  const isLoggedIn = useSelector((state) => state.login.loggedIn);
+  const isLoggedIn = useSelector((state) => state.login?.loggedIn);
   const dispatch = useSafeDispatch();
 
   useEffect((): void => {

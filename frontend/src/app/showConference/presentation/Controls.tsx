@@ -6,7 +6,7 @@ import { FullTrainingResource } from '../../../utilities/requests/requests';
 
 type Props = { training: FullTrainingResource };
 export const Controls = ({ training }: Props): JSX.Element => {
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user!);
   const conference = useSelector((state) => state.live.conference!);
   const sendToWebSocket = useSelector((state) => state.live.sendToWebSocket);
   const changeSlide = (delta: number) =>
