@@ -69,10 +69,7 @@ export function Calendar({ initialAppointments }: CalendarProps): JSX.Element {
           customButtons={{
             addEvent: {
               text: 'New appointment',
-              click: (...rest): void => {
-                console.log(rest);
-                setNewAppointmentDialogOpen(true);
-              },
+              click: () => void setNewAppointmentDialogOpen(true),
             },
           }}
           initialView="dayGridMonth"
@@ -96,6 +93,7 @@ const useStyles = makeStyles((theme) => ({
   '@global': {
     '.fc .fc-button-primary': {
       backgroundColor: theme.palette.primary.main,
+      border: 'none',
     },
     '.fc .fc-button-primary:not(:disabled):active, .fc .fc-button-primary:not(:disabled).fc-button-active': {
       backgroundColor: theme.palette.text.primary,

@@ -1,4 +1,10 @@
-import { MouseEventHandler, useCallback, useState } from 'react';
+import {
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 export function useMenu(): {
   open: boolean;
@@ -50,4 +56,22 @@ export function useLoadingState<T>(): [
   );
 
   return [state, setStateAndLoading, loading];
+}
+
+export function useInterval(callback: () => void, delay: number | null): void {
+  const savedCallback = useRef<() => void>();
+
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  useEffect(() => {
+    function tick(): void {
+      savedCallback.current?.();
+    }
+    if (delay !== null) {
+      const id = setInterval(tick, delay);
+      return () => void clearInterval(id);
+    }
+  }, [delay]);
 }
