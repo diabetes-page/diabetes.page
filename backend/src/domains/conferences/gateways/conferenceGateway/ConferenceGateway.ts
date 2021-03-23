@@ -31,7 +31,7 @@ export class ConferenceGateway {
   @SubscribeMessage('authenticate')
   async authenticate(
     client: ConferenceClient,
-  ): Promise<ConferenceResource | Record<string, never>> {
+  ): Promise<ConferenceResource | Record<never, never>> {
     const appointment = await Appointment.findOne(client.appointmentId);
 
     if (!appointment) {
