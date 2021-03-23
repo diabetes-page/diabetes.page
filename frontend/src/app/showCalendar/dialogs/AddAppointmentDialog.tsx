@@ -25,29 +25,19 @@ export function AddAppointmentDialog({
   calendarApi,
 }: AddAppointmentDialogProps): JSX.Element {
   const [trainings, groups, loading] = useTrainingsAndGroups();
-  const [trainingId, setTrainingId] = useState('');
   const [groupId, setGroupId] = useState('');
   const [startsAt, setStartsAt] = useState<Date | null>(new Date());
   const [endsAt, setEndsAt] = useState<Date | null>(new Date());
+  const [trainingId, setTrainingId] = useState('');
   const classes = useStyles();
 
-  const addAppointment = (): void => {
-    if (!calendarApi) {
-      return;
-    }
-
-    // calendarApi.addEvent({
-    //   title: `${formData.trainingName} with ${formData.groupName}`,
-    //   start: formData.startDateTime,
-    //   end: formData.endDateTime,
-    //   extendedProps: {
-    //     groupName: formData.groupName,
-    //     groupId: formData.groupId,
-    //     trainingName: formData.trainingName,
-    //     trainingId: formData.trainingId,
-    //   },
-    // });
-  };
+  const addAppointment = useAddAppointment(
+    groupId,
+    startsAt,
+    endsAt,
+    trainingId,
+    calendarApi,
+  );
 
   return (
     <StandardDialog
@@ -160,6 +150,32 @@ function useTrainingsAndGroups(): [
   }, [setTrainings, setGroups]);
 
   return [trainings, groups, loadingTrainings || loadingGroups];
+}
+
+function useAddAppointment(
+  groupId: string,
+  startsAt: Date | null,
+  endsAt: Date | null,
+  trainingId: string,
+  calendarApi: CalendarApi | undefined,
+): () => void {
+  return (): void => {
+    if (!calendarApi || !startsAt || !endsAt) {
+      return;
+    }
+
+    // calendarApi.addEvent({
+    //   title: `${formData.trainingName} with ${formData.groupName}`,
+    //   start: formData.startDateTime,
+    //   end: formData.endDateTime,
+    //   extendedProps: {
+    //     groupName: formData.groupName,
+    //     groupId: formData.groupId,
+    //     trainingName: formData.trainingName,
+    //     trainingId: formData.trainingId,
+    //   },
+    // });
+  };
 }
 
 const useStyles = makeStyles((theme) => ({
