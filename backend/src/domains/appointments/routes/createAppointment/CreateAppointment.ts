@@ -3,18 +3,18 @@ import {
   Controller,
   HttpCode,
   HttpStatus,
-  Param,
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { parseISO } from 'date-fns';
 import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
 import { RequestUser } from '../../../../blueprints/decorators/RequestUser';
 import { Consultant } from '../../../../blueprints/guards/Consultant';
-import { EntityById } from '../../../../blueprints/pipes/EntityById';
-import { Training } from '../../../trainings/entities/Training.entity';
 import { User } from '../../../users/entities/User.entity';
 import { AppointmentsService } from '../../services/AppointmentsService';
+import {
+  CreateAppointmentData,
+  CreateAppointmentPipe,
+} from './CreateAppointmentPipe';
 import { Parameters } from './Parameters';
 import { Resource } from './Resource';
 
@@ -28,18 +28,19 @@ export class CreateAppointment extends ResourceController {
 
   @UseGuards(Consultant)
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Post('/trainings/:trainingId/appointments')
+  @Post('/appointments')
   async serve(
-    @Param(new EntityById(Training, 'trainingId')) training: Training,
     @RequestUser() user: User,
     @Body() params: Parameters,
+    @Body(CreateAppointmentPipe) data: CreateAppointmentData,
   ): Promise<Resource> {
     await user.loadAsConsultant();
     await this.appointmentsService.add(
-      training,
       user.asConsultant!,
-      parseISO(params.startsAt),
-      parseISO(params.endsAt),
+      data.startsAt,
+      data.endsAt,
+      [data.workingGroup],
+      data.training,
     );
 
     return Resource.make();

@@ -3,6 +3,7 @@ import { getCustomRepository } from 'typeorm';
 import { Training } from '../../trainings/entities/Training.entity';
 import { Consultant } from '../../users/entities/Consultant.entity';
 import { User } from '../../users/entities/User.entity';
+import { WorkingGroup } from '../../workingGroups/entities/WorkingGroup.entity';
 import { Appointment } from '../entities/Appointment.entity';
 import { AppointmentsRepository } from '../repositories/AppointmentsRepository';
 
@@ -25,16 +26,18 @@ export class AppointmentsService {
   }
 
   async add(
-    training: Training,
     presenter: Consultant,
     startsAt: Date,
     endsAt: Date,
+    workingGroups: WorkingGroup[],
+    training: Training | null,
   ): Promise<Appointment> {
     return await Appointment.create({
-      training,
       presenter,
       startsAt,
       endsAt,
+      workingGroups,
+      training,
       slideIndex: 0,
       conferenceUpdateCounter: 0,
     }).save();
