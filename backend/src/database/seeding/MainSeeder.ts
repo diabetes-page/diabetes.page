@@ -48,7 +48,6 @@ export class MainSeeder {
   private async seedUsers(): Promise<void> {
     console.log('Seeding users...');
     await this.repeat(() => this.userFactory.createUser(), 20);
-    await this.repeat(() => this.userFactory.createConsultant(), 10);
 
     await this.userFactory.createUser(UserFactory.blueprints.participant);
     await this.userFactory.createConsultant(UserFactory.blueprints.vincent);
@@ -100,7 +99,7 @@ export class MainSeeder {
             documents[0]!,
             sample(consultants)!,
           ),
-        10,
+        5,
       );
     });
   }
@@ -116,7 +115,7 @@ export class MainSeeder {
             training,
             sample(consultants)!,
           ),
-        3,
+        10,
       );
     });
   }
