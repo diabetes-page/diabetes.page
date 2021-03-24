@@ -8,6 +8,8 @@ import { BasicWorkingGroupResource } from '../../../../../backend/src/domains/wo
 import { Loader } from '../../../components/Loader';
 import { StandardDialog } from '../../../components/StandardDialog';
 import { StandardTextField } from '../../../components/StandardTextField';
+import { useSafeDispatch } from '../../../redux/root/hooks';
+import { SET_SNACKBAR } from '../../../redux/snackbar/actions';
 import { useLoadingState } from '../../../utilities/hooks/hooks';
 import {
   BasicTrainingResource,
@@ -163,6 +165,8 @@ function useAddAppointment(
   onClose: () => void,
   calendarApi: CalendarApi | undefined,
 ): () => void {
+  const dispatch = useSafeDispatch();
+
   return (): void => {
     if (!calendarApi || !startsAt || !endsAt) {
       return;
@@ -172,12 +176,25 @@ function useAddAppointment(
       .createAppointment({
         startsAt: formatISO(startsAt),
         endsAt: formatISO(endsAt),
-        workingGroupId,
+        workingGroupId: null,
         trainingId: trainingId || null,
       })
       .then((response) => {
         onClose();
         calendarApi.addEvent(appointmentToEvent(response.data));
+        dispatch({
+          type: SET_SNACKBAR,
+          message: 'The appointment was created successfully.',
+          variant: 'success',
+        });
+      })
+      .catch((e) => {
+        console.warn(e.response.data);
+        dispatch({
+          type: SET_SNACKBAR,
+          message: e.response.data.message,
+          variant: 'error',
+        });
       }); // todo: request errors
   };
 }
