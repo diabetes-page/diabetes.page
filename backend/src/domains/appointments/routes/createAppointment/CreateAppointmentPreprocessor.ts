@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { isBefore, parseISO } from 'date-fns';
 import { I18nService } from 'nestjs-i18n';
 import { Training } from '../../../trainings/entities/Training.entity';
@@ -13,10 +13,10 @@ export type CreateAppointmentData = {
 };
 
 @Injectable()
-export class CreateAppointmentPipe implements PipeTransform {
+export class CreateAppointmentPreprocessor {
   constructor(protected i18n: I18nService) {}
 
-  async transform(params: Parameters): Promise<CreateAppointmentData> {
+  async process(params: Parameters): Promise<CreateAppointmentData> {
     const [startsAt, endsAt] = [
       parseISO(params.startsAt),
       parseISO(params.endsAt),

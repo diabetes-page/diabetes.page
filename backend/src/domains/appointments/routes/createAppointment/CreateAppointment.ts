@@ -12,17 +12,17 @@ import { Consultant } from '../../../../blueprints/guards/Consultant';
 import { User } from '../../../users/entities/User.entity';
 import { AppointmentWithWorkingGroupsResource } from '../../resources/AppointmentWithWorkingGroupsResource';
 import { AppointmentsService } from '../../services/AppointmentsService';
-import {
-  CreateAppointmentData,
-  CreateAppointmentPipe,
-} from './CreateAppointmentPipe';
+import { CreateAppointmentPreprocessor } from './CreateAppointmentPreprocessor';
 import { Parameters } from './Parameters';
 
 @Controller()
 export class CreateAppointment extends ResourceController {
   public static Resource = AppointmentWithWorkingGroupsResource;
 
-  constructor(private appointmentsService: AppointmentsService) {
+  constructor(
+    private appointmentsService: AppointmentsService,
+    private preprocessor: CreateAppointmentPreprocessor,
+  ) {
     super();
   }
 
@@ -32,15 +32,20 @@ export class CreateAppointment extends ResourceController {
   async serve(
     @RequestUser() user: User,
     @Body() params: Parameters,
-    @Body(CreateAppointmentPipe) data: CreateAppointmentData,
   ): Promise<AppointmentWithWorkingGroupsResource> {
-    await user.loadAsConsultant();
+    const {
+      startsAt,
+      endsAt,
+      training,
+      workingGroup,
+    } = await this.preprocessor.process(params);
+
     const appointment = await this.appointmentsService.add(
       user.asConsultant!,
-      data.startsAt,
-      data.endsAt,
-      [data.workingGroup],
-      data.training,
+      startsAt,
+      endsAt,
+      [workingGroup],
+      training,
     );
 
     return AppointmentWithWorkingGroupsResource.make(appointment);
