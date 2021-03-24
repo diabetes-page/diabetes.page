@@ -12,6 +12,7 @@ import {
   RegisterLoadingRefreshing,
 } from '../loading/actions';
 import { SetLoggedIn } from '../login/actions';
+import { SetSnackbar } from '../snackbar/actions';
 import { SetUser } from '../user/actions';
 
 export const RESET_REDUX = 'RESET_REDUX';
@@ -31,4 +32,5 @@ export type Action =
   | EndConference
   | SetConferenceToken
   | SetAppointment
-  | SetSendToWebSocket;
+  | SetSendToWebSocket
+  | SetSnackbar;
