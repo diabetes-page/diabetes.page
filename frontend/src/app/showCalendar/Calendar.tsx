@@ -65,7 +65,6 @@ export function Calendar({ initialAppointments }: CalendarProps): JSX.Element {
             void setEditedEvent(clickInfo.event)
           }
           eventColor={theme.palette.primary.main}
-          editable
         />
       </Paper>
     </>
@@ -91,6 +90,9 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   '@global': {
+    '.fc .fc-event': {
+      cursor: 'pointer',
+    },
     '.fc .fc-button-primary': {
       backgroundColor: theme.palette.primary.main,
       border: 'none',
