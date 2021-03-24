@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { formatISO } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { BasicWorkingGroupResource } from '../../../../../backend/src/domains/workingGroups/resources/BasicWorkingGroupResource';
+import { ErrorList } from '../../../components/ErrorList';
 import { Loader } from '../../../components/Loader';
 import { StandardDialog } from '../../../components/StandardDialog';
 import { StandardTextField } from '../../../components/StandardTextField';
@@ -13,6 +14,7 @@ import { SET_SNACKBAR } from '../../../redux/snackbar/actions';
 import { useLoadingState } from '../../../utilities/hooks/hooks';
 import {
   BasicTrainingResource,
+  ErrorResource,
   requests,
 } from '../../../utilities/requests/requests';
 import { appointmentToEvent } from '../Calendar';
@@ -33,6 +35,7 @@ export function AddAppointmentDialog({
   const [startsAt, setStartsAt] = useState<Date | null>(new Date());
   const [endsAt, setEndsAt] = useState<Date | null>(new Date());
   const [trainingId, setTrainingId] = useState('');
+  const [error, setError] = useState<ErrorResource | null>(null);
   const classes = useStyles();
 
   const addAppointment = useAddAppointment(
@@ -41,6 +44,7 @@ export function AddAppointmentDialog({
     endsAt,
     trainingId,
     onClose,
+    setError,
     calendarApi,
   );
 
@@ -67,11 +71,14 @@ export function AddAppointmentDialog({
             </Typography>
           ) : (
             <>
+              <ErrorList error={error} errorKey="workingGroupId" />
+
               <StandardTextField
                 label="Group"
                 value={groupId}
                 onChange={(event) => void setGroupId(event.target.value)}
                 id="add-appointment-group"
+                error={Boolean(error && error.workingGroupId)}
                 select
                 withMargin
               >
@@ -82,6 +89,8 @@ export function AddAppointmentDialog({
                 ))}
               </StandardTextField>
 
+              <ErrorList error={error} errorKey="startsAt" />
+
               {/*Todo: localization*/}
               <DateTimePicker
                 label="Start time"
@@ -90,8 +99,11 @@ export function AddAppointmentDialog({
                 id="add-appointment-startsAt"
                 inputVariant="outlined"
                 className={clsx(classes.margin, classes.dateTimePicker)}
+                error={Boolean(error && error.startsAt)}
                 fullWidth
               />
+
+              <ErrorList error={error} errorKey="endsAt" />
 
               <DateTimePicker
                 label="End time"
@@ -100,21 +112,25 @@ export function AddAppointmentDialog({
                 id="add-appointment-endsAt"
                 inputVariant="outlined"
                 className={clsx(classes.margin, classes.dateTimePicker)}
+                error={Boolean(error && error.endsAt)}
                 fullWidth
               />
+
+              <ErrorList error={error} errorKey="trainingId" />
 
               <StandardTextField
                 label="Training"
                 value={trainingId}
                 onChange={(event) => void setTrainingId(event.target.value)}
                 id="add-appointment-training"
-                select
                 SelectProps={{
                   displayEmpty: true,
                 }}
                 InputLabelProps={{
                   shrink: true,
                 }}
+                error={Boolean(error && error.trainingId)}
+                select
               >
                 <MenuItem value="">No training selected</MenuItem>
                 {trainings.map((training) => (
@@ -163,6 +179,7 @@ function useAddAppointment(
   endsAt: Date | null,
   trainingId: string,
   onClose: () => void,
+  setError: (e: ErrorResource | null) => void,
   calendarApi: CalendarApi | undefined,
 ): () => void {
   const dispatch = useSafeDispatch();
@@ -172,16 +189,20 @@ function useAddAppointment(
       return;
     }
 
+    setError(null);
+
     requests
       .createAppointment({
         startsAt: formatISO(startsAt),
         endsAt: formatISO(endsAt),
-        workingGroupId: null,
+        workingGroupId,
         trainingId: trainingId || null,
       })
       .then((response) => {
         onClose();
+
         calendarApi.addEvent(appointmentToEvent(response.data));
+
         dispatch({
           type: SET_SNACKBAR,
           message: 'The appointment was created successfully.',
@@ -189,12 +210,7 @@ function useAddAppointment(
         });
       })
       .catch((e) => {
-        console.warn(e.response.data);
-        dispatch({
-          type: SET_SNACKBAR,
-          message: e.response.data.message,
-          variant: 'error',
-        });
+        setError(e.response.data);
       }); // todo: request errors
   };
 }

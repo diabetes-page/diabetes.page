@@ -25,9 +25,11 @@ export class CreateAppointmentPreprocessor {
 
     if (!isBefore(startsAt, endsAt)) {
       const error: ErrorResource = {
-        startsAt: await this.i18n.translate(
-          'validation.CREATE_APPOINTMENT_DATES_ERROR_MESSAGE',
-        ),
+        startsAt: [
+          await this.i18n.translate(
+            'validation.CREATE_APPOINTMENT_DATES_ERROR_MESSAGE',
+          ),
+        ],
       };
 
       throw new BadRequestException(error);
