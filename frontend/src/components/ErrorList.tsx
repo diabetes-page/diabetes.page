@@ -2,17 +2,17 @@ import { makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { ErrorResource } from '../utilities/requests/requests';
 
-export type ErrorListProps = {
-  error: ErrorResource | null;
-  errorKey: string;
+export type ErrorListProps<T> = {
+  error: ErrorResource<T> | null;
+  errorKey: keyof T;
   withMargin?: boolean;
 };
 
-export function ErrorList({
+export function ErrorList<T>({
   error,
   errorKey,
   withMargin = true,
-}: ErrorListProps): JSX.Element | null {
+}: ErrorListProps<T>): JSX.Element | null {
   const classes = useStyles();
   const className = withMargin ? classes.withMargin : undefined;
 

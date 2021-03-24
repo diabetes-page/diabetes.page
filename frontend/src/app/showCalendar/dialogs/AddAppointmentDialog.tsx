@@ -14,7 +14,9 @@ import { SET_SNACKBAR } from '../../../redux/snackbar/actions';
 import { useLoadingState } from '../../../utilities/hooks/hooks';
 import { useError } from '../../../utilities/misc/errors';
 import {
+  AxiosError,
   BasicTrainingResource,
+  CreateAppointmentParameters,
   requests,
 } from '../../../utilities/requests/requests';
 import { appointmentToEvent } from '../Calendar';
@@ -35,7 +37,7 @@ export function AddAppointmentDialog({
   const [startsAt, setStartsAt] = useState<Date | null>(new Date());
   const [endsAt, setEndsAt] = useState<Date | null>(new Date());
   const [trainingId, setTrainingId] = useState('');
-  const [error, resetError, onError] = useError();
+  const [error, resetError, onError] = useError<CreateAppointmentParameters>();
   const classes = useStyles();
 
   const addAppointment = useAddAppointment(
@@ -181,7 +183,7 @@ function useAddAppointment(
   trainingId: string,
   onClose: () => void,
   resetError: () => void,
-  onError: (e: any) => void,
+  onError: (e: AxiosError<CreateAppointmentParameters>) => void,
   calendarApi: CalendarApi | undefined,
 ): () => void {
   const dispatch = useSafeDispatch();
