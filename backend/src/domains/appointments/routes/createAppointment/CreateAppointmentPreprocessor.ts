@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { isBefore, parseISO } from 'date-fns';
 import { I18nService } from 'nestjs-i18n';
-import { ErrorResource } from '../../../../blueprints/resources/ErrorResource';
+import { ValidationError } from '../../../../bootstrap/pipes/validationPipe';
 import { Training } from '../../../trainings/entities/Training.entity';
 import { WorkingGroup } from '../../../workingGroups/entities/WorkingGroup.entity';
 import { Parameters } from './Parameters';
@@ -24,7 +24,7 @@ export class CreateAppointmentPreprocessor {
     ];
 
     if (!isBefore(startsAt, endsAt)) {
-      const error: ErrorResource = {
+      const error: ValidationError = {
         startsAt: [
           await this.i18n.translate(
             'validation.CREATE_APPOINTMENT_DATES_ERROR_MESSAGE',
