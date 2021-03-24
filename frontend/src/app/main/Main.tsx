@@ -9,6 +9,7 @@ import { RootState } from '../../redux/root/state';
 import { Auth } from './auth/Auth';
 import { Loading } from './loading/Loading';
 import { Navigation } from './navigation/Navigation';
+import { Snackbar } from './snackbar/Snackbar';
 
 export type MainProps = {
   requiresAuth?: boolean;
@@ -27,6 +28,7 @@ export function Main({
 
   return (
     <>
+      <Snackbar />
       <Auth />
       {content}
     </>
