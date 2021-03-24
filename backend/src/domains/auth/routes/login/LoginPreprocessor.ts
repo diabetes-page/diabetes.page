@@ -1,17 +1,13 @@
-import {
-  Injectable,
-  PipeTransform,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { User } from '../../../users/entities/User.entity';
 import { AuthService } from '../../services/AuthService';
 import { Parameters } from './Parameters';
 
 @Injectable()
-export class AuthenticationPipe implements PipeTransform {
+export class LoginPreprocessor {
   constructor(private authService: AuthService) {}
 
-  async transform(params: Parameters): Promise<User> {
+  async process(params: Parameters): Promise<User> {
     const user = await this.authService.validateUser(
       params.email,
       params.password,

@@ -4,6 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from '../users/UsersModule';
 import { CheckAuthStatus } from './routes/checkAuthStatus/CheckAuthStatus';
 import { Login } from './routes/login/Login';
+import { LoginPreprocessor } from './routes/login/LoginPreprocessor';
 import { AuthService } from './services/AuthService';
 import { JWTStrategy } from './strategies/JWTStrategy';
 
@@ -21,6 +22,6 @@ import { JWTStrategy } from './strategies/JWTStrategy';
     }),
   ],
   controllers: [Login, CheckAuthStatus],
-  providers: [AuthService, JWTStrategy],
+  providers: [AuthService, JWTStrategy, LoginPreprocessor],
 })
 export class AuthModule {}
