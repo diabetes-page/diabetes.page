@@ -43,16 +43,16 @@ Given(
 Then(
   /^the reason for the rejection is that the start date must be before the end date$/,
   function () {
-    expect(this.response.body.message).to.equal(
+    expect(this.response.body.startsAt).to.deep.equal([
       'The start of the appointment must be before its end',
-    );
+    ]);
   },
 );
 
 Then(
   /^the reason for the rejection is that the working group was not supplied$/,
   function () {
-    expect(this.response.body.message).to.have.members([
+    expect(this.response.body.workingGroupId).to.have.members([
       'workingGroupId must be a string',
       'WorkingGroup was not found',
     ]);
@@ -64,6 +64,7 @@ Then(
   async function (attributes: TableDefinition) {
     const expectation = attributes.rowsHash();
     const res: AppointmentWithWorkingGroupsResource = this.response.body;
+
     expect(res.appointment.training?.name).to.equal(
       expectation.Training || undefined,
     );

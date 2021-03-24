@@ -20,7 +20,7 @@ When(
 Then(
   /^the reason for the rejection is that the password must be at least (\d+) characters long$/,
   function (length: number) {
-    expect(this.response.body.message).to.have.members([
+    expect(this.response.body.password).to.have.members([
       `Password must be at least ${length} characters long`,
     ]);
   },
@@ -29,7 +29,7 @@ Then(
 Then(
   /^the reason for the rejection is that the e-mail address has the wrong format$/,
   function () {
-    expect(this.response.body.message).to.have.members([
+    expect(this.response.body.email).to.have.members([
       'email must be an email',
     ]);
   },
@@ -38,7 +38,7 @@ Then(
 Then(
   /^the reason for the rejection is that the e-mail is already in use$/,
   function () {
-    expect(this.response.body.message).to.have.members([
+    expect(this.response.body.email).to.have.members([
       'User with this email already exists',
     ]);
   },
@@ -47,7 +47,7 @@ Then(
 Then(
   /^the reason for the rejection is that the name must not be empty$/,
   function () {
-    expect(this.response.body.message).to.have.members([
+    expect(this.response.body.name).to.have.members([
       'name must be longer than or equal to 1 characters',
       'name must be a string',
     ]);
