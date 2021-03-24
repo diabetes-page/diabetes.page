@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 
+const GLOBAL_RESOURCES_DIR = 'src/blueprints/resources';
 const DOMAINS_DIR = 'src/domains';
 const ROUTES_DIR = '/routes';
 const BACKEND_PREPEND = '../../../../backend';
@@ -16,9 +17,11 @@ class RequestFinder {
   private requests: string[] = [];
 
   public run(): RequestFinder {
+    this.buildResourceImportsForDir(GLOBAL_RESOURCES_DIR);
+
     fs.readdirSync(DOMAINS_DIR).forEach((domain) => {
-      this.buildResourceImportsForDomain(domain);
-      this.parseDomain(domain);
+      this.buildResourceImportsForDir(`${DOMAINS_DIR}/${domain}/resources`);
+      this.buildRoutesForDir(`${DOMAINS_DIR}/${domain}${ROUTES_DIR}`);
     });
 
     return this;
@@ -37,11 +40,11 @@ class RequestFinder {
     console.log('Wrote to ' + OUTPUT_FILE);
   }
 
-  private buildResourceImportsForDomain(domain: string): void {
-    const baseDir = `${DOMAINS_DIR}/${domain}/resources`;
+  private buildResourceImportsForDir(baseDir: string): void {
     if (!fs.existsSync(baseDir)) {
       return;
     }
+
     fs.readdirSync(baseDir).forEach((resourceFile) => {
       const resourceName = resourceFile.substring(0, resourceFile.length - 3);
       const resourcePath = `${BACKEND_PREPEND}/${baseDir}/${resourceName}`;
@@ -50,14 +53,14 @@ class RequestFinder {
     });
   }
 
-  private parseDomain(domain: string): void {
-    const baseDir = `${DOMAINS_DIR}/${domain}${ROUTES_DIR}`;
+  private buildRoutesForDir(baseDir: string): void {
     if (!fs.existsSync(baseDir)) {
       return;
     }
+
     fs.readdirSync(baseDir).forEach((route) => {
       this.buildResourceImportForRoute(route, baseDir);
-      this.parseRoute(route, baseDir);
+      this.buildRoute(route, baseDir);
     });
   }
 
@@ -72,7 +75,7 @@ class RequestFinder {
     this.types.push(`export type ${resourceName} = Backend${resourceName};`);
   }
 
-  private parseRoute(route: string, baseDir: string): void {
+  private buildRoute(route: string, baseDir: string): void {
     const dir = `${baseDir}/${route}`;
     const [requestType, routeUrl, urlParams] = this.parseRouteDefinition(
       route,

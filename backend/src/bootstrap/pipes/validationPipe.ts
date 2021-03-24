@@ -1,13 +1,12 @@
 import {
   BadRequestException,
   INestApplication,
-  ValidationError as NestValidationError,
+  ValidationError,
   ValidationPipe,
 } from '@nestjs/common';
 import { useContainer } from 'class-validator';
+import { ErrorResource } from '../../blueprints/resources/ErrorResource';
 import { AppModule } from '../modules/app/AppModule';
-
-export type ValidationError = Record<string, string[]>;
 
 export const setupValidationPipe = (app: INestApplication): void => {
   app.useGlobalPipes(getValidationPipe());
@@ -25,12 +24,12 @@ export const getValidationPipe = (): ValidationPipe =>
       target: false,
       value: false,
     },
-    exceptionFactory: (errors: NestValidationError[]): BadRequestException =>
+    exceptionFactory: (errors): BadRequestException =>
       new BadRequestException(transformErrors(errors)),
   });
 
-function transformErrors(errors: NestValidationError[]): ValidationError {
-  const transformed: ValidationError = {};
+function transformErrors(errors: ValidationError[]): ErrorResource {
+  const transformed: ErrorResource = {};
 
   errors.forEach((error) => {
     const { property, constraints } = error;
