@@ -2,7 +2,7 @@ import { Action } from '../root/actions';
 import { SET_USER } from './actions';
 import { UserState } from './state';
 
-const initialState: UserState = {};
+const initialState: UserState = null;
 
 export const user = (
   state: UserState = initialState,

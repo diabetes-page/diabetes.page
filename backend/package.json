@@ -17,7 +17,8 @@
     "db:freshseed": "npm run db:fresh && npm run db:seed",
     "db:gen": "typeorm migration:generate",
     "db:migrate": "typeorm migration:run",
-    "make:requests": "ts-node scripts/generateRequestFunctions.ts"
+    "make:requests": "ts-node scripts/generateRequestFunctions.ts",
+    "check-ts": "../node_modules/.bin/tsc --noEmit --p tsconfig.json"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^1.5.1",

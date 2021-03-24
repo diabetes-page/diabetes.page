@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Appointment } from './entities/Appointment.entity';
 import { CreateAppointment } from './routes/createAppointment/CreateAppointment';
+import { CreateAppointmentPreprocessor } from './routes/createAppointment/CreateAppointmentPreprocessor';
 import { IndexConsultantAppointments } from './routes/indexConsultantAppointments/IndexConsultantAppointments';
 import { IndexParticipantAppointments } from './routes/indexParticipantAppointments/IndexParticipantAppointments';
 import { ShowAppointment } from './routes/showAppointment/ShowAppointment';
@@ -17,7 +18,7 @@ import { AppointmentsService } from './services/AppointmentsService';
     ShowAppointment,
     StartAppointment,
   ],
-  providers: [AppointmentsService],
+  providers: [AppointmentsService, CreateAppointmentPreprocessor],
   exports: [],
 })
 export class AppointmentsModule {}

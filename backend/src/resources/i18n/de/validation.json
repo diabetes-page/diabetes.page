@@ -1,4 +1,6 @@
 {
   "UNIQUE_ERROR_MESSAGE": "{entityClass} mit diesem Wert für {property} existiert bereits",
-  "PASSWORD_ERROR_MESSAGE": "Passwort muss mindestens {minPasswordLength} Zeichen haben"
+  "EXISTS_ERROR_MESSAGE": "{entityClass} wurde nicht gefunden",
+  "PASSWORD_ERROR_MESSAGE": "Passwort muss mindestens {minPasswordLength} Zeichen haben",
+  "CREATE_APPOINTMENT_DATES_ERROR_MESSAGE": "Der Beginn des Termins muss vor dem Ende des Termins liegen"
 }

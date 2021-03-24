@@ -12,10 +12,10 @@ export class SensitiveDataUserResource {
   email: string;
 
   @Expose()
-  isConsultant: boolean;
+  consultantId: string | null;
 
   @Expose()
-  isManager: boolean;
+  managerId: string | null;
 
   static make = async (user: User): Promise<SensitiveDataUserResource> => {
     const consultant = user.asConsultant || (await user.loadAsConsultant());
@@ -24,8 +24,8 @@ export class SensitiveDataUserResource {
 
     return {
       ...user,
-      isConsultant: !!consultant,
-      isManager: !!manager,
+      consultantId: consultant?.id || null,
+      managerId: manager?.id || null,
     };
   };
 }

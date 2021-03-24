@@ -18,7 +18,7 @@ import { StartConferenceButton } from './StartConferenceButton';
 export function ShowAppointment(): JSX.Element {
   const { appointmentId } = useRouter().query as ShowAppointmentPageParams;
   const [appointment, loading] = useFetchAppointment(appointmentId);
-  const userId = useSelector((state) => state.user.id);
+  const userId = useSelector((state) => state.user!.id);
   const isPresenter = appointment?.presenter.user.id === userId;
 
   if (loading || !appointment) {

@@ -7,7 +7,7 @@ import {
 import * as WebSocket from 'ws';
 import { InsecureRoute } from '../../../../blueprints/decorators/InsecureRoute';
 import { ResourceInterceptor } from '../../../../bootstrap/interceptors/ResourceInterceptor';
-import { getValidationPipe } from '../../../../bootstrap/pipes/setupPipes';
+import { getValidationPipe } from '../../../../bootstrap/pipes/validationPipe';
 import { Appointment } from '../../../appointments/entities/Appointment.entity';
 import { ConferenceResource } from '../../resources/ConferenceResource';
 import { ConferencesService } from '../../services/ConferencesService';
@@ -31,7 +31,7 @@ export class ConferenceGateway {
   @SubscribeMessage('authenticate')
   async authenticate(
     client: ConferenceClient,
-  ): Promise<ConferenceResource | Record<string, never>> {
+  ): Promise<ConferenceResource | Record<never, never>> {
     const appointment = await Appointment.findOne(client.appointmentId);
 
     if (!appointment) {

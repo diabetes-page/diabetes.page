@@ -4,12 +4,12 @@ import {
   Collapse,
   Container,
   makeStyles,
-  TextField,
   Typography,
 } from '@material-ui/core';
 import { AxiosResponse } from 'axios';
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { StandardHeading } from '../../components/StandardHeading';
+import { StandardTextField } from '../../components/StandardTextField';
 import { LOCAL_STORAGE_JWT_KEY } from '../../config/security';
 import { SET_LOGGED_IN } from '../../redux/login/actions';
 import { useSafeDispatch } from '../../redux/root/hooks';
@@ -26,7 +26,7 @@ export function Login(): JSX.Element {
   return (
     <Container maxWidth="sm" component="main">
       <Box display="flex" height="100vh" alignItems="center">
-        <form onSubmit={login} action="javascript:void 0;">
+        <form onSubmit={login}>
           <Box
             display="flex"
             width="100%"
@@ -35,36 +35,32 @@ export function Login(): JSX.Element {
           >
             <StandardHeading>diabetes.page</StandardHeading>
 
-            <TextField
+            <StandardTextField
+              type="email"
               label="Email"
               value={email}
               onChange={(event) => void setEmail(event.currentTarget.value)}
               error={error}
-              className={classes.inputField}
+              withMargin
             />
 
-            <TextField
+            <StandardTextField
               type="password"
               label="Password"
               value={password}
               onChange={(event) => void setPassword(event.currentTarget.value)}
               error={error}
-              className={classes.inputField}
+              withMargin
             />
 
             <Collapse in={error}>
-              <Typography className={classes.marginTop}>
+              <Typography className={classes.inputField} color="error">
                 {/*Todo: i18n*/}
                 The email and password you entered did not match our records.
               </Typography>
             </Collapse>
 
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.marginTop}
-            >
+            <Button type="submit" variant="contained" color="primary">
               Login
             </Button>
           </Box>
@@ -78,7 +74,7 @@ const useLogin = (
   email: string,
   password: string,
   setError: (v: boolean) => void,
-): (() => void) => {
+): ((event: FormEvent) => void) => {
   const dispatch = useSafeDispatch();
 
   function onLogin(response: AxiosResponse<LoginResource>): void {
@@ -93,18 +89,18 @@ const useLogin = (
     });
   }
 
-  return () =>
-    void requests
+  return (event: FormEvent): void => {
+    event.preventDefault();
+
+    requests
       .login({ email, password })
       .then(onLogin)
       .catch(() => setError(true)); // Todo: Deal with other types of errors
+  };
 };
 
 const useStyles = makeStyles((theme) => ({
   inputField: {
-    marginBottom: theme.spacing(1),
-  },
-  marginTop: {
-    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
   },
 }));

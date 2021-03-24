@@ -29,7 +29,10 @@ export async function getAppointment(
 export function compareToTable(
   objects: Record<any, any>[],
   table: TableDefinition,
-  test: CallableFunction,
+  test: (
+    actualObject: Record<any, any>,
+    expectedObject: Record<string, string>,
+  ) => void,
 ): void {
   const expectations = table.hashes();
 

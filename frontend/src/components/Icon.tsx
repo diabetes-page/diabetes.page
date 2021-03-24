@@ -1,5 +1,6 @@
 import { makeStyles, TypographyProps } from '@material-ui/core';
 import { SvgIconComponent } from '@material-ui/icons';
+import React from 'react';
 
 type Props = TypographyProps & {
   icon: SvgIconComponent;

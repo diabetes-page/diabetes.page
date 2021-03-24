@@ -7,6 +7,7 @@ import {
 import { live } from '../live/reducer';
 import { loading } from '../loading/reducer';
 import { login } from '../login/reducer';
+import { snackbar } from '../snackbar/reducer';
 import { user } from '../user/reducer';
 import { Action, RESET_REDUX } from './actions';
 
@@ -29,4 +30,5 @@ export const rootReducer = combineReducersWithReset({
   login,
   user,
   live,
+  snackbars: snackbar,
 });

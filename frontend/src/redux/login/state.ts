@@ -2,4 +2,4 @@ type FilledLoginState = {
   loggedIn: boolean;
 };
 
-export type LoginState = Record<string, never> | FilledLoginState;
+export type LoginState = FilledLoginState | null;

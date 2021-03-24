@@ -12,7 +12,7 @@ import { Connection, EntitySchema, ObjectType } from 'typeorm';
 
 type EntityClass<E> = ObjectType<E> | EntitySchema<E> | string;
 interface UniqueValidationArguments<E> extends ValidationArguments {
-  constraints: [EntityClass<E>, keyof E];
+  constraints: [EntityClass<E>, keyof E | undefined];
 }
 
 abstract class UniqueValidator implements ValidatorConstraintInterface {
@@ -35,13 +35,18 @@ abstract class UniqueValidator implements ValidatorConstraintInterface {
       },
     });
     await this.buildMessage(entityClass, property);
+    const success = count <= 0;
 
-    return count <= 0;
+    if (!success) {
+      await this.buildMessage(entityClass, property);
+    }
+
+    return success;
   }
 
   private async buildMessage<E>(
     entityClass: EntityClass<E>,
-    property: keyof E,
+    property: keyof E | string,
   ): Promise<void> {
     const entityClassString =
       typeof entityClass !== 'string' && 'name' in entityClass

@@ -1,7 +1,14 @@
-import { StatusCodes } from 'http-status-codes';
+import { includes } from 'lodash';
 import React, { useEffect } from 'react';
-import { LOCAL_STORAGE_JWT_KEY } from '../../../config/security';
-import { DEREGISTER_LOADING_INITIAL } from '../../../redux/loading/actions';
+import {
+  CHECK_AUTH_INTERVAL,
+  LOCAL_STORAGE_JWT_KEY,
+} from '../../../config/security';
+import {
+  DEREGISTER_LOADING_INITIAL,
+  DEREGISTER_LOADING_REFRESHING,
+  REGISTER_LOADING_REFRESHING,
+} from '../../../redux/loading/actions';
 import { SET_LOGGED_IN } from '../../../redux/login/actions';
 import {
   SafeDispatch,
@@ -9,7 +16,7 @@ import {
   useSelector,
 } from '../../../redux/root/hooks';
 import { SET_USER } from '../../../redux/user/actions';
-import { handleStatusError } from '../../../utilities/misc/errors';
+import { useInterval } from '../../../utilities/hooks/hooks';
 import { requests } from '../../../utilities/requests/requests';
 
 export function Auth(): JSX.Element {
@@ -18,57 +25,91 @@ export function Auth(): JSX.Element {
 }
 
 const useEstablishConnection = (): void => {
-  const loading = useSelector(
-    (state) => state.loading.initial.indexOf(SET_LOGGED_IN) !== -1,
+  const loadingInitial = useSelector((state) =>
+    includes(state.loading.initial, SET_LOGGED_IN),
   );
+  const loadingRefreshing = useSelector((state) =>
+    includes(state.loading.refreshing, SET_LOGGED_IN),
+  );
+  const isLoggedIn = useSelector((state) => state.login?.loggedIn);
   const dispatch = useSafeDispatch();
 
   useEffect((): void => {
-    if (loading) {
-      establishConnection(dispatch);
+    if (loadingInitial) {
+      establishConnection(true, dispatch);
     }
-  }, [loading, dispatch]);
+  }, [loadingInitial, dispatch]);
+
+  useEffect((): void => {
+    if (loadingRefreshing) {
+      establishConnection(false, dispatch);
+    }
+  }, [loadingRefreshing, dispatch]);
+
+  useInterval(() => {
+    if (!isLoggedIn && loadingInitial && loadingRefreshing) {
+      return;
+    }
+
+    dispatch({
+      type: REGISTER_LOADING_REFRESHING,
+      action: SET_LOGGED_IN,
+    });
+  }, CHECK_AUTH_INTERVAL);
 };
 
-const establishConnection = async (dispatch: SafeDispatch): Promise<void> => {
-  // Todo: Don't use AsyncStorage, as it is insecure
+const establishConnection = async (
+  shouldFetchUser: boolean,
+  dispatch: SafeDispatch,
+): Promise<void> => {
   const token = await localStorage.getItem(LOCAL_STORAGE_JWT_KEY);
 
   if (!token) {
-    return saveResult(false, dispatch);
+    return updateLoadingState(false, dispatch);
   }
 
   try {
     const status = await requests.checkAuthStatus();
-    const userResponse = await requests.showUser(status.data.userId);
-    dispatch({
-      type: SET_USER,
-      user: userResponse.data,
-    });
+
+    if (shouldFetchUser) {
+      await fetchUser(status.data.userId, dispatch);
+    }
   } catch (error) {
-    // todo: handle other errors
-    return handleStatusError(error, {
-      [StatusCodes.UNAUTHORIZED]: () => saveResult(false, dispatch),
-    });
+    return updateLoadingState(false, dispatch);
   }
 
-  return saveResult(true, dispatch);
+  return updateLoadingState(true, dispatch);
 };
 
-const saveResult = async (
-  result: boolean,
+const fetchUser = async (
+  userId: string,
+  dispatch: SafeDispatch,
+): Promise<void> => {
+  const userResponse = await requests.showUser(userId);
+  dispatch({
+    type: SET_USER,
+    user: userResponse.data,
+  });
+};
+
+const updateLoadingState = async (
+  isLoggedIn: boolean,
   dispatch: SafeDispatch,
 ): Promise<void> => {
   dispatch({
     type: SET_LOGGED_IN,
-    loggedIn: result,
+    loggedIn: isLoggedIn,
   });
   dispatch({
     type: DEREGISTER_LOADING_INITIAL,
     action: SET_LOGGED_IN,
   });
+  dispatch({
+    type: DEREGISTER_LOADING_REFRESHING,
+    action: SET_LOGGED_IN,
+  });
 
-  if (!result) {
+  if (!isLoggedIn) {
     await localStorage.removeItem(LOCAL_STORAGE_JWT_KEY);
   }
 };

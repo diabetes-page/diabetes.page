@@ -16,7 +16,7 @@ Then(
 
     expect(user.name).to.equal(expectedUser.Name);
     expect(user.email).to.equal(expectedUser['E-Mail']);
-    expect(user.isConsultant).to.equal(expectedUser.Consultant === 'Yes');
-    expect(user.isManager).to.equal(expectedUser.Manager === 'Yes');
+    expect(!!user.consultantId).to.equal(expectedUser.Consultant === 'Yes');
+    expect(!!user.managerId).to.equal(expectedUser.Manager === 'Yes');
   },
 );

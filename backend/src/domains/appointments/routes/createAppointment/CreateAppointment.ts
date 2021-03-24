@@ -3,45 +3,51 @@ import {
   Controller,
   HttpCode,
   HttpStatus,
-  Param,
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { parseISO } from 'date-fns';
 import { ResourceController } from '../../../../blueprints/controllers/ResourceController';
 import { RequestUser } from '../../../../blueprints/decorators/RequestUser';
 import { Consultant } from '../../../../blueprints/guards/Consultant';
-import { EntityById } from '../../../../blueprints/pipes/EntityById';
-import { Training } from '../../../trainings/entities/Training.entity';
 import { User } from '../../../users/entities/User.entity';
+import { AppointmentWithWorkingGroupsResource } from '../../resources/AppointmentWithWorkingGroupsResource';
 import { AppointmentsService } from '../../services/AppointmentsService';
+import { CreateAppointmentPreprocessor } from './CreateAppointmentPreprocessor';
 import { Parameters } from './Parameters';
-import { Resource } from './Resource';
 
 @Controller()
 export class CreateAppointment extends ResourceController {
-  public static Resource = Resource;
+  public static Resource = AppointmentWithWorkingGroupsResource;
 
-  constructor(private appointmentsService: AppointmentsService) {
+  constructor(
+    private appointmentsService: AppointmentsService,
+    private preprocessor: CreateAppointmentPreprocessor,
+  ) {
     super();
   }
 
   @UseGuards(Consultant)
-  @HttpCode(HttpStatus.NO_CONTENT)
-  @Post('/trainings/:trainingId/appointments')
+  @HttpCode(HttpStatus.OK)
+  @Post('/appointments')
   async serve(
-    @Param(new EntityById(Training, 'trainingId')) training: Training,
     @RequestUser() user: User,
     @Body() params: Parameters,
-  ): Promise<Resource> {
-    await user.loadAsConsultant();
-    await this.appointmentsService.add(
+  ): Promise<AppointmentWithWorkingGroupsResource> {
+    const {
+      startsAt,
+      endsAt,
       training,
+      workingGroup,
+    } = await this.preprocessor.process(params);
+
+    const appointment = await this.appointmentsService.add(
       user.asConsultant!,
-      parseISO(params.startsAt),
-      parseISO(params.endsAt),
+      startsAt,
+      endsAt,
+      [workingGroup],
+      training,
     );
 
-    return Resource.make();
+    return AppointmentWithWorkingGroupsResource.make(appointment);
   }
 }

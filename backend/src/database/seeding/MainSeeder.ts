@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { addDays } from 'date-fns';
 import { sample, times } from 'lodash';
 import { BaseEntity } from 'typeorm';
 import { Appointment } from '../../domains/appointments/entities/Appointment.entity';
@@ -49,7 +48,6 @@ export class MainSeeder {
   private async seedUsers(): Promise<void> {
     console.log('Seeding users...');
     await this.repeat(() => this.userFactory.createUser(), 20);
-    await this.repeat(() => this.userFactory.createConsultant(), 10);
 
     await this.userFactory.createUser(UserFactory.blueprints.participant);
     await this.userFactory.createConsultant(UserFactory.blueprints.vincent);
@@ -101,7 +99,7 @@ export class MainSeeder {
             documents[0]!,
             sample(consultants)!,
           ),
-        3,
+        5,
       );
     });
   }
@@ -116,12 +114,8 @@ export class MainSeeder {
           this.appointmentFactory.createAppointment(
             training,
             sample(consultants)!,
-            {
-              startsAt: new Date(),
-              endsAt: addDays(new Date(), 2),
-            },
           ),
-        3,
+        10,
       );
     });
   }

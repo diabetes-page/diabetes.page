@@ -2,7 +2,7 @@ import { Action } from '../root/actions';
 import { SET_LOGGED_IN } from './actions';
 import { LoginState } from './state';
 
-const initialState: LoginState = {};
+const initialState: LoginState = null;
 
 export const login = (
   state: LoginState = initialState,

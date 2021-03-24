@@ -9,6 +9,7 @@ import { RootState } from '../../redux/root/state';
 import { Auth } from './auth/Auth';
 import { Loading } from './loading/Loading';
 import { Navigation } from './navigation/Navigation';
+import { Snackbar } from './snackbar/Snackbar';
 
 export type MainProps = {
   requiresAuth?: boolean;
@@ -22,11 +23,12 @@ export function Main({
   const authLoading = useSelector((state: RootState) =>
     includes(state.loading.initial, SET_LOGGED_IN),
   );
-  const hasAuth = useSelector((state: RootState) => !!state.login.loggedIn);
+  const hasAuth = useSelector((state: RootState) => !!state.login?.loggedIn);
   const content = useContent(authLoading, hasAuth, requiresAuth, children);
 
   return (
     <>
+      <Snackbar />
       <Auth />
       {content}
     </>

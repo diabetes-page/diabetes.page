@@ -21,7 +21,7 @@ export class TeachingBaseFactory {
   ): Promise<Topic> => {
     return Topic.create({
       teachingBase: teachingBase,
-      name: Faker.company.catchPhrase(),
+      name: Faker.company.bsAdjective() + ' topic',
       ...props,
     }).save();
   };

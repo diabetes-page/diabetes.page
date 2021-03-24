@@ -18,7 +18,7 @@ When(
 );
 
 Then(
-  /^the response contains an appointment with the following attributes:$/,
+  /^the response contains an appointment without group with the following attributes:$/,
   async function (attributes: TableDefinition) {
     const expectation = attributes.rowsHash();
     expect(this.response.body.training.name).to.equal(expectation.Training);

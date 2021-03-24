@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { getUnixTime } from 'date-fns';
+import { addDays, getUnixTime } from 'date-fns';
 import { Appointment } from '../../appointments/entities/Appointment.entity';
 import { User } from '../../users/entities/User.entity';
 import { ConferenceTokenPayload } from '../types/ConferenceTokenPayload';
@@ -17,11 +17,11 @@ export class ConferencesService {
     appointment: Appointment,
     slideIndex: number,
   ): Promise<void> {
-    // Make sure slideIndex is always a valid index in training.slide
     const training = await appointment.loadTraining();
-    const mod = training ? training.slides.length : 1;
-    // Same as regular modulo, but guarantess non-negative result
-    appointment.slideIndex = (mod + (slideIndex % mod)) % mod;
+    const lastIndex = training ? training.slides.length - 1 : 0;
+
+    // Ensure 0 <= slideIndex <= lastIndex
+    appointment.slideIndex = Math.min(Math.max(0, slideIndex), lastIndex);
 
     await appointment.save();
   }
@@ -32,9 +32,7 @@ export class ConferencesService {
       iss: this.configService.get<string>('jitsi.jwtIssuer')!,
       sub: this.configService.get<string>('jitsi.jitsiDomain')!,
       aud: this.configService.get<string>('jitsi.jitsiAppId')!,
-      // Todo: We have to decide if we want appointments to expire immediately at "endsAt". Many appointments will go longer accidentally. We should add a grace period.
-      // exp is specified as Unix timestamp (seconds since epoch). See https://stackoverflow.com/questions/39926104/what-format-is-the-exp-expiration-time-claim-in-a-jwt
-      exp: getUnixTime(appointment.endsAt),
+      exp: this.computeTokenExpiry(appointment),
       room: appointment.conferenceRoom,
       context: {
         user: {
@@ -50,5 +48,14 @@ export class ConferencesService {
 
     // todo: test if token expiry is enforced by Jitsi/ConferenceGateway
     return this.jwtService.signAsync(payload);
+  }
+
+  private computeTokenExpiry(appointment: Appointment): number {
+    // Token expiry is specified as Unix timestamp (seconds since epoch).
+    // See https://stackoverflow.com/questions/39926104/what-format-is-the-exp-expiration-time-claim-in-a-jwt
+    const plannedEnd = getUnixTime(appointment.endsAt);
+    const nextDay = getUnixTime(addDays(new Date(), 1)); // Grace period to make sure token remains valid
+
+    return Math.max(plannedEnd, nextDay);
   }
 }

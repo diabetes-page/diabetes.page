@@ -23,7 +23,7 @@ Feature: Show appointment
     And I am logged in
     When I request the appointment for the training "Turing Machines by Walter White" presented by "Walter White"
     Then the request is successful
-    And the response contains an appointment with the following attributes:
+    And the response contains an appointment without group with the following attributes:
       | Training    | Turing Machines by Walter White |
       | Presenter   | Walter White                    |
       | Start time  | 2020-11-10T08:00:00.000Z        |
@@ -51,7 +51,7 @@ Feature: Show appointment
     And I am logged in
     When I request the appointment for the training "Turing Machines by Walter White" presented by "Walter White"
     Then the request is successful
-    And the response contains an appointment with the following attributes:
+    And the response contains an appointment without group with the following attributes:
       | Training    | Turing Machines by Walter White |
       | Presenter   | Walter White                    |
       | Start time  | 2020-11-10T08:00:00.000Z        |
