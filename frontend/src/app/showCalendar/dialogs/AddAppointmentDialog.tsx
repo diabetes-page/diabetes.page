@@ -12,9 +12,9 @@ import { StandardTextField } from '../../../components/StandardTextField';
 import { useSafeDispatch } from '../../../redux/root/hooks';
 import { SET_SNACKBAR } from '../../../redux/snackbar/actions';
 import { useLoadingState } from '../../../utilities/hooks/hooks';
+import { useError } from '../../../utilities/misc/errors';
 import {
   BasicTrainingResource,
-  ErrorResource,
   requests,
 } from '../../../utilities/requests/requests';
 import { appointmentToEvent } from '../Calendar';
@@ -35,7 +35,7 @@ export function AddAppointmentDialog({
   const [startsAt, setStartsAt] = useState<Date | null>(new Date());
   const [endsAt, setEndsAt] = useState<Date | null>(new Date());
   const [trainingId, setTrainingId] = useState('');
-  const [error, setError] = useState<ErrorResource | null>(null);
+  const [error, resetError, onError] = useError();
   const classes = useStyles();
 
   const addAppointment = useAddAppointment(
@@ -44,7 +44,8 @@ export function AddAppointmentDialog({
     endsAt,
     trainingId,
     onClose,
-    setError,
+    resetError,
+    onError,
     calendarApi,
   );
 
@@ -179,7 +180,8 @@ function useAddAppointment(
   endsAt: Date | null,
   trainingId: string,
   onClose: () => void,
-  setError: (e: ErrorResource | null) => void,
+  resetError: () => void,
+  onError: (e: any) => void,
   calendarApi: CalendarApi | undefined,
 ): () => void {
   const dispatch = useSafeDispatch();
@@ -189,7 +191,7 @@ function useAddAppointment(
       return;
     }
 
-    setError(null);
+    resetError();
 
     requests
       .createAppointment({
@@ -209,9 +211,7 @@ function useAddAppointment(
           variant: 'success',
         });
       })
-      .catch((e) => {
-        setError(e.response.data);
-      }); // todo: request errors
+      .catch(onError);
   };
 }
 
