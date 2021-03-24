@@ -3,6 +3,7 @@ import { Given, TableDefinition, Then, When } from 'cucumber';
 import { testRequest } from '../../../../../test/setup.steps';
 import { Training } from '../../../../trainings/entities/Training.entity';
 import { WorkingGroup } from '../../../../workingGroups/entities/WorkingGroup.entity';
+import { AppointmentWithWorkingGroupsResource } from '../../../resources/AppointmentWithWorkingGroupsResource';
 
 When(
   /^I create a new appointment with the following data:$/,
@@ -55,5 +56,25 @@ Then(
       'workingGroupId must be a string',
       'WorkingGroup was not found',
     ]);
+  },
+);
+
+Then(
+  /^the response contains an appointment with the following attributes:$/,
+  async function (attributes: TableDefinition) {
+    const expectation = attributes.rowsHash();
+    const res: AppointmentWithWorkingGroupsResource = this.response.body;
+    expect(res.appointment.training?.name).to.equal(
+      expectation.Training || undefined,
+    );
+    expect(res.appointment.presenter.user.name).to.equal(expectation.Presenter);
+    expect(res.appointment.startsAt).to.equal(expectation['Start time']);
+    expect(res.appointment.endsAt).to.equal(expectation['End time']);
+    expect(res.appointment.isRunning).to.equal(
+      expectation['Is running?'] === 'Yes',
+    );
+    expect(res.workingGroups.map((g) => g.name).join(', ')).to.equal(
+      expectation['Working groups'],
+    );
   },
 );

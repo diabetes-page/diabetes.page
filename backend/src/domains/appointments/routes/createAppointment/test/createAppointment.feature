@@ -24,11 +24,12 @@ Feature: Create appointment
       | Working group | A group                         |
     Then the request is successful
     And the response contains an appointment with the following attributes:
-      | Training    | Turing Machines by Walter White |
-      | Presenter   | Jesse Pinkman                   |
-      | Start time  | 2020-11-10T09:00:00.000Z        |
-      | End time    | 2020-11-10T15:00:00.000Z        |
-      | Is running? | No                              |
+      | Training       | Turing Machines by Walter White |
+      | Presenter      | Jesse Pinkman                   |
+      | Start time     | 2020-11-10T09:00:00.000Z        |
+      | End time       | 2020-11-10T15:00:00.000Z        |
+      | Is running?    | No                              |
+      | Working groups | A group                         |
     And the training "Turing Machines by Walter White" has exactly 1 appointment
 
   Scenario: Participants cannot create appointments
@@ -60,11 +61,12 @@ Feature: Create appointment
       | Working group | A group                  |
     Then the request is successful
     And the response contains an appointment with the following attributes:
-      | Training    |                          |
-      | Presenter   | Jesse Pinkman            |
-      | Start time  | 2020-11-10T09:00:00.000Z |
-      | End time    | 2020-11-10T15:00:00.000Z |
-      | Is running? | No                       |
+      | Training       |                          |
+      | Presenter      | Jesse Pinkman            |
+      | Start time     | 2020-11-10T09:00:00.000Z |
+      | End time       | 2020-11-10T15:00:00.000Z |
+      | Is running?    | No                       |
+      | Working groups | A group                  |
     And the training "Turing Machines by Walter White" has exactly 0 appointments
 
   Scenario: End date must be after start date
