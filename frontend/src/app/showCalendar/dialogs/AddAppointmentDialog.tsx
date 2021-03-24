@@ -193,8 +193,6 @@ function useAddAppointment(
       return;
     }
 
-    resetError();
-
     requests
       .createAppointment({
         startsAt: formatISO(startsAt),
@@ -212,6 +210,8 @@ function useAddAppointment(
           message: 'The appointment was created successfully.',
           variant: 'success',
         });
+
+        resetError();
       })
       .catch(onError);
   };
