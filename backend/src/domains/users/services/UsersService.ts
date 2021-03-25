@@ -22,10 +22,6 @@ export class UsersService {
     return User.find();
   }
 
-  async where(fields: Partial<User>): Promise<User[]> {
-    return User.find({ where: fields });
-  }
-
   async oneWhere(fields: Partial<User>): Promise<User | undefined> {
     return User.findOne({ where: fields });
   }

@@ -9,10 +9,6 @@ import { AppointmentsRepository } from '../repositories/AppointmentsRepository';
 
 @Injectable()
 export class AppointmentsService {
-  async get(appointmentId: string): Promise<Appointment | undefined> {
-    return Appointment.findOne({ where: { id: appointmentId } });
-  }
-
   async forParticipant(user: User): Promise<Appointment[]> {
     return getCustomRepository(
       AppointmentsRepository,
