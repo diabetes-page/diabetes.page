@@ -15,7 +15,7 @@ export class IndexUsers extends ResourceController {
   @UseGuards(Consultant)
   @Get('/users')
   async serve(): Promise<Resource> {
-    const users = await this.usersService.all();
+    const users = await this.usersService.index();
 
     return Resource.make(users);
   }

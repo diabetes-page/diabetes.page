@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { hash } from 'bcrypt';
 import { randomUUID } from 'crypto';
+import { sortBy } from 'lodash';
 import { I18nService } from 'nestjs-i18n';
 import { MailTemplatesService } from '../../../bootstrap/modules/mailTemplates/MailTemplatesService';
 import { User } from '../entities/User.entity';
@@ -18,8 +19,12 @@ export class UsersService {
     return User.findOne({ where: { id } });
   }
 
-  async all(): Promise<User[]> {
-    return User.find();
+  async index(): Promise<User[]> {
+    const users = await User.find({
+      relations: ['workingGroups'],
+    });
+
+    return sortBy(users, (user) => user.sortingKey);
   }
 
   async oneWhere(fields: Partial<User>): Promise<User | undefined> {

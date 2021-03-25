@@ -1,4 +1,5 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
+import { BasicWorkingGroupResource } from '../../workingGroups/resources/BasicWorkingGroupResource';
 import { User } from '../entities/User.entity';
 
 export class SensitiveDataUserResource {
@@ -17,7 +18,15 @@ export class SensitiveDataUserResource {
   @Expose()
   managerId: string | null;
 
+  @Expose()
+  @Type(() => BasicWorkingGroupResource)
+  workingGroups: BasicWorkingGroupResource[];
+
   static make = async (user: User): Promise<SensitiveDataUserResource> => {
+    if (!user.workingGroups) {
+      await user.loadWorkingGroups();
+    }
+
     const consultant = user.asConsultant || (await user.loadAsConsultant());
     const manager =
       consultant?.asManager || (await consultant?.loadAsManager());
@@ -26,6 +35,9 @@ export class SensitiveDataUserResource {
       ...user,
       consultantId: consultant?.id || null,
       managerId: manager?.id || null,
+      workingGroups: user.workingGroups.map((g) =>
+        BasicWorkingGroupResource.make(g),
+      ),
     };
   };
 }
