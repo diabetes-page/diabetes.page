@@ -22,6 +22,9 @@ Then(
         expect(user.email).to.equal(expectedUser['E-Mail']);
         expect(!!user.consultantId).to.equal(expectedUser.Consultant === 'Yes');
         expect(!!user.managerId).to.equal(expectedUser.Manager === 'Yes');
+        expect(user.workingGroups.map((g) => g.name).join(', ')).to.equal(
+          expectedUser['Working groups'],
+        );
       },
     );
   },

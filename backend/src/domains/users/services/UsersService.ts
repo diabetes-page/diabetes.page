@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { hash } from 'bcrypt';
 import { randomUUID } from 'crypto';
-import { sortBy } from 'lodash';
 import { I18nService } from 'nestjs-i18n';
+import { getCustomRepository } from 'typeorm';
 import { MailTemplatesService } from '../../../bootstrap/modules/mailTemplates/MailTemplatesService';
 import { User } from '../entities/User.entity';
+import { UsersRepository } from '../repositories/UsersRepository';
 
 @Injectable()
 export class UsersService {
@@ -20,11 +21,7 @@ export class UsersService {
   }
 
   async index(): Promise<User[]> {
-    const users = await User.find({
-      relations: ['workingGroups'],
-    });
-
-    return sortBy(users, (user) => user.sortingKey);
+    return getCustomRepository(UsersRepository).index();
   }
 
   async oneWhere(fields: Partial<User>): Promise<User | undefined> {

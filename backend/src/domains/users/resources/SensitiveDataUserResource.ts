@@ -1,4 +1,5 @@
 import { Expose, Type } from 'class-transformer';
+import { sortBy } from 'lodash';
 import { BasicWorkingGroupResource } from '../../workingGroups/resources/BasicWorkingGroupResource';
 import { User } from '../entities/User.entity';
 
@@ -24,7 +25,10 @@ export class SensitiveDataUserResource {
 
   static make = async (user: User): Promise<SensitiveDataUserResource> => {
     if (!user.workingGroups) {
-      await user.loadWorkingGroups();
+      user.workingGroups = sortBy(
+        await user.loadWorkingGroups(),
+        (g) => g.name,
+      );
     }
 
     const consultant = user.asConsultant || (await user.loadAsConsultant());
